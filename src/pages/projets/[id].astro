@@ -1,0 +1,58 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const projets = await getCollection('projets', ({ data }) => !data.brouillon);
+  return projets.map((projet) => ({ params: { id: projet.id }, props: { projet } }));
+}
+
+const { projet } = Astro.props;
+const { Content } = await render(projet);
+const { titre, resume, nature, statut, domaines, lien, annee } = projet.data;
+const meta = [nature, statut, annee].filter(Boolean).join(' · ');
+---
+
+<Base titre={titre} description={resume}>
+  <article class="conteneur fiche">
+    <a href="/#projets" class="retour discret">← Tous les projets</a>
+    {meta && <p class="etiquette">{meta}</p>}
+    <h1>{titre}</h1>
+    <p class="chapo">{resume}</p>
+
+    {
+      (domaines.length > 0 || lien) && (
+        <dl class="infos">
+          {domaines.length > 0 && (
+            <div>
+              <dt class="etiquette">Domaines</dt>
+              <dd>{domaines.join(', ')}</dd>
+            </div>
+          )}
+          {lien && (
+            <div>
+              <dt class="etiquette">Site</dt>
+              <dd>
+                <a href={lien} rel="noopener">{lien.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')} ↗</a>
+              </dd>
+            </div>
+          )}
+        </dl>
+      )
+    }
+
+    <div class="contenu">
+      <Content />
+    </div>
+  </article>
+</Base>
+
+<style>
+  .fiche { padding-top: calc(var(--espace) / 2); max-width: 46rem; }
+  .retour { display: inline-block; margin-bottom: 2.5rem; text-decoration: none; font-size: 0.9375rem; }
+  h1 { margin: 0.5rem 0 1rem; font-size: clamp(2.25rem, 6vw, 4rem); }
+  .chapo { font-size: 1.25rem; margin: 0 0 2rem; }
+  .infos { display: flex; flex-wrap: wrap; gap: 2rem; margin: 0 0 2.5rem; padding: 1.25rem 0; border-block: 1px solid var(--filet); }
+  dd { margin: 0.25rem 0 0; }
+  .contenu :global(h2) { font-size: 1.5rem; margin-top: 2.5rem; }
+</style>

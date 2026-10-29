@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import CarteProjet from '../components/CarteProjet.astro';
+
+const projets = (await getCollection('projets', ({ data }) => !data.brouillon)).sort(
+  (a, b) => a.data.ordre - b.data.ordre || a.data.titre.localeCompare(b.data.titre, 'fr'),
+);
+---
+
+<Base>
+  <section class="conteneur intro">
+    <p class="etiquette">seeworld</p>
+    <h1>Regarder le monde,<br />et en faire quelque chose.</h1>
+    <p class="discret chapo">
+      Ce que je crée, ce à quoi je participe, ce que je sais produire. Tous mes projets, réalisés et en cours, réunis au
+      même endroit.
+    </p>
+  </section>
+
+  <section id="projets" class="conteneur">
+    <h2 class="etiquette">Projets — {projets.length}</h2>
+    <div class="grille">
+      {projets.map((projet) => <CarteProjet projet={projet} />)}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .intro { padding-top: var(--espace); padding-bottom: var(--espace); }
+  h1 { margin: 0.75rem 0 1.5rem; font-size: clamp(2.5rem, 7vw, 5rem); max-width: 14ch; }
+  .chapo { max-width: 32rem; margin: 0; font-size: 1.125rem; }
+  h2 { margin: 0 0 1rem; font-family: var(--police); font-weight: 500; }
+  .grille { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr)); column-gap: 3rem; }
+</style>

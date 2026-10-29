@@ -1,0 +1,83 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  titre?: string;
+  description?: string;
+}
+
+const {
+  titre,
+  description = 'Tom Bigot — créations et participations. seeworld : regarder le monde.',
+} = Astro.props;
+
+const titreComplet = titre ? `${titre} — Tom Bigot` : 'Tom Bigot';
+const chemin = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titreComplet}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={new URL(chemin, Astro.site)} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:title" content={titreComplet} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={new URL(chemin, Astro.site)} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400&family=Inter:wght@400;500&display=swap"
+    />
+  </head>
+  <body>
+    <header class="conteneur entete">
+      <a href="/" class="marque" aria-label="Accueil">Tom Bigot</a>
+      <nav aria-label="Navigation principale">
+        <a href="/#projets" aria-current={chemin.startsWith('/projets') ? 'page' : undefined}>Projets</a>
+        <a href="/a-propos" aria-current={chemin.startsWith('/a-propos') ? 'page' : undefined}>À propos</a>
+        <a href="/contact" aria-current={chemin.startsWith('/contact') ? 'page' : undefined}>Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="conteneur pied">
+      <span>seeworld — regarder le monde</span>
+      <span class="discret">© {new Date().getFullYear()} Tom Bigot</span>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .entete {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+  .marque { font-weight: 500; text-decoration: none; }
+  nav { display: flex; gap: clamp(1rem, 3vw, 2rem); font-size: 0.9375rem; }
+  nav a { text-decoration: none; color: var(--discret); }
+  nav a:hover, nav a[aria-current='page'] { color: var(--encre); }
+  .pied {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: var(--espace);
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
+    border-top: 1px solid var(--filet);
+    font-size: 0.875rem;
+  }
+</style>

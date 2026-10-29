@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base titre="À propos">
+  <section class="conteneur page">
+    <p class="etiquette">À propos</p>
+    <h1>Tom Bigot</h1>
+    <!-- À COMPLÉTER : présentation, parcours, savoir-faire. -->
+    <p class="chapo">
+      Je rassemble sous le nom <strong>seeworld</strong> tous mes projets, réalisés et en cours. Une devise commune :
+      regarder le monde.
+    </p>
+    <p class="discret">Présentation à compléter.</p>
+  </section>
+</Base>
+
+<style>
+  .page { padding-top: var(--espace); max-width: 46rem; }
+  h1 { margin: 0.5rem 0 1.5rem; font-size: clamp(2.25rem, 6vw, 4rem); }
+  .chapo { font-size: 1.25rem; }
+</style>

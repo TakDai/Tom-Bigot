@@ -1,0 +1,31 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  projet: CollectionEntry<'projets'>;
+}
+
+const { projet } = Astro.props;
+const { titre, resume, nature, statut } = projet.data;
+const meta = [nature, statut].filter(Boolean).join(' · ');
+---
+
+<a class="carte" href={`/projets/${projet.id}`}>
+  {meta && <span class="etiquette">{meta}</span>}
+  <h3>{titre}</h3>
+  <p class="discret">{resume}</p>
+</a>
+
+<style>
+  .carte {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.75rem 0;
+    border-top: 1px solid var(--filet);
+    text-decoration: none;
+  }
+  h3 { margin: 0; font-size: clamp(1.5rem, 3vw, 2rem); transition: transform 0.2s ease; }
+  p { margin: 0; max-width: 34rem; }
+  .carte:hover h3 { transform: translateX(0.35rem); }
+</style>

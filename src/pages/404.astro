@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base titre="Page introuvable">
+  <section class="conteneur page">
+    <p class="etiquette">404</p>
+    <h1>Rien à regarder ici.</h1>
+    <p><a href="/">Retour à l'accueil</a></p>
+  </section>
+</Base>
+
+<style>
+  .page { padding-top: var(--espace); }
+  h1 { margin: 0.5rem 0 1.5rem; font-size: clamp(2.25rem, 6vw, 4rem); }
+</style>
