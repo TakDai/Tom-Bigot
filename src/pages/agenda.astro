@@ -238,26 +238,71 @@ const planningFpvMois: MoisFpv[] = [
     <!-- ======================================================================
          SECTION 1 : AGENDA CABINE CINÉMA (Totalement autonome)
          ====================================================================== -->
-    <div id="agenda-cinema-wrapper" class="agenda-view-wrapper active-agenda-view">
-      <!-- Console 2 cinémas partenaires -->
-      <section class="partner-quick-access" aria-label="Sélection rapide cinéma partenaire">
+    <div id="agenda-cinema-wrapper" class="agenda-view-wrapper active-agenda-view agenda-privacy-locked">
+      <!-- BARRE DE SÉCURITÉ & CONFIDENTIALITÉ CABINE (MODE GRISÉ / DÉVERROUILLAGE) -->
+      <section class="security-privacy-bar" id="cinemaSecurityBar">
+        <div class="security-info-block">
+          <div class="security-status-indicator">
+            <span class="sec-dot" id="secDot"></span>
+            <span class="sec-title" id="secTitle">MODE CONFIDENTIEL ACTIF (VUE GRISÉE)</span>
+          </div>
+          <p class="sec-desc" id="secDesc">
+            Pour préserver la confidentialité vis-à-vis des tiers et des circuits itinérants (ex : <strong>Ciné-Off</strong>), les vacations réservées et le suivi CFA sont <strong>masqués et grisés</strong>. Seuls les créneaux disponibles restent sélectionnables.
+          </p>
+        </div>
+
+        <div class="security-actions-block">
+          <!-- Formulaire de déverrouillage partenaire -->
+          <form id="formUnlockCinema" class="unlock-form-inline">
+            <div class="unlock-input-wrap">
+              <input
+                type="password"
+                id="inputCinemaCode"
+                placeholder="Code partenaire cabine..."
+                aria-label="Code d'accès partenaire cinéma"
+              />
+              <button type="submit" class="btn-unlock" id="btnUnlockCinema">
+                Déverrouiller 🔓
+              </button>
+            </div>
+            <div id="unlockMsgNotice" class="unlock-feedback" style="display: none;"></div>
+          </form>
+
+          <!-- Contrôle affiché si déverrouillé -->
+          <div id="unlockedControlGroup" style="display: none;">
+            <button type="button" id="btnRelockCinema" class="btn-relock">
+              🔒 Revenir au mode grisé (Confidentiel)
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Console exploitants & partenaires -->
+      <section class="partner-quick-access" aria-label="Sélection rapide cinéma partenaire ou circuit">
         <div class="partner-banner-label">
-          <span class="etiquette">CABINE &bull; ACCÈS DIRECT</span>
-          <strong>Vous êtes l'un de mes cinémas partenaires ?</strong>
+          <span class="etiquette">CABINE &bull; ACCÈS RAPIDE</span>
+          <strong>Sélectionnez votre établissement ou circuit pour poser des dates :</strong>
         </div>
         <div class="partner-buttons">
           <button type="button" class="btn-partner" data-preset-cine="cine1">
             <span class="partner-icon">🏛️</span>
             <span class="partner-info">
               <strong class="partner-name">CINÉMA PARTENAIRE 1</strong>
-              <span class="partner-code">Sélectionner pour poser des vacations &rarr;</span>
+              <span class="partner-code">Cabine fixe &bull; Poser une séance &rarr;</span>
             </span>
           </button>
           <button type="button" class="btn-partner" data-preset-cine="cine2">
             <span class="partner-icon">🎥</span>
             <span class="partner-info">
               <strong class="partner-name">CINÉMA PARTENAIRE 2</strong>
-              <span class="partner-code">Sélectionner pour poser des vacations &rarr;</span>
+              <span class="partner-code">Cabine fixe &bull; Poser une séance &rarr;</span>
+            </span>
+          </button>
+          <button type="button" class="btn-partner" data-preset-cine="cineoff">
+            <span class="partner-icon">🎞️</span>
+            <span class="partner-info">
+              <strong class="partner-name">CINÉ-OFF</strong>
+              <span class="partner-code">Circuit itinérant &bull; Proposer des dates &rarr;</span>
             </span>
           </button>
         </div>
@@ -273,28 +318,35 @@ const planningFpvMois: MoisFpv[] = [
               <span>Créneau ouvert aux propositions de séances</span>
             </div>
           </div>
-          <div class="legend-badge">
+          <div class="legend-badge legend-badge-locked">
+            <span class="legend-box box-locked-grise"></span>
+            <div class="legend-txt">
+              <strong>OCCUPÉ / INDISPONIBLE</strong>
+              <span>Créneau réservé (vue grisée confidentielle)</span>
+            </div>
+          </div>
+          <div class="legend-badge legend-badge-unlocked">
             <span class="legend-box box-formation"></span>
             <div class="legend-txt">
               <strong>CFA / FORMATION</strong>
               <span>Période d'apprentissage (non mobilisable)</span>
             </div>
           </div>
-          <div class="legend-badge">
+          <div class="legend-badge legend-badge-unlocked">
             <span class="legend-box box-cine1"></span>
             <div class="legend-txt">
               <strong>CINÉMA 1 (RÉSERVÉ)</strong>
               <span>Vacation ou remplacement planifié</span>
             </div>
           </div>
-          <div class="legend-badge">
+          <div class="legend-badge legend-badge-unlocked">
             <span class="legend-box box-cine2"></span>
             <div class="legend-txt">
               <strong>CINÉMA 2 (RÉSERVÉ)</strong>
               <span>Vacation ou remplacement planifié</span>
             </div>
           </div>
-          <div class="legend-badge">
+          <div class="legend-badge legend-badge-unlocked">
             <span class="legend-box box-option"></span>
             <div class="legend-txt">
               <strong>OPTION EN COURS</strong>
@@ -306,7 +358,7 @@ const planningFpvMois: MoisFpv[] = [
         <div class="month-selector-bar">
           <button type="button" id="btnPrevCinemaMonth" class="btn-outline btn-month">&larr; Mois précédent</button>
           <div class="current-month-display">
-            <span class="etiquette">PLANNING CINÉMA</span>
+            <span class="etiquette">PLANNING CABINES</span>
             <h2 id="cinemaMonthTitle" class="month-heading">NOVEMBRE 2026</h2>
           </div>
           <button type="button" id="btnNextCinemaMonth" class="btn-outline btn-month">Mois suivant &rarr;</button>
@@ -343,7 +395,7 @@ const planningFpvMois: MoisFpv[] = [
 
               return (
                 <div
-                  class={`day-cell day-cine-${item.statut} ${isLibre ? 'day-selectable day-cine-selectable' : 'day-locked'}`}
+                  class={`day-cell day-cine-${item.statut} ${isLibre ? 'day-selectable day-cine-selectable' : 'day-locked day-cine-locked'}`}
                   data-date={item.dateStr}
                   data-statut={item.statut}
                   data-label={item.label}
@@ -354,18 +406,44 @@ const planningFpvMois: MoisFpv[] = [
                   <div class="day-topline">
                     <span class="day-number">{item.jour}</span>
                     {isLibre && <span class="tag-libre">+ Choisir</span>}
-                    {isFormation && <span class="tag-formation">CFA</span>}
-                    {isCine1 && <span class="tag-cine1">Ciné 1</span>}
-                    {isCine2 && <span class="tag-cine2">Ciné 2</span>}
-                    {isOption && <span class="tag-option">Option</span>}
+                    {!isLibre && (
+                      <>
+                        <span class="tag-masked tag-masked-only">🔒 Occupé</span>
+                        {isFormation && <span class="tag-formation tag-clear-only">CFA</span>}
+                        {isCine1 && <span class="tag-cine1 tag-clear-only">Ciné 1</span>}
+                        {isCine2 && <span class="tag-cine2 tag-clear-only">Ciné 2</span>}
+                        {isOption && <span class="tag-option tag-clear-only">Option</span>}
+                      </>
+                    )}
                   </div>
                   <div class="day-body">
-                    <div class="day-label-main">{item.label}</div>
-                    {item.detail && <div class="day-detail-txt">{item.detail}</div>}
+                    {isLibre ? (
+                      <>
+                        <div class="day-label-main">{item.label}</div>
+                        {item.detail && <div class="day-detail-txt">{item.detail}</div>}
+                      </>
+                    ) : (
+                      <>
+                        <div class="cine-content-clear">
+                          <div class="day-label-main">{item.label}</div>
+                          {item.detail && <div class="day-detail-txt">{item.detail}</div>}
+                        </div>
+                        <div class="cine-content-masked">
+                          <div class="day-label-main">🔒 Indisponible</div>
+                          <div class="day-detail-txt">Créneau réservé (Privé)</div>
+                        </div>
+                      </>
+                    )}
                   </div>
                   {isLibre && (
                     <div class="day-action-hint">
                       <span>Poser une séance</span>
+                    </div>
+                  )}
+                  {!isLibre && (
+                    <div class="day-action-hint day-action-hint-locked">
+                      <span class="hint-masked tag-masked-only">🔒 Non dispo</span>
+                      <span class="hint-clear tag-clear-only">Réservé cabine</span>
                     </div>
                   )}
                 </div>
@@ -425,7 +503,14 @@ const planningFpvMois: MoisFpv[] = [
                   </span>
                 </label>
                 <label class="cinema-option-card">
-                  <input type="radio" name="cinemaChoix" value="Autre cinéma" id="radioCineAutre" />
+                  <input type="radio" name="cinemaChoix" value="Ciné-Off (Circuit itinérant)" id="radioCineOff" />
+                  <span class="option-content">
+                    <strong>🎞️ Ciné-Off</strong>
+                    <span class="sub">Circuit itinérant</span>
+                  </span>
+                </label>
+                <label class="cinema-option-card">
+                  <input type="radio" name="cinemaChoix" value="Autre établissement" id="radioCineAutre" />
                   <span class="option-content">
                     <strong>🏢 Autre cinéma</strong>
                     <span class="sub">Salle / Festival</span>
@@ -873,6 +958,83 @@ const planningFpvMois: MoisFpv[] = [
   }
 
   // ==========================================================================
+  // SÉCURITÉ & CONFIDENTIALITÉ AGENDA CINÉMA (VUE GRISÉE / DÉVERROUILLAGE)
+  // ==========================================================================
+  const CODES_PARTENAIRES_VALIDES = [
+    'CINE-PARTENAIRE',
+    'CINEPARTENAIRE',
+    'CINEMA1',
+    'CINEMA2',
+    'CINE1',
+    'CINE2',
+    'TOM2026',
+    'TOM-2026',
+    'CABINE',
+    'CABINEDCI',
+    'CABINE-DCI',
+  ];
+
+  const formUnlockCinema = document.getElementById('formUnlockCinema') as HTMLFormElement | null;
+  const inputCinemaCode = document.getElementById('inputCinemaCode') as HTMLInputElement | null;
+  const unlockMsgNotice = document.getElementById('unlockMsgNotice');
+  const unlockedControlGroup = document.getElementById('unlockedControlGroup');
+  const btnRelockCinema = document.getElementById('btnRelockCinema');
+  const secDot = document.getElementById('secDot');
+  const secTitle = document.getElementById('secTitle');
+  const secDesc = document.getElementById('secDesc');
+
+  function setCinemaSecurityMode(unlocked: boolean) {
+    if (!wrapperCinema) return;
+    if (unlocked) {
+      wrapperCinema.classList.remove('agenda-privacy-locked');
+      wrapperCinema.classList.add('agenda-privacy-unlocked');
+      sessionStorage.setItem('tom_cine_partner_auth', '1');
+      if (formUnlockCinema) formUnlockCinema.style.display = 'none';
+      if (unlockedControlGroup) unlockedControlGroup.style.display = 'block';
+      if (secDot) secDot.classList.add('sec-dot-unlocked');
+      if (secTitle) secTitle.textContent = 'ACCÈS PARTENAIRE VÉRIFIÉ (VUE DÉTAILLÉE ACTIVE)';
+      if (secDesc) {
+        secDesc.innerHTML = 'Planning complet déverrouillé : affichage nominatif des cabines <strong>Cinéma 1, Cinéma 2</strong>, des semaines <strong>CFA</strong> et des options.';
+      }
+    } else {
+      wrapperCinema.classList.remove('agenda-privacy-unlocked');
+      wrapperCinema.classList.add('agenda-privacy-locked');
+      sessionStorage.removeItem('tom_cine_partner_auth');
+      if (formUnlockCinema) formUnlockCinema.style.display = 'flex';
+      if (unlockedControlGroup) unlockedControlGroup.style.display = 'none';
+      if (secDot) secDot.classList.remove('sec-dot-unlocked');
+      if (secTitle) secTitle.textContent = 'MODE CONFIDENTIEL ACTIF (VUE GRISÉE)';
+      if (secDesc) {
+        secDesc.innerHTML = 'Pour préserver la confidentialité vis-à-vis des tiers et des circuits itinérants (ex : <strong>Ciné-Off</strong>), les vacations réservées et le suivi CFA sont <strong>masqués et grisés</strong>. Seuls les créneaux disponibles restent sélectionnables.';
+      }
+      if (inputCinemaCode) inputCinemaCode.value = '';
+      if (unlockMsgNotice) unlockMsgNotice.style.display = 'none';
+    }
+  }
+
+  // Vérification de la session en mémoire
+  if (sessionStorage.getItem('tom_cine_partner_auth') === '1') {
+    setCinemaSecurityMode(true);
+  }
+
+  formUnlockCinema?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const val = (inputCinemaCode?.value || '').trim().toUpperCase();
+    if (CODES_PARTENAIRES_VALIDES.includes(val)) {
+      setCinemaSecurityMode(true);
+    } else {
+      if (unlockMsgNotice) {
+        unlockMsgNotice.style.display = 'block';
+        unlockMsgNotice.textContent = 'Code erroné. Veuillez saisir le code fourni par Tom.';
+      }
+    }
+  });
+
+  btnRelockCinema?.addEventListener('click', () => {
+    setCinemaSecurityMode(false);
+  });
+
+  // ==========================================================================
   // GESTION INDÉPENDANTE DE L'AGENDA CINÉMA
   // ==========================================================================
   const cinemaDatesSelectionnees = new Set<string>();
@@ -914,7 +1076,7 @@ const planningFpvMois: MoisFpv[] = [
     });
   }
 
-  // Clic sur les cellules Cinéma
+  // Clic sur les cellules libres Cinéma
   const selectionBarCinema = document.getElementById('selectionBarCinema');
   const selectedCinemaDatesList = document.getElementById('selectedCinemaDatesList');
   const btnClearCinemaDates = document.getElementById('btnClearCinemaDates');
@@ -951,18 +1113,7 @@ const planningFpvMois: MoisFpv[] = [
   document.querySelectorAll('.day-cine-selectable').forEach((cell) => {
     cell.addEventListener('click', () => {
       const date = cell.getAttribute('data-date');
-      const statut = cell.getAttribute('data-statut');
-      const detail = cell.getAttribute('data-detail') || '';
       if (!date) return;
-
-      if (statut === 'formation') {
-        alert(`Journée indisponible :\n\nTom est en CFA / Formation projectionniste le ${date} (${detail || 'Apprentissage'}).\nCette date ne peut pas faire l'objet d'une vacation.`);
-        return;
-      }
-      if (statut === 'reserve_cine1' || statut === 'reserve_cine2') {
-        alert(`Date déjà réservée :\n\nTom est déjà programmé pour une séance cabine le ${date} (${detail}).`);
-        return;
-      }
 
       if (cinemaDatesSelectionnees.has(date)) {
         cinemaDatesSelectionnees.delete(date);
@@ -975,16 +1126,44 @@ const planningFpvMois: MoisFpv[] = [
     });
   });
 
+  // Clic sur les cellules occupées/verrouillées
+  document.querySelectorAll('.day-cine-locked').forEach((cell) => {
+    cell.addEventListener('click', () => {
+      const date = cell.getAttribute('data-date');
+      const statut = cell.getAttribute('data-statut');
+      const detail = cell.getAttribute('data-detail') || '';
+      const isUnlocked = wrapperCinema?.classList.contains('agenda-privacy-unlocked');
+
+      if (!isUnlocked) {
+        alert(
+          `Créneau indisponible :\n\n` +
+          `Ce jour (${date}) fait déjà l'objet d'un créneau réservé ou d'une période de formation CFA.\n\n` +
+          `Par mesure de sécurité et de confidentialité, le détail des séances est masqué (vue grisée).\n` +
+          `Si vous représentez un circuit (ex : Ciné-Off) ou un cinéma tiers, vous pouvez sélectionner l'un des créneaux blancs "+ Choisir" (Disponible Cabine) pour me proposer vos dates.`
+        );
+      } else {
+        if (statut === 'formation') {
+          alert(`Journée indisponible :\n\nTom est en CFA / Formation projectionniste le ${date} (${detail || 'Apprentissage'}).\nCette date ne peut pas faire l'objet d'une vacation.`);
+        } else if (statut === 'reserve_cine1' || statut === 'reserve_cine2') {
+          alert(`Date déjà réservée :\n\nTom est déjà programmé pour une séance cabine le ${date} (${detail}).`);
+        } else {
+          alert(`Option en attente de confirmation le ${date} (${detail}).`);
+        }
+      }
+    });
+  });
+
   btnClearCinemaDates?.addEventListener('click', () => {
     cinemaDatesSelectionnees.clear();
     document.querySelectorAll('.day-cine-selectable').forEach((c) => c.classList.remove('day-selected'));
     majSelectionCinema();
   });
 
-  // Presets Cinéma 1 / Cinéma 2
+  // Presets Cinéma 1 / Cinéma 2 / Ciné-Off
   const inputStructureCine = document.getElementById('structureCine') as HTMLInputElement | null;
   const radioCine1 = document.getElementById('radioCine1') as HTMLInputElement | null;
   const radioCine2 = document.getElementById('radioCine2') as HTMLInputElement | null;
+  const radioCineOff = document.getElementById('radioCineOff') as HTMLInputElement | null;
 
   document.querySelectorAll('[data-preset-cine]').forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -995,10 +1174,28 @@ const planningFpvMois: MoisFpv[] = [
       } else if (preset === 'cine2' && radioCine2 && inputStructureCine) {
         radioCine2.checked = true;
         inputStructureCine.value = 'Cinéma Partenaire 2';
+      } else if (preset === 'cineoff' && radioCineOff && inputStructureCine) {
+        radioCineOff.checked = true;
+        inputStructureCine.value = 'Ciné-Off (Circuit itinérant)';
       }
       document.querySelectorAll('[data-preset-cine]').forEach((b) => b.classList.remove('active-preset'));
       btn.classList.add('active-preset');
       document.getElementById('agenda-cinema-wrapper')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  document.querySelectorAll('input[name="cinemaChoix"]').forEach((radio) => {
+    radio.addEventListener('change', (ev) => {
+      const target = ev.target as HTMLInputElement;
+      if (target.checked && inputStructureCine) {
+        if (target.value.includes('Ciné-Off')) {
+          inputStructureCine.value = 'Ciné-Off (Circuit itinérant)';
+        } else if (target.value.includes('Partenaire 1')) {
+          inputStructureCine.value = 'Cinéma Partenaire 1';
+        } else if (target.value.includes('Partenaire 2')) {
+          inputStructureCine.value = 'Cinéma Partenaire 2';
+        }
+      }
     });
   });
 
@@ -1328,6 +1525,146 @@ const planningFpvMois: MoisFpv[] = [
     font-weight: 700;
   }
 
+  /* Barre de sécurité et confidentialité */
+  .security-privacy-bar {
+    background: #000000;
+    color: #ffffff;
+    border: 2px solid #000000;
+    padding: 18px 22px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .security-info-block {
+    flex: 1;
+    min-width: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .security-status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .sec-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #888888;
+    box-shadow: 0 0 0 2px #444444;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  .sec-dot.sec-dot-unlocked {
+    background: #ffffff;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+  }
+
+  .sec-title {
+    font: 800 13px var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+
+  .sec-desc {
+    margin: 0;
+    font: 400 12.5px/1.45 var(--font);
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .sec-desc strong {
+    color: #ffffff;
+  }
+
+  .security-actions-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+
+  @media (max-width: 768px) {
+    .security-actions-block {
+      align-items: stretch;
+      width: 100%;
+    }
+  }
+
+  .unlock-form-inline {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .unlock-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .unlock-input-wrap input {
+    background: #1a1a1a;
+    color: #ffffff;
+    border: 1px solid #444444;
+    padding: 8px 12px;
+    font: 400 13px var(--font);
+    width: 200px;
+  }
+
+  .unlock-input-wrap input:focus {
+    border-color: #ffffff;
+    outline: none;
+  }
+
+  .btn-unlock {
+    background: #ffffff;
+    color: #000000;
+    border: 1px solid #ffffff;
+    padding: 8px 14px;
+    font: 700 11px var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+  }
+
+  .btn-unlock:hover {
+    background: #e0e0e0;
+  }
+
+  .btn-relock {
+    background: transparent;
+    color: #ffffff;
+    border: 1px dashed rgba(255, 255, 255, 0.6);
+    padding: 8px 16px;
+    font: 700 11px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-relock:hover {
+    border-color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .unlock-feedback {
+    font: 700 11px var(--font);
+    color: #ff6666;
+    letter-spacing: 0.04em;
+  }
+
   /* Console Partenaires & FPV Presets */
   .partner-quick-access,
   .fpv-quick-access {
@@ -1355,7 +1692,7 @@ const planningFpvMois: MoisFpv[] = [
 
   .partner-buttons {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
     gap: 14px;
   }
 
@@ -1487,6 +1824,17 @@ const planningFpvMois: MoisFpv[] = [
   .box-libre {
     background: #ffffff;
     border: 2px solid #000000;
+  }
+
+  .box-locked-grise {
+    background: repeating-linear-gradient(
+      -45deg,
+      #dcdcdc,
+      #dcdcdc 3px,
+      #bebebe 3px,
+      #bebebe 6px
+    );
+    border: 1px solid #666666;
   }
 
   .box-formation {
@@ -1759,6 +2107,74 @@ const planningFpvMois: MoisFpv[] = [
   .day-selected .tag-libre {
     background: #ffffff;
     color: #000000;
+  }
+
+  /* Gestion du verrouillage confidentiel (grisé) */
+  .agenda-privacy-locked .legend-badge-unlocked {
+    opacity: 0.35;
+    filter: grayscale(1);
+  }
+
+  .agenda-privacy-unlocked .legend-badge-locked {
+    display: none;
+  }
+
+  .agenda-privacy-locked .day-cine-locked {
+    background: repeating-linear-gradient(
+      -45deg,
+      #f8f8f8,
+      #f8f8f8 6px,
+      #eeeeee 6px,
+      #eeeeee 12px
+    ) !important;
+    border: 1px solid #cccccc !important;
+    border-left: 3px solid #888888 !important;
+    cursor: pointer;
+  }
+
+  .agenda-privacy-locked .day-cine-locked:hover {
+    background: repeating-linear-gradient(
+      -45deg,
+      #f0f0f0,
+      #f0f0f0 6px,
+      #e5e5e5 6px,
+      #e5e5e5 12px
+    ) !important;
+    border-color: #000000 !important;
+  }
+
+  .agenda-privacy-locked .cine-content-clear,
+  .agenda-privacy-locked .tag-clear-only {
+    display: none !important;
+  }
+
+  .agenda-privacy-locked .cine-content-masked {
+    display: block;
+  }
+
+  .agenda-privacy-locked span.tag-masked-only {
+    display: inline-block !important;
+  }
+
+  .agenda-privacy-unlocked .cine-content-masked,
+  .agenda-privacy-unlocked .tag-masked-only {
+    display: none !important;
+  }
+
+  .agenda-privacy-unlocked .cine-content-clear {
+    display: block !important;
+  }
+
+  .agenda-privacy-unlocked span.tag-clear-only {
+    display: inline-block !important;
+  }
+
+  .tag-masked {
+    font: 700 9px var(--font);
+    background: #555555;
+    color: #ffffff;
+    padding: 2px 5px;
+    letter-spacing: 0.05em;
   }
 
   .day-cine-formation {
