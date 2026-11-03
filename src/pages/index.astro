@@ -376,230 +376,174 @@ const bandeauxProjets = [
   },
 ];
 
-const periodesLigneDuTemps = [
+const projectsInfographique = [
   {
-    id: 'aujourdhui',
-    label: 'Aujourd\'hui',
-    sousLabel: 'Statuts opérationnels',
-    resume: 'L\'ensemble des bandeaux affichent leur statut actuel avec accès directs.',
-  },
-  {
-    id: 'avril-2026',
-    label: 'Avril 2026',
-    sousLabel: 'Reprises & validations',
-    resume: 'Reprises des chantiers techniques et optimisations finales.',
-  },
-  {
-    id: 'mars-2026',
-    label: 'Mars 2026',
-    sousLabel: 'Sorties de fente & chantiers sous terre',
-    resume: 'Sorties de fente avec roulage autonome, et pauses R&D.',
-  },
-  {
-    id: 'fevrier-2026',
-    label: 'Fév. 2026',
-    sousLabel: 'Accélérations & bancs de test',
-    resume: 'Premiers bancs d\'essai, télémétrie 32 kHz et premières fentes R&D.',
-  },
-  {
-    id: 'debut-2026',
-    label: 'Début 2026',
-    sousLabel: 'Lancement des chantiers',
-    resume: 'Genèse et éclosion simultanée de 9 projets hardware, systèmes et outils.',
-  },
-  {
-    id: '2025',
-    label: '2025',
-    sousLabel: 'Genèse locale',
-    resume: 'Démarrage du projet Les Tourangeaux. Fondation du premier ruban.',
-  },
-];
-
-// Configuration pour chaque projet de sa grosse ligne verticale le long du temps
-// Configuration des 10 projets : ordonnés par genèse (cascade diagonale organique)
-// Configuration des 10 projets : ordonnés par genèse (cascade diagonale organique)
-const rubansProjets = [
-  {
-    id: 'tdp',
-    numero: '10',
-    titre: 'TÊTE DE PIAF',
-    sousTitre: 'Création & identité graphique',
-    domaine: 'Design & Illustration',
-    logo: '/assets/logos/tdp.png',
-    lien: '/projets/tete-de-piaf',
-    github: 'https://github.com/TakDai/tete-de-piaf',
-    segments: {
-      'aujourdhui': { etat: 'statut', titre: 'Identité déployée', desc: 'Actif sur l\'ensemble du portfolio.' },
-      'avril-2026': { etat: 'genesis', titre: 'Charte 10 logos', desc: 'Genèse : esquisses noir & blanc et déclinaisons.' },
-      'mars-2026': { etat: 'vide' },
-      'fevrier-2026': { etat: 'vide' },
-      'debut-2026': { etat: 'vide' },
-      '2025': { etat: 'vide' },
-    },
-  },
-  {
-    id: 'inskin',
-    numero: '09',
-    titre: 'INSKIN',
-    sousTitre: 'Exploration UI réactive tactile',
-    domaine: 'Interface & Web',
-    logo: '/assets/logos/inskin.png',
-    lien: '/projets/inskin',
-    github: 'https://github.com/TakDai/Inskin',
-    segments: {
-      'aujourdhui': { etat: 'statut', titre: 'En intégration', desc: 'Déploiement composants interactifs.' },
-      'avril-2026': { etat: 'genesis', titre: 'Design tokens sobres', desc: 'Genèse : micro-interactions CSS fluides.' },
-      'mars-2026': { etat: 'vide' },
-      'fevrier-2026': { etat: 'vide' },
-      'debut-2026': { etat: 'vide' },
-      '2025': { etat: 'vide' },
-    },
-  },
-  {
-    id: 'komeon',
-    numero: '08',
-    titre: 'KOMEON',
-    sousTitre: 'Messagerie instantanée temps réel',
-    domaine: 'Web & Réseau',
-    logo: '/assets/logos/komeon.png',
-    lien: '/projets/komeon',
-    github: 'https://github.com/TakDai/komeon',
-    segments: {
-      'aujourdhui': { etat: 'statut', titre: 'Prototype prêt', desc: 'Architecture modulaire fonctionnelle.' },
-      'avril-2026': { etat: 'fente_pause', titre: 'Pause dépendances', desc: 'Nettoyage des paquets et refactorisation.' },
-      'mars-2026': { etat: 'genesis', titre: 'Protocole WebSocket', desc: 'Genèse : binaire léger, latence < 12 ms.' },
-      'fevrier-2026': { etat: 'vide' },
-      'debut-2026': { etat: 'vide' },
-      '2025': { etat: 'vide' },
-    },
-  },
-  {
-    id: 'pensee-nocturne',
-    numero: '07',
-    titre: 'PENSÉE NOCTURNE',
-    sousTitre: 'Essais sur la technique & liberté',
-    domaine: 'Édition & Écriture',
-    logo: '/assets/logos/pensee-nocturne.svg',
-    lien: '/projets/pensee-nocturne',
-    github: 'https://github.com/TakDai/Pensee-nocturne',
-    segments: {
-      'aujourdhui': { etat: 'statut', titre: 'Publications actives', desc: 'Essais en ligne sur pensees-nocturnes.fr.' },
-      'avril-2026': { etat: 'actif', titre: 'Typographie & papier', desc: 'Mise en page éditoriale et lecture sobre.' },
-      'mars-2026': { etat: 'genesis', titre: 'Manifestes atelier', desc: 'Genèse : notes sur l\'enferment propriétaire.' },
-      'fevrier-2026': { etat: 'vide' },
-      'debut-2026': { etat: 'vide' },
-      '2025': { etat: 'vide' },
-    },
-  },
-  {
-    id: '127il',
-    numero: '05',
-    titre: '127IL',
-    sousTitre: 'Live streaming fabrication & code',
-    domaine: 'Streaming & Atelier',
-    logo: '/assets/logos/127il.svg',
-    lien: '/projets/127il',
-    github: 'https://github.com/TakDai/127il',
-    segments: {
-      'aujourdhui': { etat: 'statut', titre: 'Sessions régulières', desc: 'Diffusion de fabrication en direct.' },
-      'avril-2026': { etat: 'fente_pause', titre: 'Pause régie atelier', desc: 'Refonte éclairage et caméras zénithales.' },
-      'mars-2026': { etat: 'actif', titre: 'Optimisation pipeline', desc: 'Encodeur GPU basse latence OBS.' },
-      'fevrier-2026': { etat: 'genesis', titre: 'Marathon live 6h', desc: 'Genèse : premier direct sans coupure.' },
-      'debut-2026': { etat: 'vide' },
-      '2025': { etat: 'vide' },
-    },
-  },
-  {
-    id: 'openbots',
-    numero: '03',
-    titre: 'OPENBOTS',
-    sousTitre: 'Robotique modulaire 3D',
-    domaine: 'Robotique & Open Source',
-    logo: '/assets/logos/openbots.png',
-    lien: '/projets/openbots',
-    github: 'https://github.com/TakDai/openbots',
-    segments: {
-      'aujourdhui': { etat: 'statut', titre: 'Plans & code ouverts', desc: 'Documentation et fichiers STL libres.' },
-      'avril-2026': { etat: 'actif', titre: 'Assemblage v2', desc: 'Châssis carbone et motoréducteurs.' },
-      'mars-2026': { etat: 'temps_fort', titre: 'Roulage autonome', desc: 'Cycle autonome et évitement d\'obstacles.' },
-      'fevrier-2026': { etat: 'genesis', titre: 'Modélisation 3D', desc: 'Genèse : robot modulaire imprimable.' },
-      'debut-2026': { etat: 'vide' },
-      '2025': { etat: 'vide' },
-    },
-  },
-  {
-    id: 'superviseur',
-    numero: '04',
-    titre: 'SUPERVISEUR',
-    sousTitre: 'Monitoring bare-metal autonome',
-    domaine: 'DevOps & Système',
-    logo: '/assets/logos/superviseur.svg',
-    lien: '/projets/superviseur',
-    github: 'https://github.com/TakDai/Superviseur',
-    segments: {
-      'aujourdhui': { etat: 'statut', titre: 'En production 24/7', desc: 'Supervision continue de l\'infra.' },
-      'avril-2026': { etat: 'actif', titre: 'Mise en exploitation', desc: 'Alerting par webhook chiffré.' },
-      'mars-2026': { etat: 'actif', titre: 'Durcissement réseau', desc: 'Agents micro-threads sans surcharge.' },
-      'fevrier-2026': { etat: 'genesis', titre: 'Bare-metal 100%', desc: 'Genèse : déploiement des sondes légères.' },
-      'debut-2026': { etat: 'vide' },
-      '2025': { etat: 'vide' },
-    },
-  },
-  {
-    id: 'fix-my-drone',
-    numero: '02',
-    titre: 'FIX-MY-DRONE',
-    sousTitre: 'Diagnostic & réparation FPV',
-    domaine: 'Drones & Hardware',
-    logo: '/assets/logos/fix-my-drone.svg',
-    lien: '/projets/fix-my-drone',
-    github: 'https://github.com/TakDai/fix-my-drone',
-    segments: {
-      'aujourdhui': { etat: 'statut', titre: 'Plateforme en dev', desc: 'Outil de diagnostic interactif FPV.' },
-      'avril-2026': { etat: 'fente_pause', titre: 'Pause protocoles', desc: 'Rédaction des fiches de dépannage.' },
-      'mars-2026': { etat: 'temps_fort', titre: 'Sauvetage STM32', desc: 'Restauration contrôleurs brickés.' },
-      'fevrier-2026': { etat: 'actif', titre: 'Bancs régulateurs', desc: 'Mesure des rails 5V/9V sous charge.' },
-      'debut-2026': { etat: 'genesis', titre: 'Cartographie des pannes', desc: 'Genèse : analyse blackbox et causes.' },
-      '2025': { etat: 'vide' },
-    },
-  },
-  {
+    num: '01',
     id: 'multi-motors',
-    numero: '01',
     titre: 'MULTI-MOTORS',
-    sousTitre: 'Bancs d\'essai & télémétrie moteur',
     domaine: 'Électronique & Embarqué',
+    date: 'Aujourd\'hui · En cours',
+    desc: 'Ingénierie de bancs d\'essai, télémétrie moteur 32 kHz au gramme près et pilotage d\'injections brushless.',
     logo: '/assets/logos/multi-motors.png',
     lien: '/projets/multi-motors',
     github: 'https://github.com/TakDai/Multi-Motors',
-    segments: {
-      'aujourdhui': { etat: 'statut', titre: 'Essais en vol & Validation', desc: 'Intégration bancs de charge réels.' },
-      'avril-2026': { etat: 'actif', titre: 'Optimisation timing PID', desc: 'Ajustement injection brushless.' },
-      'mars-2026': { etat: 'fente_pause', titre: 'Pause thermique ESC', desc: 'Validation échauffement MOSFETs sous 80A.' },
-      'fevrier-2026': { etat: 'temps_fort', titre: 'Mesure 32 kHz', desc: 'Couplage direct dynamométrique 32 kHz.' },
-      'debut-2026': { etat: 'genesis', titre: 'Conception banc 3D', desc: 'Genèse : dessin mécanique et capteurs.' },
-      '2025': { etat: 'vide' },
-    },
+    color: '#2b5c68',
   },
   {
+    num: '02',
+    id: 'fix-my-drone',
+    titre: 'FIX-MY-DRONE',
+    domaine: 'Drones & Hardware',
+    date: 'Aujourd\'hui · En cours',
+    desc: 'Outils et maintenance spécialisée pour drones FPV, cartographie des pannes et sauvetage de STM32.',
+    logo: '/assets/logos/fix-my-drone.svg',
+    lien: '/projets/fix-my-drone',
+    github: 'https://github.com/TakDai/fix-my-drone',
+    color: '#387382',
+  },
+  {
+    num: '03',
+    id: 'openbots',
+    titre: 'OPENBOTS',
+    domaine: 'Robotique & Open Source',
+    date: 'Aujourd\'hui · En cours',
+    desc: 'Conception de robots modulaires imprimables en 3D, navigation autonome et partage de fichiers STL libres.',
+    logo: '/assets/logos/openbots.png',
+    lien: '/projets/openbots',
+    github: 'https://github.com/TakDai/openbots',
+    color: '#458b9c',
+  },
+  {
+    num: '04',
+    id: 'superviseur',
+    titre: 'SUPERVISEUR',
+    domaine: 'DevOps & Système',
+    date: 'Aujourd\'hui · En cours',
+    desc: 'Monitoring bare-metal autonome, micro-sondes légères en C/Node sans surcharge CPU sur infra souveraine.',
+    logo: '/assets/logos/superviseur.svg',
+    lien: '/projets/superviseur',
+    github: 'https://github.com/TakDai/Superviseur',
+    color: '#4e998a',
+  },
+  {
+    num: '05',
+    id: '127il',
+    titre: '127IL',
+    domaine: 'Streaming & Atelier',
+    date: 'Aujourd\'hui · En cours',
+    desc: 'Sessions de diffusion en direct sur Twitch consacrées à la programmation, l\'électronique et la fabrication.',
+    logo: '/assets/logos/127il.svg',
+    lien: '/projets/127il',
+    github: 'https://github.com/TakDai/127il',
+    color: '#d68233',
+  },
+  {
+    num: '06',
+    id: 'pensee-nocturne',
+    titre: 'PENSÉE NOCTURNE',
+    domaine: 'Édition & Écriture',
+    date: 'Aujourd\'hui · En cours',
+    desc: 'Recueil d\'essais et de réflexions personnelles autour du monde numérique, de la technique et de la liberté.',
+    logo: '/assets/logos/pensee-nocturne.svg',
+    lien: '/projets/pensee-nocturne',
+    github: 'https://github.com/TakDai/Pensee-nocturne',
+    color: '#c95430',
+  },
+  {
+    num: '07',
+    id: 'komeon',
+    titre: 'KOMEON',
+    domaine: 'Web & Réseau',
+    date: 'Aujourd\'hui · En cours',
+    desc: 'Messagerie instantanée collaborative en temps réel, protocole WebSocket binaire, latence mesurée < 12 ms.',
+    logo: '/assets/logos/komeon.png',
+    lien: '/projets/komeon',
+    github: 'https://github.com/TakDai/komeon',
+    color: '#ba3828',
+  },
+  {
+    num: '08',
+    id: 'inskin',
+    titre: 'INSKIN',
+    domaine: 'Interface & Web',
+    date: 'Aujourd\'hui · En cours',
+    desc: 'Recherche technologique et design d\'interfaces réactives tactiles, tokens sobres et micro-interactions 120 fps.',
+    logo: '/assets/logos/inskin.png',
+    lien: '/projets/inskin',
+    github: 'https://github.com/TakDai/Inskin',
+    color: '#a02828',
+  },
+  {
+    num: '09',
+    id: 'tete-de-piaf',
+    titre: 'TÊTE DE PIAF',
+    domaine: 'Design & Illustration',
+    date: 'Aujourd\'hui · En cours',
+    desc: 'Laboratoire de création graphique, charte 10 logos monochrome et expérimentations visuelles à l\'encre.',
+    logo: '/assets/logos/tdp.png',
+    lien: '/projets/tete-de-piaf',
+    github: 'https://github.com/TakDai/tete-de-piaf',
+    color: '#c48937',
+  },
+  {
+    num: '10',
     id: 'lestourangeaux',
-    numero: '06',
     titre: 'LES TOURANGEAUX',
-    sousTitre: 'Portail régional indépendant',
     domaine: 'Web & Communauté',
+    date: 'Genèse 2025 · Réalisé',
+    desc: 'Portail régional indépendant pour la communauté tourangelle, valorisation de plus de 150 initiatives locales.',
     logo: '/assets/logos/lestourangeaux.svg',
     lien: '/projets/lestourangeaux',
     github: 'https://github.com/TakDai',
-    segments: {
-      'aujourdhui': { etat: 'statut', titre: 'En ligne & autonome', desc: 'Plateforme souveraine active.' },
-      'avril-2026': { etat: 'actif', titre: 'Maintenance & CDN', desc: 'Haute disponibilité et cache local.' },
-      'mars-2026': { etat: 'fente_pause', titre: 'Pause R&D atelier', desc: 'Veille web pour aménagement physique.' },
-      'fevrier-2026': { etat: 'actif', titre: 'Transition hardware', desc: 'Intégration serveurs locaux.' },
-      'debut-2026': { etat: 'temps_fort', titre: '150+ initiatives', desc: 'Adoption par le tissu tourangeau.' },
-      '2025': { etat: 'genesis', titre: 'Architecture & collecte locale', desc: 'Genèse 2025 : premier projet fondateur.' },
-    },
+    color: '#b27f2c',
   },
 ];
+
+const stripeWidth = 6;
+const stripeGap = 5;
+const pitch = stripeWidth + stripeGap; // 11px
+const numTracks = projectsInfographique.length; // 10
+
+const innerRadius = 26;
+const bundleStartX = 350;
+const arcOriginX = bundleStartX - innerRadius;
+const arcCenterY = 175;
+
+const cardStartX = bundleStartX + (numTracks * pitch) + 38;
+const itemHeight = 158;
+const cardsStartY = arcCenterY + 25;
+
+const renderedTracks = projectsInfographique.map((p, idx) => {
+  const trackIdx = numTracks - 1 - idx;
+  const R = innerRadius + (trackIdx * pitch);
+  const startX = 205 + (trackIdx * 10);
+  const lineY_horiz = arcCenterY - R;
+  const verticalX = arcOriginX + R;
+  const targetCardY = cardsStartY + (idx * itemHeight);
+  const spurY = targetCardY + 44;
+
+  const logoX = startX - 14;
+  const logoY = lineY_horiz;
+
+  let d = `M ${startX} ${lineY_horiz} `;
+  d += `H ${arcOriginX} `;
+  d += `A ${R} ${R} 0 0 1 ${verticalX} ${arcCenterY} `;
+  d += `V ${spurY - 10} `;
+  d += `Q ${verticalX} ${spurY} ${verticalX + 10} ${spurY} `;
+  d += `H ${cardStartX - 15}`;
+
+  return {
+    ...p,
+    trackIdx,
+    d,
+    spurY,
+    logoX,
+    logoY,
+    targetCardY,
+  };
+});
+
+const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHeight) + 40;
 ---
 
 <Base sansNav={true} titre="Portfolio" description="Tom Bigot — Portfolio d'ingénierie, systèmes embarqués, drones FPV & développement logiciel.">
@@ -659,148 +603,75 @@ const rubansProjets = [
     </a>
   </section>
 
-      <!-- ================= SECTION BANDEAUX DU TEMPS (SERRÉS, HARMONIEUX, DESIGN) ================= -->
+        <!-- ================= SECTION BANDEAUX DU TEMPS (INFOGRAPHIQUE ZOOMÉE) ================= -->
   <section class="bandeaux-timeline-section" id="chronologie-rubans">
-    <div class="timeline-viewport">
-      <!-- Règle verticale du temps sur la gauche -->
-      <aside class="timeline-time-rail" aria-hidden="true">
-        {periodesLigneDuTemps.map((periode) => (
-          <div class={`rail-node node-${periode.id}`}>
-            <span class="rail-year">{periode.label}</span>
-            <span class="rail-tick"></span>
-          </div>
-        ))}
-      </aside>
+    <div class="timeline-container" style={`--timeline-height: ${totalTimelineHeight}px;`}>
+      <div class="infographic-header">
+        <span class="header-eyebrow">CHRONOLOGIE TECHNIQUE</span>
+        <h2>CHRONOLOGIE DES CHANTIERS</h2>
+        <p>10 projets d'ingénierie, systèmes embarqués et fabrication de 2025 à aujourd'hui.</p>
+      </div>
 
-      <!-- Les 10 couloirs de rubans : BIEN SERRÉS, CASCADE ORGANIQUE DIAGONALE -->
-      <div class="timeline-parallel-tracks">
-        {rubansProjets.map((p, idx) => {
-          const isLeftTooltip = idx < 4;
-          const tooltipPosClass = isLeftTooltip ? 'tip-left' : 'tip-right';
-
-          return (
-            <div class="timeline-lane" id={`lane-${p.id}`}>
-              {periodesLigneDuTemps.map((periode) => {
-                const seg = p.segments[periode.id] || { etat: 'vide' };
-                const isStatut = seg.etat === 'statut';
-                const isGenesis = seg.etat === 'genesis';
-                const isPause = seg.etat === 'fente_pause';
-                const isStar = seg.etat === 'temps_fort';
-                const isActif = seg.etat === 'actif';
-                const isVide = seg.etat === 'vide';
-
-                return (
-                  <div class={`lane-segment seg-${seg.etat}`}>
-                    {/* 1. ESPACE VIERGE AVANT GENÈSE */}
-                    {isVide && (
-                      <div class="ribbon-empty-space" aria-hidden="true"></div>
-                    )}
-
-                    {/* 2. EN TÊTE (AUJOURD'HUI) : JUSTE LE LOGO EN TÊTE DANS SON MÉDAILLON */}
-                    {isStatut && (
-                      <div class="ribbon-segment-flow flow-head">
-                        <a href={p.lien} class="ribbon-head-anchor" title={`${p.titre} — Voir la fiche`}>
-                          <span class="suspension-rivet" aria-hidden="true"></span>
-                          <div class="ribbon-head-medallion">
-                            <img src={p.logo} alt={p.titre} class="ribbon-logo-img" />
-                          </div>
-                        </a>
-                        <div class="fine-ribbon-strip strip-from-head"></div>
-                        <div class={`fine-ribbon-tooltip ${tooltipPosClass}`}>
-                          <div class="tip-top">
-                            <span class="tip-num">{p.numero}</span>
-                            <span class="tip-title">{p.titre}</span>
-                            <span class="tip-active-tag">AUJOURD'HUI</span>
-                          </div>
-                          <span class="tip-step">{seg.titre}</span>
-                          <span class="tip-desc">{seg.desc}</span>
-                          <a href={p.lien} class="tip-cta">Fiche du projet &rarr;</a>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* 3. TERMINAISON EN POINTE CHEVRON ÉPURÉE (GENÈSE DU PROJET) */}
-                    {isGenesis && (
-                      <div class="ribbon-segment-flow terminal-flow">
-                        <div class="fine-ribbon-strip strip-terminal"></div>
-                        <a href={p.lien} class="fine-chevron-link" title={`Genèse ${p.titre} — Voir la fiche`}>
-                          <div class="fine-chevron-cut"></div>
-                        </a>
-                        <div class={`fine-ribbon-tooltip ${tooltipPosClass}`}>
-                          <div class="tip-top">
-                            <span class="tip-num">{p.numero}</span>
-                            <span class="tip-title">{p.titre}</span>
-                            <span class="tip-genesis-tag">GENÈSE {periode.label}</span>
-                          </div>
-                          <span class="tip-step">{seg.titre}</span>
-                          <span class="tip-desc">{seg.desc}</span>
-                          <a href={p.lien} class="tip-cta">Fiche du projet &rarr;</a>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* 4. PASSAGE EN FENTE 3D (PAUSE R&D) */}
-                    {isPause && (
-                      <div class="ribbon-segment-flow">
-                        <div class="fine-ribbon-strip strip-to-slit"></div>
-                        <div class="fine-wall-slit slit-entry" title={`Pause R&D : ${seg.titre}`}>
-                          <span class="fine-slit-incision"></span>
-                        </div>
-                        <div class={`fine-ribbon-tooltip ${tooltipPosClass}`}>
-                          <div class="tip-top">
-                            <span class="tip-num">{p.numero}</span>
-                            <span class="tip-title">{p.titre}</span>
-                            <span class="tip-pause-tag">PAUSE R&D</span>
-                          </div>
-                          <span class="tip-step">{seg.titre}</span>
-                          <span class="tip-desc">{seg.desc}</span>
-                          <a href={p.lien} class="tip-cta">Fiche du projet &rarr;</a>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* 5. TEMPS FORT (★) */}
-                    {isStar && (
-                      <div class="ribbon-segment-flow">
-                        <div class="fine-ribbon-strip is-star-strip">
-                          <span class="strip-star-icon">&#9733;</span>
-                        </div>
-                        <div class={`fine-ribbon-tooltip ${tooltipPosClass}`}>
-                          <div class="tip-top">
-                            <span class="tip-num">{p.numero}</span>
-                            <span class="tip-title">{p.titre}</span>
-                            <span class="tip-star-tag">&#9733; POINT FORT</span>
-                          </div>
-                          <span class="tip-step">{seg.titre}</span>
-                          <span class="tip-desc">{seg.desc}</span>
-                          <a href={p.lien} class="tip-cta">Fiche du projet &rarr;</a>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* 6. RUBAN ACTIF EN CONTINU */}
-                    {isActif && (
-                      <div class="ribbon-segment-flow">
-                        <div class="fine-ribbon-strip">
-                          <span class="strip-node-dot"></span>
-                        </div>
-                        <div class={`fine-ribbon-tooltip ${tooltipPosClass}`}>
-                          <div class="tip-top">
-                            <span class="tip-num">{p.numero}</span>
-                            <span class="tip-title">{p.titre}</span>
-                          </div>
-                          <span class="tip-step">{seg.titre}</span>
-                          <span class="tip-desc">{seg.desc}</span>
-                          <a href={p.lien} class="tip-cta">Fiche du projet &rarr;</a>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
+      <!-- Médaillons des logos en tête de ligne (juste les logos en tête) -->
+      <div class="ribbon-logos-head" aria-hidden="true">
+        {renderedTracks.map((p) => (
+          <a
+            href={p.lien}
+            class={`ribbon-logo-anchor logo-${p.id}`}
+            style={`left: ${p.logoX - 13}px; top: ${p.logoY - 13}px;`}
+            title={`${p.num} · ${p.titre} — ${p.domaine}`}
+          >
+            <div class="logo-circle" style={`border-color: ${p.color};`}>
+              <img src={p.logo} alt={p.titre} />
             </div>
-          );
-        })}
+          </a>
+        ))}
+      </div>
+
+      <!-- Bus de rubans SVG concentriques et branches à 90° -->
+      <svg class="svg-lines-layer" width="100%" height={totalTimelineHeight} aria-hidden="true">
+        {renderedTracks.map((p) => (
+          <g class={`track-group group-${p.id}`}>
+            <path
+              d={p.d}
+              fill="none"
+              stroke={p.color}
+              stroke-width={stripeWidth}
+              stroke-linecap="round"
+              class="infographic-ribbon"
+            />
+            <circle
+              cx={cardStartX - 15}
+              cy={p.spurY}
+              r="4.5"
+              fill={p.color}
+              class="ribbon-terminal-dot"
+            />
+          </g>
+        ))}
+      </svg>
+
+      <!-- Fiches projets zoomées, ultra-lisibles et bien espacées -->
+      <div class="infographic-cards-column">
+        {renderedTracks.map((p) => (
+          <article class={`infographic-card card-${p.id}`} style={`top: ${p.targetCardY}px;`}>
+            <div class="card-meta-line">
+              <span class="card-num" style={`color: ${p.color};`}>{p.num}</span>
+              <div class="card-heading">
+                <h3 class="card-title">{p.titre}</h3>
+                <span class="card-domain">{p.domaine}</span>
+              </div>
+              <span class="card-date-badge" style={`background: ${p.color};`}>{p.date}</span>
+            </div>
+            <p class="card-desc">{p.desc}</p>
+            <div class="card-actions">
+              <a href={p.lien} class="btn-card btn-fiche" style={`border-color: ${p.color};`}>Fiche projet &rarr;</a>
+              {p.github && (
+                <a href={p.github} target="_blank" rel="noopener noreferrer" class="btn-card btn-gh">Code source &#8599;</a>
+              )}
+            </div>
+          </article>
+        ))}
       </div>
     </div>
   </section>
@@ -955,387 +826,247 @@ const rubansProjets = [
     50% { transform: translateY(5px); }
   }
 
-  /* ==========================================================================
-     SECTION DES BANDEAUX DU TEMPS (PARALLÈLES, AUCUN L'UN SUR L'AUTRE)
-     ========================================================================== */
-  /* ==========================================================================
-     SECTION DES BANDEAUX DU TEMPS (SERRÉS, ÉLÉGANTS, DESIGN)
-     ========================================================================== */
-  /* ==========================================================================
-     SECTION DES BANDEAUX DU TEMPS (SERRÉS, ÉLÉGANTS, DESIGN)
+    /* ==========================================================================
+     SECTION TIMELINE INFOGRAPHIQUE ZOOMÉE STYLE RUBANS & FICHES
      ========================================================================== */
   .bandeaux-timeline-section {
     position: relative;
-    background: #ffffff;
+    background: #fbfaf7;
     padding: clamp(48px, 6vh, 72px) 16px;
     overflow-x: hidden !important;
     border-bottom: 2px dashed var(--dash);
   }
 
-  .timeline-viewport {
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-    width: 100%;
-    max-width: 660px; /* Bien serré, compact et harmonieux */
+  .timeline-container {
+    position: relative;
+    max-width: 1040px;
     margin: 0 auto;
-    gap: 16px;
+    height: var(--timeline-height, 1850px);
     overflow-x: hidden !important;
   }
 
-  /* Règle de temps verticale discrète et collée aux bandes */
-  .timeline-time-rail {
-    width: 82px;
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    border-right: 1.5px dashed rgba(0, 0, 0, 0.18);
-  }
-
-  .rail-node {
-    height: 110px; /* Rythme vertical resserré et lisible */
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding-right: 12px;
-    position: relative;
-    box-sizing: border-box;
-  }
-
-  .rail-year {
-    font: 800 9px var(--font);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.45);
-    text-align: right;
-    white-space: nowrap;
-  }
-
-  .rail-tick {
+  .infographic-header {
     position: absolute;
-    right: -4px;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #000000;
-  }
-
-  /* Piste des 10 couloirs parallèles : SERRÉS (~42px de pas) */
-  .timeline-parallel-tracks {
-    display: flex;
-    flex: 1;
-    min-width: 0;
-    gap: 6px; /* Espace serré et rythmique */
-    width: 100%;
-    overflow-x: hidden !important;
-  }
-
-  .timeline-lane {
-    flex: 1;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-  }
-
-  .lane-segment {
-    height: 110px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    box-sizing: border-box;
-  }
-
-  /* Espace vide */
-  .ribbon-empty-space {
-    width: 100%;
-    height: 100%;
-  }
-
-  /* Flux vertical du ruban fin */
-  .ribbon-segment-flow {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-  }
-
-  .ribbon-segment-flow.flow-head {
-    justify-content: flex-start;
-  }
-
-  .ribbon-segment-flow.terminal-flow {
-    justify-content: flex-start;
-  }
-
-  /* Suspension et rivet */
-  .suspension-rivet {
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: #000000;
-    margin-bottom: 2px;
-    display: block;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.3);
-  }
-
-  /* Tête du ruban : JUSTE LE LOGO EN TÊTE */
-  .ribbon-head-anchor {
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    top: 15px;
+    left: 12px;
+    max-width: 180px;
     z-index: 10;
+  }
+  .header-eyebrow {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #666666;
+    margin-bottom: 4px;
+  }
+  .infographic-header h2 {
+    margin: 0 0 6px 0;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    line-height: 1.15;
+    color: #111111;
+  }
+  .infographic-header p {
+    margin: 0;
+    font-size: 11.5px;
+    line-height: 1.4;
+    color: #666666;
+  }
+
+  .ribbon-logos-head {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 8;
+  }
+
+  .ribbon-logo-anchor {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    pointer-events: auto;
     transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-
-  .ribbon-head-anchor:hover {
-    transform: scale(1.22);
+  .ribbon-logo-anchor:hover {
+    transform: scale(1.35);
   }
-
-  .ribbon-head-medallion {
-    width: 32px;
-    height: 32px;
+  .logo-circle {
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
     background: #ffffff;
     border: 2px solid #000000;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-    box-sizing: border-box;
-    padding: 4px;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
   }
-
-  .ribbon-head-anchor:hover .ribbon-head-medallion {
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
-  }
-
-  .ribbon-logo-img {
-    width: 100%;
-    height: 100%;
-    max-width: 20px;
-    max-height: 20px;
+  .logo-circle img {
+    width: 16px;
+    height: 16px;
     object-fit: contain;
   }
 
-  /* Bande fine noire épurée (12px) */
-  .fine-ribbon-strip {
-    width: 12px;
-    flex: 1;
-    background: #0a0a0a;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0.6), 1px 0 3px rgba(0, 0, 0, 0.08);
-  }
-
-  .strip-from-head {
-    margin-top: -2px;
-  }
-
-  .strip-node-dot {
-    width: 3px;
-    height: 3px;
-    border-radius: 50%;
-    background: #ffffff;
-    opacity: 0.7;
-  }
-
-  /* Temps fort */
-  .fine-ribbon-strip.is-star-strip {
-    background: #000000;
-  }
-
-  .strip-star-icon {
-    font-size: 7.5px;
-    color: #ffffff;
-    line-height: 1;
-  }
-
-  /* Fente fine mécanique incision 3D */
-  .fine-wall-slit {
-    width: 22px;
-    height: 6px;
-    background: #000000;
-    border-radius: 1px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 5;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
-  }
-
-  .fine-slit-incision {
-    width: 14px;
-    height: 1.5px;
-    background: #ffffff;
-    border-radius: 1px;
-    opacity: 0.85;
-  }
-
-  .strip-to-slit {
-    flex: 1;
-    background: linear-gradient(to bottom, #0a0a0a 0%, #2a2a2a 100%);
-  }
-
-  /* Pointe chevron swallowtail épurée (Genèse du projet) */
-  .strip-terminal {
-    flex: 1;
-  }
-
-  .fine-chevron-link {
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-    margin-bottom: 4px;
-  }
-
-  .fine-chevron-link:hover {
-    transform: scale(1.3) translateY(1.5px);
-  }
-
-  .fine-chevron-cut {
-    width: 12px;
-    height: 12px;
-    background: #0a0a0a;
-    clip-path: polygon(0 0, 100% 0, 50% 100%);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: background 0.15s ease;
-  }
-
-  .fine-chevron-link:hover .fine-chevron-cut {
-    background: #000000;
-  }
-
-  /* Tooltip flottant frosted glass */
-  .fine-ribbon-tooltip {
+  .svg-lines-layer {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%) scale(0.92);
-    background: rgba(10, 10, 10, 0.94);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: #ffffff;
-    padding: 8px 11px;
-    border-radius: 5px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .infographic-ribbon {
+    transition: stroke-width 0.2s ease, opacity 0.2s ease;
+  }
+
+  .infographic-cards-column {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .infographic-card {
+    position: absolute;
+    left: 498px;
+    right: 15px;
+    height: 142px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 6px;
+    padding: 16px 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
     display: flex;
     flex-direction: column;
-    gap: 3px;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.15s ease, transform 0.15s ease;
-    z-index: 100;
-    min-width: 140px;
-    max-width: 200px;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    z-index: 5;
     box-sizing: border-box;
   }
-
-  .fine-ribbon-tooltip.tip-left {
-    left: calc(50% + 14px);
+  .infographic-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.3);
   }
 
-  .fine-ribbon-tooltip.tip-right {
-    right: calc(50% + 14px);
-    left: auto;
-  }
-
-  .ribbon-segment-flow:hover .fine-ribbon-tooltip,
-  .ribbon-head-anchor:hover ~ .fine-ribbon-tooltip,
-  .fine-chevron-link:hover ~ .fine-ribbon-tooltip {
-    opacity: 1;
-    transform: translateY(-50%) scale(1);
-    pointer-events: auto;
-  }
-
-  .tip-top {
+  .card-meta-line {
     display: flex;
     align-items: center;
-    gap: 5px;
-    flex-wrap: wrap;
+    gap: 12px;
   }
-
-  .tip-num {
-    font-family: monospace;
-    font-size: 7.5px;
-    color: #888888;
+  .card-num {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", monospace;
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.03em;
   }
-
-  .tip-title {
-    font: 800 9px var(--font);
-    letter-spacing: 0.05em;
+  .card-heading {
+    display: flex;
+    flex-direction: column;
+  }
+  .card-title {
+    margin: 0;
+    font-size: 16.5px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #111111;
+  }
+  .card-domain {
+    font-size: 11px;
+    font-weight: 600;
+    color: #666666;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .card-date-badge {
+    margin-left: auto;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     color: #ffffff;
+    padding: 4px 9px;
+    border-radius: 3px;
+    white-space: nowrap;
   }
-
-  .tip-star-tag {
-    font: 800 6px var(--font);
-    background: #ffffff;
-    color: #000000;
-    padding: 1px 3px;
-    border-radius: 2px;
+  .card-desc {
+    margin: 4px 0 0 0;
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: #444444;
   }
-
-  .tip-pause-tag {
-    font: 800 6px var(--font);
-    background: #ef4444;
-    color: #ffffff;
-    padding: 1px 3px;
-    border-radius: 2px;
-  }
-
-  .tip-active-tag {
-    font: 800 6px var(--font);
-    background: #10b981;
-    color: #ffffff;
-    padding: 1px 3px;
-    border-radius: 2px;
-  }
-
-  .tip-genesis-tag {
-    font: 800 6px var(--font);
-    background: #3b82f6;
-    color: #ffffff;
-    padding: 1px 3px;
-    border-radius: 2px;
-  }
-
-  .tip-step {
-    font: 700 8px/1.25 var(--font);
-    color: #e5e5e5;
-    text-transform: uppercase;
-  }
-
-  .tip-desc {
-    font: 400 7.5px/1.3 var(--font);
-    color: #a3a3a3;
-  }
-
-  .tip-cta {
-    display: inline-block;
-    font: 800 7.5px var(--font);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #ffffff;
-    text-decoration: underline;
+  .card-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
     margin-top: 4px;
-    padding-top: 3px;
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
+  }
+  .btn-card {
+    display: inline-flex;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    padding: 5px 12px;
+    border-radius: 4px;
+    transition: all 0.15s ease;
+  }
+  .btn-fiche {
+    background: #111111;
+    color: #ffffff;
+    border: 1px solid #111111;
+  }
+  .btn-fiche:hover {
+    background: #333333;
+  }
+  .btn-gh {
+    background: transparent;
+    color: #111111;
+    border: 1px solid #d5d5d5;
+  }
+  .btn-gh:hover {
+    border-color: #111111;
+  }
+
+  @media (max-width: 768px) {
+    .timeline-container {
+      height: auto !important;
+      padding-top: 20px;
+    }
+    .svg-lines-layer, .ribbon-logos-head {
+      display: none;
+    }
+    .infographic-header {
+      position: static;
+      max-width: 100%;
+      margin-bottom: 24px;
+    }
+    .infographic-cards-column {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .infographic-card {
+      position: static !important;
+      width: 100% !important;
+      left: auto !important;
+      right: auto !important;
+      height: auto !important;
+    }
   }
 </style>
