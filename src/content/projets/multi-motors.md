@@ -6,6 +6,7 @@ statut: en cours
 annee: 2026
 domaines: ["embarqué", "moteurs", "électronique"]
 lien: https://multi-motors.fr
+github: https://github.com/TakDai/Multi-Motors
 ordre: 10
 ---
 

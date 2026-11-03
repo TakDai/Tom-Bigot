@@ -6,6 +6,7 @@ statut: en cours
 annee: 2026
 domaines: ["éditorial", "écriture", "web"]
 lien: https://pensées-nocturnes.fr
+github: https://github.com/TakDai/pensee-nocturne
 ordre: 40
 ---
 

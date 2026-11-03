@@ -63,6 +63,7 @@ const bandeauxProjets = [
     domaine: 'Électronique & Embarqué',
     logo: '/assets/logos/multi-motors.png',
     lien: '/projets/multi-motors',
+    github: 'https://github.com/TakDai/Multi-Motors',
     etapes: [
       {
         type: 'phase',
@@ -104,6 +105,7 @@ const bandeauxProjets = [
     domaine: 'Drones & Hardware',
     logo: '/assets/logos/fix-my-drone.svg',
     lien: '/projets/fix-my-drone',
+    github: 'https://github.com/TakDai/fix-my-drone',
     etapes: [
       {
         type: 'phase',
@@ -139,6 +141,7 @@ const bandeauxProjets = [
     domaine: 'Robotique & Open Source',
     logo: '/assets/logos/openbots.png',
     lien: '/projets/openbots',
+    github: 'https://github.com/TakDai/openbots',
     etapes: [
       {
         type: 'phase',
@@ -174,6 +177,7 @@ const bandeauxProjets = [
     domaine: 'DevOps & Sécurité',
     logo: '/assets/logos/superviseur.svg',
     lien: '/projets/superviseur',
+    github: 'https://github.com/TakDai/Superviseur',
     etapes: [
       {
         type: 'phase',
@@ -209,6 +213,7 @@ const bandeauxProjets = [
     domaine: 'Live & Partage technique',
     logo: '/assets/logos/127il.svg',
     lien: '/projets/127il',
+    github: 'https://github.com/TakDai/127il',
     etapes: [
       {
         type: 'phase',
@@ -244,6 +249,7 @@ const bandeauxProjets = [
     domaine: 'Web & Communauté',
     logo: '/assets/logos/lestourangeaux.svg',
     lien: '/projets/lestourangeaux',
+    github: 'https://github.com/TakDai/LesTourangeaux',
     etapes: [
       {
         type: 'phase',
@@ -279,6 +285,7 @@ const bandeauxProjets = [
     domaine: 'Éditorial & Essais',
     logo: '/assets/logos/pensee-nocturne.svg',
     lien: '/projets/pensee-nocturne',
+    github: 'https://github.com/TakDai/pensee-nocturne',
     etapes: [
       {
         type: 'phase',
@@ -314,6 +321,7 @@ const bandeauxProjets = [
     domaine: 'Web & Temps Réel',
     logo: '/assets/logos/komeon.png',
     lien: '/projets/komeon',
+    github: 'https://github.com/TakDai/komeon',
     etapes: [
       {
         type: 'phase',
@@ -349,6 +357,7 @@ const bandeauxProjets = [
     domaine: 'Design & Interface',
     logo: '/assets/logos/inskin.png',
     lien: '/projets/inskin',
+    github: 'https://github.com/TakDai/Inskin',
     etapes: [
       {
         type: 'phase',
@@ -384,6 +393,7 @@ const bandeauxProjets = [
     domaine: 'Création & Graphisme',
     logo: '/assets/logos/tdp.png',
     lien: '/projets/tete-de-piaf',
+    github: 'https://github.com/TakDai/tete-de-piaf',
     etapes: [
       {
         type: 'phase',
@@ -717,11 +727,22 @@ const bandeauxProjets = [
                 </div>
               </div>
 
-              <!-- Pied de bandeau : Lien vers la fiche -->
+              <!-- Pied de bandeau : Lien vers la fiche et vers GitHub -->
               <div class="bandeau-v-foot">
                 <a href={projet.lien} class="btn-noir bandeau-v-btn">
-                  Fiche complète &rarr;
+                  Fiche &rarr;
                 </a>
+                {projet.github && (
+                  <a
+                    href={projet.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn-outline bandeau-v-btn-gh"
+                    title={`Dépôt GitHub de ${projet.titre}`}
+                  >
+                    GitHub ↗
+                  </a>
+                )}
               </div>
             </article>
           ))
@@ -1495,17 +1516,34 @@ const bandeauxProjets = [
   .bandeau-v-foot {
     padding-top: 10px;
     border-top: 2px dashed rgba(0, 0, 0, 0.15);
+    display: flex;
+    gap: 8px;
+    align-items: center;
   }
 
   .bandeau-v-btn {
+    flex: 1.2;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    padding: 8px 12px;
-    font-size: 11.5px;
+    padding: 8px 10px;
+    font-size: 11px;
     text-decoration: none;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.1em;
+    box-sizing: border-box;
+  }
+
+  .bandeau-v-btn-gh {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 8px;
+    font-size: 11px;
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    box-sizing: border-box;
+    white-space: nowrap;
   }
 
   /* Réaction au scroll vertical */

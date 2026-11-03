@@ -6,6 +6,7 @@ statut: en cours
 annee: 2026
 domaines: ["robotique", "open source", "hardware"]
 lien: https://openbots.fr
+github: https://github.com/TakDai/openbots
 ordre: 30
 ---
 

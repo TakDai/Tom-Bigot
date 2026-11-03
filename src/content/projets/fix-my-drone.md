@@ -5,6 +5,7 @@ nature: création
 statut: en cours
 annee: 2026
 domaines: ["drones", "diagnostic", "hardware"]
+github: https://github.com/TakDai/fix-my-drone
 ordre: 20
 ---
 

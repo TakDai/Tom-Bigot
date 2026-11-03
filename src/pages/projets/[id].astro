@@ -9,7 +9,7 @@ export async function getStaticPaths() {
 
 const { projet } = Astro.props;
 const { Content } = await render(projet);
-const { titre, resume, nature, statut, domaines, lien, annee } = projet.data;
+const { titre, resume, nature, statut, domaines, lien, github, annee } = projet.data;
 const meta = [nature, statut, annee].filter(Boolean).join(' · ');
 
 const logoMap: Record<string, string> = {
@@ -49,7 +49,7 @@ const logoUrl = logoMap[projet.id];
     </header>
 
     {
-      (domaines.length > 0 || lien) && (
+      (domaines.length > 0 || lien || github) && (
         <article class="prose-card meta-box">
           <h2>INFORMATIONS CLÉS</h2>
           <div class="meta-grille">
@@ -68,7 +68,17 @@ const logoUrl = logoMap[projet.id];
                 <span class="etiquette">Accès au projet</span>
                 <div style="margin-top: 6px;">
                   <a href={lien} target="_blank" rel="noopener noreferrer" class="btn-noir btn-sm">
-                    Ouvrir le projet ↗
+                    Ouvrir le site ↗
+                  </a>
+                </div>
+              </div>
+            )}
+            {github && (
+              <div>
+                <span class="etiquette">Code source &amp; Dépôt</span>
+                <div style="margin-top: 6px;">
+                  <a href={github} target="_blank" rel="noopener noreferrer" class="btn-outline btn-sm">
+                    Voir sur GitHub ↗
                   </a>
                 </div>
               </div>

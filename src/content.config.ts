@@ -12,6 +12,7 @@ const projets = defineCollection({
     statut: z.enum(['en cours', 'réalisé']).optional(),
     domaines: z.array(z.string()).default([]),
     lien: z.string().url().optional(),
+    github: z.string().url().optional(),
     annee: z.number().optional(),
     ordre: z.number().default(100),
     brouillon: z.boolean().default(false),

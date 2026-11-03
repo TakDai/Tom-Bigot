@@ -5,6 +5,7 @@ nature: création
 statut: en cours
 annee: 2026
 domaines: ["interface", "design", "web"]
+github: https://github.com/TakDai/Inskin
 ordre: 70
 ---
 

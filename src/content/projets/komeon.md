@@ -5,6 +5,7 @@ nature: création
 statut: en cours
 annee: 2026
 domaines: ["web", "plateforme"]
+github: https://github.com/TakDai/komeon
 ordre: 80
 ---
 
