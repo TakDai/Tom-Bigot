@@ -1,7 +1,54 @@
 ---
 import Base from '../layouts/Base.astro';
 
-const bandeauxProjets = [
+// Définition des 7 périodes chronologiques globales
+const periodes = [
+  {
+    id: 'p0',
+    dateLabel: '2025',
+    titrePeriode: 'Genèse & Fondations Web Locales',
+    resumePeriode: 'Lancement des premiers chantiers numériques indépendants et valorisation du tissu artisanal.',
+  },
+  {
+    id: 'p1',
+    dateLabel: 'Fin 2025',
+    titrePeriode: 'Adoption Locale & Réflexions Techniques',
+    resumePeriode: 'Adoption de masse du portail local et prise de recul philosophique sur l\'autonomie.',
+  },
+  {
+    id: 'p2',
+    dateLabel: 'Début 2026',
+    titrePeriode: 'L\'Établi Physique & Chantiers R&D',
+    resumePeriode: 'Installation de la régie d\'atelier, bancs de mesure dynamique, CAO 3D et micro-sondes bare-metal.',
+  },
+  {
+    id: 'p3',
+    dateLabel: 'Février 2026',
+    titrePeriode: 'Temps Forts : Mesures Haute Précision & Système',
+    resumePeriode: 'Franchissement de caps décisifs : télémétrie 32 kHz, marathon live 6h, bascule 100% bare-metal.',
+  },
+  {
+    id: 'p4',
+    dateLabel: 'Mars 2026',
+    titrePeriode: 'Temps Forts : Vol, Roulage Autonome & Sauvetage',
+    resumePeriode: 'Premier roulage robotique autonome, sauvetage de processeurs de vol brickés et latence temps réel <12ms.',
+  },
+  {
+    id: 'p5',
+    dateLabel: 'Avril 2026',
+    titrePeriode: 'Souveraineté, Écrits & Optimisations Fines',
+    resumePeriode: 'Publication des manifestes critiques, calages des timings PID et pauses réflexives d\'atelier.',
+  },
+  {
+    id: 'p6',
+    dateLabel: 'Aujourd\'hui',
+    titrePeriode: 'Écosystème Actif & Déploiement Continu',
+    resumePeriode: 'L\'ensemble des 10 plateformes en production, en vol ou en accès libre open-source.',
+  },
+];
+
+// Les 10 projets avec leurs états à chaque période (null = absent / dormant à cette date)
+const projetsChrono = [
   {
     id: 'multi-motors',
     numero: '01',
@@ -12,7 +59,9 @@ const bandeauxProjets = [
     logo: '/assets/logos/multi-motors.png',
     lien: '/projets/multi-motors',
     github: 'https://github.com/TakDai/Multi-Motors',
-    etapes: [
+    etatsParPeriode: [
+      null, // 2025 (non démarré)
+      null, // Fin 2025 (non démarré)
       {
         type: 'phase',
         date: 'Début 2026',
@@ -41,7 +90,7 @@ const bandeauxProjets = [
         type: 'statut',
         date: 'Aujourd\'hui',
         titre: 'Essais en vol & Validation',
-        desc: 'Intégration sur châssis de vol réel.',
+        desc: 'Intégration sur châssis de vol réel et validation des bancs de charge.',
       },
     ],
   },
@@ -55,18 +104,21 @@ const bandeauxProjets = [
     logo: '/assets/logos/fix-my-drone.svg',
     lien: '/projets/fix-my-drone',
     github: 'https://github.com/TakDai/fix-my-drone',
-    etapes: [
+    etatsParPeriode: [
+      null,
+      null,
       {
         type: 'phase',
         date: 'Début 2026',
         titre: 'Cartographie des pannes',
         desc: 'Dépouillement des logs blackbox et identification des causes d\'avarie récurrentes.',
       },
+      null, // Fév. 2026 en coulisses
       {
         type: 'temps_fort',
         date: 'Mars 2026',
         titre: 'Sauvetage STM32 & Filtres Notch',
-        desc: 'Mise au point d\'un protocole pour ressusciter les processeurs de vol brickés et régler les filtres gyroscopiques.',
+        desc: 'Mise au point d\'un protocole pour ressusciter les processeurs de vol brickés.',
       },
       {
         type: 'pause',
@@ -92,7 +144,9 @@ const bandeauxProjets = [
     logo: '/assets/logos/openbots.png',
     lien: '/projets/openbots',
     github: 'https://github.com/TakDai/openbots',
-    etapes: [
+    etatsParPeriode: [
+      null,
+      null,
       {
         type: 'phase',
         date: 'Début 2026',
@@ -103,7 +157,7 @@ const bandeauxProjets = [
         type: 'pause',
         date: 'Fév. 2026',
         titre: 'Tests de rupture PETG',
-        desc: 'Arrêt de l\'assemblage après casse de pignons, passage au filament renforcé carbone.',
+        desc: 'Arrêt de l\'assemblage après casse de pignons, passage au filament carbone.',
       },
       {
         type: 'temps_fort',
@@ -111,6 +165,7 @@ const bandeauxProjets = [
         titre: 'Premier roulage autonome',
         desc: 'Validation physique du cycle évitement d\'obstacles et navigation autonome en intérieur.',
       },
+      null, // Avril 2026
       {
         type: 'statut',
         date: 'Aujourd\'hui',
@@ -129,7 +184,9 @@ const bandeauxProjets = [
     logo: '/assets/logos/superviseur.svg',
     lien: '/projets/superviseur',
     github: 'https://github.com/TakDai/Superviseur',
-    etapes: [
+    etatsParPeriode: [
+      null,
+      null,
       {
         type: 'phase',
         date: 'Début 2026',
@@ -140,7 +197,7 @@ const bandeauxProjets = [
         type: 'temps_fort',
         date: 'Fév. 2026',
         titre: 'Bascule bare-metal 100%',
-        desc: 'Migration réussie de l\'ensemble des serveurs physiques sous surveillance temps réel sans tiers cloud.',
+        desc: 'Migration réussie des serveurs physiques sous surveillance temps réel sans tiers cloud.',
       },
       {
         type: 'pause',
@@ -148,6 +205,7 @@ const bandeauxProjets = [
         titre: 'Durcissement réseau & TLS',
         desc: 'Pause des nouvelles features pour blinder la cryptographie, pare-feu et clés SSH.',
       },
+      null,
       {
         type: 'statut',
         date: 'Aujourd\'hui',
@@ -166,7 +224,9 @@ const bandeauxProjets = [
     logo: '/assets/logos/127il.svg',
     lien: '/projets/127il',
     github: 'https://github.com/TakDai/127il',
-    etapes: [
+    etatsParPeriode: [
+      null,
+      null,
       {
         type: 'phase',
         date: 'Début 2026',
@@ -179,6 +239,7 @@ const bandeauxProjets = [
         titre: 'Marathon live 6h sans coupure',
         desc: 'Session continue de soudure CMS, programmation STM32 et questions/réponses en direct.',
       },
+      null,
       {
         type: 'pause',
         date: 'Avril 2026',
@@ -203,7 +264,7 @@ const bandeauxProjets = [
     logo: '/assets/logos/lestourangeaux.svg',
     lien: '/projets/lestourangeaux',
     github: 'https://github.com/TakDai/LesTourangeaux',
-    etapes: [
+    etatsParPeriode: [
       {
         type: 'phase',
         date: '2025',
@@ -216,12 +277,10 @@ const bandeauxProjets = [
         titre: '150+ initiatives référencées',
         desc: 'Mise en ligne et adoption rapide par le tissu local sans publicité payante.',
       },
-      {
-        type: 'pause',
-        date: 'Hiver 2025',
-        titre: 'Transition vers le hardware',
-        desc: 'Site stabilisé, mise en veilleuse du dev web pour consacrer l\'hiver à l\'atelier physique.',
-      },
+      null,
+      null,
+      null,
+      null,
       {
         type: 'statut',
         date: 'Aujourd\'hui',
@@ -240,19 +299,22 @@ const bandeauxProjets = [
     logo: '/assets/logos/pensee-nocturne.svg',
     lien: '/projets/pensee-nocturne',
     github: 'https://github.com/TakDai/pensee-nocturne',
-    etapes: [
+    etatsParPeriode: [
+      null,
       {
         type: 'phase',
-        date: 'Début 2026',
+        date: 'Fin 2025',
         titre: 'Genèse des écrits',
         desc: 'Prise de notes nocturnes sur la dépendance technologique et l\'enfermement propriétaire.',
       },
+      null,
       {
         type: 'pause',
         date: 'Fév. 2026',
         titre: 'Maturation des concepts',
         desc: 'Recul volontaire pour confronter la réflexion philosophique à la réalité de l\'atelier.',
       },
+      null,
       {
         type: 'temps_fort',
         date: 'Printemps 2026',
@@ -277,13 +339,16 @@ const bandeauxProjets = [
     logo: '/assets/logos/komeon.png',
     lien: '/projets/komeon',
     github: 'https://github.com/TakDai/komeon',
-    etapes: [
+    etatsParPeriode: [
+      null,
+      null,
       {
         type: 'phase',
         date: 'Début 2026',
         titre: 'Protocole websocket léger',
         desc: 'Spécification d\'un format binaire pour les échanges de données temps réel.',
       },
+      null,
       {
         type: 'temps_fort',
         date: 'Mars 2026',
@@ -314,13 +379,16 @@ const bandeauxProjets = [
     logo: '/assets/logos/inskin.png',
     lien: '/projets/inskin',
     github: 'https://github.com/TakDai/Inskin',
-    etapes: [
+    etatsParPeriode: [
+      null,
+      null,
       {
         type: 'phase',
         date: 'Début 2026',
         titre: 'Recherches micro-interactions',
         desc: 'Exploration d\'animations légères au CSS natif sans framework JavaScript lourd.',
       },
+      null,
       {
         type: 'temps_fort',
         date: 'Mars 2026',
@@ -351,7 +419,9 @@ const bandeauxProjets = [
     logo: '/assets/logos/tdp.png',
     lien: '/projets/tete-de-piaf',
     github: 'https://github.com/TakDai/tete-de-piaf',
-    etapes: [
+    etatsParPeriode: [
+      null,
+      null,
       {
         type: 'phase',
         date: 'Début 2026',
@@ -370,6 +440,7 @@ const bandeauxProjets = [
         titre: 'Optimisation SVG & chargement',
         desc: 'Nettoyage des nœuds vectoriels pour minimiser le poids au kilo-octet près.',
       },
+      null,
       {
         type: 'statut',
         date: 'Aujourd\'hui',
@@ -411,8 +482,8 @@ const bandeauxProjets = [
       </p>
 
       <div class="hero-actions">
-        <a href="#portfolio" class="btn-noir btn-hero">
-          Explorer la chronologie &darr;
+        <a href="#chronologie-section" class="btn-noir btn-hero">
+          Faire défiler la chronologie &darr;
         </a>
         <a
           href="https://github.com/TakDai"
@@ -432,243 +503,257 @@ const bandeauxProjets = [
     </div>
 
     <!-- Indicateur de défilement vers le bas -->
-    <a href="#portfolio" class="scroll-cue" aria-label="Découvrir la chronologie">
+    <a href="#chronologie-section" class="scroll-cue" aria-label="Découvrir la chronologie">
       <span class="scroll-label">CHRONOLOGIE</span>
       <span class="scroll-arrow">&darr;</span>
     </a>
   </section>
 
-  <!-- ================= SECTION CHRONOLOGIE AU SCROLL AVEC BANDEAU VERTICAL ================= -->
-  <section class="conteneur chrono-section" id="portfolio">
-    <!-- Barre d'outils & filtres -->
-    <div class="chrono-toolbar">
-      <div class="filter-group" role="tablist" aria-label="Filtrer les projets">
-        <button type="button" class="filter-pill active" data-filter="all">Tous ({bandeauxProjets.length})</button>
-        <button type="button" class="filter-pill" data-filter="embarque">Électronique &amp; Embarqué</button>
-        <button type="button" class="filter-pill" data-filter="hardware">Drones &amp; Matériel</button>
-        <button type="button" class="filter-pill" data-filter="systemes">Systèmes &amp; Partage</button>
-        <button type="button" class="filter-pill" data-filter="web">Web &amp; Interfaces</button>
-      </div>
-
-      <div class="bandeaux-legende" aria-label="Légende des étapes">
-        <span class="legende-pill"><span class="leg-dot phase-dot">&#9632;</span> Phase</span>
-        <span class="legende-pill"><span class="leg-dot tf-dot">&#9733;</span> Temps Fort</span>
-        <span class="legende-pill"><span class="leg-dot pause-dot">&#9208;</span> Pause R&amp;D</span>
-      </div>
-    </div>
-
-    <!-- Disposition : Bandeau vertical sticky + Rail chronologique au scroll -->
-    <div class="chrono-layout">
-      <!-- Bandeau vertical sticky de navigation et progression -->
-      <aside class="chrono-sticky-band" aria-label="Sommaire chronologique">
-        <div class="sticky-band-head">
-          <span class="etiquette">01 &bull; 10</span>
-          <h2 class="sticky-band-title">BANDEAU CHRONO</h2>
-        </div>
-
-        <div class="sticky-band-track">
-          <!-- Ligne de jauge verticale sticky -->
-          <div class="sticky-track-line" aria-hidden="true">
-            <div class="sticky-track-fill" id="stickyTrackFill"></div>
+  <!-- ================= ZONE DE SCROLL CHRONOLOGIQUE (BANDEAUX DYNAMIQUES) ================= -->
+  <section class="chrono-scroll-wrapper" id="chronologie-section">
+    <!-- Scène sticky qui reste à l'écran pendant le scroll -->
+    <div class="chrono-sticky-stage">
+      <!-- Barre supérieure : date courante, jauge de scroll & repères temporels -->
+      <header class="chrono-stage-header">
+        <div class="header-topline">
+          <div class="header-badge-group">
+            <span class="etiquette">CHRONOLOGIE ACTIVE AU SCROLL</span>
+            <span class="stage-period-counter" id="stagePeriodCounter">PÉRIODE 1 / {periodes.length}</span>
           </div>
 
-          <!-- Liste des repères du bandeau -->
-          <nav class="sticky-band-nav" aria-label="Repères de projets">
-            {
-              bandeauxProjets.map((projet, idx) => (
-                <a
-                  href={`#projet-${projet.id}`}
-                  class={`sticky-band-item ${idx === 0 ? 'active' : ''}`}
-                  data-target={`projet-${projet.id}`}
-                  data-cat={projet.categorie}
-                >
-                  <span class="sticky-item-bullet" aria-hidden="true"></span>
-                  <span class="sticky-item-num">{projet.numero}</span>
-                  <span class="sticky-item-title">{projet.titre}</span>
-                </a>
-              ))
-            }
-          </nav>
-        </div>
-      </aside>
-
-      <!-- Flux chronologique vertical qui progresse au scroll -->
-      <div class="chrono-stream">
-        <!-- Rail vertical central qui se remplit au défilement -->
-        <div class="stream-spine-line" aria-hidden="true">
-          <div class="stream-spine-fill" id="streamSpineFill"></div>
+          <!-- Légende monochrome des jalons -->
+          <div class="bandeaux-legende" aria-label="Légende des statuts">
+            <span class="legende-pill"><span class="leg-dot tf-dot">&#9733;</span> Temps Fort</span>
+            <span class="legende-pill"><span class="leg-dot phase-dot">&#9632;</span> Phase</span>
+            <span class="legende-pill"><span class="leg-dot pause-dot">&#9208;</span> Pause R&amp;D</span>
+            <span class="legende-pill"><span class="leg-dot statut-dot">&#9679;</span> Statut Actuel</span>
+          </div>
         </div>
 
-        {
-          bandeauxProjets.map((projet) => (
-            <article
-              class="chrono-project-card"
-              id={`projet-${projet.id}`}
-              data-cat={projet.categorie}
-            >
-              <!-- Nœud jalon sur la ligne verticale -->
-              <div class="project-spine-node" aria-hidden="true">
-                <span class="node-number">{projet.numero}</span>
-              </div>
+        <!-- Titre et description dynamique de la période courante -->
+        <div class="current-period-display">
+          <div class="period-date-badge" id="periodDateBadge">{periodes[0].dateLabel}</div>
+          <div class="period-text-group">
+            <h2 class="period-title" id="periodTitle">{periodes[0].titrePeriode}</h2>
+            <p class="period-desc" id="periodDesc">{periodes[0].resumePeriode}</p>
+          </div>
+        </div>
 
-              <!-- Corps de la carte de projet -->
-              <div class="project-card-inner">
-                <!-- En-tête de projet -->
-                <div class="card-header-row">
-                  <div class="card-brand-box">
-                    <div class="card-logo-frame">
-                      <img src={projet.logo} alt={`Logo ${projet.titre}`} loading="lazy" />
-                    </div>
-                    <div>
-                      <span class="domaine-pill">{projet.domaine}</span>
-                      <h3 class="card-project-title">{projet.titre}</h3>
-                      <p class="card-project-sub">{projet.sousTitre}</p>
-                    </div>
+        <!-- Scrubber horizontal de dates (permet aussi le clic direct) -->
+        <div class="dates-scrubber" role="tablist" aria-label="Jalons chronologiques">
+          <div class="scrubber-track-line">
+            <div class="scrubber-track-fill" id="scrubberFill"></div>
+          </div>
+          {
+            periodes.map((p, idx) => (
+              <button
+                type="button"
+                class={`date-scrub-btn ${idx === 0 ? 'active' : ''}`}
+                data-index={idx}
+                aria-label={`Aller à la période ${p.dateLabel}`}
+              >
+                <span class="scrub-dot" aria-hidden="true"></span>
+                <span class="scrub-label">{p.dateLabel}</span>
+              </button>
+            ))
+          }
+        </div>
+      </header>
+
+      <!-- Scène des bandeaux verticaux : ceux qui sont inactifs disparaissent et les autres se reforment -->
+      <div class="chrono-stage-viewport">
+        <div class="chrono-bands-row" id="chronoBandsRow">
+          {
+            projetsChrono.map((projet) => (
+              <article
+                class="chrono-band-item is-dormant"
+                id={`bandeau-${projet.id}`}
+                data-project={projet.id}
+              >
+                <!-- En-tête du bandeau -->
+                <div class="band-item-head">
+                  <div class="band-num-tag">{projet.numero}</div>
+                  <div class="band-logo-box">
+                    <img src={projet.logo} alt={`Logo ${projet.titre}`} loading="lazy" />
                   </div>
+                  <div class="band-title-box">
+                    <h3 class="band-title">{projet.titre}</h3>
+                    <span class="band-domain">{projet.domaine}</span>
+                  </div>
+                </div>
 
-                  <div class="card-top-actions">
-                    <a href={projet.lien} class="btn-noir btn-card-action">
-                      Fiche projet &rarr;
+                <!-- Corps de l'étape active à la date affichée -->
+                <div class="band-step-body">
+                  <div class="band-step-head">
+                    <span class="band-step-date" data-field="date"></span>
+                    <span class="band-step-badge" data-field="badge"></span>
+                  </div>
+                  <h4 class="band-step-title" data-field="title"></h4>
+                  <p class="band-step-desc" data-field="desc"></p>
+                </div>
+
+                <!-- Pied du bandeau : Liens fiche & GitHub -->
+                <div class="band-item-foot">
+                  <a href={projet.lien} class="btn-noir band-btn-link">
+                    Fiche &rarr;
+                  </a>
+                  {projet.github && (
+                    <a
+                      href={projet.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="btn-outline band-btn-gh"
+                      title={`Dépôt GitHub de ${projet.titre}`}
+                    >
+                      GitHub ↗
                     </a>
-                    {projet.github && (
-                      <a
-                        href={projet.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="btn-outline btn-card-action"
-                        title={`Dépôt GitHub de ${projet.titre}`}
-                      >
-                        GitHub ↗
-                      </a>
-                    )}
-                  </div>
+                  )}
                 </div>
-
-                <!-- Jalons chronologiques du projet -->
-                <div class="project-steps-track">
-                  <div class="steps-spine-line" aria-hidden="true"></div>
-                  <div class="steps-nodes-list">
-                    {projet.etapes.map((etape) => {
-                      const isTempsFort = etape.type === 'temps_fort';
-                      const isPause = etape.type === 'pause';
-                      const isStatut = etape.type === 'statut';
-
-                      return (
-                        <div
-                          class={`v-step-node ${isTempsFort ? 'is-temps-fort' : ''} ${isPause ? 'is-pause' : ''} ${isStatut ? 'is-statut' : ''}`}
-                        >
-                          <div class="v-step-bullet" aria-hidden="true">
-                            {isTempsFort ? '★' : isPause ? '⏸' : isStatut ? '●' : '■'}
-                          </div>
-                          <div class="v-step-card">
-                            <div class="v-step-head">
-                              <span class="v-step-date">{etape.date}</span>
-                              {isTempsFort && <span class="v-tf-badge">TEMPS FORT</span>}
-                              {isPause && <span class="v-pause-badge">PAUSE R&amp;D</span>}
-                              {isStatut && <span class="v-statut-badge">STATUT ACTUEL</span>}
-                            </div>
-                            <h4 class="v-step-title">{etape.titre}</h4>
-                            <p class="v-step-desc">{etape.desc}</p>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            </article>
-          ))
-        }
+              </article>
+            ))
+          }
+        </div>
       </div>
     </div>
   </section>
 </Base>
 
+<!-- Injecter les données structurées des périodes et états pour le script côté client -->
+<script define:vars={{ periodes, projetsChrono }}>
+  window.CHRONO_DATA = { periodes, projetsChrono };
+</script>
+
 <script>
-  // Synchronisation dynamique du bandeau vertical et progression au défilement (scroll)
   document.addEventListener('DOMContentLoaded', () => {
-    const streamSpineFill = document.getElementById('streamSpineFill');
-    const stickyTrackFill = document.getElementById('stickyTrackFill');
-    const cards = Array.from(document.querySelectorAll<HTMLElement>('.chrono-project-card'));
-    const stickyItems = Array.from(document.querySelectorAll<HTMLAnchorElement>('.sticky-band-item'));
-    const section = document.getElementById('portfolio');
-    const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-pill');
+    const data = (window as any).CHRONO_DATA;
+    if (!data) return;
 
-    if (!section) return;
+    const { periodes, projetsChrono } = data;
+    const wrapper = document.getElementById('chronologie-section');
+    const scrubberFill = document.getElementById('scrubberFill');
+    const periodDateBadge = document.getElementById('periodDateBadge');
+    const periodTitle = document.getElementById('periodTitle');
+    const periodDesc = document.getElementById('periodDesc');
+    const periodCounter = document.getElementById('stagePeriodCounter');
+    const scrubBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('.date-scrub-btn'));
 
-    let ticking = false;
+    if (!wrapper) return;
 
-    function updateScrollProgress() {
-      const sRect = section.getBoundingClientRect();
-      const winHeight = window.innerHeight;
+    let currentIndex = -1;
+    let isTicking = false;
 
-      // Calcul précis du défilement dans la zone chronologie
-      const start = sRect.top - winHeight * 0.45;
-      const total = sRect.height - winHeight * 0.55;
-      const progress = Math.max(0, Math.min(1, -start / (total || 1)));
-      const pct = (progress * 100).toFixed(1) + '%';
+    // Rendu dynamique de la période choisie (apparition / disparition des bandeaux & reformulation)
+    function renderPeriod(index: number) {
+      if (index === currentIndex) return;
+      currentIndex = index;
 
-      if (streamSpineFill) streamSpineFill.style.height = pct;
-      if (stickyTrackFill) stickyTrackFill.style.height = pct;
+      const currentPeriod = periodes[index];
+      if (periodDateBadge) periodDateBadge.textContent = currentPeriod.dateLabel;
+      if (periodTitle) periodTitle.textContent = currentPeriod.titrePeriode;
+      if (periodDesc) periodDesc.textContent = currentPeriod.resumePeriode;
+      if (periodCounter) periodCounter.textContent = `PÉRIODE ${index + 1} / ${periodes.length}`;
 
-      // Détection du projet actif
-      let activeIndex = 0;
-      cards.forEach((card, i) => {
-        const cRect = card.getBoundingClientRect();
-        if (cRect.top <= winHeight * 0.5) {
-          activeIndex = i;
-          card.classList.add('is-passed');
-        } else {
-          card.classList.remove('is-passed');
-        }
+      // Mise à jour de la jauge scrubber
+      const scrubPct = ((index / (periodes.length - 1)) * 100).toFixed(1) + '%';
+      if (scrubberFill) scrubberFill.style.width = scrubPct;
 
-        if (cRect.top <= winHeight * 0.5 && cRect.bottom >= winHeight * 0.2) {
-          card.classList.add('is-active-project');
-        } else {
-          card.classList.remove('is-active-project');
-        }
+      scrubBtns.forEach((btn, i) => {
+        btn.classList.toggle('active', i === index);
       });
 
-      stickyItems.forEach((item, i) => {
-        if (i === activeIndex) {
-          item.classList.add('active');
+      // Mise à jour de chaque bandeau vertical de projet
+      projetsChrono.forEach((projet: any) => {
+        const bandEl = document.getElementById(`bandeau-${projet.id}`);
+        if (!bandEl) return;
+
+        const etat = projet.etatsParPeriode[index];
+
+        if (!etat) {
+          // Le projet n'est pas actif à cette date : le bandeau disparaît et les autres se reforment
+          bandEl.classList.add('is-dormant');
+          bandEl.classList.remove('is-active', 'is-temps-fort', 'is-pause', 'is-statut');
         } else {
-          item.classList.remove('active');
+          // Le projet apparaît !
+          bandEl.classList.remove('is-dormant');
+          bandEl.classList.add('is-active');
+
+          // Styles spécifiques par type d'étape
+          bandEl.classList.toggle('is-temps-fort', etat.type === 'temps_fort');
+          bandEl.classList.toggle('is-pause', etat.type === 'pause');
+          bandEl.classList.toggle('is-statut', etat.type === 'statut');
+
+          // Remplissage des textes de l'étape
+          const dateEl = bandEl.querySelector('[data-field="date"]');
+          const badgeEl = bandEl.querySelector('[data-field="badge"]');
+          const titleEl = bandEl.querySelector('[data-field="title"]');
+          const descEl = bandEl.querySelector('[data-field="desc"]');
+
+          if (dateEl) dateEl.textContent = etat.date;
+          if (titleEl) titleEl.textContent = etat.titre;
+          if (descEl) descEl.textContent = etat.desc;
+
+          if (badgeEl) {
+            if (etat.type === 'temps_fort') {
+              badgeEl.textContent = 'TEMPS FORT ★';
+              badgeEl.className = 'band-step-badge badge-temps-fort';
+            } else if (etat.type === 'pause') {
+              badgeEl.textContent = 'PAUSE R&D ⏸';
+              badgeEl.className = 'band-step-badge badge-pause';
+            } else if (etat.type === 'statut') {
+              badgeEl.textContent = 'STATUT ACTUEL ●';
+              badgeEl.className = 'band-step-badge badge-statut';
+            } else {
+              badgeEl.textContent = 'PHASE ■';
+              badgeEl.className = 'band-step-badge badge-phase';
+            }
+          }
         }
       });
-
-      ticking = false;
     }
 
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        window.requestAnimationFrame(updateScrollProgress);
-        ticking = true;
-      }
-    }, { passive: true });
+    // Gestion du scroll vertical pour faire avancer la chronologie
+    function onScroll() {
+      const rect = wrapper.getBoundingClientRect();
+      const winHeight = window.innerHeight;
 
-    updateScrollProgress();
+      // La section démarre quand son sommet atteint le haut de l'écran
+      const scrolled = -rect.top;
+      const totalScrollable = rect.height - winHeight;
 
-    // Filtrage instantané par domaine
-    filterBtns.forEach((btn) => {
+      const progress = Math.max(0, Math.min(1, scrolled / (totalScrollable || 1)));
+      const rawIndex = Math.floor(progress * periodes.length);
+      const targetIndex = Math.min(periodes.length - 1, Math.max(0, rawIndex));
+
+      renderPeriod(targetIndex);
+      isTicking = false;
+    }
+
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!isTicking) {
+          window.requestAnimationFrame(onScroll);
+          isTicking = true;
+        }
+      },
+      { passive: true }
+    );
+
+    // Initialisation
+    renderPeriod(0);
+
+    // Clic sur un bouton de date dans le scrubber
+    scrubBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
-        const cat = btn.getAttribute('data-filter') || 'all';
-        filterBtns.forEach((b) => b.classList.remove('active'));
-        btn.classList.add('active');
+        const idx = Number(btn.getAttribute('data-index') || 0);
+        const rect = wrapper.getBoundingClientRect();
+        const totalScrollable = rect.height - window.innerHeight;
+        const targetScrollY = window.scrollY + rect.top + (idx / (periodes.length - 1)) * totalScrollable;
 
-        cards.forEach((card) => {
-          const cardCat = card.getAttribute('data-cat');
-          const isMatch = cat === 'all' || cardCat === cat;
-          card.style.display = isMatch ? '' : 'none';
+        window.scrollTo({
+          top: targetScrollY,
+          behavior: 'smooth',
         });
-
-        stickyItems.forEach((item) => {
-          const itemCat = item.getAttribute('data-cat');
-          const isMatch = cat === 'all' || itemCat === cat;
-          item.style.display = isMatch ? '' : 'none';
-        });
-
-        updateScrollProgress();
       });
     });
   });
@@ -824,63 +909,65 @@ const bandeauxProjets = [
   }
 
   /* ==========================================================================
-     SECTION CHRONOLOGIE AU DÉFILEMENT (SCROLL)
+     ZONE DE SCROLL CHRONOLOGIQUE & SCÈNE STICKY
      ========================================================================== */
-  .chrono-section {
-    padding-top: clamp(36px, 6vh, 56px);
-    padding-bottom: clamp(48px, 8vh, 88px);
-    max-width: 1200px;
+  .chrono-scroll-wrapper {
+    position: relative;
+    /* 480vh donne une course de scroll ample et fluide à travers les 7 dates */
+    height: 480vh;
+    background: #ffffff;
   }
 
-  .chrono-toolbar {
+  .chrono-sticky-stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(16px, 2.5vh, 28px) clamp(16px, 3vw, 40px);
+    background: #ffffff;
+    overflow: hidden;
+    box-sizing: border-box;
+    border-bottom: 2px dashed var(--dash);
+  }
+
+  /* En-tête de la scène */
+  .chrono-stage-header {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-bottom: 16px;
+    border-bottom: 2px dashed rgba(0, 0, 0, 0.12);
+    flex-shrink: 0;
+  }
+
+  .header-topline {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 16px;
     flex-wrap: wrap;
-    margin-bottom: 36px;
-    padding-bottom: 20px;
-    border-bottom: 1px dashed var(--dash);
   }
 
-  .filter-group {
+  .header-badge-group {
     display: flex;
     align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
+    gap: 10px;
   }
 
-  .filter-pill {
-    appearance: none;
-    background: #ffffff;
-    border: 1px dashed var(--dash);
-    border-radius: 20px;
-    padding: 7px 14px;
+  .stage-period-counter {
     font: 700 11px var(--font);
-    letter-spacing: 0.1em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.75);
-    cursor: pointer;
-    transition: all 0.2s ease;
+    color: rgba(0, 0, 0, 0.5);
   }
 
-  .filter-pill:hover {
-    border-color: #000000;
-    color: #000000;
-  }
-
-  .filter-pill.active {
-    background: #000000;
-    border-color: #000000;
-    border-style: solid;
-    color: #ffffff;
-  }
-
+  /* Légende des étapes */
   .bandeaux-legende {
     display: inline-flex;
     align-items: center;
     gap: 12px;
-    padding: 6px 14px;
+    padding: 4px 12px;
     border: 1px dashed var(--dash);
     border-radius: 20px;
     background: #fafafa;
@@ -890,510 +977,511 @@ const bandeauxProjets = [
   .legende-pill {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    font: 700 10.5px var(--font);
-    letter-spacing: 0.12em;
+    gap: 5px;
+    font: 700 10px var(--font);
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.75);
+    color: rgba(0, 0, 0, 0.7);
   }
 
   .leg-dot {
-    font-size: 11px;
+    font-size: 10px;
     line-height: 1;
-  }
-
-  .phase-dot,
-  .tf-dot,
-  .pause-dot {
     color: #000000;
   }
 
-  /* ==========================================================================
-     LAYOUT DU BANDEAU VERTICAL ET DU FLUX
-     ========================================================================== */
-  .chrono-layout {
-    display: grid;
-    grid-template-columns: 240px 1fr;
-    gap: 48px;
-    align-items: start;
+  /* Affichage de la date courante & description */
+  .current-period-display {
+    display: flex;
+    align-items: center;
+    gap: 18px;
   }
 
-  /* Bandeau vertical sticky (Volet de gauche) */
-  .chrono-sticky-band {
-    position: sticky;
-    top: 36px;
+  .period-date-badge {
+    padding: 8px 18px;
+    background: #000000;
+    color: #ffffff;
+    font: 700 clamp(16px, 2.2vw, 24px)/1 var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 8px;
+    white-space: nowrap;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    transition: all 0.25s ease;
+  }
+
+  .period-text-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .period-title {
+    margin: 0;
+    font: 700 clamp(16px, 2vw, 22px)/1.2 var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #000000;
+    transition: all 0.25s ease;
+  }
+
+  .period-desc {
+    margin: 0;
+    font: 400 clamp(12px, 1.4vw, 14px)/1.4 var(--font);
+    color: rgba(0, 0, 0, 0.65);
+    max-width: 820px;
+  }
+
+  /* Scrubber horizontal de dates */
+  .dates-scrubber {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 0;
+  }
+
+  .scrubber-track-line {
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 2px;
+    background: rgba(0, 0, 0, 0.12);
+    z-index: 1;
+  }
+
+  .scrubber-track-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: #000000;
+    transition: width 0.2s linear;
+  }
+
+  .date-scrub-btn {
+    position: relative;
+    z-index: 2;
+    background: #ffffff;
+    border: 1px dashed rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    padding: 5px 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font: 700 10.5px var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.55);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .date-scrub-btn:hover {
+    border-color: #000000;
+    color: #000000;
+  }
+
+  .date-scrub-btn.active {
+    background: #000000;
+    border-color: #000000;
+    border-style: solid;
+    color: #ffffff;
+    transform: scale(1.06);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .scrub-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.4);
+    transition: background-color 0.2s;
+  }
+
+  .date-scrub-btn.active .scrub-dot {
+    background: #ffffff;
+  }
+
+  /* ==========================================================================
+     SCÈNE DYNAMIQUE DES BANDEAUX VERTICAUX (APPARITION / RE-FORMATION)
+     ========================================================================== */
+  .chrono-stage-viewport {
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+    padding-top: 18px;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .chrono-bands-row {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    width: 100%;
+    align-items: stretch;
+    justify-content: center;
+  }
+
+  /* Chaque bandeau individuel de projet */
+  .chrono-band-item {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 360px;
     background: #ffffff;
     border: 2px dashed var(--dash);
     border-radius: 12px;
-    padding: 22px 18px;
+    padding: 18px 16px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    justify-content: space-between;
+    gap: 14px;
+    opacity: 1;
+    transform: translateY(0);
+    overflow: hidden;
+    transition: flex 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.3s ease,
+                transform 0.3s ease,
+                padding 0.3s ease,
+                margin 0.3s ease,
+                border-color 0.25s ease;
   }
 
-  .sticky-band-head {
+  /* État DORMANT / ABSENT : le bandeau disparaît complètement et les autres se reforment */
+  .chrono-band-item.is-dormant {
+    flex: 0 0 0px !important;
+    max-width: 0px !important;
+    min-width: 0px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin: 0 !important;
+    border-width: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateY(18px) scale(0.96) !important;
+  }
+
+  /* État ACTIF : mise en valeur */
+  .chrono-band-item.is-active {
+    border-color: rgba(0, 0, 0, 0.4);
+  }
+
+  .chrono-band-item.is-active:hover {
+    border-color: #000000;
+    border-style: solid;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+  }
+
+  /* État TEMPS FORT (★) : contraste absolu noir */
+  .chrono-band-item.is-temps-fort {
+    background: #000000;
+    color: #ffffff;
+    border: 2px solid #000000;
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.18);
+  }
+
+  /* État PAUSE R&D (⏸) : hachures et ton gris technique */
+  .chrono-band-item.is-pause {
+    background: repeating-linear-gradient(
+      -45deg,
+      #fbfbfb,
+      #fbfbfb 8px,
+      #f3f3f3 8px,
+      #f3f3f3 16px
+    );
+    border-left: 3px solid #000000;
+  }
+
+  /* En-tête du bandeau */
+  .band-item-head {
     display: flex;
-    flex-direction: column;
-    gap: 4px;
+    align-items: center;
+    gap: 12px;
     padding-bottom: 12px;
     border-bottom: 1px dashed rgba(0, 0, 0, 0.15);
   }
 
-  .sticky-band-title {
-    margin: 0;
-    font: 700 13px var(--font);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #000000;
+  .chrono-band-item.is-temps-fort .band-item-head {
+    border-bottom-color: rgba(255, 255, 255, 0.2);
   }
 
-  .sticky-band-track {
-    position: relative;
-    padding-left: 20px;
-  }
-
-  .sticky-track-line {
-    position: absolute;
-    left: 4px;
-    top: 6px;
-    bottom: 6px;
-    width: 2px;
-    background: rgba(0, 0, 0, 0.12);
-  }
-
-  .sticky-track-fill {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 0%;
-    background: #000000;
-    transition: height 0.1s linear;
-  }
-
-  .sticky-band-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .sticky-band-item {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    font: 700 11px/1.3 var(--font);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.45);
-    padding: 4px 6px;
-    border-radius: 6px;
-    transition: all 0.2s ease;
-  }
-
-  .sticky-item-bullet {
-    position: absolute;
-    left: -20px;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #ffffff;
-    border: 2px solid rgba(0, 0, 0, 0.3);
-    transition: all 0.2s ease;
-  }
-
-  .sticky-band-item:hover {
-    color: #000000;
-  }
-
-  .sticky-band-item.active {
-    color: #000000;
-    background: #fafafa;
-  }
-
-  .sticky-band-item.active .sticky-item-bullet {
-    background: #000000;
-    border-color: #000000;
-    transform: scale(1.3);
-  }
-
-  .sticky-item-num {
-    font-weight: 700;
+  .band-num-tag {
+    font: 700 15px var(--font);
     color: rgba(0, 0, 0, 0.85);
   }
 
-  .sticky-item-title {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  /* Flux chronologique vertical au scroll */
-  .chrono-stream {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 48px;
-    padding-left: 36px;
-  }
-
-  .stream-spine-line {
-    position: absolute;
-    left: 0;
-    top: 24px;
-    bottom: 40px;
-    width: 3px;
-    background: rgba(0, 0, 0, 0.1);
-  }
-
-  .stream-spine-fill {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 0%;
-    background: #000000;
-    transition: height 0.1s linear;
-  }
-
-  /* Carte de projet */
-  .chrono-project-card {
-    position: relative;
-    background: #ffffff;
-    border: 2px dashed var(--dash);
-    border-radius: 12px;
-    padding: 28px 24px;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .chrono-project-card:hover {
-    border-color: #000000;
-    border-style: solid;
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.06);
-  }
-
-  .chrono-project-card.is-active-project {
-    border-color: #000000;
-    border-style: solid;
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
-  }
-
-  /* Nœud repère sur le rail vertical */
-  .project-spine-node {
-    position: absolute;
-    left: -53px;
-    top: 26px;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: #ffffff;
-    border: 2px solid rgba(0, 0, 0, 0.25);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font: 700 12px var(--font);
-    color: rgba(0, 0, 0, 0.6);
-    z-index: 2;
-    transition: all 0.3s ease;
-  }
-
-  .chrono-project-card.is-passed .project-spine-node,
-  .chrono-project-card.is-active-project .project-spine-node {
-    background: #000000;
-    border-color: #000000;
+  .chrono-band-item.is-temps-fort .band-num-tag {
     color: #ffffff;
-    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.08);
-    transform: scale(1.1);
   }
 
-  .project-card-inner {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
-
-  /* En-tête de projet */
-  .card-header-row {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 20px;
-    padding-bottom: 20px;
-    border-bottom: 2px dashed rgba(0, 0, 0, 0.12);
-    flex-wrap: wrap;
-  }
-
-  .card-brand-box {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    flex: 1;
-    min-width: 260px;
-  }
-
-  .card-logo-frame {
-    width: 52px;
-    height: 52px;
+  .band-logo-box {
+    width: 40px;
+    height: 40px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 1px dashed rgba(0, 0, 0, 0.2);
     border-radius: 8px;
-    padding: 6px;
     background: #fafafa;
+    padding: 4px;
   }
 
-  .card-logo-frame img {
+  .chrono-band-item.is-temps-fort .band-logo-box {
+    background: #ffffff;
+  }
+
+  .band-logo-box img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
   }
 
-  .card-project-title {
-    margin: 4px 0 2px;
-    font: 700 20px/1.2 var(--font);
+  .band-title-box {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .band-title {
+    margin: 0;
+    font: 700 15px/1.2 var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #000000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .chrono-band-item.is-temps-fort .band-title {
+    color: #ffffff;
+  }
+
+  .band-domain {
+    font: 700 9px var(--font);
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #000000;
+    color: rgba(0, 0, 0, 0.55);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  .card-project-sub {
-    margin: 0;
-    font: 400 12.5px/1.4 var(--font);
-    color: rgba(0, 0, 0, 0.65);
+  .chrono-band-item.is-temps-fort .band-domain {
+    color: rgba(255, 255, 255, 0.65);
   }
 
-  .card-top-actions {
+  /* Corps de l'étape active */
+  .band-step-body {
+    flex: 1;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .btn-card-action {
-    padding: 8px 12px;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-  }
-
-  .domaine-pill {
-    display: inline-flex;
-    align-items: center;
-    height: 22px;
-    padding: 0 8px;
-    border: 1px dashed var(--dash);
-    border-radius: 11px;
-    font: 700 9px var(--font);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.7);
+    padding: 12px;
+    border-radius: 8px;
     background: #fafafa;
+    border: 1px dashed rgba(0, 0, 0, 0.15);
+    overflow-y: auto;
   }
 
-  /* Fil vertical détaillé des jalons du projet */
-  .project-steps-track {
-    position: relative;
-    padding-left: 24px;
+  .chrono-band-item.is-temps-fort .band-step-body {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.25);
   }
 
-  .steps-spine-line {
-    position: absolute;
-    left: 7px;
-    top: 10px;
-    bottom: 10px;
-    width: 2px;
-    background: rgba(0, 0, 0, 0.12);
-  }
-
-  .steps-nodes-list {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  .v-step-node {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .v-step-bullet {
-    position: absolute;
-    left: -24px;
-    top: 8px;
-    width: 16px;
-    height: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    color: #000000;
+  .chrono-band-item.is-pause .band-step-body {
     background: #ffffff;
-    border-radius: 50%;
-    z-index: 2;
   }
 
-  .v-step-card {
-    padding: 12px 14px;
-    border: 1px dashed rgba(0, 0, 0, 0.2);
-    border-radius: 6px;
-    background: #fafafa;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .v-step-head {
+  .band-step-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 6px;
+    flex-wrap: wrap;
   }
 
-  .v-step-date {
-    font: 700 10px var(--font);
+  .band-step-date {
+    font: 700 9.5px var(--font);
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: rgba(0, 0, 0, 0.5);
   }
 
-  .v-step-title {
+  .chrono-band-item.is-temps-fort .band-step-date {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  /* Badges de jalons */
+  .band-step-badge {
+    font: 700 8.5px var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 10px;
+  }
+
+  .badge-temps-fort {
+    background: #ffffff;
+    color: #000000;
+  }
+
+  .badge-pause {
+    background: #000000;
+    color: #ffffff;
+  }
+
+  .badge-phase {
+    background: rgba(0, 0, 0, 0.08);
+    color: #000000;
+  }
+
+  .badge-statut {
+    background: #000000;
+    color: #ffffff;
+  }
+
+  .chrono-band-item.is-temps-fort .badge-phase {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+  }
+
+  .band-step-title {
     margin: 0;
     font: 700 13px/1.3 var(--font);
     letter-spacing: 0.04em;
     color: #000000;
   }
 
-  .v-step-desc {
+  .chrono-band-item.is-temps-fort .band-step-title {
+    color: #ffffff;
+  }
+
+  .band-step-desc {
     margin: 0;
-    font: 400 12px/1.5 var(--font);
+    font: 400 11.5px/1.5 var(--font);
     color: rgba(0, 0, 0, 0.75);
   }
 
-  /* Jalons TEMPS FORT (★) */
-  .v-step-node.is-temps-fort .v-step-card {
-    background: #000000;
-    border: 1px solid #000000;
-    color: #ffffff;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  .chrono-band-item.is-temps-fort .band-step-desc {
+    color: rgba(255, 255, 255, 0.85);
   }
 
-  .v-step-node.is-temps-fort .v-step-date {
-    color: rgba(255, 255, 255, 0.65);
+  /* Pied de bandeau */
+  .band-item-foot {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.15);
   }
 
-  .v-step-node.is-temps-fort .v-step-title {
-    color: #ffffff;
+  .chrono-band-item.is-temps-fort .band-item-foot {
+    border-top-color: rgba(255, 255, 255, 0.2);
   }
 
-  .v-step-node.is-temps-fort .v-step-desc {
-    color: rgba(255, 255, 255, 0.9);
+  .band-btn-link {
+    flex: 1.2;
+    text-align: center;
+    padding: 7px 10px;
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
   }
 
-  .v-tf-badge {
-    font: 700 8.5px var(--font);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+  .chrono-band-item.is-temps-fort .band-btn-link {
+    background: #ffffff;
     color: #000000;
+  }
+
+  .band-btn-gh {
+    flex: 1;
+    text-align: center;
+    padding: 7px 8px;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
+  .chrono-band-item.is-temps-fort .band-btn-gh {
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #ffffff;
+  }
+
+  .chrono-band-item.is-temps-fort .band-btn-gh:hover {
     background: #ffffff;
-    padding: 2px 6px;
-    border-radius: 10px;
-  }
-
-  .v-step-node.is-temps-fort .v-step-bullet {
-    background: #000000;
-    color: #ffffff;
-    transform: scale(1.15);
-  }
-
-  /* Jalons PAUSE R&D (⏸) */
-  .v-step-node.is-pause .v-step-card {
-    background: repeating-linear-gradient(
-      -45deg,
-      #fbfbfb,
-      #fbfbfb 8px,
-      #f2f2f2 8px,
-      #f2f2f2 16px
-    );
-    border: 1px dashed rgba(0, 0, 0, 0.35);
-    border-left: 3px solid #000000;
-  }
-
-  .v-pause-badge {
-    font: 700 8.5px var(--font);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #ffffff;
-    background: #000000;
-    padding: 2px 6px;
-    border-radius: 10px;
-  }
-
-  /* Jalons STATUT ACTUEL (●) */
-  .v-step-node.is-statut .v-step-card {
-    border-color: #000000;
-    background: #ffffff;
-  }
-
-  .v-statut-badge {
-    font: 700 8.5px var(--font);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #ffffff;
-    background: #000000;
-    padding: 2px 6px;
-    border-radius: 10px;
+    color: #000000;
   }
 
   /* ==========================================================================
-     RESPONSIVE SUR MOBILE & PETITS ÉCRANS
+     RESPONSIVE SUR MOBILE
      ========================================================================== */
   @media (max-width: 899px) {
-    .chrono-layout {
-      grid-template-columns: 1fr;
+    .chrono-scroll-wrapper {
+      height: 380vh;
     }
 
-    .chrono-sticky-band {
+    .chrono-sticky-stage {
+      padding: 14px 14px;
+    }
+
+    .chrono-stage-header {
+      gap: 10px;
+      padding-bottom: 10px;
+    }
+
+    .current-period-display {
+      gap: 10px;
+    }
+
+    .period-date-badge {
+      padding: 6px 12px;
+      font-size: 14px;
+    }
+
+    .period-title {
+      font-size: 14px;
+    }
+
+    .period-desc {
       display: none;
     }
 
-    .chrono-stream {
-      padding-left: 28px;
-      gap: 36px;
+    .dates-scrubber {
+      overflow-x: auto;
+      gap: 6px;
+      padding-bottom: 4px;
     }
 
-    .project-spine-node {
-      left: -42px;
-      width: 28px;
-      height: 28px;
-      font-size: 11px;
+    .scrubber-track-line {
+      display: none;
     }
 
-    .chrono-project-card {
-      padding: 20px 16px;
+    .date-scrub-btn {
+      padding: 4px 8px;
+      font-size: 9.5px;
+      white-space: nowrap;
     }
 
-    .card-header-row {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 14px;
+    .chrono-stage-viewport {
+      overflow-x: auto;
+      padding-top: 10px;
     }
 
-    .card-top-actions {
-      width: 100%;
+    .chrono-bands-row {
+      justify-content: flex-start;
+      gap: 10px;
+      width: max-content;
     }
 
-    .btn-card-action {
-      flex: 1;
-      text-align: center;
-    }
-
-    .chrono-toolbar {
-      flex-direction: column;
-      align-items: flex-start;
+    .chrono-band-item {
+      min-width: 250px;
+      max-width: 280px;
     }
   }
 </style>
