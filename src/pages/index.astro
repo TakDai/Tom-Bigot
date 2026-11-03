@@ -613,7 +613,7 @@ const rubansProjets = [
     titre: 'LES TOURANGEAUX',
     sousTitre: 'Portail régional indépendant',
     domaine: 'Web & Communauté',
-    logo: '/assets/logos/les-tourangeaux.svg',
+    logo: '/assets/logos/lestourangeaux.svg',
     lien: '/projets/lestourangeaux',
     github: 'https://github.com/TakDai',
     segments: {
@@ -655,7 +655,7 @@ const rubansProjets = [
     titre: 'PENSÉE NOCTURNE',
     sousTitre: 'Essais sur la technique',
     domaine: 'Édition & Écriture',
-    logo: '/assets/logos/pensee-nocturne.png',
+    logo: '/assets/logos/pensee-nocturne.svg',
     lien: '/projets/pensee-nocturne',
     github: 'https://github.com/TakDai/Pensee-nocturne',
     segments: {
@@ -874,9 +874,13 @@ const rubansProjets = [
         ))}
       </aside>
 
-      <!-- Les 10 couloirs parallèles de rubans : STRICTEMENT CÔTE À CÔTE, AUCUN L'UN SUR L'AUTRE -->
+      <!-- Les 10 couloirs parallèles de rubans : BANDES FINES AVEC JUSTE LES LOGOS EN TÊTE -->
       <div class="timeline-parallel-tracks">
-        {rubansProjets.map((p) => {
+        {rubansProjets.map((p, idx) => {
+          const isLeftTooltip = idx < 3;
+          const isRightTooltip = idx > 6;
+          const tooltipPosClass = isLeftTooltip ? 'tip-left' : isRightTooltip ? 'tip-right' : 'tip-center';
+
           return (
             <div class="timeline-lane" id={`lane-${p.id}`}>
               {periodesLigneDuTemps.map((periode) => {
@@ -901,97 +905,123 @@ const rubansProjets = [
                       <div class="ribbon-empty-space" aria-hidden="true"></div>
                     )}
 
-                    {/* 2. DÉBUT DU RUBAN NOIR */}
+                    {/* 2. DÉBUT DU RUBAN : JUSTE LE LOGO EN TÊTE */}
                     {isDebut && (
-                      <div class="ribbon-band ribbon-start">
-                        <div class="ribbon-rivet" aria-hidden="true"></div>
-                        <div class="ribbon-head-info">
-                          <span class="r-num">{p.numero}</span>
-                          <span class="r-title">{p.titre}</span>
-                        </div>
-                        <div class="ribbon-step-box">
-                          <span class="r-step-title">{seg.titre}</span>
+                      <div class="ribbon-segment-flow flow-head">
+                        <a href={p.lien} class="ribbon-head-anchor" title={`${p.titre} — Voir la fiche`}>
+                          <div class="ribbon-head-medallion">
+                            <img src={p.logo} alt={p.titre} class="ribbon-logo-img" />
+                          </div>
+                        </a>
+                        <div class="fine-ribbon-strip strip-from-head"></div>
+                        <div class={`fine-ribbon-tooltip ${tooltipPosClass}`}>
+                          <div class="tip-top">
+                            <span class="tip-num">{p.numero}</span>
+                            <span class="tip-title">{p.titre}</span>
+                          </div>
+                          <span class="tip-step">{seg.titre}</span>
+                          <span class="tip-desc">{seg.desc}</span>
                         </div>
                       </div>
                     )}
 
-                    {/* 3. RUBAN EN CONTINU */}
+                    {/* 3. RUBAN ACTIF EN CONTINU */}
                     {isActif && (
-                      <div class="ribbon-band ribbon-running">
-                        <div class="ribbon-step-box">
-                          <span class="r-step-title">{seg.titre}</span>
+                      <div class="ribbon-segment-flow">
+                        <div class="fine-ribbon-strip">
+                          <span class="strip-node-dot"></span>
+                        </div>
+                        <div class={`fine-ribbon-tooltip ${tooltipPosClass}`}>
+                          <div class="tip-top">
+                            <span class="tip-num">{p.numero}</span>
+                            <span class="tip-title">{p.titre}</span>
+                          </div>
+                          <span class="tip-step">{seg.titre}</span>
+                          <span class="tip-desc">{seg.desc}</span>
                         </div>
                       </div>
                     )}
 
-                    {/* 4. TEMPS FORT (★) BRODÉ SUR LE RUBAN */}
+                    {/* 4. TEMPS FORT (★) */}
                     {isTempsFort && (
-                      <div class="ribbon-band ribbon-running is-star">
-                        <div class="r-star-pill">&#9733;</div>
-                        <div class="ribbon-step-box">
-                          <span class="r-step-title">{seg.titre}</span>
+                      <div class="ribbon-segment-flow">
+                        <div class="fine-ribbon-strip is-star-strip">
+                          <span class="strip-star-icon">&#9733;</span>
+                        </div>
+                        <div class={`fine-ribbon-tooltip ${tooltipPosClass}`}>
+                          <div class="tip-top">
+                            <span class="tip-num">{p.numero}</span>
+                            <span class="tip-title">{p.titre}</span>
+                            <span class="tip-star-tag">&#9733; POINT FORT</span>
+                          </div>
+                          <span class="tip-step">{seg.titre}</span>
+                          <span class="tip-desc">{seg.desc}</span>
                         </div>
                       </div>
                     )}
 
-                    {/* 5. LE RUBAN RENTRE DANS LA FENTE 3D (PAUSE R&D) */}
+                    {/* 5. RENTRÉE DANS LA FENTE (PAUSE) */}
                     {isFentePause && (
-                      <div class="ribbon-dive-container">
-                        <div class="ribbon-band ribbon-pre-dive">
-                          <div class="ribbon-step-box">
-                            <span class="r-step-title">{seg.titre}</span>
-                          </div>
+                      <div class="ribbon-segment-flow">
+                        <div class="fine-ribbon-strip strip-to-slit"></div>
+                        <div class="fine-wall-slit slit-entry" title={`Entrée en fente (pause) : ${seg.titre}`}>
+                          <span class="fine-slit-hole"></span>
                         </div>
-                        <!-- Fente 3D dans le mur -->
-                        <div class="wall-slit slit-entry" title={`Le ruban rentre dans la fente : ${seg.titre}`}>
-                          <div class="slit-bevel"></div>
-                          <div class="slit-hole">
-                            <span class="slit-cue">&darr; FENTE &darr;</span>
+                        <div class={`fine-ribbon-tooltip ${tooltipPosClass}`}>
+                          <div class="tip-top">
+                            <span class="tip-num">{p.numero}</span>
+                            <span class="tip-title">{p.titre}</span>
+                            <span class="tip-pause-tag">PAUSE R&D</span>
                           </div>
+                          <span class="tip-step">{seg.titre}</span>
+                          <span class="tip-desc">{seg.desc}</span>
                         </div>
                       </div>
                     )}
 
-                    {/* 6. LE RUBAN RESSORT DE LA FENTE 3D */}
+                    {/* 6. RESSORTIE DE LA FENTE */}
                     {isEmerging && (
-                      <div class="ribbon-emerge-container">
-                        <div class="wall-slit slit-exit" title="Le ruban ressort de la fente">
-                          <div class="slit-hole">
-                            <span class="slit-cue">&uarr; REPRISE &uarr;</span>
-                          </div>
-                          <div class="slit-bevel"></div>
+                      <div class="ribbon-segment-flow">
+                        <div class="fine-wall-slit slit-exit" title="Sortie de fente (reprise)">
+                          <span class="fine-slit-hole"></span>
                         </div>
-                        <div class={`ribbon-band ribbon-running ${isSortieTempsFort ? 'is-star' : ''}`}>
-                          {isSortieTempsFort && <div class="r-star-pill">&#9733;</div>}
-                          <div class="ribbon-step-box">
-                            <span class="r-step-title">{seg.titre}</span>
+                        <div class={`fine-ribbon-strip strip-from-slit ${isSortieTempsFort ? 'is-star-strip' : ''}`}>
+                          {isSortieTempsFort && <span class="strip-star-icon">&#9733;</span>}
+                        </div>
+                        <div class={`fine-ribbon-tooltip ${tooltipPosClass}`}>
+                          <div class="tip-top">
+                            <span class="tip-num">{p.numero}</span>
+                            <span class="tip-title">{p.titre}</span>
+                            {isSortieTempsFort && <span class="tip-star-tag">&#9733; POINT FORT</span>}
                           </div>
+                          <span class="tip-step">{seg.titre}</span>
+                          <span class="tip-desc">{seg.desc}</span>
                         </div>
                       </div>
                     )}
 
-                    {/* 7. POINTE FINALE DU FANION (AUJOURD'HUI) */}
+                    {/* 7. POINTE FINALE EN CHEVRON (AUJOURD'HUI) */}
                     {isTerminal && (
-                      <div class="ribbon-terminal-container">
+                      <div class="ribbon-segment-flow terminal-flow">
                         {isSortieStatut && (
-                          <div class="wall-slit slit-exit">
-                            <div class="slit-hole"><span class="slit-cue">&uarr; REPRISE &uarr;</span></div>
-                            <div class="slit-bevel"></div>
+                          <div class="fine-wall-slit slit-exit">
+                            <span class="fine-slit-hole"></span>
                           </div>
                         )}
-                        <div class="ribbon-band ribbon-terminal">
-                          <div class="r-term-status">
-                            <span class="r-term-dot"></span>
-                            <span class="r-term-text">{seg.titre}</span>
+                        <div class="fine-ribbon-strip strip-terminal"></div>
+                        <div class="fine-chevron-cut"></div>
+                        <a href={p.lien} class="fine-terminal-link" title={`Voir la fiche de ${p.titre}`}>
+                          <span class="link-label">Fiche</span>
+                          <span class="link-arr">&rarr;</span>
+                        </a>
+                        <div class={`fine-ribbon-tooltip ${tooltipPosClass}`}>
+                          <div class="tip-top">
+                            <span class="tip-num">{p.numero}</span>
+                            <span class="tip-title">{p.titre}</span>
+                            <span class="tip-active-tag">AUJOURD'HUI</span>
                           </div>
-                          <div class="r-term-actions">
-                            <a href={p.lien} class="r-btn r-btn-white" title={`Fiche projet ${p.titre}`}>Fiche &rarr;</a>
-                            {p.github && (
-                              <a href={p.github} target="_blank" rel="noopener noreferrer" class="r-btn r-btn-ghost" title="Dépôt GitHub">GH ↗</a>
-                            )}
-                          </div>
-                          <!-- Découpe en pointe de fanion (queue de pie / chevron) -->
-                          <div class="ribbon-chevron-cut" aria-hidden="true"></div>
+                          <span class="tip-step">{seg.titre}</span>
+                          <span class="tip-desc">{seg.desc}</span>
                         </div>
                       </div>
                     )}
@@ -1186,7 +1216,7 @@ const rubansProjets = [
   }
 
   .rail-node {
-    height: 250px;
+    height: 180px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -1212,12 +1242,12 @@ const rubansProjets = [
     background: #000000;
   }
 
-  /* Piste des 10 couloirs parallèles : STRICTEMENT CÔTE À CÔTE */
+  /* Piste des 10 couloirs parallèles : BANDES FINES */
   .timeline-parallel-tracks {
     display: flex;
     flex: 1;
     min-width: 0;
-    gap: 8px;
+    gap: 12px;
     width: 100%;
     overflow-x: hidden !important;
   }
@@ -1227,10 +1257,13 @@ const rubansProjets = [
     min-width: 0;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    position: relative;
   }
 
   .lane-segment {
-    height: 250px;
+    height: 180px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1239,239 +1272,274 @@ const rubansProjets = [
     box-sizing: border-box;
   }
 
-  /* Espace vide (quand le projet n'a pas commencé ou est sous terre en pause) */
+  /* Espace vide */
   .ribbon-empty-space {
     width: 100%;
     height: 100%;
   }
 
-  /* ==========================================================================
-     LE RUBAN NOIR EN CONTINU
-     ========================================================================== */
-  .ribbon-band {
+  /* Flux vertical du ruban fin */
+  .ribbon-segment-flow {
     width: 100%;
     height: 100%;
-    background: #000000;
-    color: #ffffff;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+
+  .ribbon-segment-flow.flow-head {
+    justify-content: flex-start;
+    padding-top: 4px;
+  }
+
+  .ribbon-segment-flow.terminal-flow {
+    justify-content: flex-start;
+  }
+
+  /* Tête du ruban : JUSTE LE LOGO EN TÊTE */
+  .ribbon-head-anchor {
+    text-decoration: none;
+    display: flex;
     align-items: center;
     justify-content: center;
-    padding: 8px 4px;
-    box-sizing: border-box;
-    text-align: center;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
-    transition: transform 0.15s ease;
+    z-index: 10;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
-  .ribbon-band:hover {
-    transform: scale(1.03);
-    z-index: 5;
+  .ribbon-head-anchor:hover {
+    transform: scale(1.18);
   }
 
-  /* Début du ruban */
-  .ribbon-start {
-    justify-content: flex-start;
-    padding-top: 10px;
-  }
-
-  .ribbon-rivet {
-    width: 6px;
-    height: 6px;
+  .ribbon-head-medallion {
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     background: #ffffff;
-    margin-bottom: 6px;
-  }
-
-  .ribbon-head-info {
+    border: 2px solid #000000;
     display: flex;
-    flex-direction: column;
-    gap: 2px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid #222222;
-    margin-bottom: 8px;
-    width: 100%;
-  }
-
-  .r-num {
-    font-family: monospace;
-    font-size: 8.5px;
-    font-weight: 700;
-    color: #888888;
-  }
-
-  .r-title {
-    font: 700 9px/1.2 var(--font);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: #ffffff;
-    word-break: normal;
-    overflow-wrap: break-word;
-  }
-
-  .ribbon-step-box {
-    padding: 0 2px;
-    width: 100%;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
     box-sizing: border-box;
+    padding: 6px;
+    cursor: pointer;
   }
 
-  .r-step-title {
-    font: 700 8.5px/1.25 var(--font);
-    color: #cccccc;
-    text-transform: uppercase;
-    word-break: normal;
-    overflow-wrap: break-word;
-    display: block;
-  }
-
-  /* Temps fort ★ */
-  .ribbon-running.is-star {
-    border-left: 2px solid #ffffff;
-    border-right: 2px solid #ffffff;
-  }
-
-  .r-star-pill {
-    font-size: 11px;
-    color: #ffffff;
-    margin-bottom: 4px;
-    line-height: 1;
-  }
-
-  /* ==========================================================================
-     FENTE 3D (ENTRÉE DANS LE MUR & RESSORTIE)
-     ========================================================================== */
-  .ribbon-dive-container,
-  .ribbon-emerge-container {
+  .ribbon-logo-img {
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    max-width: 24px;
+    max-height: 24px;
+    object-fit: contain;
   }
 
-  .ribbon-pre-dive {
+  /* Bande fine noire */
+  .fine-ribbon-strip {
+    width: 14px;
     flex: 1;
-    background: linear-gradient(to bottom, #000000 0%, #222222 100%);
-  }
-
-  .wall-slit {
-    width: 100%;
-    height: 16px;
     background: #000000;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    z-index: 4;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+    transition: background 0.15s ease, width 0.15s ease;
   }
 
-  .slit-bevel {
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: #555555;
+  .strip-from-head {
+    margin-top: -3px;
   }
 
-  .slit-entry .slit-bevel { top: 0; }
-  .slit-exit .slit-bevel { bottom: 0; }
-
-  .slit-hole {
-    position: absolute;
-    inset: 2px 0;
-    background: #080808;
-    box-shadow: inset 0 4px 6px #000000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .slit-cue {
-    font: 800 6.5px var(--font);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #ffffff;
-    white-space: nowrap;
-  }
-
-  /* ==========================================================================
-     TERMINAISON FANION (AUJOURD'HUI)
-     ========================================================================== */
-  .ribbon-terminal-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .ribbon-terminal {
-    height: 100%;
-    justify-content: space-between;
-    padding-bottom: 0;
-  }
-
-  .r-term-status {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3px;
-    padding-top: 6px;
-  }
-
-  .r-term-dot {
+  .strip-node-dot {
     width: 4px;
     height: 4px;
     border-radius: 50%;
     background: #ffffff;
+    opacity: 0.75;
   }
 
-  .r-term-text {
-    font: 700 8px/1.2 var(--font);
-    color: #cccccc;
+  /* Temps fort */
+  .fine-ribbon-strip.is-star-strip {
+    background: #000000;
+  }
+
+  .strip-star-icon {
+    font-size: 8px;
+    color: #ffffff;
+    line-height: 1;
+  }
+
+  /* Fente fine mécanique */
+  .fine-wall-slit {
+    width: 26px;
+    height: 8px;
+    background: #000000;
+    border-radius: 1px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  }
+
+  .fine-slit-hole {
+    width: 18px;
+    height: 2px;
+    background: #ffffff;
+    border-radius: 1px;
+    opacity: 0.9;
+  }
+
+  .slit-entry {
+    margin-bottom: 12px;
+  }
+
+  .slit-exit {
+    margin-top: 6px;
+  }
+
+  .strip-to-slit {
+    flex: 1;
+  }
+
+  .strip-from-slit {
+    flex: 1;
+    margin-top: -2px;
+  }
+
+  /* Pointe chevron swallowtail (Aujourd'hui) */
+  .strip-terminal {
+    flex: 1;
+  }
+
+  .fine-chevron-cut {
+    width: 14px;
+    height: 12px;
+    background: #000000;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    margin-bottom: 6px;
+  }
+
+  .fine-terminal-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    text-decoration: none;
+    font: 800 8px var(--font);
+    color: #000000;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
-    word-break: normal;
-    overflow-wrap: break-word;
-    display: block;
+    padding: 2px 5px;
+    border-radius: 2px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background: #ffffff;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    margin-bottom: 4px;
   }
 
-  .r-term-actions {
+  .fine-terminal-link:hover {
+    background: #000000;
+    color: #ffffff;
+    border-color: #000000;
+    transform: translateY(-2px);
+  }
+
+  /* Tooltip flottant au survol */
+  .fine-ribbon-tooltip {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) scale(0.92);
+    background: #000000;
+    color: #ffffff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
     display: flex;
     flex-direction: column;
     gap: 3px;
-    width: 100%;
-    padding: 0 4px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    z-index: 100;
+    min-width: 150px;
+    max-width: 220px;
     box-sizing: border-box;
   }
 
-  .r-btn {
-    display: block;
-    width: 100%;
-    padding: 3px 0;
-    text-align: center;
-    text-decoration: none;
-    font: 700 7px var(--font);
+  .fine-ribbon-tooltip.tip-center {
+    left: calc(50% + 14px);
+  }
+
+  .fine-ribbon-tooltip.tip-left {
+    left: calc(50% + 14px);
+  }
+
+  .fine-ribbon-tooltip.tip-right {
+    right: calc(50% + 14px);
+    left: auto;
+  }
+
+  .ribbon-segment-flow:hover .fine-ribbon-tooltip,
+  .ribbon-head-anchor:hover ~ .fine-ribbon-tooltip {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+    pointer-events: auto;
+  }
+
+  .tip-top {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .tip-num {
+    font-family: monospace;
+    font-size: 8px;
+    color: #888888;
+  }
+
+  .tip-title {
+    font: 800 9.5px var(--font);
     letter-spacing: 0.05em;
     text-transform: uppercase;
+    color: #ffffff;
+  }
+
+  .tip-star-tag {
+    font: 800 6.5px var(--font);
+    background: #ffffff;
+    color: #000000;
+    padding: 1px 4px;
     border-radius: 2px;
   }
 
-  .r-btn-white {
-    background: #ffffff;
-    color: #000000;
-  }
-
-  .r-btn-ghost {
-    background: transparent;
+  .tip-pause-tag {
+    font: 800 6.5px var(--font);
+    background: #ff4444;
     color: #ffffff;
-    border: 1px dashed rgba(255, 255, 255, 0.4);
+    padding: 1px 4px;
+    border-radius: 2px;
   }
 
-  .ribbon-chevron-cut {
-    width: 100%;
-    height: 16px;
-    background: #000000;
-    clip-path: polygon(0 0, 100% 0, 50% 100%);
-    margin-top: 4px;
+  .tip-active-tag {
+    font: 800 6.5px var(--font);
+    background: #22c55e;
+    color: #ffffff;
+    padding: 1px 4px;
+    border-radius: 2px;
+  }
+
+  .tip-step {
+    font: 700 8.5px/1.2 var(--font);
+    color: #dddddd;
+    text-transform: uppercase;
+  }
+
+  .tip-desc {
+    font: 400 8px/1.3 var(--font);
+    color: #999999;
   }
 </style>
