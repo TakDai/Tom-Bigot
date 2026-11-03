@@ -515,6 +515,12 @@ const planningFpvMois: MoisFpv[] = [
         </div>
 
         <form id="agendaFormCinema" class="styled-agenda-form">
+          <!-- Piège anti-bot / honeypot OWASP OAT-007 (invisible aux utilisateurs) -->
+          <div class="hp-field-guard" aria-hidden="true" style="position: absolute; left: -9999px; opacity: 0; pointer-events: none; width: 0; height: 0; overflow: hidden;">
+            <label for="cine_website_url">Ne pas remplir</label>
+            <input type="text" id="cine_website_url" name="cine_website_url" tabindex="-1" autocomplete="off" />
+          </div>
+
           <div class="form-section-title">
             <span class="step-num">1</span>
             <h3>IDENTIFICATION DE L'ÉTABLISSEMENT</h3>
@@ -802,6 +808,12 @@ const planningFpvMois: MoisFpv[] = [
         </div>
 
         <form id="agendaFormFpv" class="styled-agenda-form">
+          <!-- Piège anti-bot / honeypot OWASP OAT-007 (invisible aux utilisateurs) -->
+          <div class="hp-field-guard" aria-hidden="true" style="position: absolute; left: -9999px; opacity: 0; pointer-events: none; width: 0; height: 0; overflow: hidden;">
+            <label for="fpv_website_url">Ne pas remplir</label>
+            <input type="text" id="fpv_website_url" name="fpv_website_url" tabindex="-1" autocomplete="off" />
+          </div>
+
           <div class="form-section-title">
             <span class="step-num">1</span>
             <h3>COORDONNÉES DU COMMANDITAIRE</h3>
@@ -1005,6 +1017,42 @@ const planningFpvMois: MoisFpv[] = [
 
   // Salt cryptographique pour sécurisation locale OWASP A07
   const PASS_SALT = 'TOM_BIGOT_CABINE_SECURE_SALT_2026';
+  const SEC_GUARD_KEY = 'tom_cabine_sec_guard_v1';
+  const pageLoadedAt = Date.now();
+
+  // Comparaison cryptographique en temps constant pour contrer les attaques par canal auxiliaire (Timing Attacks - OWASP A02)
+  function constantTimeEqual(a: string, b: string): boolean {
+    if (a.length !== b.length) return false;
+    let diff = 0;
+    for (let i = 0; i < a.length; i++) {
+      diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+    }
+    return diff === 0;
+  }
+
+  // Gestion de l'état de verrouillage persistant (Anti-Brute-Force persistant OWASP OAT-007)
+  function getSecState(): { attempts: number; lockoutUntil: number } {
+    try {
+      const raw = localStorage.getItem(SEC_GUARD_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (typeof parsed.attempts === 'number' && typeof parsed.lockoutUntil === 'number') {
+          return parsed;
+        }
+      }
+    } catch {
+      // Fallback si localStorage est restreint
+    }
+    return { attempts: 0, lockoutUntil: 0 };
+  }
+
+  function setSecState(attempts: number, lockoutUntil: number) {
+    try {
+      localStorage.setItem(SEC_GUARD_KEY, JSON.stringify({ attempts, lockoutUntil }));
+    } catch {
+      // Ignore
+    }
+  }
 
   // Calcul du hachage SHA-256 via Web Crypto API standard (OWASP A02 & A07)
   async function hashPasscode(pass: string): Promise<string> {
@@ -1013,6 +1061,23 @@ const planningFpvMois: MoisFpv[] = [
     const hashBuffer = await window.crypto.subtle.digest('SHA-256', data);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  // Validation anti-bot et honeypot (OWASP Automated Threats OAT-007 / OAT-014)
+  function verifyAntiBot(form: HTMLFormElement, hpFieldName: string): boolean {
+    const data = new FormData(form);
+    const hpVal = data.get(hpFieldName);
+    if (hpVal && String(hpVal).trim() !== '') {
+      console.warn('[OWASP Guard] Soumission automatisée de robot bloquée via champ honeypot.');
+      return false;
+    }
+    const elapsed = Date.now() - pageLoadedAt;
+    if (elapsed < 2000) {
+      console.warn('[OWASP Guard] Soumission ultra-rapide anormale détectée (' + elapsed + 'ms).');
+      alert('Veuillez patienter au moins 2 secondes avant de transmettre le formulaire.');
+      return false;
+    }
+    return true;
   }
 
   const CINEMA_ACCOUNTS: Record<string, CinemaAccountConfig> = {
@@ -1284,18 +1349,25 @@ const planningFpvMois: MoisFpv[] = [
 
   btnLogoutAccount?.addEventListener('click', deconnecterCompte);
 
-  // Soumission sécurisée avec hachage SHA-256 et limitation brute-force (OWASP A07)
-  accountLoginForm?.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  // Vérification de l'état de verrouillage persistant (OWASP A07 & OAT-007)
+  function checkLockout(): boolean {
+    const state = getSecState();
     const now = Date.now();
-    if (now < lockoutTimestamp) {
-      const waitSec = Math.ceil((lockoutTimestamp - now) / 1000);
+    if (now < state.lockoutUntil) {
+      const waitSec = Math.ceil((state.lockoutUntil - now) / 1000);
       if (accountLoginFeedback) {
         accountLoginFeedback.style.display = 'block';
-        accountLoginFeedback.textContent = `Accès temporairement verrouillé par mesure de sécurité anti-brute-force. Veuillez patienter ${waitSec}s.`;
+        accountLoginFeedback.textContent = `Accès suspendu par mesure de sécurité anti-brute-force (OWASP OAT-007). Veuillez patienter ${waitSec}s.`;
       }
-      return;
+      return true;
     }
+    return false;
+  }
+
+  // Soumission sécurisée avec hachage SHA-256, temps constant et persistance anti-brute-force
+  accountLoginForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (checkLockout()) return;
 
     const rawAccId = selectedAccountIdInput?.value || 'studios';
     const accId = (['studios', 'cineoff', 'admin'].includes(rawAccId) ? rawAccId : 'studios') as 'studios' | 'cineoff' | 'admin';
@@ -1312,21 +1384,46 @@ const planningFpvMois: MoisFpv[] = [
 
     const hashedInput = await hashPasscode(pass);
 
-    if (config && config.passwordHashes.includes(hashedInput)) {
-      failedLoginAttempts = 0;
+    // Comparaison en temps constant de tous les hachages acceptés (OWASP A02 anti-timing attack)
+    let isMatch = false;
+    if (config) {
+      for (const validHash of config.passwordHashes) {
+        if (constantTimeEqual(validHash, hashedInput)) {
+          isMatch = true;
+          break;
+        }
+      }
+    }
+
+    if (isMatch) {
+      setSecState(0, 0); // Réinitialisation du compteur après succès
       connecterCompte(accId);
     } else {
-      failedLoginAttempts++;
-      if (failedLoginAttempts >= 5) {
-        lockoutTimestamp = Date.now() + 30000;
-        if (accountLoginFeedback) {
-          accountLoginFeedback.style.display = 'block';
-          accountLoginFeedback.textContent = 'Trop d\'essais infructueux. Accès temporairement suspendu pendant 30 secondes.';
-        }
-      } else {
-        if (accountLoginFeedback) {
-          accountLoginFeedback.style.display = 'block';
-          accountLoginFeedback.textContent = `Code incorrect pour le compte ${config?.name || ''} (${5 - failedLoginAttempts} tentative(s) restante(s)).`;
+      const state = getSecState();
+      state.attempts++;
+      let delay = 0;
+      if (state.attempts >= 10) {
+        delay = 900000; // 15 minutes de blocage strict
+      } else if (state.attempts >= 7) {
+        delay = 300000; // 5 minutes
+      } else if (state.attempts >= 5) {
+        delay = 60000;  // 1 minute
+      } else if (state.attempts >= 3) {
+        delay = 15000;  // 15 secondes
+      }
+
+      if (delay > 0) {
+        state.lockoutUntil = Date.now() + delay;
+      }
+      setSecState(state.attempts, state.lockoutUntil);
+
+      if (accountLoginFeedback) {
+        accountLoginFeedback.style.display = 'block';
+        if (delay > 0) {
+          const waitSec = Math.ceil(delay / 1000);
+          accountLoginFeedback.textContent = `Trop d'essais infructueux (${state.attempts}). Accès suspendu pendant ${waitSec}s.`;
+        } else {
+          accountLoginFeedback.textContent = `Code incorrect pour le compte ${config?.name || ''} (${3 - state.attempts} essai(s) avant temporisation).`;
         }
       }
     }
@@ -1514,6 +1611,7 @@ const planningFpvMois: MoisFpv[] = [
 
   formCinema?.addEventListener('submit', (e) => {
     e.preventDefault();
+    if (!verifyAntiBot(formCinema, 'cine_website_url')) return;
     const data = new FormData(formCinema);
     const struct = cleanSingleLine((data.get('structureCine') as string) || 'Cinéma');
     const contact = cleanSingleLine((data.get('contactCine') as string) || '');
@@ -1683,6 +1781,7 @@ const planningFpvMois: MoisFpv[] = [
 
   formFpv?.addEventListener('submit', (e) => {
     e.preventDefault();
+    if (!verifyAntiBot(formFpv, 'fpv_website_url')) return;
     const data = new FormData(formFpv);
     const societe = cleanSingleLine((data.get('fpvSociete') as string) || 'Client FPV');
     const contact = cleanSingleLine((data.get('fpvContactNom') as string) || '');

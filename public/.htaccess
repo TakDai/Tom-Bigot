@@ -1,5 +1,5 @@
 # ==============================================================================
-# SÉCURITÉ ET CONFORMITÉ OWASP — TOM-BIGOT.FR
+# SÉCURITÉ ET CONFORMITÉ STRICTE OWASP ASVS LEVEL 3 — TOM-BIGOT.FR
 # ==============================================================================
 
 # 1. Gestion des erreurs HTTP personnalisées (A05:2021 Security Misconfiguration)
@@ -34,9 +34,9 @@ AddDefaultCharset UTF-8
   Require all granted
 </Files>
 
-# 5. En-têtes HTTP de Sécurité (OWASP Top 10 / ASVS Level 1 & 2)
+# 5. En-têtes HTTP de Sécurité Avancés (OWASP Top 10 & ASVS Level 3)
 <IfModule mod_headers.c>
-  # HSTS : Forcer HTTPS pendant 1 an avec sous-domaines (A02:2021 Cryptographic Failures)
+  # HSTS : Forcer HTTPS pendant 1 an avec sous-domaines et preload (A02:2021 Cryptographic Failures)
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 
   # Protection Anti-Clickjacking (A04:2021 Insecure Design)
@@ -57,42 +57,66 @@ AddDefaultCharset UTF-8
   # Isolation d'origine (Spectre / Cross-Origin Attacks)
   Header always set Cross-Origin-Opener-Policy "same-origin"
   Header always set Cross-Origin-Resource-Policy "same-origin"
+  Header always set Cross-Origin-Embedder-Policy "unsafe-none"
 
-  # Masquer les informations logicielles serveur
+  # Protection contre l'exécution de téléchargements arbitraires
+  Header always set X-Download-Options "noopen"
+
+  # Restriction stricte des politiques multi-domaines Flash/PDF (A05:2021)
+  Header always set X-Permitted-Cross-Domain-Policies "none"
+
+  # Masquer les informations logicielles serveur (Anti-Fingerprinting)
   Header unset X-Powered-By
   Header unset Server
 </IfModule>
 
-# 6. Règles de Réécriture, Redirections Sécurisées et Sous-domaines
+# 6. Règles de Réécriture, Pare-Feu Applicatif (WAF) et Sous-domaines
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
 
-  # 6.1 Filtrage WAF contre attaques courantes (Path Traversal, Injection XSS basique, Null byte)
+  # 6.1 Filtrage WAF : Blocage des scanners de vulnérabilités et robots malveillants connus (OAT-014)
+  RewriteCond %{HTTP_USER_AGENT} (sqlmap|nikto|dirbuster|acunetix|masscan|havij|nmap|zgrab|morfeus|nessus) [NC]
+  RewriteRule .* - [F,L]
+
+  # 6.2 Filtrage WAF : Injection de commandes, Path Traversal, Null byte et RFI (A03:2021)
   RewriteCond %{QUERY_STRING} (?:[<>]|%3C|%3E) [NC,OR]
   RewriteCond %{QUERY_STRING} (?:script|javascript:) [NC,OR]
   RewriteCond %{QUERY_STRING} (%00|%08|%09) [NC,OR]
-  RewriteCond %{QUERY_STRING} (\.\./|\.\.\\) [NC]
+  RewriteCond %{QUERY_STRING} (\.\./|\.\.\\) [NC,OR]
+  RewriteCond %{QUERY_STRING} (cmd\.exe|/bin/sh|/bin/bash|wget|curl|eval\(|base64_decode) [NC,OR]
+  RewriteCond %{QUERY_STRING} (boot\.ini|etc/passwd|windows/win\.ini) [NC]
   RewriteRule .* - [F,L]
 
-  # 6.2 Forcer HTTPS pour toute requête non sécurisée
+  # 6.3 Forcer HTTPS pour toute requête non sécurisée (A02:2021)
   RewriteCond %{HTTPS} !=on
   RewriteCond %{HTTP:X-Forwarded-Proto} !https
   RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
-  # 6.3 Sous-domaines Cabine Cinéma (cine.tom-bigot.fr & cinema.tom-bigot.fr)
+  # 6.4 Sous-domaines Cabine Cinéma (cine.tom-bigot.fr & cinema.tom-bigot.fr)
   RewriteCond %{HTTP_HOST} ^(cine|cinema)\.tom-bigot\.fr$ [NC]
   RewriteRule ^$ /agenda#agenda-cinema [R=302,NE,L]
 
-  # 6.4 Sous-domaines Drone FPV & Devis (fpv.tom-bigot.fr & drone.tom-bigot.fr)
+  # 6.5 Sous-domaines Drone FPV & Devis (fpv.tom-bigot.fr & drone.tom-bigot.fr)
   RewriteCond %{HTTP_HOST} ^(fpv|drone)\.tom-bigot\.fr$ [NC]
   RewriteRule ^$ /agenda#agenda-fpv [R=302,NE,L]
 
-  # 6.5 Sous-domaine Développement (dev.tom-bigot.fr)
+  # 6.6 Sous-domaine Développement (dev.tom-bigot.fr)
   RewriteCond %{HTTP_HOST} ^dev\.tom-bigot\.fr$ [NC]
   RewriteRule ^$ /developpement/ [R=302,L]
 
-  # 6.6 Sous-domaine Agenda général (agenda.tom-bigot.fr)
+  # 6.7 Sous-domaine Agenda général (agenda.tom-bigot.fr)
   RewriteCond %{HTTP_HOST} ^agenda\.tom-bigot\.fr$ [NC]
   RewriteRule ^$ /agenda/ [R=302,L]
+</IfModule>
+
+# 7. Contrôle du cache et intégrité des ressources statiques
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 month"
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
 </IfModule>
