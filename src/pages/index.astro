@@ -825,69 +825,58 @@ const rubansProjets = [
     </a>
   </section>
 
-  <!-- ================= SECTION BANDEAUX VERTICAUX (GROSSES LIGNES DU TEMPS) ================= -->
-  <section class="chrono-table-section" id="chronologie-rubans">
-    <!-- En-tête explicatif de la section -->
-    <div class="chrono-table-intro">
-      <div class="intro-left">
-        <span class="etiquette">AXE VERTICAL = TEMPS &bull; 10 BANDEAUX PARALLÈLES</span>
-        <h2 class="intro-titre">CHRONOLOGIE PAR BANDEAUX VERTICAUX</h2>
-        <p class="intro-desc">
-          Chaque projet possède son propre <strong>bandeau vertical (une grosse ligne continue de tissu)</strong> qui descend le long du temps. Le ruban <strong>commence</strong> à sa date de début, affiche ses <strong>points forts ★</strong>, et lors d'une pause, <strong>rentre physiquement dans une fente</strong> avant d'en ressortir à la reprise.
+  <!-- ================= SECTION FANIONS VERTICAUX DU TEMPS ================= -->
+  <section class="fanions-time-section" id="chronologie-rubans">
+    <!-- En-tête épuré de la section -->
+    <header class="fanions-header">
+      <div class="fanions-title-block">
+        <span class="etiquette">CHRONOLOGIE DU TRAVAIL &bull; 10 FANIONS VERTICAUX</span>
+        <h2 class="fanions-main-title">BANDEAUX DU TEMPS (FANIONS)</h2>
+        <p class="fanions-sub">
+          L'axe vertical représente le temps (2025 &rarr; Aujourd'hui). Chaque projet est matérialisé par un <strong>fanion vertical (une ligne épaisse en tissu)</strong> qui commence à sa date de début, porte ses étoiles <strong>★</strong> pour les points forts, et <strong>plonge dans une fente</strong> lors d'une pause R&amp;D.
         </p>
       </div>
 
-      <div class="intro-legende">
-        <div class="legende-item">
-          <span class="leg-tissu-echantillon"></span>
-          <span>Bandeau Actif</span>
-        </div>
-        <div class="legende-item">
-          <span class="leg-patch-echantillon">&#9733;</span>
-          <span>Écusson Point Fort</span>
-        </div>
-        <div class="legende-item">
-          <span class="leg-fente-echantillon"></span>
-          <span>Fente R&amp;D (Entrée / Sortie)</span>
-        </div>
+      <div class="fanions-legend" aria-label="Légende des fanions">
+        <div class="f-leg-item"><span class="f-leg-band"></span><span>Fanion actif</span></div>
+        <div class="f-leg-item"><span class="f-leg-star">&#9733;</span><span>Point fort</span></div>
+        <div class="f-leg-item"><span class="f-leg-slit"></span><span>Fente R&amp;D (entrée / sortie)</span></div>
       </div>
-    </div>
+    </header>
 
-    <!-- La grande grille de temps : le scroll vertical descend le temps -->
-    <div class="timeline-viewport-scroll">
-      <div class="timeline-matrix-board">
-        <!-- Colonne d'axe du temps (à gauche, sticky) -->
-        <aside class="time-axis-col">
-          <div class="axis-header-placeholder">
-            <span class="axis-title">TEMPS &darr;</span>
-          </div>
+    <!-- La scène des fanions suspendus avec défilement vertical du temps -->
+    <div class="fanions-board-viewport">
+      <div class="fanions-board-canvas">
+        <!-- Règle de temps verticale (à gauche, sticky) -->
+        <aside class="fanions-time-ruler">
+          <div class="ruler-head">TEMPS &darr;</div>
           {periodesLigneDuTemps.map((p) => (
-            <div class="time-axis-marker" id={`date-marker-${p.id}`}>
-              <span class="axis-year">{p.label}</span>
-              <span class="axis-sub">{p.sousLabel}</span>
-              <div class="axis-notch"></div>
+            <div class="ruler-date-node" id={`ruler-${p.id}`}>
+              <span class="ruler-year">{p.label}</span>
+              <span class="ruler-sub">{p.sousLabel}</span>
+              <span class="ruler-tick"></span>
             </div>
           ))}
         </aside>
 
-        <!-- Les 10 colonnes de projet côte à côte, traversées par leurs bandeaux verticaux -->
-        <div class="projects-lanes-container">
-          {rubansProjets.map((projet) => (
-            <div class="project-lane" id={`col-${projet.id}`}>
-              <!-- En-tête de la colonne du projet -->
-              <header class="lane-header">
-                <span class="lane-num">{projet.numero}</span>
-                <div class="lane-logo">
-                  <img src={projet.logo} alt={`Logo ${projet.titre}`} loading="lazy" />
+        <!-- Les 10 fanions verticaux suspendus en parallèle -->
+        <div class="fanions-lanes">
+          {rubansProjets.map((p) => (
+            <div class="fanion-column" id={`fanion-${p.id}`}>
+              <!-- Tête de colonne : numéro, logo et titre compact -->
+              <div class="fanion-pennant-head">
+                <span class="f-num">{p.numero}</span>
+                <div class="f-logo">
+                  <img src={p.logo} alt={`Logo ${p.titre}`} loading="lazy" />
                 </div>
-                <h3 class="lane-title">{projet.titre}</h3>
-                <span class="lane-domain">{projet.domaine}</span>
-              </header>
+                <h3 class="f-name">{p.titre}</h3>
+                <span class="f-domaine">{p.domaine}</span>
+              </div>
 
-              <!-- Rail vertical où coule le bandeau du projet -->
-              <div class="lane-ribbon-track">
+              <!-- Tracé vertical du fanion à travers les 6 époques du temps -->
+              <div class="fanion-vertical-track">
                 {periodesLigneDuTemps.map((periode) => {
-                  const seg = projet.segments[periode.id] || { etat: 'vide' };
+                  const seg = p.segments[periode.id] || { etat: 'vide' };
                   const isVide = seg.etat === 'vide';
                   const isDebut = seg.etat === 'debut';
                   const isActif = seg.etat === 'actif';
@@ -899,176 +888,133 @@ const rubansProjets = [
                   const isStatut = seg.etat === 'statut';
 
                   return (
-                    <div class={`ribbon-cell-block cell-${seg.etat}`} data-periode={periode.id}>
+                    <div class={`fanion-tier-slot tier-${seg.etat}`}>
                       {/* 1. ÉTAT VIDE : Le projet n'a pas encore commencé à cette date */}
                       {isVide && (
-                        <div class="cell-empty-space" aria-hidden="true">
-                          <div class="faint-guide-line"></div>
-                        </div>
+                        <div class="f-void-guide" aria-hidden="true"></div>
                       )}
 
-                      {/* 2. DÉBUT DU RUBAN : Le ruban commence et descend */}
+                      {/* 2. DÉBUT DU FANION : Attache supérieure et départ de la ligne épaisse */}
                       {isDebut && (
-                        <div class="cell-debut-ribbon">
-                          <div class="ribbon-suspension-mount">
-                            <span class="mount-rivet"></span>
-                            <div class="mount-rod"></div>
-                            <span class="mount-rivet"></span>
+                        <div class="f-ribbon-wrapper">
+                          <div class="f-mount-ring" aria-hidden="true">
+                            <span class="ring-rivet"></span>
                           </div>
-                          <div class="thick-fabric-ribbon ribbon-running-down">
-                            <div class="ribbon-stitch-left"></div>
-                            <div class="ribbon-stitch-right"></div>
-                            <div class="ribbon-content-tag">
-                              <span class="cell-tag-date">{periode.label}</span>
-                              <h4 class="cell-node-title">{seg.titre}</h4>
-                              <p class="cell-node-desc">{seg.desc}</p>
+                          <div class="fanion-thick-band band-running">
+                            <div class="fanion-stitch-left"></div>
+                            <div class="fanion-stitch-right"></div>
+                            <div class="fanion-label-tag">
+                              <span class="f-tag-date">{periode.label}</span>
+                              <span class="f-tag-titre">{seg.titre}</span>
                             </div>
                           </div>
                         </div>
                       )}
 
-                      {/* 3. RUBAN ACTIF : Le bandeau continue de descendre */}
+                      {/* 3. FANION ACTIF : La ligne épaisse continue de descendre */}
                       {isActif && (
-                        <div class="cell-active-ribbon">
-                          <div class="thick-fabric-ribbon ribbon-running-down">
-                            <div class="ribbon-stitch-left"></div>
-                            <div class="ribbon-stitch-right"></div>
-                            <div class="ribbon-content-tag">
-                              <span class="cell-tag-date">{periode.label}</span>
-                              <h4 class="cell-node-title">{seg.titre}</h4>
-                              <p class="cell-node-desc">{seg.desc}</p>
+                        <div class="f-ribbon-wrapper">
+                          <div class="fanion-thick-band band-running">
+                            <div class="fanion-stitch-left"></div>
+                            <div class="fanion-stitch-right"></div>
+                            <div class="fanion-label-tag">
+                              <span class="f-tag-titre">{seg.titre}</span>
                             </div>
                           </div>
                         </div>
                       )}
 
-                      {/* 4. POINT FORT BRODÉ ★ : Écusson noir cousu sur le bandeau */}
+                      {/* 4. TEMPS FORT (★) : Étoile brodée directement sur le fanion */}
                       {isTempsFort && (
-                        <div class="cell-temps-fort-ribbon">
-                          <div class="thick-fabric-ribbon ribbon-running-down has-patch">
-                            <div class="ribbon-stitch-left"></div>
-                            <div class="ribbon-stitch-right"></div>
-                            <div class="stitched-patch-black">
-                              <div class="patch-header">
-                                <span class="patch-star">&#9733;</span>
-                                <span class="patch-label">POINT FORT</span>
-                              </div>
-                              <h4 class="patch-title">{seg.titre}</h4>
-                              <p class="patch-desc">{seg.desc}</p>
+                        <div class="f-ribbon-wrapper">
+                          <div class="fanion-thick-band band-running is-temps-fort" title={`${seg.titre} : ${seg.desc}`}>
+                            <div class="fanion-stitch-left"></div>
+                            <div class="fanion-stitch-right"></div>
+                            <div class="fanion-star-badge">
+                              <span class="f-star-glyph">&#9733;</span>
+                              <span class="f-star-name">{seg.titre}</span>
                             </div>
                           </div>
                         </div>
                       )}
 
-                      {/* 5. PAUSE R&D : LE RUBAN RENTRE DANS UNE FENTE */}
+                      {/* 5. PAUSE R&D : LE FANION RENTRE DANS UNE FENTE */}
                       {isFentePause && (
-                        <div class="cell-fente-pause">
-                          <!-- Le ruban plonge dans la fente d'entrée -->
-                          <div class="ribbon-into-slot">
-                            <div class="thick-fabric-ribbon ribbon-diving">
-                              <div class="ribbon-stitch-left"></div>
-                              <div class="ribbon-stitch-right"></div>
-                            </div>
-                            <div class="architectural-slit slit-in" title="Le ruban rentre dans la fente">
-                              <div class="slit-bevel-top"></div>
-                              <div class="slit-deep-shadow">
-                                <span class="slit-caption">&darr; RENTRE DANS LA FENTE &darr;</span>
-                              </div>
-                              <div class="slit-bevel-bot"></div>
+                        <div class="f-pause-wrapper">
+                          <!-- Le fanion plonge dans la fente -->
+                          <div class="fanion-thick-band band-diving">
+                            <div class="fanion-stitch-left"></div>
+                            <div class="fanion-stitch-right"></div>
+                          </div>
+                          <!-- Fente physique 3D -->
+                          <div class="fanion-slot-slit slot-entry" title={`Le fanion rentre dans la fente : ${seg.titre}`}>
+                            <div class="slit-bevel"></div>
+                            <div class="slit-hole">
+                              <span class="slit-arrow">&darr; FENTE &darr;</span>
                             </div>
                           </div>
-
-                          <!-- Zone sous la paroi : le ruban est en retrait, caché dans la fente -->
-                          <div class="slot-hidden-void">
-                            <div class="pause-ghost-card">
-                              <span class="pause-tag">PAUSE R&amp;D</span>
-                              <h4 class="pause-title">{seg.titre}</h4>
-                              <p class="pause-desc">{seg.desc}</p>
-                              <span class="pause-status-sub">Ruban sous la fente</span>
-                            </div>
+                          <!-- Sous la paroi : le fanion a disparu à l'intérieur -->
+                          <div class="fanion-under-wall" title={`Pause R&D : ${seg.titre} (${seg.desc})`}>
+                            <span class="pause-tag-tiny">PAUSE</span>
+                            <span class="pause-title-tiny">{seg.titre}</span>
                           </div>
                         </div>
                       )}
 
-                      {/* 6. LE RUBAN RESSORT DE LA FENTE (phase ou point fort) */}
+                      {/* 6. LE FANION RESSORT DE LA FENTE */}
                       {(isSortiePhase || isSortieTempsFort) && (
-                        <div class="cell-sortie-fente">
-                          <!-- Fente de sortie d'où émerge le ruban -->
-                          <div class="architectural-slit slit-out" title="Le ruban ressort de la fente">
-                            <div class="slit-bevel-top"></div>
-                            <div class="slit-deep-shadow">
-                              <span class="slit-caption">&uarr; RESSORT DE LA FENTE &uarr;</span>
+                        <div class="f-sortie-wrapper">
+                          <!-- Fente de sortie -->
+                          <div class="fanion-slot-slit slot-exit" title="Le fanion ressort de la fente">
+                            <div class="slit-hole">
+                              <span class="slit-arrow">&uarr; SORTIE &uarr;</span>
                             </div>
-                            <div class="slit-bevel-bot"></div>
+                            <div class="slit-bevel"></div>
                           </div>
-
-                          <!-- Le ruban qui continue sa course après la sortie -->
-                          <div class={`thick-fabric-ribbon ribbon-running-down ${isSortieTempsFort ? 'has-patch' : ''}`}>
-                            <div class="ribbon-stitch-left"></div>
-                            <div class="ribbon-stitch-right"></div>
-
+                          <!-- Le fanion qui continue sa descente -->
+                          <div class={`fanion-thick-band band-running ${isSortieTempsFort ? 'is-temps-fort' : ''}`} title={`${seg.titre} : ${seg.desc}`}>
+                            <div class="fanion-stitch-left"></div>
+                            <div class="fanion-stitch-right"></div>
                             {isSortieTempsFort ? (
-                              <div class="stitched-patch-black">
-                                <div class="patch-header">
-                                  <span class="patch-star">&#9733;</span>
-                                  <span class="patch-label">SORTIE &bull; POINT FORT</span>
-                                </div>
-                                <h4 class="patch-title">{seg.titre}</h4>
-                                <p class="patch-desc">{seg.desc}</p>
+                              <div class="fanion-star-badge">
+                                <span class="f-star-glyph">&#9733;</span>
+                                <span class="f-star-name">{seg.titre}</span>
                               </div>
                             ) : (
-                              <div class="ribbon-content-tag">
-                                <span class="cell-tag-date">{periode.label}</span>
-                                <h4 class="cell-node-title">{seg.titre}</h4>
-                                <p class="cell-node-desc">{seg.desc}</p>
+                              <div class="fanion-label-tag">
+                                <span class="f-tag-titre">{seg.titre}</span>
                               </div>
                             )}
                           </div>
                         </div>
                       )}
 
-                      {/* 7. STATUT FINAL DU RUBAN (Aujourd'hui) : ourlet en pointe et boutons */}
+                      {/* 7. POINTE DU FANION (Aujourd'hui) : ourlet en biseau / queue d'aronde */}
                       {(isStatut || isSortieStatut) && (
-                        <div class="cell-terminal-ribbon">
+                        <div class="f-terminal-wrapper">
                           {isSortieStatut && (
-                            <div class="architectural-slit slit-out" title="Le ruban ressort de la fente vers le statut actuel">
-                              <div class="slit-bevel-top"></div>
-                              <div class="slit-deep-shadow">
-                                <span class="slit-caption">&uarr; RESSORT DE LA FENTE &uarr;</span>
+                            <div class="fanion-slot-slit slot-exit" title="Le fanion ressort de la fente vers le statut actuel">
+                              <div class="slit-hole">
+                                <span class="slit-arrow">&uarr; SORTIE &uarr;</span>
                               </div>
-                              <div class="slit-bevel-bot"></div>
+                              <div class="slit-bevel"></div>
                             </div>
                           )}
-                          <div class="thick-fabric-ribbon ribbon-terminal">
-                            <div class="ribbon-stitch-left"></div>
-                            <div class="ribbon-stitch-right"></div>
-                            <div class="terminal-content">
-                              <div class="terminal-badge">
-                                <span class="terminal-dot"></span>
-                                <span>STATUT ACTUEL</span>
-                              </div>
-                              <h4 class="terminal-title">{seg.titre}</h4>
-                              <p class="terminal-desc">{seg.desc}</p>
-
-                              <div class="terminal-actions">
-                                <a href={projet.lien} class="btn-noir btn-terminal">
-                                  Fiche &rarr;
-                                </a>
-                                {projet.github && (
-                                  <a
-                                    href={projet.github}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="btn-outline btn-terminal"
-                                    title={`GitHub ${projet.titre}`}
-                                  >
-                                    GitHub ↗
-                                  </a>
-                                )}
-                              </div>
+                          <div class="fanion-thick-band band-terminal">
+                            <div class="fanion-stitch-left"></div>
+                            <div class="fanion-stitch-right"></div>
+                            <div class="terminal-status-info">
+                              <span class="terminal-dot"></span>
+                              <span class="terminal-titre">{seg.titre}</span>
                             </div>
-                            <!-- Ourlet en pointe de ruban (queue d'aronde) -->
-                            <div class="ribbon-swallowtail" aria-hidden="true"></div>
+                            <div class="terminal-buttons">
+                              <a href={p.lien} class="f-btn btn-fiche" title="Fiche projet">Fiche &rarr;</a>
+                              {p.github && (
+                                <a href={p.github} target="_blank" rel="noopener noreferrer" class="f-btn btn-gh" title="Dépôt GitHub">GH ↗</a>
+                              )}
+                            </div>
+                            <!-- Découpe en pointe de fanion (queue de pie / chevron) -->
+                            <div class="fanion-chevron-tip" aria-hidden="true"></div>
                           </div>
                         </div>
                       )}
@@ -1085,20 +1031,20 @@ const rubansProjets = [
 </Base>
 
 <script>
-  // Surveillance de la ligne du temps lors du scroll vertical naturel
+  // Suivi de la date courante sur l'axe vertical lors du scroll
   document.addEventListener('DOMContentLoaded', () => {
-    const markers = document.querySelectorAll<HTMLElement>('.time-axis-marker');
-    if (markers.length === 0) return;
+    const nodes = document.querySelectorAll<HTMLElement>('.ruler-date-node');
+    if (nodes.length === 0) return;
 
     function onScroll() {
-      const scrollY = window.scrollY + 200;
-      markers.forEach((marker) => {
-        const top = marker.offsetTop;
-        const height = marker.offsetHeight;
+      const scrollY = window.scrollY + 220;
+      nodes.forEach((node) => {
+        const top = node.offsetTop;
+        const height = node.offsetHeight;
         if (scrollY >= top && scrollY < top + height) {
-          marker.classList.add('is-current');
+          node.classList.add('is-current');
         } else {
-          marker.classList.remove('is-current');
+          node.classList.remove('is-current');
         }
       });
     }
@@ -1258,669 +1204,610 @@ const rubansProjets = [
   }
 
   /* ==========================================================================
-     TABLEAU CHRONOLOGIQUE : BANDEAUX VERTICAUX (GROSSES LIGNES DE TEMPS)
+     SECTION DES FANIONS DU TEMPS (LIGNES ÉPAISSES VERTICALES)
      ========================================================================== */
-  .chrono-table-section {
+  .fanions-time-section {
     position: relative;
-    background: #f4f4f3;
-    padding: clamp(30px, 5vh, 60px) clamp(16px, 3vw, 40px);
+    background: #f7f7f6;
+    padding: clamp(30px, 4vh, 50px) clamp(16px, 2.5vw, 36px);
     border-bottom: 2px dashed var(--dash);
   }
 
-  .chrono-table-intro {
-    max-width: 1500px;
-    margin: 0 auto 36px;
+  .fanions-header {
+    max-width: 1480px;
+    margin: 0 auto 28px;
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    gap: 24px;
+    gap: 20px;
     flex-wrap: wrap;
     border-bottom: 2px dashed rgba(0, 0, 0, 0.12);
-    padding-bottom: 20px;
+    padding-bottom: 16px;
   }
 
-  .intro-left {
+  .fanions-title-block {
     max-width: 800px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 4px;
   }
 
-  .intro-titre {
+  .fanions-main-title {
     margin: 0;
-    font: 700 clamp(22px, 3vw, 32px)/1.15 var(--font);
-    letter-spacing: 0.06em;
+    font: 700 clamp(20px, 2.6vw, 28px)/1.15 var(--font);
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: #000000;
   }
 
-  .intro-desc {
+  .fanions-sub {
     margin: 4px 0 0;
-    font: 400 14px/1.55 var(--font);
-    color: rgba(0, 0, 0, 0.75);
-  }
-
-  .intro-legende {
-    display: inline-flex;
-    align-items: center;
-    gap: 16px;
-    padding: 8px 16px;
-    background: #ffffff;
-    border: 1px dashed var(--dash);
-    border-radius: 20px;
-    flex-wrap: wrap;
-  }
-
-  .legende-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font: 700 10.5px var(--font);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font: 400 13.5px/1.5 var(--font);
     color: rgba(0, 0, 0, 0.7);
   }
 
-  .leg-tissu-echantillon {
-    width: 14px;
-    height: 18px;
+  .fanions-legend {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 6px 14px;
+    background: #ffffff;
+    border: 1px dashed var(--dash);
+    border-radius: 18px;
+    flex-wrap: wrap;
+  }
+
+  .f-leg-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font: 700 10px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.75);
+  }
+
+  .f-leg-band {
+    width: 12px;
+    height: 16px;
     background: #ffffff;
     border-left: 2px dashed #000000;
     border-right: 2px dashed #000000;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
   }
 
-  .leg-patch-echantillon {
+  .f-leg-star {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
     background: #000000;
     color: #ffffff;
-    font-size: 10px;
+    font-size: 9px;
     border-radius: 3px;
   }
 
-  .leg-fente-echantillon {
-    width: 18px;
-    height: 7px;
+  .f-leg-slit {
+    width: 16px;
+    height: 6px;
     background: #000000;
     border-radius: 2px;
-    box-shadow: inset 0 2px 2px #444444;
+    box-shadow: inset 0 2px 2px #333333;
   }
 
-  /* Viewport avec scroll horizontal si l'écran est plus petit que les 10 colonnes */
-  .timeline-viewport-scroll {
-    max-width: 1500px;
+  /* Scène des fanions */
+  .fanions-board-viewport {
+    max-width: 1480px;
     margin: 0 auto;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    border: 1px solid rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.14);
     background: #efefee;
     border-radius: 8px;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
   }
 
-  .timeline-matrix-board {
+  .fanions-board-canvas {
     display: flex;
-    min-width: 1420px;
+    min-width: 1380px;
     position: relative;
   }
 
-  /* Colonne de gauche : Axe du temps sticky */
-  .time-axis-col {
+  /* Règle de temps verticale (à gauche, sticky) */
+  .fanions-time-ruler {
     position: sticky;
     left: 0;
     z-index: 10;
-    width: 110px;
+    width: 100px;
     flex-shrink: 0;
     background: #ffffff;
     border-right: 2px dashed rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
-    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.04);
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.03);
   }
 
-  .axis-header-placeholder {
-    height: 100px;
+  .ruler-head {
+    height: 80px;
     border-bottom: 2px solid #000000;
+    background: #000000;
+    color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #000000;
-    color: #ffffff;
-  }
-
-  .axis-title {
     font: 700 11px var(--font);
     letter-spacing: 0.16em;
     text-transform: uppercase;
   }
 
-  .time-axis-marker {
-    height: 240px;
+  .ruler-date-node {
+    height: 190px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 0 12px;
-    border-bottom: 1px dashed rgba(0, 0, 0, 0.15);
+    padding: 0 10px;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.12);
     position: relative;
     box-sizing: border-box;
     transition: background 0.2s ease;
   }
 
-  .time-axis-marker.is-current {
+  .ruler-date-node.is-current {
     background: #000000;
     color: #ffffff;
   }
 
-  .axis-year {
-    font: 700 13px/1.2 var(--font);
+  .ruler-year {
+    font: 700 12.5px/1.2 var(--font);
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: #000000;
   }
 
-  .time-axis-marker.is-current .axis-year {
+  .ruler-date-node.is-current .ruler-year {
     color: #ffffff;
   }
 
-  .axis-sub {
-    font: 400 9.5px/1.3 var(--font);
+  .ruler-sub {
+    font: 400 8.5px/1.3 var(--font);
     color: rgba(0, 0, 0, 0.55);
     margin-top: 2px;
   }
 
-  .time-axis-marker.is-current .axis-sub {
+  .ruler-date-node.is-current .ruler-sub {
     color: rgba(255, 255, 255, 0.7);
   }
 
-  .axis-notch {
+  .ruler-tick {
     position: absolute;
-    right: -5px;
+    right: -4px;
     top: 50%;
     transform: translateY(-50%);
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #000000;
-  }
-
-  /* Les 10 couloirs de projet */
-  .projects-lanes-container {
-    display: flex;
-    flex: 1;
-  }
-
-  .project-lane {
-    flex: 1;
-    min-width: 130px;
-    max-width: 155px;
-    border-right: 1px dashed rgba(0, 0, 0, 0.12);
-    display: flex;
-    flex-direction: column;
-    background: #fbfbfb;
-  }
-
-  .project-lane:last-child {
-    border-right: none;
-  }
-
-  /* En-tête de couloir de projet */
-  .lane-header {
-    height: 100px;
-    padding: 8px 8px;
-    border-bottom: 2px solid #000000;
-    background: #ffffff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    gap: 3px;
-    box-sizing: border-box;
-  }
-
-  .lane-num {
-    font: 700 11px var(--font);
-    color: rgba(0, 0, 0, 0.45);
-  }
-
-  .lane-logo {
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .lane-logo img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-  }
-
-  .lane-title {
-    margin: 0;
-    font: 700 11.5px/1.1 var(--font);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: #000000;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100%;
-  }
-
-  .lane-domain {
-    font: 700 7.5px var(--font);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.5);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100%;
-  }
-
-  /* Rail vertical où coule la grosse ligne (ruban) */
-  .lane-ribbon-track {
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* Cellule d'époque (hauteur fixe de 240px alignée avec l'axe) */
-  .ribbon-cell-block {
-    height: 240px;
-    border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    padding: 6px;
-  }
-
-  /* 1. Espace vide : le projet n'a pas commencé */
-  .cell-empty-space {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 8px,
-      rgba(0, 0, 0, 0.03) 8px,
-      rgba(0, 0, 0, 0.03) 16px
-    );
-  }
-
-  .faint-guide-line {
-    width: 2px;
-    height: 100%;
-    border-left: 1px dashed rgba(0, 0, 0, 0.15);
-  }
-
-  /* 2. & 3. La grosse ligne de tissu (ruban vertical) */
-  .thick-fabric-ribbon {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background: #ffffff;
-    border-left: 2px dashed #000000;
-    border-right: 2px dashed #000000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    box-sizing: border-box;
-    padding: 8px 6px;
-  }
-
-  .ribbon-stitch-left,
-  .ribbon-stitch-right {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 1px;
-    border-left: 1px dashed rgba(0, 0, 0, 0.2);
-    pointer-events: none;
-  }
-
-  .ribbon-stitch-left { left: 2px; }
-  .ribbon-stitch-right { right: 2px; }
-
-  /* Début du ruban : tête de suspension métallique */
-  .cell-debut-ribbon {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .ribbon-suspension-mount {
-    height: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 4px;
-    background: #ffffff;
-    border: 1px dashed rgba(0, 0, 0, 0.2);
-    border-bottom: none;
-    border-radius: 4px 4px 0 0;
-  }
-
-  .mount-rivet {
     width: 6px;
     height: 6px;
     border-radius: 50%;
     background: #000000;
   }
 
-  .mount-rod {
+  /* Les 10 couloirs de fanions */
+  .fanions-lanes {
+    display: flex;
     flex: 1;
-    height: 2px;
+  }
+
+  .fanion-column {
+    flex: 1;
+    min-width: 124px;
+    max-width: 145px;
+    border-right: 1px dashed rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    background: #fafaf9;
+  }
+
+  .fanion-column:last-child {
+    border-right: none;
+  }
+
+  /* Tête du fanion */
+  .fanion-pennant-head {
+    height: 80px;
+    padding: 6px 4px;
+    border-bottom: 2px solid #000000;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 2px;
+    box-sizing: border-box;
+  }
+
+  .f-num {
+    font: 700 10.5px var(--font);
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+  .f-logo {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .f-logo img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .f-name {
+    margin: 0;
+    font: 700 10.5px/1.1 var(--font);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #000000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+
+  .f-domaine {
+    font: 700 7px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.45);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+
+  /* Piste verticale du fanion */
+  .fanion-vertical-track {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fanion-tier-slot {
+    height: 190px;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.08);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  /* 1. Vide */
+  .f-void-guide {
+    width: 2px;
+    height: 100%;
+    border-left: 1px dashed rgba(0, 0, 0, 0.1);
+  }
+
+  /* ==========================================================================
+     LE FANION EN TISSU (LA LIGNE ÉPAISSE)
+     ========================================================================== */
+  .f-ribbon-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .f-mount-ring {
+    width: 100%;
+    height: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ring-rivet {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
     background: #000000;
   }
 
-  .ribbon-content-tag {
+  /* La ligne épaisse de fanion : 68px de large */
+  .fanion-thick-band {
+    position: relative;
+    width: 68px;
+    height: 100%;
+    background: #ffffff;
+    border-left: 1.5px dashed #000000;
+    border-right: 1.5px dashed #000000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
-    gap: 3px;
-    text-align: center;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    transition: transform 0.15s ease;
+    padding: 4px 2px;
   }
 
-  .cell-tag-date {
-    font: 700 8px var(--font);
-    letter-spacing: 0.1em;
+  .fanion-thick-band:hover {
+    transform: scale(1.03);
+  }
+
+  .fanion-stitch-left,
+  .fanion-stitch-right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    border-left: 1px dashed rgba(0, 0, 0, 0.15);
+    pointer-events: none;
+  }
+
+  .fanion-stitch-left { left: 2px; }
+  .fanion-stitch-right { right: 2px; }
+
+  /* Étiquette compacte sur la bande */
+  .fanion-label-tag {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    text-align: center;
+    padding: 0 4px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .f-tag-date {
+    font: 700 7px var(--font);
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: rgba(0, 0, 0, 0.45);
   }
 
-  .cell-node-title {
-    margin: 0;
-    font: 700 11px/1.2 var(--font);
-    letter-spacing: 0.03em;
+  .f-tag-titre {
+    font: 700 8.5px/1.2 var(--font);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
     color: #000000;
+    word-break: normal;
+    overflow-wrap: break-word;
   }
 
-  .cell-node-desc {
-    margin: 0;
-    font: 400 9.5px/1.35 var(--font);
-    color: rgba(0, 0, 0, 0.7);
-  }
-
-  /* 4. Écusson brodé noir pour POINT FORT ★ */
-  .cell-temps-fort-ribbon {
-    width: 100%;
-    height: 100%;
-  }
-
-  .thick-fabric-ribbon.has-patch {
-    background: #111111;
-    border-color: #000000;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-  }
-
-  .stitched-patch-black {
-    border: 1px dashed rgba(255, 255, 255, 0.7);
-    border-radius: 3px;
-    padding: 8px 6px;
+  /* TEMPS FORT (★) : Écusson noir brodé avec étoile directement sur le fanion */
+  .fanion-thick-band.is-temps-fort {
     background: #000000;
+    border-color: #000000;
     color: #ffffff;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  }
+
+  .fanion-star-badge {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 3px;
     text-align: center;
+    padding: 0 4px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
-  .patch-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-  }
-
-  .patch-star {
-    font-size: 11px;
+  .f-star-glyph {
+    font-size: 13px;
     color: #ffffff;
+    line-height: 1;
+    animation: pulseStar 2.5s infinite ease-in-out;
   }
 
-  .patch-label {
-    font: 700 7.5px var(--font);
-    letter-spacing: 0.12em;
+  @keyframes pulseStar {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+  }
+
+  .f-star-name {
+    font: 700 8.5px/1.15 var(--font);
+    letter-spacing: 0.03em;
     text-transform: uppercase;
     color: #ffffff;
+    word-break: normal;
+    overflow-wrap: break-word;
   }
 
-  .patch-title {
-    margin: 0;
-    font: 700 11px/1.2 var(--font);
-    color: #ffffff;
-  }
-
-  .patch-desc {
-    margin: 0;
-    font: 400 9px/1.35 var(--font);
-    color: rgba(255, 255, 255, 0.85);
-  }
-
-  /* 5. PAUSE R&D : LA FENTE D'ENTRÉE & ZONE SOUS LA PAROI */
-  .cell-fente-pause {
+  /* ==========================================================================
+     FENTE (LE FANION RENTRE DANS UNE FENTE)
+     ========================================================================== */
+  .f-pause-wrapper {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
   }
 
-  .ribbon-into-slot {
-    display: flex;
-    flex-direction: column;
+  /* Le fanion plonge vers la fente */
+  .band-diving {
+    height: 24px;
+    background: linear-gradient(to bottom, #ffffff 0%, #b8b8b7 80%, #333333 100%);
   }
 
-  .ribbon-diving {
-    height: 22px;
-    background: linear-gradient(to bottom, #ffffff 0%, #cccccc 70%, #555555 100%);
-  }
-
-  /* Fissure / Fente architecturale 3D */
-  .architectural-slit {
+  /* Fente 3D découpée dans la paroi */
+  .fanion-slot-slit {
     position: relative;
-    width: 100%;
-    height: 20px;
+    width: 78px;
+    height: 16px;
     background: #000000;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 5;
   }
 
-  .slit-bevel-top {
+  .slit-bevel {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 2px;
     background: #ffffff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
   }
 
-  .slit-deep-shadow {
+  .slit-hole {
     position: absolute;
     inset: 2px 0;
-    background: #050505;
-    box-shadow: inset 0 6px 8px #000000, inset 0 -3px 4px #000000;
+    background: #080808;
+    box-shadow: inset 0 6px 8px #000000, inset 0 -2px 3px #000000;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .slit-caption {
+  .slit-arrow {
     font: 700 6.5px var(--font);
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.85);
     white-space: nowrap;
   }
 
-  .slit-bevel-bot {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: #222222;
-  }
-
-  /* Sous la paroi : le ruban est en retrait dans la fente */
-  .slot-hidden-void {
+  /* Sous la paroi : le fanion est en retrait (invisible) */
+  .fanion-under-wall {
     flex: 1;
+    width: 68px;
     background: repeating-linear-gradient(
       -45deg,
-      #e8e8e7,
-      #e8e8e7 6px,
-      #dfdfde 6px,
-      #dfdfde 12px
+      #e4e4e3,
+      #e4e4e3 4px,
+      #dcdcdb 4px,
+      #dcdcdb 8px
     );
-    border: 1px dashed rgba(0, 0, 0, 0.25);
-    border-top: none;
+    border-left: 1px dashed rgba(0, 0, 0, 0.2);
+    border-right: 1px dashed rgba(0, 0, 0, 0.2);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 6px;
+    gap: 2px;
+    text-align: center;
+    padding: 3px;
     box-sizing: border-box;
   }
 
-  .pause-ghost-card {
-    background: #ffffff;
-    border: 1px dashed rgba(0, 0, 0, 0.35);
-    border-left: 2px solid #000000;
-    border-radius: 3px;
-    padding: 6px 6px;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    text-align: center;
-  }
-
-  .pause-tag {
-    font: 700 7px var(--font);
-    letter-spacing: 0.12em;
+  .pause-tag-tiny {
+    font: 700 6.5px var(--font);
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: #ffffff;
     background: #000000;
     padding: 1px 4px;
     border-radius: 2px;
-    align-self: center;
   }
 
-  .pause-title {
-    margin: 0;
-    font: 700 10px/1.2 var(--font);
-    color: #000000;
-  }
-
-  .pause-desc {
-    margin: 0;
-    font: 400 8.5px/1.3 var(--font);
-    color: rgba(0, 0, 0, 0.65);
-  }
-
-  .pause-status-sub {
-    font: 700 7px var(--font);
-    letter-spacing: 0.06em;
+  .pause-title-tiny {
+    font: 700 8px/1.2 var(--font);
+    color: rgba(0, 0, 0, 0.7);
     text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.45);
-    margin-top: 2px;
+    word-break: normal;
+    overflow-wrap: break-word;
   }
 
-  /* 6. SORTIE DE FENTE */
-  .cell-sortie-fente {
+  /* Sortie de fente */
+  .f-sortie-wrapper {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
   }
 
-  /* 7. STATUT TERMINAL DU RUBAN */
-  .cell-terminal-ribbon {
+  /* ==========================================================================
+     POINTE FINALE DU FANION (AUJOURD'HUI)
+     ========================================================================== */
+  .f-terminal-wrapper {
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
-  .thick-fabric-ribbon.ribbon-terminal {
-    background: #ffffff;
-    border-color: #000000;
+  .band-terminal {
+    height: 100%;
     justify-content: space-between;
     padding-bottom: 0;
   }
 
-  .terminal-content {
+  .terminal-status-info {
     display: flex;
     flex-direction: column;
-    gap: 3px;
-    text-align: center;
-    padding: 4px 2px;
-  }
-
-  .terminal-badge {
-    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    gap: 4px;
-    font: 700 7px var(--font);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #ffffff;
-    background: #000000;
-    padding: 2px 6px;
-    border-radius: 2px;
-    align-self: center;
+    gap: 3px;
+    padding-top: 8px;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .terminal-dot {
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background: #ffffff;
+    background: #000000;
   }
 
-  .terminal-title {
-    margin: 0;
-    font: 700 11px/1.2 var(--font);
+  .terminal-titre {
+    font: 700 8px/1.2 var(--font);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
     color: #000000;
+    word-break: normal;
+    overflow-wrap: break-word;
+    padding: 0 2px;
   }
 
-  .terminal-desc {
-    margin: 0;
-    font: 400 9px/1.35 var(--font);
-    color: rgba(0, 0, 0, 0.7);
-  }
-
-  .terminal-actions {
+  .terminal-buttons {
     display: flex;
     align-items: center;
-    gap: 4px;
-    margin-top: 4px;
-  }
-
-  .btn-terminal {
-    flex: 1;
-    font-size: 8.5px;
-    padding: 5px 2px;
-    letter-spacing: 0.04em;
-    white-space: nowrap;
-    text-align: center;
-  }
-
-  .ribbon-swallowtail {
+    gap: 3px;
     width: 100%;
-    height: 12px;
+    padding: 0 4px;
+    box-sizing: border-box;
+  }
+
+  .f-btn {
+    flex: 1;
+    text-decoration: none;
+    font: 700 7.5px var(--font);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 3px 0;
+    text-align: center;
+    border-radius: 2px;
+  }
+
+  .btn-fiche {
+    background: #000000;
+    color: #ffffff;
+  }
+
+  .btn-gh {
+    border: 1px dashed #000000;
+    color: #000000;
+    background: transparent;
+  }
+
+  /* Pointe biseautée de fanion (queue de pie / chevron) */
+  .pennant-tip-swallowtail,
+  .fanion-chevron-tip {
+    width: 68px;
+    height: 16px;
     background: #ffffff;
     clip-path: polygon(0 0, 100% 0, 50% 100%);
     border-top: 1px dashed rgba(0, 0, 0, 0.2);
@@ -1931,12 +1818,8 @@ const rubansProjets = [
      RESPONSIVE
      ========================================================================== */
   @media (max-width: 899px) {
-    .chrono-table-section {
-      padding: 30px 12px;
-    }
-
-    .chrono-table-intro {
-      margin-bottom: 20px;
+    .fanions-time-section {
+      padding: 24px 10px;
     }
   }
 </style>
