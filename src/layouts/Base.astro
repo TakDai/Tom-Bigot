@@ -28,9 +28,31 @@ const chemin = Astro.url.pathname;
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={new URL(chemin, Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={titreComplet} />
+    <meta name="twitter:description" content={description} />
     <meta name="theme-color" content="#ffffff" />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Tom Bigot",
+      "url": "https://tom-bigot.fr",
+      "jobTitle": "Développeur, Opérateur Projectionniste & Pilote Drone FPV",
+      "sameAs": ["https://github.com/TakDai"],
+      "knowsAbout": [
+        "Software Engineering",
+        "Cinéma Numérique DCI",
+        "Argentique 35mm",
+        "Drone FPV",
+        "Systèmes Embarqués",
+        "Sécurité & Web"
+      ]
+    })} />
   </head>
   <body>
+    <!-- Lien d'évitement accessibilité WCAG -->
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+
     <!-- ================= EN-TÊTE ================= -->
     <nav class="topnav" aria-label="Navigation principale">
       <a class="site-logo" href="/" aria-label="Tom Bigot — Accueil">
@@ -38,18 +60,18 @@ const chemin = Astro.url.pathname;
         <span class="site-name">TOM BIGOT</span>
       </a>
       <div class="nav-group">
-        <a class={`nav-pill ${chemin === '/' ? 'active' : ''}`} href="/#projets-chronologie">Projets</a>
-        <a class={`nav-pill ${chemin === '/projectionniste' ? 'active' : ''}`} href="/projectionniste">Projectionniste</a>
-        <a class={`nav-pill ${chemin === '/pilote-fpv' ? 'active' : ''}`} href="/pilote-fpv">Pilote FPV</a>
-        <a class={`nav-pill ${chemin === '/developpement' ? 'active' : ''}`} href="/developpement">Développement</a>
-        <a class={`nav-pill ${chemin === '/agenda' ? 'active' : ''}`} href="/agenda">Agenda</a>
-        <a class={`nav-pill ${chemin.startsWith('/blog') ? 'active' : ''}`} href="/blog">Blog</a>
-        <a class={`nav-pill ${chemin === '/contact' ? 'active' : ''}`} href="/contact">Contact</a>
+        <a class={`nav-pill ${chemin === '/' ? 'active' : ''}`} href="/#projets-chronologie" aria-current={chemin === '/' ? 'page' : undefined}>Projets</a>
+        <a class={`nav-pill ${chemin === '/projectionniste' ? 'active' : ''}`} href="/projectionniste" aria-current={chemin === '/projectionniste' ? 'page' : undefined}>Projectionniste</a>
+        <a class={`nav-pill ${chemin === '/pilote-fpv' ? 'active' : ''}`} href="/pilote-fpv" aria-current={chemin === '/pilote-fpv' ? 'page' : undefined}>Pilote FPV</a>
+        <a class={`nav-pill ${chemin === '/developpement' ? 'active' : ''}`} href="/developpement" aria-current={chemin === '/developpement' ? 'page' : undefined}>Développement</a>
+        <a class={`nav-pill ${chemin === '/agenda' ? 'active' : ''}`} href="/agenda" aria-current={chemin === '/agenda' ? 'page' : undefined}>Agenda</a>
+        <a class={`nav-pill ${chemin.startsWith('/blog') ? 'active' : ''}`} href="/blog" aria-current={chemin.startsWith('/blog') ? 'page' : undefined}>Blog</a>
+        <a class={`nav-pill ${chemin === '/contact' ? 'active' : ''}`} href="/contact" aria-current={chemin === '/contact' ? 'page' : undefined}>Contact</a>
       </div>
     </nav>
 
     <!-- ================= CONTENU ================= -->
-    <main class="page-main">
+    <main class="page-main" id="main-content">
       <slot />
     </main>
 
@@ -84,6 +106,25 @@ const chemin = Astro.url.pathname;
 </html>
 
 <style>
+  /* ---------- ACCESSIBILITÉ ---------- */
+  .skip-link {
+    position: absolute;
+    top: -999px;
+    left: 16px;
+    background: #000000;
+    color: #ffffff;
+    padding: 10px 18px;
+    font: 700 12px var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    z-index: 9999;
+    border: 2px solid #ffffff;
+    transition: top 0.2s ease;
+  }
+  .skip-link:focus {
+    top: 16px;
+  }
+
   /* ---------- EN-TÊTE ---------- */
   .topnav {
     display: flex;

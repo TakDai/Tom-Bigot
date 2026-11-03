@@ -2,15 +2,159 @@
 import Base from '../layouts/Base.astro';
 ---
 
-<Base titre="Page introuvable">
-  <section class="conteneur page">
-    <p class="etiquette">404</p>
-    <h1>Rien à regarder ici.</h1>
-    <p><a href="/">Retour à l'accueil</a></p>
-  </section>
+<Base titre="404 — Page Introuvable" description="Erreur 404 — La page demandée n'existe pas ou a été déplacée.">
+  <main class="prose-screen screen-404">
+    <header class="page-head">
+      <span class="etiquette">ERREUR HTTP &bull; 404</span>
+      <h1 class="page-title">SIGNAL INTROUVABLE</h1>
+      <p class="page-subtitle">
+        La bobine demandée n'est pas montée en cabine ou le lien a été déplacé vers une nouvelle coordonnée.
+      </p>
+    </header>
+
+    <article class="prose-card error-card">
+      <div class="error-badge">404</div>
+      <h2>ORIENTATION &amp; NAVIGATION RAPIDE</h2>
+      <p>
+        Retrouvez directement les sections principales du portfolio, de l'agenda et des projets techniques :
+      </p>
+      <div class="shortcuts-grid">
+        <a href="/" class="shortcut-card">
+          <span class="shortcut-icon">⚡</span>
+          <strong>Accueil &amp; Projets</strong>
+          <span>Chronologie de tous les projets matériels &amp; logiciels</span>
+        </a>
+        <a href="/agenda" class="shortcut-card">
+          <span class="shortcut-icon">📅</span>
+          <strong>Agenda &amp; Réservations</strong>
+          <span>Disponibilités cabines cinéma &amp; tournages FPV</span>
+        </a>
+        <a href="/projectionniste" class="shortcut-card">
+          <span class="shortcut-icon">🏛️</span>
+          <strong>Projectionniste</strong>
+          <span>Cabine numérique DCI, 35mm argentique &amp; régie</span>
+        </a>
+        <a href="/pilote-fpv" class="shortcut-card">
+          <span class="shortcut-icon">🚁</span>
+          <strong>Pilote Drone FPV</strong>
+          <span>Prises de vue dynamiques, cinématiques &amp; devis</span>
+        </a>
+        <a href="/developpement" class="shortcut-card">
+          <span class="shortcut-icon">💻</span>
+          <strong>Développement</strong>
+          <span>Architectures logicielles, embarqué &amp; open-source</span>
+        </a>
+        <a href="/contact" class="shortcut-card">
+          <span class="shortcut-icon">✉️</span>
+          <strong>Contact direct</strong>
+          <span>Échanges techniques, collaborations &amp; propositions</span>
+        </a>
+      </div>
+    </article>
+
+    <div class="actions-row">
+      <a href="/" class="btn-noir">&larr; Retour à l'accueil</a>
+      <a href="/agenda" class="btn-outline">Accéder à l'agenda &rarr;</a>
+    </div>
+  </main>
 </Base>
 
 <style>
-  .page { padding-top: var(--espace); }
-  h1 { margin: 0.5rem 0 1.5rem; font-size: clamp(2.25rem, 6vw, 4rem); }
+  .prose-screen {
+    flex: 1;
+    width: 100%;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: clamp(32px, 5vh, 64px) clamp(16px, 4vw, 32px);
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .page-head {
+    border-bottom: 2px dashed var(--dash);
+    padding-bottom: 24px;
+  }
+
+  .page-title {
+    margin: 8px 0 12px;
+    font: 700 clamp(28px, 5vw, 42px)/1.1 var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .page-subtitle {
+    margin: 0;
+    font: 400 14px/1.6 var(--font);
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  .error-card {
+    border: 2px dashed var(--dash);
+    padding: clamp(24px, 4vw, 36px);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .error-badge {
+    position: absolute;
+    top: -15px;
+    right: 15px;
+    font: 900 clamp(64px, 12vw, 110px)/1 var(--font);
+    color: rgba(0, 0, 0, 0.06);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .shortcuts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin-top: 8px;
+  }
+
+  .shortcut-card {
+    background: #ffffff;
+    border: 2px dashed var(--dash);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-decoration: none;
+    color: var(--ink);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .shortcut-card:hover {
+    border-style: solid;
+    border-color: #000000;
+    transform: translateY(-2px);
+    box-shadow: 3px 3px 0 #000000;
+  }
+
+  .shortcut-icon {
+    font-size: 22px;
+    margin-bottom: 4px;
+  }
+
+  .shortcut-card strong {
+    font: 700 13px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .shortcut-card span {
+    font: 400 11.5px/1.35 var(--font);
+    color: rgba(0, 0, 0, 0.65);
+  }
+
+  .actions-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
 </style>
