@@ -2,77 +2,91 @@
 import Base from '../layouts/Base.astro';
 ---
 
-<Base titre="À propos" description="À propos de Tom Bigot — parcours, vision technique et réalisations.">
+<Base titre="À propos" description="À propos de Tom Bigot — parcours, démarche artisanale du code, drones FPV et infrastructures autonomes.">
   <main class="prose-screen">
     <header class="page-head">
-      <span class="etiquette">PROFIL &bull; PARCOURS</span>
+      <span class="etiquette">PROFIL &bull; ARTISANAT TECHNIQUE</span>
       <h1 class="page-title">TOM BIGOT</h1>
       <p class="page-subtitle">
-        Développeur et créateur technique. Je conçois et développe des solutions logicielles et matérielles complètes,
-        axées sur l’autonomie, l’efficacité et la simplicité de fonctionnement.
+        Créateur technique, maker et ingénieur systèmes basé en Touraine. Je conçois des machines physiques, des logiciels légers et des infrastructures autonomes en reliant constamment le fer à souder au terminal.
       </p>
     </header>
 
-    <!-- 01. Ce que je fais -->
+    <!-- 01. Présentation personnelle -->
     <article class="prose-card">
-      <span class="etiquette">01 &bull; CE QUE JE FAIS</span>
-      <h2>FAIRE LE PONT ENTRE LE CODE ET LA MATIÈRE</h2>
+      <span class="etiquette">01 &bull; MANIFESTE PERSONNEL</span>
+      <h2>DE L'ÉTABLI À LA MACHINE : MA DÉMARCHE</h2>
       <p>
-        Mon travail et mes projets s'articulent autour d'une pratique décloisonnée reliant le développement web moderne,
-        l'électronique embarquée (drones FPV, robotique autonome) et l'administration d'infrastructures serveurs fiables.
+        Je ne conçois pas l'informatique comme une abstraction désincarnée. Pour moi, le numérique prend tout son sens lorsqu'il s'ancre dans le réel : faire tourner des moteurs à haute vitesse, piloter des capteurs gyroscopiques, fiabiliser un réseau local ou offrir une interface web instantanée sans artifice.
       </p>
       <p>
-        Je conçois et développe des solutions complètes de bout en bout :
+        Mon espace de travail reflète cette double culture : d'un côté l'établi d'électronique avec fer à souder, pinces de précision, imprimante 3D et bancs de test dynamiques ; de l'autre, des stations sous Linux Debian, des terminaux bash et des conteneurs Docker. Cette polyvalence me permet d'aborder un problème technique dans sa totalité, sans jamais être bloqué à la frontière entre le matériel et le logiciel.
       </p>
-      <ul>
-        <li><strong>Applications Web &amp; Plateformes Modernes :</strong> Conception d'interfaces épurées, réactives et performantes, sans dépendances superflues, centrées sur l'efficacité et l'expérience utilisateur.</li>
-        <li><strong>Drones FPV, Robotique &amp; Embarqué :</strong> Modélisme, prototypage mécanique, asservissement en boucle fermée (PID), télémétrie et programmation de microcontrôleurs STM32 en C/C++.</li>
-        <li><strong>Infrastructures &amp; Auto-hébergement :</strong> Déploiement et maintien de serveurs Linux autonomes, isolation de services via Docker, durcissement réseau (TLS, HSTS) et pipelines CI/CD.</li>
-      </ul>
     </article>
 
-    <!-- 02. Pourquoi je le fais -->
+    <!-- 02. Ce que je fais -->
     <article class="prose-card">
-      <span class="etiquette">02 &bull; POURQUOI JE LE FAIS</span>
-      <h2>AUTONOMIE, UTILITÉ CONCRÈTE ET TRANSMISSION</h2>
-      <p>
-        Créer ne se résume pas à empiler des outils tiers. Ma démarche repose sur trois convictions profondes qui guident chacun de mes choix techniques :
-      </p>
+      <span class="etiquette">02 &bull; MON ACTIVITÉ CONCRÈTE</span>
+      <h2>CE QUE JE CONÇOIS ET DÉVELOPPE</h2>
       <div class="swatch-grid">
         <div class="principe-item">
-          <h3>L'Autonomie Technique</h3>
-          <p>Refuser de subir les technologies comme des boîtes noires. Comprendre comment fonctionne chaque couche — du composant électronique jusqu'au protocole réseau — pour rester souverain, diagnostiquer et réparer soi-même.</p>
+          <h3>Drones FPV &amp; Embarqué</h3>
+          <p>Conception de châssis multirotors, bancs d'essai moteurs (multi-motors), asservissement en boucle fermée PID, télémétrie en direct et programmation C/C++ sur microcontrôleurs STM32.</p>
         </div>
         <div class="principe-item">
-          <h3>Le Pragmatisme Maker</h3>
-          <p>Répondre à des besoins réels avec des outils tangibles, durables et réparables. Préférer le prototype éprouvé sur le terrain et l'itération concrète plutôt que les théories abstraites ou les modes éphémères.</p>
+          <h3>Web &amp; Logiciels Chirurgicaux</h3>
+          <p>Développement de plateformes ultra-réactives, légères et indépendantes. Refus catégorique des usines à gaz de 500 Mo : du code lisible, pérenne, économe en ressources et centré sur l'utilisateur.</p>
         </div>
         <div class="principe-item">
-          <h3>La Transmission Ouverte</h3>
-          <p>Documenter sans filtre les démarches, publier le code et rédiger des retours d'expérience sur le blog technique pour faire progresser la communauté et capitaliser sur les apprentissages.</p>
+          <h3>Homelab &amp; Systèmes Autonomes</h3>
+          <p>Mise en place de serveurs physiques sous Linux Debian, monitoring sur mesure (superviseur), reverse proxy sécurisé, isolation Docker et déploiements continus maîtrisés de bout en bout.</p>
         </div>
       </div>
     </article>
 
-    <!-- 03. Principes de conception -->
+    <!-- 03. Pourquoi je le fais -->
     <article class="prose-card">
-      <span class="etiquette">03 &bull; PRINCIPES DE TRAVAIL</span>
-      <h2>MÉTHODE D'INGÉNIERIE</h2>
+      <span class="etiquette">03 &bull; MES RAISONS PROFONDES</span>
+      <h2>POURQUOI JE LE FAIS AINSI</h2>
       <p>
-        Chaque projet présenté dans le portfolio respecte des critères de qualité stricts :
+        Créer et fabriquer ne sont pas de simples passe-temps, c'est une posture d'exigence et de liberté :
       </p>
       <ul>
-        <li><strong>Sobriété numérique :</strong> Moins de code inutile, optimisation des ressources et priorité à la longévité des systèmes.</li>
-        <li><strong>Rigueur et sécurité :</strong> Bonnes pratiques de chiffrement, cloisonnement des données et résilience dès la phase de conception.</li>
-        <li><strong>Finitions soignées :</strong> Souci du détail esthétique et ergonomique, aussi bien dans le design visuel que dans l'architecture logicielle sous-jacente.</li>
+        <li>
+          <strong>Le refus absolu des boîtes noires :</strong> Notre monde contemporain incite les utilisateurs à la passivité et à la consommation d'objets jetables et de logiciels opaques. Si je ne peux pas ouvrir une machine, lire son code, inspecter ses circuits et la réparer moi-même, je refuse d'en être dépendant.
+        </li>
+        <li>
+          <strong>La fierté du travail bien fait &amp; le pragmatisme Maker :</strong> Voir une machine conçue de ses mains voler à 150 km/h, ou observer un serveur personnel répondre en quelques millisecondes sans dépendre des GAFAM, procure une satisfaction technique incomparable. Chaque projet répond à un besoin franc et vérifiable sur le terrain.
+        </li>
+        <li>
+          <strong>Le partage d'apprentissage sans fard :</strong> À travers mes sessions de fabrication en direct (127IL), mes dépôts ouverts et les articles techniques de ce blog, je partage méthodiquement mes réussites comme mes échecs techniques pour faire progresser ceux qui partagent la même soif d'apprendre.
+        </li>
       </ul>
     </article>
 
+    <!-- 04. Boîte à outils / Setup quotidien -->
+    <article class="prose-card">
+      <span class="etiquette">04 &bull; L'ENVIRONNEMENT AU QUOTIDIEN</span>
+      <h2>MON ÉCOSYSTÈME DE TRAVAIL</h2>
+      <div class="swatch-grid">
+        <div class="principe-item">
+          <h3>À l'atelier physique</h3>
+          <p>Fer à souder de précision, impression 3D FDM technique (PETG, TPU), bancs de poussée moteurs, oscilloscope numérique de terrain, radio-commande OpenTX/EdgeTX, contrôleurs STM32 F4/F7/H7.</p>
+        </div>
+        <div class="principe-item">
+          <h3>Côté code &amp; système</h3>
+          <p>Linux Debian, Docker, Nginx, Astro, TypeScript, C/C++, Git, Neovim/VSCode, pipelines CI/CD automatisés, protocoles sécurisés TLS / HSTS.</p>
+        </div>
+      </div>
+    </article>
+
     <div class="actions-row">
-      <a href="/#projets-chronologie" class="btn-noir">Découvrir les projets</a>
-      <a href="/contact" class="btn-outline">Me contacter &rarr;</a>
-      <a href="/" class="nav-pill">&larr; Retour à l'accueil</a>
+      <a href="/#demarche" class="btn-noir">Découvrir le manifeste</a>
+      <a href="/#projets-chronologie" class="btn-outline">Explorer les 10 projets &rarr;</a>
+      <a href="/contact" class="nav-pill">Me contacter</a>
     </div>
+  </main>
+</Base>
   </main>
 </Base>
 
