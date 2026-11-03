@@ -1,412 +1,729 @@
 ---
 import Base from '../layouts/Base.astro';
 
-// Génération des jours pour Novembre 2026 et Décembre 2026
-// Statuts possibles: 'libre' | 'option' | 'reserve'
-interface JourAgenda {
+// Typage des créneaux
+export interface JourPlanning {
   jour: number;
   dateStr: string; // YYYY-MM-DD
-  statut: 'libre' | 'option' | 'reserve';
+  statut: 'libre' | 'formation' | 'reserve_cine1' | 'reserve_cine2' | 'option';
   label?: string;
-  type?: 'cinema' | 'fpv' | 'dev' | 'autre';
+  detail?: string;
 }
 
-const joursNovembre2026: JourAgenda[] = [
-  { jour: 1, dateStr: '2026-11-01', statut: 'reserve', label: 'Projection cinéma', type: 'cinema' },
-  { jour: 2, dateStr: '2026-11-02', statut: 'libre' },
-  { jour: 3, dateStr: '2026-11-03', statut: 'libre' },
-  { jour: 4, dateStr: '2026-11-04', statut: 'libre' },
-  { jour: 5, dateStr: '2026-11-05', statut: 'option', label: 'Option tournage FPV', type: 'fpv' },
-  { jour: 6, dateStr: '2026-11-06', statut: 'reserve', label: 'Cabine cinéma DCI', type: 'cinema' },
-  { jour: 7, dateStr: '2026-11-07', statut: 'reserve', label: 'Cabine cinéma DCI', type: 'cinema' },
-  { jour: 8, dateStr: '2026-11-08', statut: 'libre' },
-  { jour: 9, dateStr: '2026-11-09', statut: 'libre' },
-  { jour: 10, dateStr: '2026-11-10', statut: 'libre' },
-  { jour: 11, dateStr: '2026-11-11', statut: 'libre' },
-  { jour: 12, dateStr: '2026-11-12', statut: 'option', label: 'Sprint dév embarqué', type: 'dev' },
-  { jour: 13, dateStr: '2026-11-13', statut: 'option', label: 'Sprint dév embarqué', type: 'dev' },
-  { jour: 14, dateStr: '2026-11-14', statut: 'reserve', label: 'Séance 35mm patrimoine', type: 'cinema' },
-  { jour: 15, dateStr: '2026-11-15', statut: 'reserve', label: 'Projection cinéma', type: 'cinema' },
-  { jour: 16, dateStr: '2026-11-16', statut: 'libre' },
-  { jour: 17, dateStr: '2026-11-17', statut: 'libre' },
-  { jour: 18, dateStr: '2026-11-18', statut: 'libre' },
-  { jour: 19, dateStr: '2026-11-19', statut: 'libre' },
-  { jour: 20, dateStr: '2026-11-20', statut: 'option', label: 'Tournage FPV extérieur', type: 'fpv' },
-  { jour: 21, dateStr: '2026-11-21', statut: 'reserve', label: 'Cabine cinéma week-end', type: 'cinema' },
-  { jour: 22, dateStr: '2026-11-22', statut: 'reserve', label: 'Cabine cinéma week-end', type: 'cinema' },
-  { jour: 23, dateStr: '2026-11-23', statut: 'libre' },
-  { jour: 24, dateStr: '2026-11-24', statut: 'libre' },
-  { jour: 25, dateStr: '2026-11-25', statut: 'libre' },
-  { jour: 26, dateStr: '2026-11-26', statut: 'libre' },
-  { jour: 27, dateStr: '2026-11-27', statut: 'libre' },
-  { jour: 28, dateStr: '2026-11-28', statut: 'libre' },
-  { jour: 29, dateStr: '2026-11-29', statut: 'reserve', label: 'Festival cinéma', type: 'cinema' },
-  { jour: 30, dateStr: '2026-11-30', statut: 'libre' },
+export interface MoisPlanning {
+  nom: string;
+  annee: number;
+  decalageLundi: number; // 0=Lundi, 1=Mardi... 6=Dimanche
+  jours: JourPlanning[];
+}
+
+// 1. Novembre 2026 (1er Nov = Dimanche => décalage 6)
+const joursNovembre2026: JourPlanning[] = [
+  { jour: 1, dateStr: '2026-11-01', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Cabine Soir (Sortie nationale)' },
+  { jour: 2, dateStr: '2026-11-02', statut: 'formation', label: 'CFA / Formation', detail: 'Cours théoriques DCI & Acoustique' },
+  { jour: 3, dateStr: '2026-11-03', statut: 'formation', label: 'CFA / Formation', detail: 'Atelier Optique & Électronique' },
+  { jour: 4, dateStr: '2026-11-04', statut: 'formation', label: 'CFA / Formation', detail: 'Cryptographie & KDM' },
+  { jour: 5, dateStr: '2026-11-05', statut: 'formation', label: 'CFA / Formation', detail: 'Atelier Pratique 35mm' },
+  { jour: 6, dateStr: '2026-11-06', statut: 'formation', label: 'CFA / Formation', detail: 'Normes de sécurité ERP' },
+  { jour: 7, dateStr: '2026-11-07', statut: 'reserve_cine2', label: 'Cinéma 2', detail: 'Cabine Après-midi + Soir' },
+  { jour: 8, dateStr: '2026-11-08', statut: 'libre', label: 'Disponible' },
+  { jour: 9, dateStr: '2026-11-09', statut: 'libre', label: 'Disponible' },
+  { jour: 10, dateStr: '2026-11-10', statut: 'libre', label: 'Disponible' },
+  { jour: 11, dateStr: '2026-11-11', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Férié — Séances continues' },
+  { jour: 12, dateStr: '2026-11-12', statut: 'libre', label: 'Disponible' },
+  { jour: 13, dateStr: '2026-11-13', statut: 'option', label: 'Option en cours', detail: 'En attente confirmation cinéma' },
+  { jour: 14, dateStr: '2026-11-14', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Séance 35mm Spéciale' },
+  { jour: 15, dateStr: '2026-11-15', statut: 'libre', label: 'Disponible' },
+  { jour: 16, dateStr: '2026-11-16', statut: 'formation', label: 'CFA / Formation', detail: 'Sonorisation Dolby & Processeurs' },
+  { jour: 17, dateStr: '2026-11-17', statut: 'formation', label: 'CFA / Formation', detail: 'Réseaux TMS & Ingest haut débit' },
+  { jour: 18, dateStr: '2026-11-18', statut: 'formation', label: 'CFA / Formation', detail: 'Calibration laser & xénon' },
+  { jour: 19, dateStr: '2026-11-19', statut: 'formation', label: 'CFA / Formation', detail: 'Maintenance préventive cabine' },
+  { jour: 20, dateStr: '2026-11-20', statut: 'formation', label: 'CFA / Formation', detail: 'Contrôles réglementaires' },
+  { jour: 21, dateStr: '2026-11-21', statut: 'reserve_cine2', label: 'Cinéma 2', detail: 'Week-end cabine DCI' },
+  { jour: 22, dateStr: '2026-11-22', statut: 'reserve_cine2', label: 'Cinéma 2', detail: 'Week-end cabine DCI' },
+  { jour: 23, dateStr: '2026-11-23', statut: 'libre', label: 'Disponible' },
+  { jour: 24, dateStr: '2026-11-24', statut: 'libre', label: 'Disponible' },
+  { jour: 25, dateStr: '2026-11-25', statut: 'libre', label: 'Disponible' },
+  { jour: 26, dateStr: '2026-11-26', statut: 'libre', label: 'Disponible' },
+  { jour: 27, dateStr: '2026-11-27', statut: 'libre', label: 'Disponible' },
+  { jour: 28, dateStr: '2026-11-28', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Soirée ciné-débat régie' },
+  { jour: 29, dateStr: '2026-11-29', statut: 'libre', label: 'Disponible' },
+  { jour: 30, dateStr: '2026-11-30', statut: 'libre', label: 'Disponible' },
 ];
 
-// 1er Nov 2026 était un Dimanche (index 6 si Lundi=0)
-const decalageNovembre = 6; 
+// 2. Décembre 2026 (1er Dec = Mardi => décalage 1)
+const joursDecembre2026: JourPlanning[] = [
+  { jour: 1, dateStr: '2026-12-01', statut: 'libre', label: 'Disponible' },
+  { jour: 2, dateStr: '2026-12-02', statut: 'libre', label: 'Disponible' },
+  { jour: 3, dateStr: '2026-12-03', statut: 'libre', label: 'Disponible' },
+  { jour: 4, dateStr: '2026-12-04', statut: 'libre', label: 'Disponible' },
+  { jour: 5, dateStr: '2026-12-05', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Cabine Week-end' },
+  { jour: 6, dateStr: '2026-12-06', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Cabine Week-end' },
+  { jour: 7, dateStr: '2026-12-07', statut: 'formation', label: 'CFA / Formation', detail: 'Pratique exploitation multi-salles' },
+  { jour: 8, dateStr: '2026-12-08', statut: 'formation', label: 'CFA / Formation', detail: 'Processeurs IMS et automatisations' },
+  { jour: 9, dateStr: '2026-12-09', statut: 'formation', label: 'CFA / Formation', detail: 'Diagnostic pannes de projection' },
+  { jour: 10, dateStr: '2026-12-10', statut: 'formation', label: 'CFA / Formation', detail: 'Normes SMPTE & DCI' },
+  { jour: 11, dateStr: '2026-12-11', statut: 'formation', label: 'CFA / Formation', detail: 'Bilan intermédiaire de compétences' },
+  { jour: 12, dateStr: '2026-12-12', statut: 'libre', label: 'Disponible' },
+  { jour: 13, dateStr: '2026-12-13', statut: 'libre', label: 'Disponible' },
+  { jour: 14, dateStr: '2026-12-14', statut: 'libre', label: 'Disponible' },
+  { jour: 15, dateStr: '2026-12-15', statut: 'libre', label: 'Disponible' },
+  { jour: 16, dateStr: '2026-12-16', statut: 'reserve_cine2', label: 'Cinéma 2', detail: 'Sortie événementielle' },
+  { jour: 17, dateStr: '2026-12-17', statut: 'libre', label: 'Disponible' },
+  { jour: 18, dateStr: '2026-12-18', statut: 'libre', label: 'Disponible' },
+  { jour: 19, dateStr: '2026-12-19', statut: 'reserve_cine2', label: 'Cinéma 2', detail: 'Vacances de Noël - Affluence' },
+  { jour: 20, dateStr: '2026-12-20', statut: 'reserve_cine2', label: 'Cinéma 2', detail: 'Vacances de Noël - Affluence' },
+  { jour: 21, dateStr: '2026-12-21', statut: 'libre', label: 'Disponible' },
+  { jour: 22, dateStr: '2026-12-22', statut: 'libre', label: 'Disponible' },
+  { jour: 23, dateStr: '2026-12-23', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Séances jeunesse' },
+  { jour: 24, dateStr: '2026-12-24', statut: 'libre', label: 'Disponible' },
+  { jour: 25, dateStr: '2026-12-25', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Séances de Noël' },
+  { jour: 26, dateStr: '2026-12-26', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Séances de Noël' },
+  { jour: 27, dateStr: '2026-12-27', statut: 'libre', label: 'Disponible' },
+  { jour: 28, dateStr: '2026-12-28', statut: 'libre', label: 'Disponible' },
+  { jour: 29, dateStr: '2026-12-29', statut: 'libre', label: 'Disponible' },
+  { jour: 30, dateStr: '2026-12-30', statut: 'libre', label: 'Disponible' },
+  { jour: 31, dateStr: '2026-12-31', statut: 'reserve_cine2', label: 'Cinéma 2', detail: 'Séances Réveillon' },
+];
+
+const planningMois: MoisPlanning[] = [
+  { nom: 'Novembre', annee: 2026, decalageLundi: 6, jours: joursNovembre2026 },
+  { nom: 'Décembre', annee: 2026, decalageLundi: 1, jours: joursDecembre2026 },
+];
 ---
 
 <Base
-  titre="Agenda & Disponibilités"
-  description="Consultez le planning d'intervention de Tom Bigot (projection cinéma, tournages drone FPV, missions de développement) et déposez une demande de dates autorisée."
+  titre="Agenda & Disponibilités Cabine"
+  description="Planning des disponibilités cabine de Tom Bigot (Opérateur Projectionniste). Périodes de formation CFA et réservation directe de dates pour les deux cinémas partenaires."
 >
-  <main class="prose-screen">
-    <header class="page-head">
+  <main class="prose-screen agenda-page">
+    <header class="page-head agenda-header">
       <div class="head-topline">
-        <span class="etiquette">PLANIFICATION &bull; EN DIRECT</span>
-        <a href="#demande-intervention" class="nav-pill pill-accent">Accès formulaire d'intervention &darr;</a>
+        <span class="etiquette">CABINES CINÉMA &bull; PLANNING EN DIRECT</span>
+        <a href="#demande-intervention" class="nav-pill pill-accent">Poser des dates en cabine &darr;</a>
       </div>
-      <h1 class="page-title">AGENDA &amp; DISPONIBILITÉS</h1>
+      <h1 class="page-title">AGENDA &amp; DISPONIBILITÉS CABINE</h1>
       <p class="page-subtitle">
-        Planning prévisionnel de mes interventions pour exploitants de salles, directeurs de production et porteurs de projets techniques. Sélectionnez vos dates pour soumettre une demande.
+        Planning synchronisé dédié aux <strong>deux cinémas partenaires</strong> pour planifier leurs vacations et remplacements de cabine, en coordination avec mes <strong>périodes de formation et d'apprentissage (CFA)</strong>.
       </p>
     </header>
 
-    <!-- Légende & Repères -->
-    <div class="agenda-toolbar">
-      <div class="legend-group">
-        <span class="legend-badge badge-libre">
-          <span class="legend-dot dot-libre"></span>
-          <span>DISPONIBLE (LIBRE)</span>
-        </span>
-        <span class="legend-badge badge-option">
-          <span class="legend-dot dot-option"></span>
-          <span>OPTION EN COURS</span>
-        </span>
-        <span class="legend-badge badge-reserve">
-          <span class="legend-dot dot-reserve"></span>
-          <span>RÉSERVÉ / INDISPONIBLE</span>
-        </span>
+    <!-- Console d'accès rapide cinémas partenaires -->
+    <section class="partner-quick-access" aria-label="Sélection rapide cinéma partenaire">
+      <div class="partner-banner-label">
+        <span class="etiquette">ACCÈS DIRECT EXPLOITANTS</span>
+        <strong>Vous êtes l'un de mes cinémas partenaires ?</strong>
       </div>
-      <div class="month-label">
-        <strong>NOVEMBRE 2026</strong>
-      </div>
-    </div>
-
-    <!-- Calendrier Visuel -->
-    <section class="calendar-card" aria-label="Calendrier Novembre 2026">
-      <div class="calendar-grid">
-        <!-- En-têtes des jours de la semaine -->
-        <div class="weekday-col">LUN</div>
-        <div class="weekday-col">MAR</div>
-        <div class="weekday-col">MER</div>
-        <div class="weekday-col">JEU</div>
-        <div class="weekday-col">VEN</div>
-        <div class="weekday-col">SAM</div>
-        <div class="weekday-col">DIM</div>
-
-        <!-- Cases vides avant le 1er jour -->
-        {Array.from({ length: decalageNovembre }).map((_, i) => (
-          <div class="day-cell day-empty" aria-hidden="true"></div>
-        ))}
-
-        <!-- Jours du mois -->
-        {joursNovembre2026.map((item) => (
-          <button
-            type="button"
-            class={`day-cell day-${item.statut} ${item.statut === 'libre' ? 'day-selectable' : ''}`}
-            data-date={item.dateStr}
-            data-statut={item.statut}
-            title={item.label ? `${item.dateStr} — ${item.label}` : `${item.dateStr} — ${item.statut.toUpperCase()}`}
-          >
-            <div class="day-number">{item.jour}</div>
-            <div class="day-status-indicator">
-              {item.statut === 'libre' && <span class="status-txt txt-libre">Libre</span>}
-              {item.statut === 'option' && <span class="status-txt txt-option">Option</span>}
-              {item.statut === 'reserve' && <span class="status-txt txt-reserve">Occupé</span>}
-            </div>
-            {item.label && <div class="day-tag">{item.label}</div>}
-          </button>
-        ))}
+      <div class="partner-buttons">
+        <button type="button" class="btn-partner" data-preset-cine="cine1">
+          <span class="partner-icon">🏛️</span>
+          <span class="partner-info">
+            <strong class="partner-name">CINÉMA PARTENAIRE 1</strong>
+            <span class="partner-code">Sélectionner pour poser des vacations &rarr;</span>
+          </span>
+        </button>
+        <button type="button" class="btn-partner" data-preset-cine="cine2">
+          <span class="partner-icon">🎥</span>
+          <span class="partner-info">
+            <strong class="partner-name">CINÉMA PARTENAIRE 2</strong>
+            <span class="partner-code">Sélectionner pour poser des vacations &rarr;</span>
+          </span>
+        </button>
       </div>
     </section>
 
-    <!-- Zone de Demande d'Intervention / Réservation Autorisée -->
+    <!-- Légende officielle des créneaux -->
+    <div class="agenda-toolbar">
+      <div class="legend-grid">
+        <div class="legend-badge badge-libre">
+          <span class="legend-box box-libre"></span>
+          <div class="legend-txt">
+            <strong>DISPONIBLE (LIBRE)</strong>
+            <span>Créneau ouvert aux propositions de dates</span>
+          </div>
+        </div>
+        <div class="legend-badge badge-formation">
+          <span class="legend-box box-formation"></span>
+          <div class="legend-txt">
+            <strong>CFA / FORMATION</strong>
+            <span>Période en apprentissage (non mobilisable)</span>
+          </div>
+        </div>
+        <div class="legend-badge badge-cine1">
+          <span class="legend-box box-cine1"></span>
+          <div class="legend-txt">
+            <strong>CINÉMA 1 (RÉSERVÉ)</strong>
+            <span>Vacation ou remplacement planifié</span>
+          </div>
+        </div>
+        <div class="legend-badge badge-cine2">
+          <span class="legend-box box-cine2"></span>
+          <div class="legend-txt">
+            <strong>CINÉMA 2 (RÉSERVÉ)</strong>
+            <span>Vacation ou remplacement planifié</span>
+          </div>
+        </div>
+        <div class="legend-badge badge-option">
+          <span class="legend-box box-option"></span>
+          <div class="legend-txt">
+            <strong>OPTION EN COURS</strong>
+            <span>Date en cours de confirmation</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contrôleur de mois -->
+      <div class="month-selector-bar">
+        <button type="button" id="btnPrevMonth" class="btn-outline btn-month" aria-label="Mois précédent">&larr; Mois précédent</button>
+        <div class="current-month-display">
+          <span class="etiquette">CALENDRIER</span>
+          <h2 id="activeMonthTitle" class="month-heading">NOVEMBRE 2026</h2>
+        </div>
+        <button type="button" id="btnNextMonth" class="btn-outline btn-month" aria-label="Mois suivant">Mois suivant &rarr;</button>
+      </div>
+    </div>
+
+    <!-- Calendriers pour chaque mois -->
+    {planningMois.map((mois, indexMois) => (
+      <section
+        id={`calendar-view-${indexMois}`}
+        class={`calendar-card month-view ${indexMois === 0 ? 'is-active-month' : 'is-hidden-month'}`}
+        aria-label={`Calendrier ${mois.nom} ${mois.annee}`}
+        data-month-index={indexMois}
+        data-month-name={`${mois.nom.toUpperCase()} ${mois.annee}`}
+      >
+        <div class="calendar-grid">
+          <div class="weekday-col">LUN</div>
+          <div class="weekday-col">MAR</div>
+          <div class="weekday-col">MER</div>
+          <div class="weekday-col">JEU</div>
+          <div class="weekday-col">VEN</div>
+          <div class="weekday-col">SAM</div>
+          <div class="weekday-col">DIM</div>
+
+          <!-- Cases vides de début de mois -->
+          {Array.from({ length: mois.decalageLundi }).map((_, i) => (
+            <div class="day-cell day-empty" aria-hidden="true"></div>
+          ))}
+
+          <!-- Jours du mois -->
+          {mois.jours.map((item) => {
+            const isLibre = item.statut === 'libre';
+            const isFormation = item.statut === 'formation';
+            const isCine1 = item.statut === 'reserve_cine1';
+            const isCine2 = item.statut === 'reserve_cine2';
+            const isOption = item.statut === 'option';
+
+            return (
+              <div
+                class={`day-cell day-${item.statut} ${isLibre ? 'day-selectable' : 'day-locked'}`}
+                data-date={item.dateStr}
+                data-statut={item.statut}
+                data-label={item.label}
+                data-detail={item.detail || ''}
+                role={isLibre ? 'button' : 'region'}
+                tabindex={isLibre ? '0' : '-1'}
+                title={item.detail ? `${item.dateStr} : ${item.label} (${item.detail})` : `${item.dateStr} : ${item.label}`}
+              >
+                <div class="day-topline">
+                  <span class="day-number">{item.jour}</span>
+                  {isLibre && <span class="tag-libre">+ Choisir</span>}
+                  {isFormation && <span class="tag-formation">CFA</span>}
+                  {isCine1 && <span class="tag-cine1">Ciné 1</span>}
+                  {isCine2 && <span class="tag-cine2">Ciné 2</span>}
+                  {isOption && <span class="tag-option">Option</span>}
+                </div>
+
+                <div class="day-body">
+                  <div class="day-label-main">{item.label}</div>
+                  {item.detail && <div class="day-detail-txt">{item.detail}</div>}
+                </div>
+
+                {isLibre && (
+                  <div class="day-action-hint">
+                    <span>Cliquez pour ajouter</span>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </section>
+    ))}
+
+    <!-- Panier de dates sélectionnées en direct -->
+    <div id="selectionBar" class="selection-summary-bar" style="display: none;">
+      <div class="selection-info">
+        <span class="etiquette">DATES SÉLECTIONNÉES POUR VOS SÉANCES</span>
+        <div id="selectedDatesList" class="selected-tags-container"></div>
+      </div>
+      <div class="selection-actions">
+        <button type="button" id="btnClearSelection" class="btn-clear">Vider la sélection</button>
+        <a href="#demande-intervention" class="btn-noir btn-jump-form">Finaliser la demande &darr;</a>
+      </div>
+    </div>
+
+    <!-- Zone de Demande d'Intervention / Réservation Autorisée pour Cinémas -->
     <section id="demande-intervention" class="prose-card form-container">
       <div class="form-header">
-        <span class="etiquette">RÉSERVATIONS &bull; ACCÈS AUTORISÉ</span>
-        <h2>DEMANDE D'INTERVENTION &amp; POSE DE DATES</h2>
+        <div class="form-pre">
+          <span class="etiquette">CABINE PROJECTION &bull; FORMULAIRE EXPLOITANT</span>
+          <span class="badge-direct">TRANSMISSION DIRECTE</span>
+        </div>
+        <h2>POSER DES DATES D'INTERVENTION EN CABINE</h2>
         <p class="form-intro">
-          Cet espace est réservé aux cinémas partenaires, sociétés de production et collaborateurs disposant d'un code d'autorisation. Si vous n'avez pas encore de code, vous pouvez tout de même initier une première prise de contact.
+          Sélectionnez vos dates libres ci-dessus (ou saisissez-les ci-dessous) puis précisez les créneaux horaires et formats de projection souhaités.
         </p>
       </div>
 
       <form id="agendaForm" class="styled-agenda-form">
-        <div class="form-row auth-row">
-          <div class="form-field full-width">
-            <label for="codeAcces">
-              <strong>CODE D'AUTORISATION / ACCÈS PARTENAIRE</strong>
-              <span class="label-help">(Obligatoire pour validation automatique directe)</span>
-            </label>
-            <div class="input-with-action">
-              <input
-                type="password"
-                id="codeAcces"
-                name="codeAcces"
-                placeholder="Ex : CABINE-XXXX ou PROD-XXXX"
-                autocomplete="off"
-              />
-              <button type="button" id="btnVerifierCode" class="btn-outline btn-inline">
-                Vérifier
-              </button>
-            </div>
-            <div id="codeFeedback" class="code-status"></div>
-          </div>
+        <!-- Identification de l'établissement -->
+        <div class="form-section-title">
+          <span class="step-num">1</span>
+          <h3>IDENTIFICATION DU CINÉMA PARTENAIRE</h3>
         </div>
 
         <div class="form-grid-fields">
-          <div class="form-field">
-            <label for="typeMission">
-              <strong>DOMAINE D'INTERVENTION *</strong>
+          <div class="form-field full-width">
+            <label for="cinemaSelect">
+              <strong>ÉTABLISSEMENT / SALLE DE CINÉMA *</strong>
             </label>
-            <select id="typeMission" name="typeMission" required>
-              <option value="">Sélectionnez un domaine...</option>
-              <option value="projectionniste">Projectionniste Cinéma (DCI / 35mm / Cabine)</option>
-              <option value="pilote-fpv">Pilote FPV Cinématique (Tournage / Suivi / Action)</option>
-              <option value="developpement">Mission Développement (Web / STM32 / Systèmes)</option>
-              <option value="autre">Autre demande technique</option>
-            </select>
+            <div class="cinema-radio-group">
+              <label class="cinema-option-card">
+                <input type="radio" name="cinemaChoix" value="Cinéma Partenaire 1" id="radioCine1" checked />
+                <span class="option-content">
+                  <strong>🏛️ Cinéma Partenaire 1</strong>
+                  <span class="sub">Partenaire régulier</span>
+                </span>
+              </label>
+              <label class="cinema-option-card">
+                <input type="radio" name="cinemaChoix" value="Cinéma Partenaire 2" id="radioCine2" />
+                <span class="option-content">
+                  <strong>🎥 Cinéma Partenaire 2</strong>
+                  <span class="sub">Partenaire régulier</span>
+                </span>
+              </label>
+              <label class="cinema-option-card">
+                <input type="radio" name="cinemaChoix" value="Autre cinéma" id="radioCineAutre" />
+                <span class="option-content">
+                  <strong>🏢 Autre établissement</strong>
+                  <span class="sub">Festival / Salle indépendante</span>
+                </span>
+              </label>
+            </div>
           </div>
 
-          <div class="form-field">
+          <div class="form-field" id="champNomPrecis">
             <label for="structure">
-              <strong>ÉTABLISSEMENT / PRODUCTION / STRUCTURE *</strong>
+              <strong>NOM PRÉCIS DU CINÉMA OU FESTIVAL *</strong>
             </label>
             <input
               type="text"
               id="structure"
               name="structure"
-              placeholder="Ex : Cinéma Le Rex, Studio Prod..."
-              required
-            />
-          </div>
-
-          <div class="form-field">
-            <label for="dateDebut">
-              <strong>DATE DE DÉBUT SOUHAITÉE *</strong>
-            </label>
-            <input
-              type="date"
-              id="dateDebut"
-              name="dateDebut"
-              value="2026-11-04"
-              required
-            />
-          </div>
-
-          <div class="form-field">
-            <label for="dateFin">
-              <strong>DATE DE FIN (OU DATE UNIQUE) *</strong>
-            </label>
-            <input
-              type="date"
-              id="dateFin"
-              name="dateFin"
-              value="2026-11-04"
+              value="Cinéma Partenaire 1"
               required
             />
           </div>
 
           <div class="form-field">
             <label for="contactNom">
-              <strong>NOM &amp; PRÉNOM DU CONTACT *</strong>
+              <strong>RESPONSABLE DE CABINE / PROGRAMMATEUR *</strong>
             </label>
             <input
               type="text"
               id="contactNom"
               name="contactNom"
-              placeholder="Ex : Camille Martin"
+              placeholder="Ex : Philippe D. / Direction d'exploitation"
               required
             />
           </div>
 
           <div class="form-field">
             <label for="contactEmail">
-              <strong>EMAIL PROFESSIONNEL *</strong>
+              <strong>EMAIL DU CINÉMA (POUR CONFIRMATION) *</strong>
             </label>
             <input
               type="email"
               id="contactEmail"
               name="contactEmail"
-              placeholder="Ex : direction@etablissement.fr"
+              placeholder="Ex : cabine@cinema-partenaire.fr"
               required
             />
           </div>
 
+          <div class="form-field">
+            <label for="contactTelephone">
+              <strong>TÉLÉPHONE DIRECT CABINE / DIRECTION</strong>
+            </label>
+            <input
+              type="tel"
+              id="contactTelephone"
+              name="contactTelephone"
+              placeholder="Ex : 02 47 XX XX XX"
+            />
+          </div>
+        </div>
+
+        <!-- Détail des vacations souhaitées -->
+        <div class="form-section-title">
+          <span class="step-num">2</span>
+          <h3>CRÉNEAUX, SÉANCES &amp; DATES DEMANDÉES</h3>
+        </div>
+
+        <div class="form-grid-fields">
           <div class="form-field full-width">
-            <label for="detailsMission">
-              <strong>DÉTAILS DE LA MISSION &amp; HORAIRES PRÉVUS *</strong>
+            <label for="datesSelectionneesInput">
+              <strong>DATE(S) RETENUE(S) POUR LA MISSION *</strong>
+              <span class="label-help">(Sélectionnées automatiquement en cliquant sur les jours libres du calendrier)</span>
+            </label>
+            <input
+              type="text"
+              id="datesSelectionneesInput"
+              name="datesSelectionneesInput"
+              placeholder="Ex : 2026-11-09, 2026-11-10..."
+              required
+            />
+          </div>
+
+          <div class="form-field">
+            <label for="typeVacation">
+              <strong>TYPE DE VACATION CABINE *</strong>
+            </label>
+            <select id="typeVacation" name="typeVacation" required>
+              <option value="Soirée (18h00 - 23h30)">Soirée (18h00 - 23h30)</option>
+              <option value="Après-midi + Soirée (13h45 - 23h30)">Après-midi + Soirée (13h45 - 23h30)</option>
+              <option value="Après-midi seule (13h45 - 18h00)">Après-midi seule (13h45 - 18h00)</option>
+              <option value="Matinée scolaire / Débat (08h30 - 12h30)">Matinée scolaire / Débat (08h30 - 12h30)</option>
+              <option value="Journée complète (Week-end / Sortie)">Journée continue (Week-end / Affluence)</option>
+              <option value="Remplacement d'urgence cabine">Remplacement d'urgence / Imprévu</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="technoCabine">
+              <strong>SYSTÈME &amp; FORMAT DE PROJECTION</strong>
+            </label>
+            <select id="technoCabine" name="technoCabine">
+              <option value="Numérique DCI standard (Barco/Christie)">Numérique DCI standard (Barco / Christie / Doremi)</option>
+              <option value="Numérique DCI + Événementiel (Micros HF / Conférence)">DCI + Régie Débat / Rencontre réalisateur</option>
+              <option value="Séance 35mm Argentique (Plateau / Bobines)">Séance 35mm Argentique (Montage bobines)</option>
+              <option value="Autre configuration cabine">Autre configuration</option>
+            </select>
+          </div>
+
+          <div class="form-field full-width">
+            <label for="notesCabine">
+              <strong>TITRES DES FILMS OU PRÉCISIONS POUR LA CABINE</strong>
             </label>
             <textarea
-              id="detailsMission"
-              name="detailsMission"
-              rows="5"
-              placeholder="Précisez : horaires des séances, type d'appareil de projection ou format de tournage, contraintes particulières..."
-              required
+              id="notesCabine"
+              name="notesCabine"
+              rows="4"
+              placeholder="Précisez les films au programme, horaires d'allumage des projecteurs, livraisons KDM ou particularités techniques..."
             ></textarea>
           </div>
         </div>
 
         <div class="form-footer">
           <button type="submit" class="btn-noir btn-submit">
-            Envoyer la demande de réservation &rarr;
+            Valider et transmettre la proposition de dates &rarr;
           </button>
           <p class="form-notice">
-            Une confirmation par email vous sera envoyée sous 24h ouvrées. En cas d'urgence cabine ou tournage, contactez directement le standard.
+            Cette demande sera directement transmise à Tom Bigot. Une confirmation de prise en compte vous sera retournée dans les plus brefs délais.
           </p>
         </div>
 
-        <div id="confirmationBanner" class="confirmation-box" style="display:none;">
-          <h3>DEMANDE ENREGISTRÉE AVEC SUCCÈS</h3>
+        <div id="confirmationBanner" class="confirmation-box" style="display: none;">
+          <h3>DEMANDE DE CABINE TRANSMISE AVEC SUCCÈS</h3>
           <p id="confirmationMessage">
-            Vos dates ont été prises en compte. Une notification immédiate a été transmise à Tom Bigot.
+            Vos dates ont été enregistrées pour votre établissement. Une notification prioritaire a été envoyée à Tom.
           </p>
           <a href="#" id="mailtoFallbackBtn" class="btn-outline btn-inline">
-            Ouvrir une copie dans votre client mail &rarr;
+            Ouvrir la copie dans votre messagerie &rarr;
           </a>
         </div>
       </form>
     </section>
 
-    <!-- Raccourcis vers les sections détaillées -->
-    <section class="prose-card links-ecosystem">
-      <span class="etiquette">EXPLORER LES DOMAINES</span>
-      <h2>DÉTAIL DE MES SPÉCIALITÉS</h2>
-      <div class="swatch-grid">
-        <a href="/projectionniste" class="card-link-block">
-          <span class="etiquette">SALLE &bull; CABINE</span>
-          <h3>Projectionniste Cinéma &rarr;</h3>
-          <p>Compétences DCI &amp; 35mm, serveurs Doremi/Dolby, calibration acoustique et maintenance.</p>
-        </a>
-        <a href="/pilote-fpv" class="card-link-block">
-          <span class="etiquette">AÉRIEN &bull; ACTION</span>
-          <h3>Pilote Drone FPV &rarr;</h3>
-          <p>Flotte cinématique sur mesure, poursuites dynamiques haute vitesse et cinewhoops intérieurs.</p>
-        </a>
-        <a href="/developpement" class="card-link-block">
-          <span class="etiquette">SYSTÈMES &bull; LOGICIEL</span>
-          <h3>Projets de Développement &rarr;</h3>
-          <p>Architectures légères sans framework obèse, C/C++ sur STM32 et serveurs Debian autonomes.</p>
-        </a>
+    <!-- Rappel des compétences cabine -->
+    <section class="prose-card memo-cabine">
+      <span class="etiquette">OPÉRATIONS CABINE</span>
+      <h2>RAPPEL DES SPÉCIFICATIONS TECHNIQUES PRISES EN CHARGE</h2>
+      <div class="specs-grid">
+        <div class="spec-box">
+          <strong>Serveurs DCI</strong>
+          <p>Doremi DCP-2000 &amp; ShowVault, Dolby IMS2000/IMS3000, GDC. Ingest réseau haut débit et CRU.</p>
+        </div>
+        <div class="spec-box">
+          <strong>Projecteurs</strong>
+          <p>Barco DP2K / DP4K, Christie CP22xx / Laser, NEC. Alignement optique et sécurité xénon.</p>
+        </div>
+        <div class="spec-box">
+          <strong>Pellicule 35mm</strong>
+          <p>Montage sur plateaux continus, collages acétone / scotch, calage du couloir et optiques scope/flat.</p>
+        </div>
+        <div class="spec-box">
+          <strong>Son &amp; Salle</strong>
+          <p>Dolby CP650 / CP750 / CP950, régie micro HF pour ciné-débats et avant-premières.</p>
+        </div>
       </div>
     </section>
   </main>
 </Base>
 
 <script>
-  // Gestion du clic sur les cases du calendrier pour pré-remplir les dates
-  const dayCells = document.querySelectorAll('.day-cell[data-date]');
-  const inputDateDebut = document.getElementById('dateDebut') as HTMLInputElement | null;
-  const inputDateFin = document.getElementById('dateFin') as HTMLInputElement | null;
-  const inputCode = document.getElementById('codeAcces') as HTMLInputElement | null;
-  const btnVerifier = document.getElementById('btnVerifierCode');
-  const codeFeedback = document.getElementById('codeFeedback');
-  const agendaForm = document.getElementById('agendaForm') as HTMLFormElement | null;
-  const confirmationBanner = document.getElementById('confirmationBanner');
-  const confirmationMessage = document.getElementById('confirmationMessage');
-  const mailtoFallbackBtn = document.getElementById('mailtoFallbackBtn') as HTMLAnchorElement | null;
+  // État local des dates sélectionnées (Set de chaînes YYYY-MM-DD)
+  const datesSelectionnees = new Set<string>();
 
-  // Codes partenaires autorisés (simulation sécurisée côté client avec fallback mail)
-  const CODES_VALIDES = ['PROJ-2026', 'CABINE-75', 'CABINE-37', 'FPV-PROD', 'DEV-AUTORISE', 'TOM-INVITE'];
+  const viewsMois = document.querySelectorAll('.month-view');
+  const btnPrev = document.getElementById('btnPrevMonth') as HTMLButtonElement | null;
+  const btnNext = document.getElementById('btnNextMonth') as HTMLButtonElement | null;
+  const activeMonthTitle = document.getElementById('activeMonthTitle');
+
+  let activeIndex = 0;
+  const totalMois = viewsMois.length;
+
+  function afficherMois(index: number) {
+    viewsMois.forEach((view, i) => {
+      if (i === index) {
+        view.classList.remove('is-hidden-month');
+        view.classList.add('is-active-month');
+        const monthName = view.getAttribute('data-month-name');
+        if (activeMonthTitle && monthName) {
+          activeMonthTitle.textContent = monthName;
+        }
+      } else {
+        view.classList.add('is-hidden-month');
+        view.classList.remove('is-active-month');
+      }
+    });
+
+    if (btnPrev) btnPrev.disabled = index === 0;
+    if (btnNext) btnNext.disabled = index === totalMois - 1;
+  }
+
+  if (btnPrev && btnNext) {
+    afficherMois(activeIndex);
+
+    btnPrev.addEventListener('click', () => {
+      if (activeIndex > 0) {
+        activeIndex--;
+        afficherMois(activeIndex);
+      }
+    });
+
+    btnNext.addEventListener('click', () => {
+      if (activeIndex < totalMois - 1) {
+        activeIndex++;
+        afficherMois(activeIndex);
+      }
+    });
+  }
+
+  // Gestion de la sélection rapide des deux cinémas partenaires
+  const btnPresetCine = document.querySelectorAll('[data-preset-cine]');
+  const inputStructure = document.getElementById('structure') as HTMLInputElement | null;
+  const radioCine1 = document.getElementById('radioCine1') as HTMLInputElement | null;
+  const radioCine2 = document.getElementById('radioCine2') as HTMLInputElement | null;
+
+  btnPresetCine.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const preset = btn.getAttribute('data-preset-cine');
+      if (preset === 'cine1') {
+        if (radioCine1) radioCine1.checked = true;
+        if (inputStructure) inputStructure.value = 'Cinéma Partenaire 1';
+      } else if (preset === 'cine2') {
+        if (radioCine2) radioCine2.checked = true;
+        if (inputStructure) inputStructure.value = 'Cinéma Partenaire 2';
+      }
+
+      // Surlignage du bouton sélectionné
+      btnPresetCine.forEach((b) => b.classList.remove('active-preset'));
+      btn.classList.add('active-preset');
+
+      // Scroll doux vers le calendrier
+      const toolbar = document.querySelector('.agenda-toolbar');
+      if (toolbar) {
+        toolbar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Changement via radio buttons
+  document.querySelectorAll('input[name="cinemaChoix"]').forEach((radio) => {
+    radio.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      if (inputStructure) {
+        if (target.value === 'Autre cinéma') {
+          inputStructure.value = '';
+          inputStructure.placeholder = 'Entrez le nom de votre cinéma...';
+          inputStructure.focus();
+        } else {
+          inputStructure.value = target.value;
+        }
+      }
+    });
+  });
+
+  // Gestion des clics sur les jours du calendrier
+  const dayCells = document.querySelectorAll('.day-cell');
+  const selectionBar = document.getElementById('selectionBar');
+  const selectedDatesList = document.getElementById('selectedDatesList');
+  const btnClearSelection = document.getElementById('btnClearSelection');
+  const inputDatesForm = document.getElementById('datesSelectionneesInput') as HTMLInputElement | null;
+
+  function actualiserAffichageSelection() {
+    if (!selectionBar || !selectedDatesList || !inputDatesForm) return;
+
+    selectedDatesList.innerHTML = '';
+
+    if (datesSelectionnees.size === 0) {
+      selectionBar.style.display = 'none';
+      inputDatesForm.value = '';
+      return;
+    }
+
+    selectionBar.style.display = 'flex';
+
+    // Tri des dates
+    const datesTriees = Array.from(datesSelectionnees).sort();
+    inputDatesForm.value = datesTriees.join(', ');
+
+    datesTriees.forEach((date) => {
+      const pill = document.createElement('span');
+      pill.className = 'date-pill-selected';
+      pill.innerHTML = `<strong>${date}</strong> <button type="button" aria-label="Supprimer ${date}">&times;</button>`;
+
+      const btnRemove = pill.querySelector('button');
+      if (btnRemove) {
+        btnRemove.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          retirerDate(date);
+        });
+      }
+
+      selectedDatesList.appendChild(pill);
+    });
+  }
+
+  function ajouterDate(date: string) {
+    datesSelectionnees.add(date);
+    document.querySelectorAll(`.day-cell[data-date="${date}"]`).forEach((cell) => {
+      cell.classList.add('day-selected');
+    });
+    actualiserAffichageSelection();
+  }
+
+  function retirerDate(date: string) {
+    datesSelectionnees.delete(date);
+    document.querySelectorAll(`.day-cell[data-date="${date}"]`).forEach((cell) => {
+      cell.classList.remove('day-selected');
+    });
+    actualiserAffichageSelection();
+  }
 
   dayCells.forEach((cell) => {
     cell.addEventListener('click', () => {
       const date = cell.getAttribute('data-date');
       const statut = cell.getAttribute('data-statut');
-      
+      const label = cell.getAttribute('data-label') || '';
+      const detail = cell.getAttribute('data-detail') || '';
+
       if (!date) return;
 
-      // Retirer la sélection active précédente
-      document.querySelectorAll('.day-selected').forEach((el) => el.classList.remove('day-selected'));
-      cell.classList.add('day-selected');
-
-      if (inputDateDebut && inputDateFin) {
-        inputDateDebut.value = date;
-        inputDateFin.value = date;
+      // Si le jour est en formation, informer l'exploitant
+      if (statut === 'formation') {
+        alert(
+          `Journée indisponible :\n\nTom est en CFA / Formation projectionniste le ${date} (${detail || 'Période d\'apprentissage'}).\nCette date ne peut pas faire l\'objet d\'une vacation en cabine.`
+        );
+        return;
       }
 
-      // Scroll doux vers le formulaire
-      const formElem = document.getElementById('demande-intervention');
-      if (formElem) {
-        formElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Si le jour est déjà réservé par un autre cinéma
+      if (statut === 'reserve_cine1' || statut === 'reserve_cine2') {
+        alert(
+          `Date déjà mobilisée :\n\nTom est déjà programmé pour une séance cabine le ${date} (${label} — ${detail}).\nChoisissez une date indiquée "Disponible".`
+        );
+        return;
+      }
+
+      // Si le jour est libre ou option, on bascule la sélection
+      if (datesSelectionnees.has(date)) {
+        retirerDate(date);
+      } else {
+        ajouterDate(date);
       }
     });
   });
 
-  // Vérification du code d'accès
-  if (btnVerifier && inputCode && codeFeedback) {
-    btnVerifier.addEventListener('click', () => {
-      const code = inputCode.value.trim().toUpperCase();
-      if (!code) {
-        codeFeedback.innerHTML = '<span class="code-err">Veuillez renseigner un code d\'accès.</span>';
-        return;
-      }
-
-      if (CODES_VALIDES.includes(code) || code.startsWith('CABINE') || code.startsWith('PROD') || code.startsWith('DEV')) {
-        codeFeedback.innerHTML = '<span class="code-ok">&#10003; Code partenaire validé — Réservation prioritaire débloquée.</span>';
-        inputCode.style.borderColor = 'var(--ink)';
-      } else {
-        codeFeedback.innerHTML = '<span class="code-warn">Code non reconnu. Votre demande sera traitée avec validation manuelle.</span>';
-      }
+  if (btnClearSelection) {
+    btnClearSelection.addEventListener('click', () => {
+      datesSelectionnees.clear();
+      document.querySelectorAll('.day-selected').forEach((c) => c.classList.remove('day-selected'));
+      actualiserAffichageSelection();
     });
   }
 
-  // Soumission du formulaire
+  // Soumission du formulaire d'intervention
+  const agendaForm = document.getElementById('agendaForm') as HTMLFormElement | null;
+  const confirmationBanner = document.getElementById('confirmationBanner');
+  const confirmationMessage = document.getElementById('confirmationMessage');
+  const mailtoFallbackBtn = document.getElementById('mailtoFallbackBtn') as HTMLAnchorElement | null;
+
   if (agendaForm) {
     agendaForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
       const formData = new FormData(agendaForm);
-      const code = (formData.get('codeAcces') as string) || 'AUCUN';
-      const typeMission = formData.get('typeMission') as string;
-      const structure = formData.get('structure') as string;
-      const debut = formData.get('dateDebut') as string;
-      const fin = formData.get('dateFin') as string;
-      const nom = formData.get('contactNom') as string;
-      const email = formData.get('contactEmail') as string;
-      const details = formData.get('detailsMission') as string;
+      const structure = (formData.get('structure') as string) || 'Cinéma Partenaire';
+      const contact = (formData.get('contactNom') as string) || '';
+      const email = (formData.get('contactEmail') as string) || '';
+      const telephone = (formData.get('contactTelephone') as string) || 'Non renseigné';
+      const dates = (formData.get('datesSelectionneesInput') as string) || 'Dates non spécifiées';
+      const vacation = (formData.get('typeVacation') as string) || '';
+      const techno = (formData.get('technoCabine') as string) || '';
+      const notes = (formData.get('notesCabine') as string) || 'Aucune note particulière';
 
-      // Préparation du mailto fallback
-      const sujet = encodeURIComponent(`[RÉSERVATION AGENDA] ${structure} — ${typeMission} (${debut})`);
+      const sujet = encodeURIComponent(`[CABINE CINÉMA] Proposition de dates — ${structure} (${dates})`);
       const corps = encodeURIComponent(
-        `Bonjour Tom,\n\nVoici une demande d'intervention déposée via ton agenda en ligne :\n\n` +
-        `• Code d'accès : ${code}\n` +
-        `• Domaine : ${typeMission}\n` +
-        `• Établissement / Structure : ${structure}\n` +
-        `• Contact : ${nom} (${email})\n` +
-        `• Dates : du ${debut} au ${fin}\n\n` +
-        `Détails & Horaires :\n${details}\n\n` +
-        `Transmis depuis tom-bigot.fr`
+        `Bonjour Tom,\n\nUne demande d'intervention cabine vient d'être posée via ton agenda en ligne :\n\n` +
+        `• Établissement : ${structure}\n` +
+        `• Contact responsable : ${contact}\n` +
+        `• Email : ${email}\n` +
+        `• Téléphone cabine : ${telephone}\n` +
+        `• Date(s) demandée(s) : ${dates}\n` +
+        `• Type de vacation : ${vacation}\n` +
+        `• Configuration cabine : ${techno}\n\n` +
+        `Titres des films & Notes d'exploitation :\n${notes}\n\n` +
+        `---\nTransmis depuis l'agenda tom-bigot.fr`
       );
 
       const mailtoUrl = `mailto:contact@tom-bigot.fr?subject=${sujet}&body=${corps}`;
 
       if (confirmationBanner && confirmationMessage) {
         confirmationBanner.style.display = 'block';
-        confirmationMessage.textContent = `Votre demande pour "${structure}" du ${debut} au ${fin} a été enregistrée. Une confirmation directe a été envoyée.`;
+        confirmationMessage.textContent = `Votre demande pour le "${structure}" sur les dates (${dates}) a été enregistrée. Une confirmation directe a été envoyée à Tom.`;
         if (mailtoFallbackBtn) {
           mailtoFallbackBtn.href = mailtoUrl;
         }
         confirmationBanner.scrollIntoView({ behavior: 'smooth' });
       }
 
-      // Envoi du clic mailto si nécessaire ou copie
       window.location.href = mailtoUrl;
     });
   }
 </script>
 
 <style>
-  .prose-screen {
-    max-width: 1040px;
+  .agenda-page {
+    max-width: 1100px;
     margin: 0 auto;
     padding: clamp(24px, 4vw, 56px) clamp(16px, 3vw, 36px);
   }
 
-  .page-head {
-    margin-bottom: 32px;
+  .agenda-header {
+    margin-bottom: 28px;
     padding-bottom: 24px;
     border-bottom: 2px dashed var(--dash);
   }
@@ -432,82 +749,223 @@ const decalageNovembre = 6;
   }
 
   .page-title {
-    font: 900 clamp(32px, 5vw, 56px)/1.05 var(--font);
+    font: 900 clamp(30px, 4.5vw, 52px)/1.08 var(--font);
     letter-spacing: -0.02em;
     text-transform: uppercase;
     color: var(--ink);
-    margin: 0 0 16px 0;
+    margin: 0 0 14px 0;
   }
 
   .page-subtitle {
-    font: 400 17px/1.5 var(--font);
+    font: 400 16.5px/1.55 var(--font);
     color: rgba(0, 0, 0, 0.75);
-    max-width: 760px;
+    max-width: 820px;
     margin: 0;
+  }
+
+  /* Console cinémas partenaires */
+  .partner-quick-access {
+    background: #fafafa;
+    border: 2px dashed var(--dash);
+    padding: 20px 24px;
+    margin-bottom: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .partner-banner-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .partner-banner-label strong {
+    font: 700 14px var(--font);
+    letter-spacing: 0.04em;
+    color: var(--ink);
+  }
+
+  .partner-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  @media (max-width: 680px) {
+    .partner-buttons {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .btn-partner {
+    background: #ffffff;
+    border: 2px dashed var(--dash);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease;
+  }
+
+  .btn-partner:hover,
+  .btn-partner.active-preset {
+    border-color: #000000;
+    border-style: solid;
+    transform: translateY(-2px);
+    box-shadow: 3px 3px 0 #000000;
+  }
+
+  .partner-icon {
+    font-size: 26px;
+    line-height: 1;
+  }
+
+  .partner-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .partner-name {
+    font: 700 14px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #000000;
+  }
+
+  .partner-code {
+    font: 400 12px var(--font);
+    color: rgba(0, 0, 0, 0.65);
   }
 
   /* Toolbar de l'agenda */
   .agenda-toolbar {
+    background: var(--paper);
+    border: 2px dashed var(--dash);
+    padding: 18px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .legend-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    padding-bottom: 16px;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.2);
+  }
+
+  .legend-badge {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .legend-box {
+    width: 14px;
+    height: 14px;
+    margin-top: 2px;
+    flex-shrink: 0;
+    border: 1px solid #000000;
+  }
+
+  .box-libre {
+    background: #ffffff;
+    border: 2px solid #000000;
+  }
+
+  .box-formation {
+    background: repeating-linear-gradient(
+      -45deg,
+      #000000,
+      #000000 3px,
+      #ffffff 3px,
+      #ffffff 6px
+    );
+    border: 1px solid #000000;
+  }
+
+  .box-cine1 {
+    background: #000000;
+  }
+
+  .box-cine2 {
+    background: #666666;
+  }
+
+  .box-option {
+    background: #e6e6e6;
+    border: 1px dashed #000000;
+  }
+
+  .legend-txt {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .legend-txt strong {
+    font: 700 10.5px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .legend-txt span {
+    font: 400 10.5px/1.3 var(--font);
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  /* Barre de sélection de mois */
+  .month-selector-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 16px;
     flex-wrap: wrap;
-    padding: 16px 20px;
-    background: var(--paper);
-    border: 2px dashed var(--dash);
-    margin-bottom: 20px;
   }
 
-  .legend-group {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    flex-wrap: wrap;
+  .current-month-display {
+    text-align: center;
   }
 
-  .legend-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font: 700 11px var(--font);
+  .month-heading {
+    margin: 4px 0 0 0;
+    font: 900 22px var(--font);
     letter-spacing: 0.1em;
     text-transform: uppercase;
+    color: var(--ink);
   }
 
-  .legend-dot {
-    width: 10px;
-    height: 10px;
-    display: inline-block;
-  }
-
-  .dot-libre {
-    background: #000000;
-    border: 2px solid #000000;
-  }
-
-  .dot-option {
-    background: #ffffff;
-    border: 2px dashed #000000;
-  }
-
-  .dot-reserve {
-    background: #e2e2e2;
-    border: 2px solid #888888;
-  }
-
-  .month-label {
-    font: 700 14px var(--font);
+  .btn-month {
+    padding: 8px 16px;
+    font: 700 11px var(--font);
     letter-spacing: 0.12em;
     text-transform: uppercase;
+    cursor: pointer;
   }
 
-  /* Grille Calendrier */
+  .btn-month:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  /* Calendrier Grille */
   .calendar-card {
     background: var(--paper);
     border: 2px dashed var(--dash);
     padding: 16px;
-    margin-bottom: 40px;
+    margin-bottom: 24px;
+  }
+
+  .is-hidden-month {
+    display: none !important;
   }
 
   .calendar-grid {
@@ -526,17 +984,17 @@ const decalageNovembre = 6;
   }
 
   .day-cell {
-    min-height: 84px;
+    min-height: 104px;
     padding: 8px;
-    border: 2px dashed var(--dash);
-    background: var(--paper);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background: #ffffff;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     text-align: left;
     transition: all 0.15s ease;
-    cursor: default;
     position: relative;
+    user-select: none;
   }
 
   .day-empty {
@@ -544,63 +1002,240 @@ const decalageNovembre = 6;
     background: transparent;
   }
 
-  .day-selectable {
+  .day-topline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .day-number {
+    font: 800 16px/1 var(--font);
+    color: var(--ink);
+  }
+
+  .tag-libre {
+    font: 700 9px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: #000000;
+    color: #ffffff;
+    padding: 2px 5px;
+    border-radius: 2px;
+  }
+
+  .tag-formation {
+    font: 700 9px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: #ffffff;
+    color: #000000;
+    border: 1px solid #000000;
+    padding: 1px 4px;
+  }
+
+  .tag-cine1 {
+    font: 700 9px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: #000000;
+    color: #ffffff;
+    padding: 2px 5px;
+  }
+
+  .tag-cine2 {
+    font: 700 9px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: #666666;
+    color: #ffffff;
+    padding: 2px 5px;
+  }
+
+  .tag-option {
+    font: 700 9px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: #eeeeee;
+    color: #333333;
+    padding: 2px 5px;
+  }
+
+  .day-body {
+    margin: 6px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .day-label-main {
+    font: 700 11px/1.2 var(--font);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .day-detail-txt {
+    font: 400 10px/1.25 var(--font);
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  .day-action-hint {
+    font: 700 9px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.45);
+    border-top: 1px dashed rgba(0, 0, 0, 0.15);
+    padding-top: 4px;
+  }
+
+  /* Variations par statut */
+  .day-libre {
+    border: 1.5px solid #000000;
+    background: #ffffff;
     cursor: pointer;
   }
 
-  .day-selectable:hover {
-    border-color: var(--ink);
-    border-style: solid;
+  .day-libre:hover {
     transform: translateY(-2px);
-    box-shadow: 2px 2px 0 var(--ink);
+    box-shadow: 2px 2px 0 #000000;
   }
 
   .day-selected {
-    border: 2px solid var(--ink) !important;
-    background: rgba(0, 0, 0, 0.05);
-    box-shadow: 3px 3px 0 var(--ink);
+    background: #000000 !important;
+    color: #ffffff !important;
+    border-color: #000000 !important;
+    box-shadow: 3px 3px 0 #000000;
   }
 
-  .day-reserve {
+  .day-selected .day-number,
+  .day-selected .day-label-main,
+  .day-selected .day-detail-txt,
+  .day-selected .day-action-hint {
+    color: #ffffff !important;
+  }
+
+  .day-selected .tag-libre {
+    background: #ffffff;
+    color: #000000;
+  }
+
+  .day-formation {
+    background: repeating-linear-gradient(
+      -45deg,
+      #f5f5f5,
+      #f5f5f5 6px,
+      #ebebeb 6px,
+      #ebebeb 12px
+    );
+    border: 1px solid #bbbbbb;
+    cursor: not-allowed;
+    opacity: 0.9;
+  }
+
+  .day-formation .day-label-main {
+    color: #222222;
+  }
+
+  .day-reserve_cine1 {
+    background: #f4f4f4;
+    border-left: 4px solid #000000;
+    cursor: not-allowed;
+  }
+
+  .day-reserve_cine2 {
     background: #f7f7f7;
-    opacity: 0.75;
+    border-left: 4px solid #666666;
+    cursor: not-allowed;
   }
 
   .day-option {
     background: #fafafa;
+    border: 1px dashed #888888;
+    cursor: pointer;
   }
 
-  .day-number {
-    font: 700 15px/1 var(--font);
-    color: var(--ink);
+  /* Barre de sélection flottante / visible */
+  .selection-summary-bar {
+    background: #000000;
+    color: #ffffff;
+    padding: 16px 20px;
+    margin-bottom: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    border: 2px solid #000000;
   }
 
-  .day-status-indicator {
-    font: 700 10px var(--font);
-    letter-spacing: 0.08em;
+  .selection-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+
+  .selection-summary-bar .etiquette {
+    background: #ffffff;
+    color: #000000;
+  }
+
+  .selected-tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .date-pill-selected {
+    background: #ffffff;
+    color: #000000;
+    padding: 4px 10px;
+    font: 700 12px var(--font);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .date-pill-selected button {
+    background: none;
+    border: none;
+    color: #000000;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .selection-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .btn-clear {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: #ffffff;
+    padding: 8px 12px;
+    font: 700 11px var(--font);
+    letter-spacing: 0.1em;
     text-transform: uppercase;
+    cursor: pointer;
   }
 
-  .txt-libre {
-    color: var(--ink);
-    border-bottom: 1px solid var(--ink);
+  .btn-clear:hover {
+    border-color: #ffffff;
   }
 
-  .txt-option {
-    color: #666;
-    font-style: italic;
-  }
-
-  .txt-reserve {
-    color: #999;
-  }
-
-  .day-tag {
-    font: 600 10px/1.2 var(--font);
-    color: rgba(0, 0, 0, 0.7);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  .btn-jump-form {
+    background: #ffffff;
+    color: #000000;
+    border-color: #ffffff;
+    padding: 8px 16px;
+    font: 700 11px var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
 
   /* Formulaire */
@@ -617,10 +1252,26 @@ const decalageNovembre = 6;
     border-bottom: 2px dashed var(--dash);
   }
 
+  .form-pre {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .badge-direct {
+    font: 700 10px var(--font);
+    letter-spacing: 0.12em;
+    background: #000000;
+    color: #ffffff;
+    padding: 2px 6px;
+  }
+
   .form-header h2 {
-    font: 800 clamp(20px, 3vw, 28px)/1.2 var(--font);
+    font: 900 clamp(22px, 3.2vw, 32px)/1.15 var(--font);
     letter-spacing: -0.01em;
-    margin: 8px 0;
+    margin: 0 0 8px 0;
+    text-transform: uppercase;
   }
 
   .form-intro {
@@ -629,28 +1280,82 @@ const decalageNovembre = 6;
     margin: 0;
   }
 
-  .auth-row {
-    background: rgba(0, 0, 0, 0.03);
-    padding: 18px;
-    border: 2px dashed var(--dash);
-    margin-bottom: 24px;
+  .form-section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 28px 0 16px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.2);
   }
 
-  .input-with-action {
-    display: flex;
+  .step-num {
+    width: 22px;
+    height: 22px;
+    background: #000000;
+    color: #ffffff;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font: 700 12px var(--font);
+  }
+
+  .form-section-title h3 {
+    margin: 0;
+    font: 700 14px var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #000000;
+  }
+
+  /* Cartes de choix cinéma */
+  .cinema-radio-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 10px;
     margin-top: 6px;
   }
 
-  .input-with-action input {
-    flex: 1;
+  .cinema-option-card {
+    border: 2px dashed var(--dash);
+    padding: 12px 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    background: #ffffff;
+    transition: all 0.15s ease;
+  }
+
+  .cinema-option-card:hover {
+    border-color: #000000;
+  }
+
+  .cinema-option-card input[type="radio"]:checked + .option-content {
+    color: #000000;
+  }
+
+  .option-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .option-content strong {
+    font: 700 13px var(--font);
+    letter-spacing: 0.04em;
+  }
+
+  .option-content .sub {
+    font: 400 11px var(--font);
+    color: rgba(0, 0, 0, 0.6);
   }
 
   .form-grid-fields {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    margin-bottom: 24px;
   }
 
   .full-width {
@@ -678,8 +1383,7 @@ const decalageNovembre = 6;
 
   input[type='text'],
   input[type='email'],
-  input[type='password'],
-  input[type='date'],
+  input[type='tel'],
   select,
   textarea {
     font: 400 14px var(--font);
@@ -698,37 +1402,13 @@ const decalageNovembre = 6;
     border-color: var(--ink);
   }
 
-  .code-status {
-    font: 700 12px var(--font);
-    margin-top: 6px;
-  }
-
-  .code-ok {
-    color: #1a7f37;
-  }
-
-  .code-warn {
-    color: #9a6700;
-  }
-
-  .code-err {
-    color: #cf222e;
-  }
-
-  .btn-inline {
-    padding: 0 16px;
-    font: 700 12px var(--font);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    cursor: pointer;
-  }
-
   .form-footer {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 14px;
-    padding-top: 16px;
+    padding-top: 20px;
+    margin-top: 24px;
     border-top: 2px dashed var(--dash);
   }
 
@@ -749,9 +1429,9 @@ const decalageNovembre = 6;
   .confirmation-box {
     margin-top: 24px;
     padding: 20px;
-    background: #000;
-    color: #fff;
-    border: 2px solid #000;
+    background: #000000;
+    color: #ffffff;
+    border: 2px solid #000000;
   }
 
   .confirmation-box h3 {
@@ -764,49 +1444,46 @@ const decalageNovembre = 6;
   .confirmation-box p {
     font: 400 14px/1.5 var(--font);
     margin: 0 0 16px 0;
-    color: #ddd;
+    color: #dddddd;
   }
 
   .confirmation-box .btn-outline {
-    background: #fff;
-    color: #000;
-    border-color: #fff;
+    background: #ffffff;
+    color: #000000;
+    border-color: #ffffff;
   }
 
-  /* Cartes domaines liés */
-  .swatch-grid {
+  /* Spécifications cabine */
+  .memo-cabine h2 {
+    font: 800 20px/1.2 var(--font);
+    margin: 8px 0 16px 0;
+    text-transform: uppercase;
+  }
+
+  .specs-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 16px;
-    margin-top: 20px;
   }
 
-  .card-link-block {
+  .spec-box {
+    border: 1px dashed rgba(0, 0, 0, 0.25);
+    padding: 14px;
+    background: #fafafa;
+  }
+
+  .spec-box strong {
     display: block;
-    padding: 18px;
-    border: 2px dashed var(--dash);
-    text-decoration: none;
-    color: var(--ink);
-    transition: all 0.2s ease;
-    background: var(--paper);
+    font: 700 13px var(--font);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
   }
 
-  .card-link-block:hover {
-    border-color: var(--ink);
-    border-style: solid;
-    transform: translateY(-2px);
-    box-shadow: 3px 3px 0 var(--ink);
-  }
-
-  .card-link-block h3 {
-    font: 700 16px var(--font);
-    margin: 8px 0 6px 0;
-  }
-
-  .card-link-block p {
-    font: 400 13px/1.4 var(--font);
-    color: rgba(0, 0, 0, 0.7);
+  .spec-box p {
     margin: 0;
+    font: 400 12px/1.45 var(--font);
+    color: rgba(0, 0, 0, 0.75);
   }
 
   @media (max-width: 768px) {
@@ -815,14 +1492,19 @@ const decalageNovembre = 6;
       gap: 4px;
     }
     .day-cell {
-      min-height: 58px;
+      min-height: 72px;
       padding: 4px;
     }
-    .day-tag {
+    .day-detail-txt,
+    .day-action-hint {
       display: none;
     }
     .form-grid-fields {
       grid-template-columns: 1fr;
+    }
+    .selection-summary-bar {
+      flex-direction: column;
+      align-items: flex-start;
     }
   }
 </style>
