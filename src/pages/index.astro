@@ -412,7 +412,7 @@ const bandeauxProjets = [
 
       <div class="hero-actions">
         <a href="#portfolio" class="btn-noir btn-hero">
-          Explorer le portfolio &darr;
+          Explorer la chronologie &darr;
         </a>
         <a
           href="https://github.com/TakDai"
@@ -433,12 +433,12 @@ const bandeauxProjets = [
 
     <!-- Indicateur de défilement vers le bas -->
     <a href="#portfolio" class="scroll-cue" aria-label="Découvrir le portfolio">
-      <span class="scroll-label">PORTFOLIO</span>
+      <span class="scroll-label">CHRONOLOGIE</span>
       <span class="scroll-arrow">&darr;</span>
     </a>
   </section>
 
-  <!-- ================= SECTION PORTFOLIO & RÉALISATIONS ================= -->
+  <!-- ================= SECTION PORTFOLIO : BANDEAUX VERTICAUX EN ACCORDÉON ================= -->
   <section class="conteneur portfolio-section" id="portfolio">
     <!-- Barre de filtres par domaine -->
     <div class="portfolio-toolbar">
@@ -453,82 +453,102 @@ const bandeauxProjets = [
       <div class="bandeaux-legende" aria-label="Légende des étapes">
         <span class="legende-pill"><span class="leg-dot phase-dot">&#9632;</span> Phase</span>
         <span class="legende-pill"><span class="leg-dot tf-dot">&#9733;</span> Temps Fort</span>
-        <span class="legende-pill"><span class="leg-dot pause-dot">&#9208;</span> Pause</span>
+        <span class="legende-pill"><span class="leg-dot pause-dot">&#9208;</span> Pause R&amp;D</span>
       </div>
     </div>
 
-    <!-- Grille responsive des projets -->
-    <div class="portfolio-grid" id="portfolioGrid">
+    <!-- Accordéon interactif de bandeaux verticaux -->
+    <div class="accordion-container" id="accordionContainer">
       {
-        bandeauxProjets.map((projet) => (
-          <article class="bandeau-col-v" id={`projet-${projet.id}`} data-cat={projet.categorie}>
-            <!-- En-tête de carte -->
-            <div class="bandeau-v-head">
-              <div class="bandeau-v-topline">
-                <span class="bandeau-v-num">{projet.numero}</span>
-                <span class="domaine-pill">{projet.domaine}</span>
+        bandeauxProjets.map((projet, index) => (
+          <article
+            class={`bandeau-v-accordion ${index === 0 ? 'is-expanded' : ''}`}
+            id={`projet-${projet.id}`}
+            data-cat={projet.categorie}
+            tabindex="0"
+            role="region"
+            aria-label={`Projet ${projet.titre}`}
+          >
+            <!-- Volet étroit (Visible quand replié ou pour interaction) -->
+            <div class="bandeau-v-strip">
+              <span class="strip-num">{projet.numero}</span>
+              <div class="strip-logo">
+                <img src={projet.logo} alt="" loading="lazy" />
               </div>
-              <div class="bandeau-v-brand">
-                <div class="bandeau-v-logo">
-                  <img src={projet.logo} alt={`Logo ${projet.titre}`} loading="lazy" />
-                </div>
-                <div>
-                  <h2 class="bandeau-v-title">{projet.titre}</h2>
-                  <p class="bandeau-v-sub">{projet.sousTitre}</p>
-                </div>
-              </div>
+              <span class="strip-title">{projet.titre}</span>
+              <span class="strip-indicator" aria-hidden="true">&plus;</span>
             </div>
 
-            <!-- Parcours chronologique vertical du projet -->
-            <div class="bandeau-v-track">
-              <div class="v-track-line">
-                <div class="v-track-fill" />
+            <!-- Contenu déplié (Révélé quand actif) -->
+            <div class="bandeau-v-expanded">
+              <!-- En-tête de carte -->
+              <div class="bandeau-v-head">
+                <div class="bandeau-v-topline">
+                  <span class="bandeau-v-num">{projet.numero}</span>
+                  <span class="domaine-pill">{projet.domaine}</span>
+                </div>
+                <div class="bandeau-v-brand">
+                  <div class="bandeau-v-logo">
+                    <img src={projet.logo} alt={`Logo ${projet.titre}`} loading="lazy" />
+                  </div>
+                  <div>
+                    <h2 class="bandeau-v-title">{projet.titre}</h2>
+                    <p class="bandeau-v-sub">{projet.sousTitre}</p>
+                  </div>
+                </div>
               </div>
 
-              <div class="v-track-steps">
-                {projet.etapes.map((etape) => {
-                  const isTempsFort = etape.type === 'temps_fort';
-                  const isPause = etape.type === 'pause';
-                  const isStatut = etape.type === 'statut';
+              <!-- Parcours chronologique vertical du projet -->
+              <div class="bandeau-v-track">
+                <div class="v-track-line">
+                  <div class="v-track-fill" />
+                </div>
 
-                  return (
-                    <div
-                      class={`v-step-node ${isTempsFort ? 'is-temps-fort' : ''} ${isPause ? 'is-pause' : ''} ${isStatut ? 'is-statut' : ''}`}
-                    >
-                      <div class="v-step-bullet" aria-hidden="true">
-                        {isTempsFort ? '★' : isPause ? '⏸' : isStatut ? '●' : '■'}
-                      </div>
-                      <div class="v-step-card">
-                        <div class="v-step-head">
-                          <span class="v-step-date">{etape.date}</span>
-                          {isTempsFort && <span class="v-tf-badge">TEMPS FORT</span>}
-                          {isPause && <span class="v-pause-badge">PAUSE R&amp;D</span>}
+                <div class="v-track-steps">
+                  {projet.etapes.map((etape) => {
+                    const isTempsFort = etape.type === 'temps_fort';
+                    const isPause = etape.type === 'pause';
+                    const isStatut = etape.type === 'statut';
+
+                    return (
+                      <div
+                        class={`v-step-node ${isTempsFort ? 'is-temps-fort' : ''} ${isPause ? 'is-pause' : ''} ${isStatut ? 'is-statut' : ''}`}
+                      >
+                        <div class="v-step-bullet" aria-hidden="true">
+                          {isTempsFort ? '★' : isPause ? '⏸' : isStatut ? '●' : '■'}
                         </div>
-                        <h3 class="v-step-title">{etape.titre}</h3>
-                        <p class="v-step-desc">{etape.desc}</p>
+                        <div class="v-step-card">
+                          <div class="v-step-head">
+                            <span class="v-step-date">{etape.date}</span>
+                            {isTempsFort && <span class="v-tf-badge">TEMPS FORT</span>}
+                            {isPause && <span class="v-pause-badge">PAUSE R&amp;D</span>}
+                          </div>
+                          <h3 class="v-step-title">{etape.titre}</h3>
+                          <p class="v-step-desc">{etape.desc}</p>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
-            </div>
 
-            <!-- Pied de carte : Liens fiche & GitHub -->
-            <div class="bandeau-v-foot">
-              <a href={projet.lien} class="btn-noir bandeau-v-btn">
-                Fiche &rarr;
-              </a>
-              {projet.github && (
-                <a
-                  href={projet.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="btn-outline bandeau-v-btn-gh"
-                  title={`Dépôt GitHub de ${projet.titre}`}
-                >
-                  GitHub ↗
+              <!-- Pied de carte : Liens fiche & GitHub -->
+              <div class="bandeau-v-foot">
+                <a href={projet.lien} class="btn-noir bandeau-v-btn">
+                  Fiche &rarr;
                 </a>
-              )}
+                {projet.github && (
+                  <a
+                    href={projet.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn-outline bandeau-v-btn-gh"
+                    title={`Dépôt GitHub de ${projet.titre}`}
+                  >
+                    GitHub ↗
+                  </a>
+                )}
+              </div>
             </div>
           </article>
         ))
@@ -538,11 +558,53 @@ const bandeauxProjets = [
 </Base>
 
 <script>
-  // Filtrage interactif sans dépendance externe
+  // Interaction de l'accordéon de bandeaux verticaux & filtrage par catégorie
   document.addEventListener('DOMContentLoaded', () => {
+    const accordion = document.getElementById('accordionContainer');
+    if (!accordion) return;
+    const cards = Array.from(accordion.querySelectorAll<HTMLElement>('.bandeau-v-accordion'));
     const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-pill');
-    const cards = document.querySelectorAll<HTMLElement>('.bandeau-col-v');
 
+    function expandCard(targetCard: HTMLElement) {
+      cards.forEach((c) => {
+        if (c === targetCard) {
+          c.classList.add('is-expanded');
+          c.setAttribute('aria-expanded', 'true');
+        } else {
+          c.classList.remove('is-expanded');
+          c.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+
+    cards.forEach((card) => {
+      // Déploiement au survol (sur écran large)
+      card.addEventListener('mouseenter', () => {
+        if (window.innerWidth >= 900) {
+          expandCard(card);
+        }
+      });
+
+      // Déploiement au clic
+      card.addEventListener('click', (e) => {
+        // Laisser les liens internes fonctionner
+        const target = e.target as HTMLElement;
+        if (target.closest('a')) return;
+        expandCard(card);
+      });
+
+      // Accessibilité clavier
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          const target = e.target as HTMLElement;
+          if (target.closest('a')) return;
+          e.preventDefault();
+          expandCard(card);
+        }
+      });
+    });
+
+    // Filtrage instantané
     filterBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
         const target = btn.getAttribute('data-filter') || 'all';
@@ -550,14 +612,24 @@ const bandeauxProjets = [
         filterBtns.forEach((b) => b.classList.remove('active'));
         btn.classList.add('active');
 
+        let firstVisible: HTMLElement | null = null;
+        let isExpandedVisible = false;
+
         cards.forEach((card) => {
           const cardCat = card.getAttribute('data-cat');
-          if (target === 'all' || cardCat === target) {
-            card.style.display = 'flex';
+          const isMatch = target === 'all' || cardCat === target;
+          if (isMatch) {
+            card.style.display = '';
+            if (!firstVisible) firstVisible = card;
+            if (card.classList.contains('is-expanded')) isExpandedVisible = true;
           } else {
             card.style.display = 'none';
           }
         });
+
+        if (!isExpandedVisible && firstVisible) {
+          expandCard(firstVisible);
+        }
       });
     });
   });
@@ -718,9 +790,9 @@ const bandeauxProjets = [
      SECTION PORTFOLIO & TOOLBAR
      ========================================================================== */
   .portfolio-section {
-    padding-top: clamp(28px, 4vh, 44px);
+    padding-top: clamp(32px, 5vh, 48px);
     padding-bottom: clamp(48px, 8vh, 80px);
-    max-width: 1140px;
+    max-width: 1200px;
   }
 
   .portfolio-toolbar {
@@ -729,8 +801,8 @@ const bandeauxProjets = [
     justify-content: space-between;
     gap: 16px;
     flex-wrap: wrap;
-    margin-bottom: 32px;
-    padding-bottom: 20px;
+    margin-bottom: 28px;
+    padding-bottom: 18px;
     border-bottom: 1px dashed var(--dash);
   }
 
@@ -800,33 +872,142 @@ const bandeauxProjets = [
   }
 
   /* ==========================================================================
-     GRILLE RESPONSIVE DES PROJETS
+     ACCORDÉON DE BANDEAUX VERTICAUX (SIDE-BY-SIDE)
      ========================================================================== */
-  .portfolio-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-    gap: 24px;
+  .accordion-container {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    width: 100%;
+    min-height: 640px;
     align-items: stretch;
+    transition: all 0.3s ease;
   }
 
-  .bandeau-col-v {
+  .bandeau-v-accordion {
+    position: relative;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex: 0.65;
+    min-width: 60px;
     background: #ffffff;
     border: 2px dashed var(--dash);
     border-radius: 12px;
-    padding: 22px 20px;
-    gap: 18px;
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    overflow: hidden;
+    cursor: pointer;
+    transition: flex 0.4s cubic-bezier(0.16, 1, 0.3, 1),
                 border-color 0.25s ease,
                 box-shadow 0.25s ease;
   }
 
-  .bandeau-col-v:hover {
+  .bandeau-v-accordion:hover {
     border-color: #000000;
     border-style: solid;
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+  }
+
+  .bandeau-v-accordion.is-expanded {
+    flex: 4.8;
+    min-width: 360px;
+    cursor: default;
+    border-color: #000000;
+    border-style: solid;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Volet étroit (Bandelette d'identification) */
+  .bandeau-v-strip {
+    width: 58px;
+    flex-shrink: 0;
+    background: #fafafa;
+    border-right: 1px dashed rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 8px;
+    user-select: none;
+    transition: background-color 0.25s ease;
+  }
+
+  .bandeau-v-accordion.is-expanded .bandeau-v-strip {
+    background: #000000;
+    color: #ffffff;
+    border-right: 1px solid #000000;
+  }
+
+  .strip-num {
+    font: 700 15px var(--font);
+    color: #000000;
+    transition: color 0.25s ease;
+  }
+
+  .bandeau-v-accordion.is-expanded .strip-num {
+    color: #ffffff;
+  }
+
+  .strip-logo {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 4px;
+  }
+
+  .strip-logo img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .strip-title {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font: 700 13px var(--font);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #000000;
+    white-space: nowrap;
+    margin: 12px 0;
+    transition: color 0.25s ease;
+  }
+
+  .bandeau-v-accordion.is-expanded .strip-title {
+    color: #ffffff;
+  }
+
+  .strip-indicator {
+    font-size: 15px;
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, color 0.25s ease;
+  }
+
+  .bandeau-v-accordion.is-expanded .strip-indicator {
+    color: #ffffff;
+    transform: rotate(45deg);
+  }
+
+  /* Contenu déplié (Détails complets de chronologie) */
+  .bandeau-v-expanded {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 22px 22px 18px;
+    min-width: 300px;
+    overflow-y: auto;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .bandeau-v-accordion.is-expanded .bandeau-v-expanded {
+    opacity: 1;
+    pointer-events: auto;
   }
 
   /* En-tête de la carte de projet */
@@ -890,7 +1071,7 @@ const bandeauxProjets = [
 
   .bandeau-v-title {
     margin: 0;
-    font: 700 18px/1.2 var(--font);
+    font: 700 19px/1.2 var(--font);
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: #000000;
@@ -898,7 +1079,7 @@ const bandeauxProjets = [
 
   .bandeau-v-sub {
     margin: 2px 0 0;
-    font: 400 11.5px/1.4 var(--font);
+    font: 400 12px/1.4 var(--font);
     color: rgba(0, 0, 0, 0.6);
   }
 
@@ -933,7 +1114,7 @@ const bandeauxProjets = [
   .v-track-steps {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
   }
 
   .v-step-node {
@@ -1095,9 +1276,56 @@ const bandeauxProjets = [
     white-space: nowrap;
   }
 
-  @media (max-width: 768px) {
-    .portfolio-grid {
-      grid-template-columns: 1fr;
+  /* ==========================================================================
+     RESPONSIVE SUR MOBILE ET PETITS ÉCRANS
+     ========================================================================== */
+  @media (max-width: 899px) {
+    .accordion-container {
+      flex-direction: column;
+      min-height: auto;
+      gap: 12px;
+    }
+
+    .bandeau-v-accordion {
+      flex-direction: column;
+      flex: none;
+      min-width: 100%;
+      min-height: 60px;
+      max-height: 60px;
+      transition: max-height 0.4s ease, border-color 0.25s ease;
+    }
+
+    .bandeau-v-accordion.is-expanded {
+      flex: none;
+      min-width: 100%;
+      max-height: 1200px;
+    }
+
+    .bandeau-v-strip {
+      width: 100%;
+      height: 60px;
+      flex-direction: row;
+      border-right: none;
+      border-bottom: 1px dashed rgba(0, 0, 0, 0.15);
+      padding: 0 16px;
+    }
+
+    .bandeau-v-accordion.is-expanded .bandeau-v-strip {
+      border-right: none;
+      border-bottom: 1px solid #000000;
+    }
+
+    .strip-title {
+      writing-mode: horizontal-tb;
+      transform: none;
+      margin: 0;
+      flex: 1;
+      padding-left: 12px;
+    }
+
+    .bandeau-v-expanded {
+      min-width: 100%;
+      padding: 18px 16px;
     }
 
     .portfolio-toolbar {
