@@ -79,32 +79,91 @@ const logoMap: Record<string, string> = {
         <span class="hero-dot"></span>
         <span class="etiquette-hero">PORTFOLIO &bull; BLOG &bull; TOM BIGOT</span>
       </div>
-      <h1 class="hero-title">CONCEVOIR,<br />CONSTRUIRE,<br />REGARDER LE MONDE.</h1>
+      <h1 class="hero-title">CONCEVOIR,<br />CONSTRUIRE,<br />MAÎTRISER.</h1>
       <p class="hero-subtitle">
-        Développeur Full-Stack & Ingénieur Systèmes &bull; Web Moderne, DevOps, Drones FPV & Embarqué
+        Présentation de mes réalisations, de ma démarche d'ingénierie et des raisons qui m'animent — du code moderne aux systèmes embarqués et serveurs autonomes.
       </p>
 
       <div class="hero-actions">
-        <a href="#projets-chronologie" class="btn-noir btn-hero">
-          Explorer les projets &darr;
+        <a href="#demarche" class="btn-noir btn-hero">
+          Ce que je fais &bull; Pourquoi &darr;
         </a>
-        <a href="/blog" class="btn-outline btn-hero">
-          Lire le blog technique &rarr;
+        <a href="#projets-chronologie" class="btn-outline btn-hero">
+          Chronologie des projets &darr;
         </a>
-        <a href="/contact" class="nav-pill nav-pill-hero">
-          Prendre contact
+        <a href="/blog" class="nav-pill nav-pill-hero">
+          Blog technique &rarr;
         </a>
       </div>
     </div>
 
     <!-- Indicateur de défilement vers le bas -->
-    <a href="#projets-chronologie" class="scroll-cue" aria-label="Défiler vers la chronologie des projets">
-      <span class="scroll-label">CHRONOLOGIE</span>
+    <a href="#demarche" class="scroll-cue" aria-label="Découvrir la démarche">
+      <span class="scroll-label">DÉMARCHE</span>
       <span class="scroll-arrow">&darr;</span>
     </a>
   </section>
 
-  <!-- ================= 02. PRÉSENTATION CHRONOLOGIQUE VERTICALE ================= -->
+  <!-- ================= 02. CE QUE JE FAIS & POURQUOI JE LE FAIS ================= -->
+  <section id="demarche" class="conteneur section-manifeste">
+    <header class="timeline-header">
+      <div class="header-pre">
+        <span class="etiquette">DÉMARCHE &bull; PHILOSOPHIE</span>
+      </div>
+      <h2 class="timeline-main-title">CE QUE JE FAIS &bull; POURQUOI JE LE FAIS</h2>
+      <p class="timeline-main-desc">
+        Chaque projet et chaque article sur ce site répond à une même logique : créer des systèmes fiables, maîtriser la technique de bout en bout et apporter des solutions tangibles.
+      </p>
+    </header>
+
+    <div class="manifeste-grid">
+      <!-- Colonne 1 : CE QUE JE FAIS -->
+      <div class="manifeste-card">
+        <div class="manifeste-card-head">
+          <span class="etiquette">ACTIONS &amp; DOMAINES</span>
+          <h3 class="manifeste-card-title">CE QUE JE FAIS</h3>
+        </div>
+        <p class="manifeste-intro">
+          Je conçois, développe et déploie des solutions concrètes en reliant le monde du logiciel à celui de la matière :
+        </p>
+        <ul class="manifeste-list">
+          <li>
+            <strong>Développement Web &amp; Logiciels :</strong> Plateformes modernes, réactives, légères et sans dépendance superflue. Conception d'architectures claires, fiables et orientées utilisateur.
+          </li>
+          <li>
+            <strong>Électronique, Drones FPV &amp; Robotique :</strong> Modélisme, conception mécanique, asservissement en boucle fermée (PID), télémétrie et micrologiciels embarqués (STM32, C/C++).
+          </li>
+          <li>
+            <strong>Infrastructures &amp; Auto-hébergement :</strong> Administration de serveurs Linux autonomes, conteneurisation Docker, sécurisation des protocoles (TLS, HSTS) et pipelines CI/CD automatisés.
+          </li>
+        </ul>
+      </div>
+
+      <!-- Colonne 2 : POURQUOI JE LE FAIS -->
+      <div class="manifeste-card">
+        <div class="manifeste-card-head">
+          <span class="etiquette">VISION &amp; VALEURS</span>
+          <h3 class="manifeste-card-title">POURQUOI JE LE FAIS</h3>
+        </div>
+        <p class="manifeste-intro">
+          Une démarche guidée par l'exigence d'indépendance, la passion du bricolage noble et l'esprit Maker :
+        </p>
+        <ul class="manifeste-list">
+          <li>
+            <strong>L'autonomie technique :</strong> Refuser la dépendance aux « boîtes noires » opaques. Maîtriser chaque strate — du silicium au réseau et à l'interface — pour comprendre en profondeur, diagnostiquer et réparer soi-même.
+          </li>
+          <li>
+            <strong>L'utilité réelle &amp; la durabilité :</strong> Répondre à des besoins concrets plutôt que suivre des effets de mode éphémères. Concevoir des outils simples, robustes, pérennes et réparables.
+          </li>
+          <li>
+            <strong>Le partage &amp; l'esprit ouvert :</strong> Documenter méthodiquement mes réalisations, partager le code source et publier des retours d'expérience techniques sur le blog pour faire grandir la communauté.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 03. PRÉSENTATION CHRONOLOGIQUE VERTICALE ================= -->
   <section id="projets-chronologie" class="conteneur section-timeline">
     <header class="timeline-header">
       <div class="header-pre">
@@ -410,6 +469,97 @@ const logoMap: Record<string, string> = {
     60% {
       transform: translateY(3px);
     }
+  }
+
+  /* ==========================================================================
+     MANIFESTE : CE QUE JE FAIS & POURQUOI JE LE FAIS
+     ========================================================================== */
+  .section-manifeste {
+    padding-top: clamp(48px, 8vh, 80px);
+    padding-bottom: clamp(16px, 3vh, 32px);
+    max-width: 860px;
+  }
+
+  .manifeste-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  @media (max-width: 720px) {
+    .manifeste-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .manifeste-card {
+    background: #ffffff;
+    border: 2px dashed var(--dash);
+    padding: clamp(22px, 3vw, 32px);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .manifeste-card:hover {
+    border-color: #000000;
+  }
+
+  .manifeste-card-head {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .manifeste-card-title {
+    margin: 0;
+    font: 700 20px/1.2 var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #000000;
+  }
+
+  .manifeste-intro {
+    margin: 0;
+    font: 400 13px/1.6 var(--font);
+    color: rgba(0, 0, 0, 0.7);
+    letter-spacing: 0.02em;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.2);
+  }
+
+  .manifeste-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .manifeste-list li {
+    font: 400 13px/1.6 var(--font);
+    letter-spacing: 0.02em;
+    color: rgba(0, 0, 0, 0.85);
+    position: relative;
+    padding-left: 18px;
+  }
+
+  .manifeste-list li::before {
+    content: "■";
+    position: absolute;
+    left: 0;
+    top: 2px;
+    font-size: 8px;
+    color: #000000;
+  }
+
+  .manifeste-list strong {
+    font-weight: 700;
+    color: #000000;
+    letter-spacing: 0.04em;
+    display: inline;
   }
 
   /* ==========================================================================
