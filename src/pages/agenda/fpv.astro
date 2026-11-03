@@ -28,6 +28,10 @@ import { planningFpvMois } from '../../data/planning';
     :root {
       --font-main: 'Glacial Indifference', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       --font-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --color-border: #e6e6e6;
+      --color-border-dark: #111111;
+      --color-bg-subtle: #fbfbfb;
+      --color-text-muted: #666666;
     }
 
     * {
@@ -40,27 +44,43 @@ import { planningFpvMois } from '../../data/planning';
       font-family: var(--font-main);
       background: #ffffff;
       color: #000000;
-      line-height: 1.4;
-      padding: 1.5rem 1rem 5rem 1rem;
-      max-width: 1000px;
+      line-height: 1.45;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .page-wrapper {
+      max-width: 1140px;
       margin: 0 auto;
+      padding: clamp(2rem, 4vw, 3.5rem) clamp(1rem, 3.5vw, 2.5rem) 8rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     /* En-tête : UNIQUEMENT LE LOGO */
     .org-pure-header {
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      padding: 1.5rem 0 2rem 0;
-      border-bottom: 2px solid #000000;
-      margin-bottom: 2rem;
+      justify-content: center;
+      padding: clamp(1rem, 3vw, 2rem) 0 clamp(2rem, 4vw, 3rem);
     }
 
     .org-logo-img {
-      max-width: 320px;
+      max-width: 340px;
       width: 100%;
       height: auto;
       display: block;
+      transition: transform 0.2s ease;
+    }
+
+    .header-hairline {
+      width: 60px;
+      height: 1px;
+      background: #000000;
+      margin-top: 1.75rem;
+      opacity: 0.2;
     }
 
     /* Barre de navigation du mois */
@@ -68,67 +88,86 @@ import { planningFpvMois } from '../../data/planning';
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.75rem 1rem;
-      border: 2px solid #000000;
-      background: #fafafa;
-      margin-bottom: 1.5rem;
+      padding: 1rem 0;
+      margin-bottom: 1.75rem;
+      border-bottom: 1px solid var(--color-border);
     }
 
     .month-nav-btn {
       background: #ffffff;
-      border: 2px solid #000000;
+      border: 1px solid var(--color-border-dark);
+      border-radius: 9999px;
       font-family: var(--font-main);
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 700;
-      padding: 0.5rem 1rem;
+      letter-spacing: 0.04em;
+      padding: 0.55rem 1.2rem;
       cursor: pointer;
-      transition: background 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .month-nav-btn:hover:not(:disabled) {
       background: #000000;
       color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
 
     .month-nav-btn:disabled {
-      opacity: 0.3;
+      opacity: 0.25;
       cursor: not-allowed;
+      border-color: #cccccc;
     }
 
     .current-month-label {
-      font-size: 1.35rem;
+      font-size: clamp(1.2rem, 2.5vw, 1.55rem);
       font-weight: 800;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
+      color: #000000;
     }
 
     /* Légende épurée */
-    .pure-legend {
+    .pure-legend-wrap {
       display: flex;
-      flex-wrap: wrap;
-      gap: 1.25rem;
       justify-content: center;
-      margin-bottom: 1.5rem;
-      font-size: 0.82rem;
-      font-weight: 700;
+      margin-bottom: 2rem;
+    }
+
+    .pure-legend {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      background: var(--color-bg-subtle);
+      border: 1px solid #efefef;
+      border-radius: 9999px;
+      padding: 0.45rem 1.4rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
     }
 
     .legend-item {
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      color: #333333;
     }
 
     .legend-bullet {
-      width: 14px;
-      height: 14px;
-      border: 1px solid #000000;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
       display: inline-block;
     }
 
     .bullet-dispo {
       background: #ffffff;
-      border: 2px solid #000000;
+      border: 1.5px solid #000000;
     }
 
     .bullet-tournage {
@@ -136,21 +175,21 @@ import { planningFpvMois } from '../../data/planning';
     }
 
     .bullet-option {
-      background: #e0e0e0;
-      border: 1px dashed #000000;
+      background: #666666;
     }
 
     .bullet-masked {
-      background: #ebebeb;
-      border-color: #888888;
+      background: #d4d4d4;
     }
 
     /* Grille Calendrier */
     .calendar-container {
-      border: 2px solid #000000;
+      border: 1px solid var(--color-border-dark);
+      border-radius: 6px;
       background: #ffffff;
-      box-shadow: 4px 4px 0px #000000;
+      box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.06);
       margin-bottom: 2rem;
+      overflow: hidden;
     }
 
     .calendar-container.is-hidden {
@@ -160,7 +199,7 @@ import { planningFpvMois } from '../../data/planning';
     .calendar-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      background: #000000;
+      background: var(--color-border);
       gap: 1px;
     }
 
@@ -168,51 +207,55 @@ import { planningFpvMois } from '../../data/planning';
       background: #000000;
       color: #ffffff;
       text-align: center;
-      padding: 0.65rem 0.25rem;
+      padding: 0.8rem 0.25rem;
       font-family: var(--font-mono);
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 700;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.14em;
     }
 
     .calendar-cell {
       background: #ffffff;
-      min-height: 115px;
-      padding: 0.6rem;
+      min-height: 125px;
+      padding: 0.75rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       position: relative;
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .cell-empty {
-      background: #f7f7f7;
+      background: #fafafa;
     }
 
     .cell-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-family: var(--font-mono);
-      margin-bottom: 0.35rem;
+      margin-bottom: 0.4rem;
     }
 
     .cell-number {
-      font-size: 1rem;
+      font-family: var(--font-mono);
+      font-size: 1.05rem;
       font-weight: 800;
+      color: #111111;
     }
 
     .tag-state {
-      font-size: 0.62rem;
+      font-size: 0.64rem;
       font-weight: 700;
-      padding: 0.15rem 0.4rem;
+      padding: 0.2rem 0.45rem;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
+      border-radius: 3px;
     }
 
     .tag-open {
-      background: #000000;
-      color: #ffffff;
+      background: #f0f0f0;
+      color: #000000;
+      border: 1px solid #d5d5d5;
     }
 
     .tag-booked {
@@ -221,105 +264,143 @@ import { planningFpvMois } from '../../data/planning';
     }
 
     .tag-option {
-      background: #ffffff;
-      color: #000000;
-      border: 1px solid #000000;
+      background: #555555;
+      color: #ffffff;
     }
 
     .tag-masked {
-      background: #888888;
-      color: #ffffff;
+      background: #e5e5e5;
+      color: #777777;
     }
 
     .cell-body {
       flex: 1;
-      font-size: 0.76rem;
-      line-height: 1.25;
+      font-size: 0.78rem;
+      line-height: 1.35;
+      padding: 0.2rem 0;
     }
 
     .cell-title {
       font-weight: 800;
-      margin-bottom: 0.15rem;
+      margin-bottom: 0.2rem;
+      color: #000000;
     }
 
     .cell-detail {
-      color: #555555;
-      font-size: 0.72rem;
+      color: var(--color-text-muted);
+      font-size: 0.74rem;
     }
 
     .cell-footer-hint {
-      font-family: var(--font-mono);
-      font-size: 0.62rem;
-      color: #666666;
-      border-top: 1px dashed #dddddd;
-      padding-top: 0.25rem;
-      margin-top: 0.35rem;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: #888888;
+      border-top: 1px dashed #e8e8e8;
+      padding-top: 0.35rem;
+      margin-top: 0.4rem;
       text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
 
     /* Interactions */
     .cell-selectable {
       cursor: pointer;
-      transition: background 0.1s ease;
     }
 
     .cell-selectable:hover {
-      background: #f4f4f4;
+      background: #fcfcfc;
+      box-shadow: inset 0 0 0 1.5px #000000;
+      z-index: 2;
+    }
+
+    .cell-selectable:hover .tag-open {
+      background: #000000;
+      color: #ffffff;
+      border-color: #000000;
     }
 
     .cell-is-selected {
       background: #000000 !important;
       color: #ffffff !important;
+      box-shadow: inset 0 0 0 2px #000000;
+      z-index: 3;
+    }
+
+    .cell-is-selected .cell-number {
+      color: #ffffff !important;
+    }
+
+    .cell-is-selected .cell-title {
+      color: #ffffff !important;
     }
 
     .cell-is-selected .cell-detail,
     .cell-is-selected .cell-footer-hint {
-      color: #cccccc !important;
+      color: rgba(255, 255, 255, 0.75) !important;
+      border-top-color: rgba(255, 255, 255, 0.25) !important;
     }
 
     .cell-is-selected .tag-open {
-      background: #ffffff;
-      color: #000000;
+      background: #ffffff !important;
+      color: #000000 !important;
+      border-color: #ffffff !important;
     }
 
     .cell-is-tournage {
-      border-left: 4px solid #000000;
+      border-left: 3.5px solid #000000;
       background: #fafafa;
     }
 
     .cell-is-option {
+      border-left: 3.5px solid #666666;
       background: #fbfbfb;
-      border-left: 4px dashed #666666;
     }
 
     .cell-is-masked {
-      background: #eeeeee;
+      background: #f6f6f6;
+      color: #999999;
+    }
+
+    .cell-is-masked .cell-title {
       color: #888888;
     }
 
     .cell-is-masked .cell-detail {
-      color: #888888;
+      color: #aaaaaa;
     }
 
-    /* Barre d'action basse (flottante) */
+    /* Barre d'action basse (flottante élégante) */
     .floating-action-bar {
       position: fixed;
-      bottom: 1.25rem;
+      bottom: 1.5rem;
       left: 50%;
       transform: translateX(-50%);
-      width: calc(100% - 2rem);
-      max-width: 850px;
-      background: #000000;
+      width: min(calc(100% - 2rem), 780px);
+      background: rgba(14, 14, 14, 0.94);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       color: #ffffff;
-      border: 2px solid #ffffff;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      padding: 0.85rem 1.25rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 14px;
+      box-shadow: 0 20px 44px -10px rgba(0, 0, 0, 0.5);
+      padding: 0.85rem 1.35rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 1rem;
-      flex-wrap: wrap;
-      z-index: 100;
+      z-index: 1000;
+      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
     }
 
     .action-bar-info {
@@ -334,7 +415,7 @@ import { planningFpvMois } from '../../data/planning';
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: #aaaaaa;
+      color: rgba(255, 255, 255, 0.65);
     }
 
     .selected-tags-wrap {
@@ -347,10 +428,10 @@ import { planningFpvMois } from '../../data/planning';
       background: #ffffff;
       color: #000000;
       font-family: var(--font-mono);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 800;
-      padding: 0.2rem 0.5rem;
-      border-radius: 2px;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
     }
 
     .action-bar-btns {
@@ -364,67 +445,100 @@ import { planningFpvMois } from '../../data/planning';
       background: #ffffff;
       color: #000000;
       font-family: var(--font-main);
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 800;
-      padding: 0.55rem 1rem;
+      padding: 0.6rem 1.1rem;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      border: 2px solid #ffffff;
+      border-radius: 8px;
+      border: 1.5px solid #ffffff;
+      transition: all 0.2s ease;
+      white-space: nowrap;
     }
 
     .btn-action-sms:hover {
-      background: #e5e5e5;
+      background: #e6e6e6;
+      border-color: #e6e6e6;
+      transform: translateY(-1px);
     }
 
     .btn-action-mail {
-      background: transparent;
+      background: rgba(255, 255, 255, 0.12);
       color: #ffffff;
       font-family: var(--font-main);
-      font-size: 0.85rem;
-      font-weight: 800;
-      padding: 0.55rem 1rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.6rem 1.1rem;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      border: 2px solid #ffffff;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.2s ease;
+      white-space: nowrap;
     }
 
     .btn-action-mail:hover {
-      background: #ffffff;
-      color: #000000;
+      background: rgba(255, 255, 255, 0.22);
+      border-color: #ffffff;
+      transform: translateY(-1px);
     }
 
     .btn-reset-dates {
       background: transparent;
       border: none;
-      color: #aaaaaa;
-      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.78rem;
       cursor: pointer;
       text-decoration: underline;
+      transition: color 0.15s ease;
     }
 
     .btn-reset-dates:hover {
       color: #ffffff;
     }
 
+    /* Responsive mobile */
     @media (max-width: 768px) {
-      body {
-        padding: 1rem 0.5rem 6rem 0.5rem;
+      .page-wrapper {
+        padding: 1.5rem 0.75rem 7rem;
       }
       .org-logo-img {
-        max-width: 250px;
+        max-width: 270px;
+      }
+      .pure-legend {
+        padding: 0.4rem 1rem;
+        gap: 0.85rem;
+        font-size: 0.74rem;
       }
       .calendar-grid {
-        grid-template-columns: repeat(7, minmax(40px, 1fr));
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+      }
+      .weekday-header {
+        font-size: 0.68rem;
+        padding: 0.6rem 0.1rem;
       }
       .calendar-cell {
-        min-height: 75px;
-        padding: 0.3rem;
+        min-height: 85px;
+        padding: 0.4rem;
       }
-      .cell-body {
+      .cell-number {
+        font-size: 0.92rem;
+      }
+      .tag-state {
+        font-size: 0.58rem;
+        padding: 1px 3px;
+      }
+      .cell-title {
+        font-size: 0.7rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .cell-detail {
         display: none;
       }
       .cell-footer-hint {
@@ -433,159 +547,175 @@ import { planningFpvMois } from '../../data/planning';
       .floating-action-bar {
         flex-direction: column;
         align-items: stretch;
+        padding: 1rem;
+        bottom: 1rem;
+        border-radius: 12px;
+      }
+      .action-bar-info {
+        justify-content: space-between;
       }
       .action-bar-btns {
-        justify-content: stretch;
+        display: flex;
+        gap: 0.5rem;
       }
-      .btn-action-sms, .btn-action-mail {
+      .btn-action-sms,
+      .btn-action-mail {
         flex: 1;
         justify-content: center;
+        padding: 0.65rem 0.5rem;
+        font-size: 0.78rem;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- EN-TÊTE : UNIQUEMENT LE LOGO DE L'ACTIVITÉ FPV -->
-  <header class="org-pure-header">
-    <img src="/assets/logos/drone-fpv.svg" alt="Drone FPV Tournages — Tom Bigot" class="org-logo-img" />
-  </header>
+  <div class="page-wrapper">
+    <!-- EN-TÊTE : UNIQUEMENT LE LOGO DE L'ORGANISATION -->
+    <header class="org-pure-header">
+      <img src="/assets/logos/drone-fpv.svg" alt="Drone FPV — Tournages & Prises de Vue" class="org-logo-img" />
+      <div class="header-hairline" aria-hidden="true"></div>
+    </header>
 
-  <!-- NAVIGATION DU MOIS -->
-  <div class="month-nav-bar">
-    <button type="button" id="btnPrev" class="month-nav-btn">&larr; Mois précédent</button>
-    <div id="monthDisplay" class="current-month-label">NOVEMBRE 2026</div>
-    <button type="button" id="btnNext" class="month-nav-btn">Mois suivant &rarr;</button>
-  </div>
-
-  <!-- LÉGENDE RAPIDE -->
-  <div class="pure-legend">
-    <div class="legend-item">
-      <span class="legend-bullet bullet-dispo"></span>
-      <span>Vol disponible</span>
+    <!-- NAVIGATION DU MOIS -->
+    <div class="month-nav-bar">
+      <button type="button" id="btnPrev" class="month-nav-btn">&larr; Mois précédent</button>
+      <div id="monthDisplay" class="current-month-label">NOVEMBRE 2026</div>
+      <button type="button" id="btnNext" class="month-nav-btn">Mois suivant &rarr;</button>
     </div>
-    <div class="legend-item">
-      <span class="legend-bullet bullet-tournage"></span>
-      <span>Tournage confirmé</span>
-    </div>
-    <div class="legend-item">
-      <span class="legend-bullet bullet-option"></span>
-      <span>Option météo / prod</span>
-    </div>
-    <div class="legend-item">
-      <span class="legend-bullet bullet-masked"></span>
-      <span>Indisponible</span>
-    </div>
-  </div>
 
-  <!-- CALENDRIERS (AGENDA PUR) -->
-  {planningFpvMois.map((mois, indexMois) => (
-    <div
-      id={`cal-${indexMois}`}
-      class={`calendar-container ${indexMois === 0 ? '' : 'is-hidden'}`}
-      data-month-index={indexMois}
-      data-month-name={`${mois.nom.toUpperCase()} ${mois.annee}`}
-    >
-      <div class="calendar-grid">
-        <div class="weekday-header">LUN</div>
-        <div class="weekday-header">MAR</div>
-        <div class="weekday-header">MER</div>
-        <div class="weekday-header">JEU</div>
-        <div class="weekday-header">VEN</div>
-        <div class="weekday-header">SAM</div>
-        <div class="weekday-header">DIM</div>
-
-        {Array.from({ length: mois.decalageLundi }).map(() => (
-          <div class="calendar-cell cell-empty" aria-hidden="true"></div>
-        ))}
-
-        {mois.jours.map((item) => {
-          const isLibre = item.statut === 'libre';
-          const isTournage = item.statut === 'reserve_tournage';
-          const isReperage = item.statut === 'reserve_reperage';
-          const isOption = item.statut === 'option_meteo';
-          const isIndispo = item.statut === 'indisponible';
-
-          let cellClass = 'cell-is-masked';
-          let tagText = 'Indispo';
-          let tagClass = 'tag-masked';
-
-          if (isLibre) {
-            cellClass = 'cell-selectable';
-            tagText = '+ Choisir';
-            tagClass = 'tag-open';
-          } else if (isTournage) {
-            cellClass = 'cell-is-tournage';
-            tagText = 'Tournage';
-            tagClass = 'tag-booked';
-          } else if (isReperage) {
-            cellClass = 'cell-is-tournage';
-            tagText = 'Repérage';
-            tagClass = 'tag-booked';
-          } else if (isOption) {
-            cellClass = 'cell-is-option';
-            tagText = 'Option';
-            tagClass = 'tag-option';
-          }
-
-          return (
-            <div
-              class={`calendar-cell ${cellClass}`}
-              data-date={item.dateStr}
-              role={isLibre ? 'button' : 'region'}
-              tabindex={isLibre ? '0' : '-1'}
-            >
-              <div class="cell-top">
-                <span class="cell-number">{item.jour}</span>
-                <span class={`tag-state ${tagClass}`}>{tagText}</span>
-              </div>
-
-              <div class="cell-body">
-                {isLibre && (
-                  <>
-                    <div class="cell-title">Vol disponible</div>
-                    <div class="cell-detail">Créneau ouvert</div>
-                  </>
-                )}
-                {isTournage && (
-                  <>
-                    <div class="cell-title">Tournage validé</div>
-                    <div class="cell-detail">{item.detail}</div>
-                  </>
-                )}
-                {isReperage && (
-                  <>
-                    <div class="cell-title">Repérage site</div>
-                    <div class="cell-detail">{item.detail}</div>
-                  </>
-                )}
-                {isOption && (
-                  <>
-                    <div class="cell-title">Option posée</div>
-                    <div class="cell-detail">{item.detail}</div>
-                  </>
-                )}
-                {isIndispo && (
-                  <>
-                    <div class="cell-title" style="color: #888;">Bloqué</div>
-                    <div class="cell-detail" style="color: #999;">Non disponible</div>
-                  </>
-                )}
-              </div>
-
-              <div class="cell-footer-hint">
-                {isLibre && <span>Cliquer pour choisir</span>}
-                {isTournage && <span>Tournage calé</span>}
-                {isReperage && <span>Visite DGAC</span>}
-                {isOption && <span>Sous réserve</span>}
-                {isIndispo && <span>Non disponible</span>}
-              </div>
-            </div>
-          );
-        })}
+    <!-- LÉGENDE RAPIDE -->
+    <div class="pure-legend-wrap">
+      <div class="pure-legend">
+        <div class="legend-item">
+          <span class="legend-bullet bullet-dispo"></span>
+          <span>Vol disponible</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-bullet bullet-tournage"></span>
+          <span>Tournage confirmé</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-bullet bullet-option"></span>
+          <span>Option météo / prod</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-bullet bullet-masked"></span>
+          <span>Indisponible</span>
+        </div>
       </div>
     </div>
-  ))}
+
+    <!-- CALENDRIERS (AGENDA PUR) -->
+    {planningFpvMois.map((mois, indexMois) => (
+      <div
+        id={`cal-${indexMois}`}
+        class={`calendar-container ${indexMois === 0 ? '' : 'is-hidden'}`}
+        data-month-index={indexMois}
+        data-month-name={`${mois.nom.toUpperCase()} ${mois.annee}`}
+      >
+        <div class="calendar-grid">
+          <div class="weekday-header">LUN</div>
+          <div class="weekday-header">MAR</div>
+          <div class="weekday-header">MER</div>
+          <div class="weekday-header">JEU</div>
+          <div class="weekday-header">VEN</div>
+          <div class="weekday-header">SAM</div>
+          <div class="weekday-header">DIM</div>
+
+          {Array.from({ length: mois.decalageLundi }).map(() => (
+            <div class="calendar-cell cell-empty" aria-hidden="true"></div>
+          ))}
+
+          {mois.jours.map((item) => {
+            const isLibre = item.statut === 'libre';
+            const isTournage = item.statut === 'reserve_tournage';
+            const isReperage = item.statut === 'reserve_reperage';
+            const isOption = item.statut === 'option_meteo';
+            const isIndispo = item.statut === 'indisponible';
+
+            let cellClass = 'cell-is-masked';
+            let tagText = 'Indispo';
+            let tagClass = 'tag-masked';
+
+            if (isLibre) {
+              cellClass = 'cell-selectable';
+              tagText = '+ Choisir';
+              tagClass = 'tag-open';
+            } else if (isTournage) {
+              cellClass = 'cell-is-tournage';
+              tagText = 'Tournage';
+              tagClass = 'tag-booked';
+            } else if (isReperage) {
+              cellClass = 'cell-is-tournage';
+              tagText = 'Repérage';
+              tagClass = 'tag-booked';
+            } else if (isOption) {
+              cellClass = 'cell-is-option';
+              tagText = 'Option';
+              tagClass = 'tag-option';
+            }
+
+            return (
+              <div
+                class={`calendar-cell ${cellClass}`}
+                data-date={item.dateStr}
+                role={isLibre ? 'button' : 'region'}
+                tabindex={isLibre ? '0' : '-1'}
+              >
+                <div class="cell-top">
+                  <span class="cell-number">{item.jour}</span>
+                  <span class={`tag-state ${tagClass}`}>{tagText}</span>
+                </div>
+
+                <div class="cell-body">
+                  {isLibre && (
+                    <>
+                      <div class="cell-title">Vol disponible</div>
+                      <div class="cell-detail">Créneau ouvert</div>
+                    </>
+                  )}
+                  {isTournage && (
+                    <>
+                      <div class="cell-title">Tournage validé</div>
+                      <div class="cell-detail">{item.detail}</div>
+                    </>
+                  )}
+                  {isReperage && (
+                    <>
+                      <div class="cell-title">Repérage site</div>
+                      <div class="cell-detail">{item.detail}</div>
+                    </>
+                  )}
+                  {isOption && (
+                    <>
+                      <div class="cell-title">Option posée</div>
+                      <div class="cell-detail">{item.detail}</div>
+                    </>
+                  )}
+                  {isIndispo && (
+                    <>
+                      <div class="cell-title" style="color: #888;">Bloqué</div>
+                      <div class="cell-detail" style="color: #999;">Non disponible</div>
+                    </>
+                  )}
+                </div>
+
+                <div class="cell-footer-hint">
+                  {isLibre && <span>Cliquer pour choisir</span>}
+                  {isTournage && <span>Tournage calé</span>}
+                  {isReperage && <span>Visite DGAC</span>}
+                  {isOption && <span>Sous réserve</span>}
+                  {isIndispo && <span>Non disponible</span>}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    ))}
+
+  </div> <!-- /.page-wrapper -->
 
   <!-- BARRE FLOTTANTE EN CAS DE SÉLECTION -->
   <div id="selectionBar" class="floating-action-bar" style="display: none;">
