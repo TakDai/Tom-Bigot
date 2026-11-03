@@ -212,7 +212,10 @@ const planningFpvMois: MoisFpv[] = [
       >
         <span class="master-tab-icon">🏛️</span>
         <div class="master-tab-text">
-          <strong>1. AGENDA CABINES CINÉMA</strong>
+          <div class="master-tab-title-line">
+            <strong>1. AGENDA CABINES CINÉMA</strong>
+            <span class="subdomain-badge">cine.tom-bigot.fr</span>
+          </div>
           <span>Mes 2 cinémas partenaires &bull; Suivi des semaines CFA</span>
         </div>
         <span class="master-tab-arrow">&rarr;</span>
@@ -227,7 +230,10 @@ const planningFpvMois: MoisFpv[] = [
       >
         <span class="master-tab-icon">🚁</span>
         <div class="master-tab-text">
-          <strong>2. AGENDA DRONE FPV &amp; DEVIS</strong>
+          <div class="master-tab-title-line">
+            <strong>2. AGENDA DRONE FPV &amp; DEVIS</strong>
+            <span class="subdomain-badge">fpv.tom-bigot.fr</span>
+          </div>
           <span>Tournages cinématiques, repérages &bull; Devis sous 24h</span>
         </div>
         <span class="master-tab-arrow">&rarr;</span>
@@ -950,8 +956,11 @@ const planningFpvMois: MoisFpv[] = [
     activerAgenda('fpv');
   });
 
-  // Détection du hash dans l'URL à l'arrivée
-  if (window.location.hash.toLowerCase().includes('fpv')) {
+  // Détection du sous-domaine ou du hash dans l'URL à l'arrivée
+  const host = window.location.hostname.toLowerCase();
+  const hash = window.location.hash.toLowerCase();
+
+  if (host.startsWith('fpv') || host.startsWith('drone') || hash.includes('fpv')) {
     activerAgenda('fpv');
   } else {
     activerAgenda('cinema');
@@ -1507,6 +1516,29 @@ const planningFpvMois: MoisFpv[] = [
     display: flex;
     flex-direction: column;
     gap: 3px;
+  }
+
+  .master-tab-title-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .subdomain-badge {
+    font: 700 10px monospace;
+    letter-spacing: 0.04em;
+    padding: 1px 6px;
+    border: 1px dashed currentColor;
+    border-radius: 2px;
+    opacity: 0.85;
+  }
+
+  .agenda-master-tab.active .subdomain-badge {
+    background: #ffffff;
+    color: #000000;
+    border-style: solid;
+    border-color: #ffffff;
   }
 
   .master-tab-text strong {

@@ -3,4 +3,20 @@ ErrorDocument 404 /404.html
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
+
+  # 1. Sous-domaines Cabine Cinéma (cine.tom-bigot.fr & cinema.tom-bigot.fr)
+  RewriteCond %{HTTP_HOST} ^(cine|cinema)\.tom-bigot\.fr$ [NC]
+  RewriteRule ^$ /agenda#agenda-cinema [R=302,NE,L]
+
+  # 2. Sous-domaines Drone FPV & Devis (fpv.tom-bigot.fr & drone.tom-bigot.fr)
+  RewriteCond %{HTTP_HOST} ^(fpv|drone)\.tom-bigot\.fr$ [NC]
+  RewriteRule ^$ /agenda#agenda-fpv [R=302,NE,L]
+
+  # 3. Sous-domaine Développement (dev.tom-bigot.fr)
+  RewriteCond %{HTTP_HOST} ^dev\.tom-bigot\.fr$ [NC]
+  RewriteRule ^$ /developpement/ [R=302,L]
+
+  # 4. Sous-domaine Agenda général (agenda.tom-bigot.fr)
+  RewriteCond %{HTTP_HOST} ^agenda\.tom-bigot\.fr$ [NC]
+  RewriteRule ^$ /agenda/ [R=302,L]
 </IfModule>
