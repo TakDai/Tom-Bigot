@@ -1,0 +1,229 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  titre="Opérateur Projectionniste"
+  description="Tom Bigot — Opérateur projectionniste cinéma DCI numérique & 35mm argentique. Exploitation cabine, serveurs Doremi/Dolby, projecteurs Barco/Christie, gestion KDM et sonorisation."
+>
+  <main class="prose-screen">
+    <header class="page-head">
+      <div class="head-topline">
+        <span class="etiquette">MÉTIER &bull; SALLE OBSCURE</span>
+        <a href="/agenda" class="nav-pill pill-accent">Consulter mes disponibilités &rarr;</a>
+      </div>
+      <h1 class="page-title">OPÉRATEUR PROJECTIONNISTE</h1>
+      <p class="page-subtitle">
+        Projectionniste cinéma qualifié, spécialisé en exploitation de cabines numériques DCI et 35mm argentique. 
+        Garant de la qualité visuelle, sonore et du bon déroulement des séances pour le public et les créateurs.
+      </p>
+    </header>
+
+    <!-- 01. Philosophie de cabine -->
+    <article class="prose-card">
+      <span class="etiquette">01 &bull; RIGUEUR &amp; PRÉCISION</span>
+      <h2>LE RESPECT DE L'ŒUVRE ET DU SPECTATEUR</h2>
+      <p>
+        La cabine de projection est le point de convergence où des années de travail cinématographique rencontrent le regard du public. Mon rôle est de garantir une restitution rigoureusement conforme aux intentions de réalisation : cadrage au millimètre, colorimétrie exacte, netteté chirurgicale et niveau sonore calibré.
+      </p>
+      <p>
+        De la gestion des flux de clés cryptographiques KDM jusqu'au calage des optiques et à la maintenance de premier niveau des projecteurs xénon ou laser, j'interviens avec le calme et la réactivité nécessaires au spectacle vivant et au cinéma.
+      </p>
+    </article>
+
+    <!-- 02. Compétences clés -->
+    <article class="prose-card">
+      <span class="etiquette">02 &bull; COMPÉTENCES TECHNIQUES</span>
+      <h2>ÉQUIPEMENTS &amp; SYSTÈMES MAÎTRISÉS</h2>
+      <div class="swatch-grid">
+        <div class="principe-item">
+          <h3>Projecteurs Numériques DCI</h3>
+          <p>Barco (série DP2K, DP4K, Alchemy), Christie (CP22xx, séries laser), NEC. Remplacement de lanternes xénon, alignement optique et convergence des matrices 2K/4K.</p>
+        </div>
+        <div class="principe-item">
+          <h3>Serveurs &amp; Ingest DCP</h3>
+          <p>Doremi (DCP-2000, ShowVault), Dolby (IMS2000, IMS3000), GDC. Ingestion réseau haut débit, validation des checksums, gestion des disques CRU et intégration TMS.</p>
+        </div>
+        <div class="principe-item">
+          <h3>Cryptographie &amp; KDM</h3>
+          <p>Contrôle et anticipation des fenêtres temporelles des KDM, gestion des certificats des processeurs médias, relation avec les distributeurs et laboratoires pour zéro annulation de séance.</p>
+        </div>
+        <div class="principe-item">
+          <h3>Projection 35mm Argentique</h3>
+          <p>Chargement sur plateaux continus ou double poste, vérification manuelle des copies, collage à la presse acétone ou scotch spécialisé, calage des amorces et réglage du couloir.</p>
+        </div>
+        <div class="principe-item">
+          <h3>Sonorisation &amp; Processeurs</h3>
+          <p>Dolby CP650, CP750, CP950. Égalisation multicanale, calibration des niveaux SPL (7.0 Dolby), gestion des micros HF et retours de scène pour débats et avant-premières.</p>
+        </div>
+        <div class="principe-item">
+          <h3>Régie Événementielle</h3>
+          <p>Gestion technique de ciné-débats, présentations avec réalisateurs, ciné-concerts, festivals et projections en plein air ou itinérantes.</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- 03. Types de missions -->
+    <article class="prose-card">
+      <span class="etiquette">03 &bull; MODALITÉS D'INTERVENTION</span>
+      <h2>TYPES DE MISSIONS PROPOSÉES</h2>
+      <ul>
+        <li><strong>Remplacement cabine &amp; renfort d'exploitation :</strong> Remplacement ponctuel ou périodes d'affluence (sorties nationales, week-ends, vacances scolaires).</li>
+        <li><strong>Festivals &amp; Événements cinéma :</strong> Prise en charge de la régie technique, tests en amont des DCP, réactivité lors des projections publiques.</li>
+        <li><strong>Séances du patrimoine &amp; 35mm :</strong> Montage et projection soignée de bobines d'archives ou de copies rares nécessitant une manipulation manuelle attentive.</li>
+        <li><strong>Maintenance de cabine :</strong> Dépoussiérage, contrôle optique, vérification des automations de salle (éclairage, rideaux, format d'écran).</li>
+      </ul>
+    </article>
+
+    <!-- 04. Call to action vers l'agenda -->
+    <article class="prose-card cta-agenda-card">
+      <span class="etiquette">DISPONIBILITÉS &bull; PLANIFICATION</span>
+      <h2>BESOIN D'UN PROJECTIONNISTE POUR UNE DATE ?</h2>
+      <p>
+        Consultez mes dates disponibles et soumettez directement votre demande d'intervention sur mon agenda en ligne sécurisé.
+      </p>
+      <div class="actions-row">
+        <a href="/agenda" class="btn-noir">Accéder à l'agenda des disponibilités &rarr;</a>
+        <a href="/contact" class="btn-outline">Formulaire de contact direct</a>
+      </div>
+    </article>
+  </main>
+</Base>
+
+<style>
+  .prose-screen {
+    flex: 1;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: clamp(32px, 5vh, 64px) clamp(16px, 4vw, 32px);
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .head-topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  .pill-accent {
+    border-color: #000000;
+    color: #000000;
+    font-weight: 700;
+  }
+
+  .pill-accent:hover {
+    background: #000000;
+    color: #ffffff;
+  }
+
+  .page-head {
+    border-bottom: 2px dashed var(--dash);
+    padding-bottom: 24px;
+  }
+
+  .page-title {
+    margin: 6px 0 12px;
+    font: 700 clamp(28px, 4.5vw, 42px)/1.1 var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .page-subtitle {
+    margin: 0;
+    font: 400 14px/1.65 var(--font);
+    letter-spacing: 0.03em;
+    color: rgba(0, 0, 0, 0.75);
+    max-width: 720px;
+  }
+
+  .prose-card {
+    border: 2px dashed var(--dash);
+    border-radius: 12px;
+    padding: clamp(22px, 3.5vw, 32px);
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .prose-card h2 {
+    margin: 0;
+    font: 700 clamp(19px, 3vw, 24px)/1.2 var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .prose-card p {
+    margin: 0;
+    font: 400 14px/1.65 var(--font);
+    color: rgba(0, 0, 0, 0.82);
+  }
+
+  .prose-card ul {
+    margin: 0;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .prose-card li {
+    font: 400 13.5px/1.6 var(--font);
+    color: rgba(0, 0, 0, 0.85);
+  }
+
+  .prose-card strong {
+    color: #000000;
+  }
+
+  .swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .principe-item {
+    border: 1px dashed rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    padding: 14px 16px;
+    background: #fafafa;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .principe-item h3 {
+    margin: 0;
+    font: 700 14px/1.2 var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #000000;
+  }
+
+  .principe-item p {
+    margin: 0;
+    font: 400 12.5px/1.55 var(--font);
+    color: rgba(0, 0, 0, 0.72);
+  }
+
+  .cta-agenda-card {
+    background: #fbfbfb;
+    border-style: solid;
+    border-color: #000000;
+  }
+
+  .actions-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+</style>

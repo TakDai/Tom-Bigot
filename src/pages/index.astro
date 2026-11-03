@@ -542,11 +542,105 @@ const bandeauxProjets = [
     </div>
   </section>
 
+  <!-- ================= 02. LES 4 PILIERS D'ACTIVITÉ & MISSIONS ================= -->
+  <section id="expertises" class="conteneur section-piliers">
+    <header class="timeline-header">
+      <div class="header-pre">
+        <span class="etiquette">02 &bull; MÉTIERS, CABINE &amp; TERRAIN</span>
+      </div>
+      <h2 class="timeline-main-title">LES 4 PILIERS TECHNIQUES &bull; CABINE, TERRAIN &amp; SYSTÈMES</h2>
+      <p class="timeline-main-desc">
+        Trois spécialités opérationnelles complémentaires, un agenda en direct pour organiser des interventions et des collaborations.
+      </p>
+    </header>
+
+    <div class="piliers-grid">
+      <!-- 01. Projectionniste -->
+      <article class="pilier-card">
+        <div class="pilier-head">
+          <span class="etiquette">CINÉMA &bull; CABINE DCI &bull; 35MM</span>
+          <h3 class="pilier-title">OPÉRATEUR PROJECTIONNISTE</h3>
+        </div>
+        <p class="pilier-desc">
+          Exploitation rigoureuse de cabines numériques DCI (Barco, Christie, NEC) et 35mm argentique. Ingest Doremi / Dolby IMS, synchronisation cryptographique KDM, alignement optique et sonorisation de salle.
+        </p>
+        <div class="pilier-points">
+          <span class="pilier-tag">DCI 2K / 4K</span>
+          <span class="pilier-tag">35mm Argentique</span>
+          <span class="pilier-tag">KDM &amp; TMS</span>
+          <span class="pilier-tag">Dolby 7.0 / HF</span>
+        </div>
+        <div class="pilier-action">
+          <a href="/projectionniste" class="btn-outline btn-pilier">Fiche cabine &rarr;</a>
+        </div>
+      </article>
+
+      <!-- 02. Pilote Drone FPV -->
+      <article class="pilier-card">
+        <div class="pilier-head">
+          <span class="etiquette">TOURNAGE &bull; HAUTE VITESSE &bull; CINÉMATIQUE</span>
+          <h3 class="pilier-title">PILOTE DRONE FPV</h3>
+        </div>
+        <p class="pilier-desc">
+          Prises de vues aériennes immersives et dynamiques pour le cinéma, les clips et la publicité. Poursuites à plus de 150 km/h, cinewhoops intérieurs protégés et stabilisation inertielle Gyroflow au pixel près.
+        </p>
+        <div class="pilier-points">
+          <span class="pilier-tag">Cinewhoop 2.5/3.5"</span>
+          <span class="pilier-tag">5" Chase >150 km/h</span>
+          <span class="pilier-tag">Gyroflow Blackbox</span>
+          <span class="pilier-tag">DJI O3 / HD</span>
+        </div>
+        <div class="pilier-action">
+          <a href="/pilote-fpv" class="btn-outline btn-pilier">Flotte &amp; Specs &rarr;</a>
+        </div>
+      </article>
+
+      <!-- 03. Projets de Développement -->
+      <article class="pilier-card">
+        <div class="pilier-head">
+          <span class="etiquette">SYSTÈMES &bull; EMBARQUÉ &bull; SOUVERAINETÉ</span>
+          <h3 class="pilier-title">PROJETS DE DÉVELOPPEMENT</h3>
+        </div>
+        <p class="pilier-desc">
+          Artisanat logiciel et matériel : microcontrôleurs STM32 en C/C++, bancs d'essai dynamiques, web moderne épuré et homelab bare-metal sous Linux Debian sans dépendance aux géants du cloud.
+        </p>
+        <div class="pilier-points">
+          <span class="pilier-tag">STM32 Bare-Metal</span>
+          <span class="pilier-tag">Web Ultra-Léger</span>
+          <span class="pilier-tag">Debian Homelab</span>
+          <span class="pilier-tag">Docker / Nginx</span>
+        </div>
+        <div class="pilier-action">
+          <a href="/developpement" class="btn-outline btn-pilier">Architecture logicielle &rarr;</a>
+        </div>
+      </article>
+
+      <!-- 04. Agenda & Disponibilités -->
+      <article class="pilier-card pilier-agenda-card">
+        <div class="pilier-head">
+          <span class="etiquette">PLANNING &bull; RÉSERVATIONS AUTORISÉES</span>
+          <h3 class="pilier-title">AGENDA &amp; DISPONIBILITÉS</h3>
+        </div>
+        <p class="pilier-desc">
+          Planning prévisionnel accessible en direct. Permet aux cinémas partenaires, sociétés de production et collaborateurs autorisés de réserver leurs dates d'intervention avec confirmation directe.
+        </p>
+        <div class="pilier-points">
+          <span class="pilier-tag">Libre / Option / Occupé</span>
+          <span class="pilier-tag">Accès Sécurisé Partenaire</span>
+          <span class="pilier-tag">Demande Directe</span>
+        </div>
+        <div class="pilier-action">
+          <a href="/agenda" class="btn-noir btn-pilier">Consulter mon agenda &rarr;</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
   <!-- ================= 03. BANDEAUX VERTICAUX PAR PROJET (DE HAUT EN BAS) ================= -->
   <section id="projets-chronologie" class="conteneur section-bandeaux-verticaux">
     <header class="timeline-header">
       <div class="header-pre">
-        <span class="etiquette">02 &bull; PARCOURS PAR PROJET ({bandeauxProjets.length} BANDEAUX)</span>
+        <span class="etiquette">03 &bull; PARCOURS PAR PROJET ({bandeauxProjets.length} BANDEAUX)</span>
       </div>
       <div class="chrono-head-flex">
         <div>
@@ -999,6 +1093,95 @@ const bandeauxProjets = [
     color: #000000;
     letter-spacing: 0.04em;
     display: inline;
+  }
+
+  /* ==========================================================================
+     02. LES 4 PILIERS TECHNIQUES & METIERS
+     ========================================================================== */
+  .section-piliers {
+    padding-top: clamp(40px, 6vh, 64px);
+    padding-bottom: clamp(24px, 4vh, 48px);
+    max-width: 1100px;
+  }
+
+  .piliers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin-top: 24px;
+  }
+
+  .pilier-card {
+    background: #ffffff;
+    border: 2px dashed var(--dash);
+    padding: clamp(20px, 2.5vw, 26px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 16px;
+    transition: all 0.2s ease;
+  }
+
+  .pilier-card:hover {
+    border-color: #000000;
+    border-style: solid;
+    transform: translateY(-2px);
+    box-shadow: 3px 3px 0 #000000;
+  }
+
+  .pilier-agenda-card {
+    background: #fafafa;
+    border-color: #000000;
+  }
+
+  .pilier-head {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .pilier-title {
+    margin: 0;
+    font: 700 17px/1.2 var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #000000;
+  }
+
+  .pilier-desc {
+    margin: 0;
+    font: 400 13px/1.55 var(--font);
+    color: rgba(0, 0, 0, 0.75);
+    flex: 1;
+  }
+
+  .pilier-points {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .pilier-tag {
+    font: 700 10px var(--font);
+    letter-spacing: 0.06em;
+    padding: 3px 8px;
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    text-transform: uppercase;
+  }
+
+  .pilier-action {
+    padding-top: 12px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.2);
+  }
+
+  .btn-pilier {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    font-size: 11px;
+    letter-spacing: 0.1em;
   }
 
   /* ==========================================================================

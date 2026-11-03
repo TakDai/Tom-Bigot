@@ -1,0 +1,230 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  titre="Pilote Drone FPV"
+  description="Tom Bigot — Pilote de drone FPV pour prises de vue aériennes cinématiques, suivi dynamique haute vitesse, plans intérieurs en cinewhoop et post-production Gyroflow."
+>
+  <main class="prose-screen">
+    <header class="page-head">
+      <div class="head-topline">
+        <span class="etiquette">PILOTAGE &bull; CADRAGE AÉRIEN</span>
+        <a href="/agenda" class="nav-pill pill-accent">Planifier un tournage &rarr;</a>
+      </div>
+      <h1 class="page-title">PILOTE DRONE FPV</h1>
+      <p class="page-subtitle">
+        Pilote et constructeur de drones FPV sur mesure. Prises de vue aériennes cinématiques, 
+        trajectoires immersives à haute vitesse et plans-séquences intérieurs d'une stabilité absolue.
+      </p>
+    </header>
+
+    <!-- 01. Vision du pilotage FPV -->
+    <article class="prose-card">
+      <span class="etiquette">01 &bull; CINÉMATIQUE &amp; ENGAGEMENT</span>
+      <h2>L'IMMERSION TOTALE AU SERVICE DE L'IMAGE</h2>
+      <p>
+        Le pilotage en immersion (FPV — First Person View) transcende le drone stabilisé traditionnel. En pilotant manuellement en mode Acro sans assistance gyroscopique restrictive, je fais évoluer la caméra dans les trois dimensions avec une fluidité organique et des angles inédits.
+      </p>
+      <p>
+        Qu'il s'agisse de suivre une voiture de course à 140 km/h, de plonger le long d'une façade architecturale ou de se faufiler dans une usine ou un théâtre à travers une porte entrouverte, le drone FPV capture des plans continus qu'aucun travelling, grue ou hélicoptère ne peut reproduire.
+      </p>
+    </article>
+
+    <!-- 02. Flotte de machines -->
+    <article class="prose-card">
+      <span class="etiquette">02 &bull; FLOTTE &amp; CONFIGURATIONS</span>
+      <h2>LES MACHINES SELON LES BESOINS DU TOURNAGE</h2>
+      <div class="swatch-grid">
+        <div class="principe-item">
+          <h3>Cinewhoop 2.5" / 3.5" (Intérieurs)</h3>
+          <p>Hélices carénées en conduits protégés pour la sécurité des personnes et du mobilier. Conçu pour les plans-séquences continus dans des bureaux, musées, commerces ou habitations.</p>
+        </div>
+        <div class="principe-item">
+          <h3>5" Cinématique Haute Vitesse</h3>
+          <p>Châssis carbone ultra-rigide capable de pointes à plus de 150 km/h. Idéal pour le suivi dynamique de véhicules, sports mécaniques, descentes de crêtes et paysages grandioses.</p>
+        </div>
+        <div class="principe-item">
+          <h3>Transmission Numérique HD</h3>
+          <p>Liaison vidéo numérique haute définition (DJI O3 / Walksnail) offrant un retour vidéo instantané dans les lunettes de pilotage et sur écran de contrôle régie pour le réalisateur.</p>
+        </div>
+        <div class="principe-item">
+          <h3>Liaison Radio ELRS / Crossfire</h3>
+          <p>Liaison radiofréquence 2.4 GHz / 868 MHz ultra-sécurisée avec télémétrie complète et sécurité failsafe / RTH (Return To Home) automatique par GPS.</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- 03. Qualité d'image & Post-production -->
+    <article class="prose-card">
+      <span class="etiquette">03 &bull; WORKFLOW VIDÉO</span>
+      <h2>CHAÎNE D'ACQUISITION &amp; STABILISATION</h2>
+      <ul>
+        <li><strong>Caméras haute résolution :</strong> Emport de caméras d'action 4K/5.3K (GoPro Naked légères pour cinewhoops, GoPro pleine masse pour 5 pouces) avec profils couleur plats (Flat/Log).</li>
+        <li><strong>Stabilisation Gyroflow :</strong> Enregistrement des données gyroscopiques brutes en vol et calcul de stabilisation logicielle mathématique pour un rendu cinéma lisse sans artefacts de gello.</li>
+        <li><strong>Filtres ND &amp; Shutter maîtrisé :</strong> Utilisation de filtres de densité neutre pour respecter la règle du shutter à 180° et assurer un flou de mouvement (motion blur) naturel.</li>
+        <li><strong>Conception &amp; réglages atelier :</strong> Réglage minutieux des filtres notch et des PIDs via Betaflight pour éliminer toute vibration mécanique à la source.</li>
+      </ul>
+    </article>
+
+    <!-- 04. Sécurité & Réglementation -->
+    <article class="prose-card">
+      <span class="etiquette">04 &bull; RÈGLEMENTATION &amp; SÉCURITÉ</span>
+      <h2>SÉCURITÉ DES VOLS &amp; CADRE OPÉRATIONNEL</h2>
+      <p>
+        Chaque tournage fait l'objet d'une préparation méthodique : repérage des zones, analyse des risques, briefing avec l'équipe de production, présence d'un spotteur dédié lorsque la visibilité directe le requiert, et respect strict du cadre réglementaire de l'aviation civile.
+      </p>
+    </article>
+
+    <!-- 05. Call to action vers l'agenda -->
+    <article class="prose-card cta-agenda-card">
+      <span class="etiquette">RÉSERVATION &bull; TOURNAGE</span>
+      <h2>PLANIFIER UNE SESSION DE TOURNAGE FPV</h2>
+      <p>
+        Consultez mes dates de disponibilité et formulez votre demande de cadrage ou de prestation de vol directement via mon agenda interactif.
+      </p>
+      <div class="actions-row">
+        <a href="/agenda" class="btn-noir">Consulter l'agenda de tournage &rarr;</a>
+        <a href="/projets/fix-my-drone" class="btn-outline">Découvrir le projet Fix-My-Drone</a>
+      </div>
+    </article>
+  </main>
+</Base>
+
+<style>
+  .prose-screen {
+    flex: 1;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: clamp(32px, 5vh, 64px) clamp(16px, 4vw, 32px);
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .head-topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  .pill-accent {
+    border-color: #000000;
+    color: #000000;
+    font-weight: 700;
+  }
+
+  .pill-accent:hover {
+    background: #000000;
+    color: #ffffff;
+  }
+
+  .page-head {
+    border-bottom: 2px dashed var(--dash);
+    padding-bottom: 24px;
+  }
+
+  .page-title {
+    margin: 6px 0 12px;
+    font: 700 clamp(28px, 4.5vw, 42px)/1.1 var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .page-subtitle {
+    margin: 0;
+    font: 400 14px/1.65 var(--font);
+    letter-spacing: 0.03em;
+    color: rgba(0, 0, 0, 0.75);
+    max-width: 720px;
+  }
+
+  .prose-card {
+    border: 2px dashed var(--dash);
+    border-radius: 12px;
+    padding: clamp(22px, 3.5vw, 32px);
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .prose-card h2 {
+    margin: 0;
+    font: 700 clamp(19px, 3vw, 24px)/1.2 var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .prose-card p {
+    margin: 0;
+    font: 400 14px/1.65 var(--font);
+    color: rgba(0, 0, 0, 0.82);
+  }
+
+  .prose-card ul {
+    margin: 0;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .prose-card li {
+    font: 400 13.5px/1.6 var(--font);
+    color: rgba(0, 0, 0, 0.85);
+  }
+
+  .prose-card strong {
+    color: #000000;
+  }
+
+  .swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .principe-item {
+    border: 1px dashed rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    padding: 14px 16px;
+    background: #fafafa;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .principe-item h3 {
+    margin: 0;
+    font: 700 14px/1.2 var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #000000;
+  }
+
+  .principe-item p {
+    margin: 0;
+    font: 400 12.5px/1.55 var(--font);
+    color: rgba(0, 0, 0, 0.72);
+  }
+
+  .cta-agenda-card {
+    background: #fbfbfb;
+    border-style: solid;
+    border-color: #000000;
+  }
+
+  .actions-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+</style>

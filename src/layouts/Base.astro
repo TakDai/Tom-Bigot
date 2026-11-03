@@ -39,8 +39,11 @@ const chemin = Astro.url.pathname;
       </a>
       <div class="nav-group">
         <a class={`nav-pill ${chemin === '/' ? 'active' : ''}`} href="/#projets-chronologie">Projets</a>
+        <a class={`nav-pill ${chemin === '/projectionniste' ? 'active' : ''}`} href="/projectionniste">Projectionniste</a>
+        <a class={`nav-pill ${chemin === '/pilote-fpv' ? 'active' : ''}`} href="/pilote-fpv">Pilote FPV</a>
+        <a class={`nav-pill ${chemin === '/developpement' ? 'active' : ''}`} href="/developpement">Développement</a>
+        <a class={`nav-pill ${chemin === '/agenda' ? 'active' : ''}`} href="/agenda">Agenda</a>
         <a class={`nav-pill ${chemin.startsWith('/blog') ? 'active' : ''}`} href="/blog">Blog</a>
-        <a class={`nav-pill ${chemin === '/a-propos' ? 'active' : ''}`} href="/a-propos">À propos</a>
         <a class={`nav-pill ${chemin === '/contact' ? 'active' : ''}`} href="/contact">Contact</a>
       </div>
     </nav>
@@ -60,6 +63,14 @@ const chemin = Astro.url.pathname;
         <span>&copy; {new Date().getFullYear()}</span>
       </div>
       <div class="foot-links">
+        <a href="/projectionniste">Projectionniste</a>
+        <span class="foot-sep">&bull;</span>
+        <a href="/pilote-fpv">Pilote FPV</a>
+        <span class="foot-sep">&bull;</span>
+        <a href="/developpement">Développement</a>
+        <span class="foot-sep">&bull;</span>
+        <a href="/agenda">Agenda</a>
+        <span class="foot-sep">&bull;</span>
         <a href="https://github.com/TakDai" target="_blank" rel="noopener noreferrer">GitHub</a>
         <span class="foot-sep">&bull;</span>
         <a href="/blog">Blog</a>
