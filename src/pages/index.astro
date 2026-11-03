@@ -432,16 +432,16 @@ const bandeauxProjets = [
     </div>
 
     <!-- Indicateur de défilement vers le bas -->
-    <a href="#portfolio" class="scroll-cue" aria-label="Découvrir le portfolio">
+    <a href="#portfolio" class="scroll-cue" aria-label="Découvrir la chronologie">
       <span class="scroll-label">CHRONOLOGIE</span>
       <span class="scroll-arrow">&darr;</span>
     </a>
   </section>
 
-  <!-- ================= SECTION PORTFOLIO : BANDEAUX VERTICAUX EN ACCORDÉON ================= -->
-  <section class="conteneur portfolio-section" id="portfolio">
-    <!-- Barre de filtres par domaine -->
-    <div class="portfolio-toolbar">
+  <!-- ================= SECTION CHRONOLOGIE AU SCROLL AVEC BANDEAU VERTICAL ================= -->
+  <section class="conteneur chrono-section" id="portfolio">
+    <!-- Barre d'outils & filtres -->
+    <div class="chrono-toolbar">
       <div class="filter-group" role="tablist" aria-label="Filtrer les projets">
         <button type="button" class="filter-pill active" data-filter="all">Tous ({bandeauxProjets.length})</button>
         <button type="button" class="filter-pill" data-filter="embarque">Électronique &amp; Embarqué</button>
@@ -457,179 +457,218 @@ const bandeauxProjets = [
       </div>
     </div>
 
-    <!-- Accordéon interactif de bandeaux verticaux -->
-    <div class="accordion-container" id="accordionContainer">
-      {
-        bandeauxProjets.map((projet, index) => (
-          <article
-            class={`bandeau-v-accordion ${index === 0 ? 'is-expanded' : ''}`}
-            id={`projet-${projet.id}`}
-            data-cat={projet.categorie}
-            tabindex="0"
-            role="region"
-            aria-label={`Projet ${projet.titre}`}
-          >
-            <!-- Volet étroit (Visible quand replié ou pour interaction) -->
-            <div class="bandeau-v-strip">
-              <span class="strip-num">{projet.numero}</span>
-              <div class="strip-logo">
-                <img src={projet.logo} alt="" loading="lazy" />
-              </div>
-              <span class="strip-title">{projet.titre}</span>
-              <span class="strip-indicator" aria-hidden="true">&plus;</span>
-            </div>
+    <!-- Disposition : Bandeau vertical sticky + Rail chronologique au scroll -->
+    <div class="chrono-layout">
+      <!-- Bandeau vertical sticky de navigation et progression -->
+      <aside class="chrono-sticky-band" aria-label="Sommaire chronologique">
+        <div class="sticky-band-head">
+          <span class="etiquette">01 &bull; 10</span>
+          <h2 class="sticky-band-title">BANDEAU CHRONO</h2>
+        </div>
 
-            <!-- Contenu déplié (Révélé quand actif) -->
-            <div class="bandeau-v-expanded">
-              <!-- En-tête de carte -->
-              <div class="bandeau-v-head">
-                <div class="bandeau-v-topline">
-                  <span class="bandeau-v-num">{projet.numero}</span>
-                  <span class="domaine-pill">{projet.domaine}</span>
-                </div>
-                <div class="bandeau-v-brand">
-                  <div class="bandeau-v-logo">
-                    <img src={projet.logo} alt={`Logo ${projet.titre}`} loading="lazy" />
-                  </div>
-                  <div>
-                    <h2 class="bandeau-v-title">{projet.titre}</h2>
-                    <p class="bandeau-v-sub">{projet.sousTitre}</p>
-                  </div>
-                </div>
-              </div>
+        <div class="sticky-band-track">
+          <!-- Ligne de jauge verticale sticky -->
+          <div class="sticky-track-line" aria-hidden="true">
+            <div class="sticky-track-fill" id="stickyTrackFill"></div>
+          </div>
 
-              <!-- Parcours chronologique vertical du projet -->
-              <div class="bandeau-v-track">
-                <div class="v-track-line">
-                  <div class="v-track-fill" />
-                </div>
-
-                <div class="v-track-steps">
-                  {projet.etapes.map((etape) => {
-                    const isTempsFort = etape.type === 'temps_fort';
-                    const isPause = etape.type === 'pause';
-                    const isStatut = etape.type === 'statut';
-
-                    return (
-                      <div
-                        class={`v-step-node ${isTempsFort ? 'is-temps-fort' : ''} ${isPause ? 'is-pause' : ''} ${isStatut ? 'is-statut' : ''}`}
-                      >
-                        <div class="v-step-bullet" aria-hidden="true">
-                          {isTempsFort ? '★' : isPause ? '⏸' : isStatut ? '●' : '■'}
-                        </div>
-                        <div class="v-step-card">
-                          <div class="v-step-head">
-                            <span class="v-step-date">{etape.date}</span>
-                            {isTempsFort && <span class="v-tf-badge">TEMPS FORT</span>}
-                            {isPause && <span class="v-pause-badge">PAUSE R&amp;D</span>}
-                          </div>
-                          <h3 class="v-step-title">{etape.titre}</h3>
-                          <p class="v-step-desc">{etape.desc}</p>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <!-- Pied de carte : Liens fiche & GitHub -->
-              <div class="bandeau-v-foot">
-                <a href={projet.lien} class="btn-noir bandeau-v-btn">
-                  Fiche &rarr;
+          <!-- Liste des repères du bandeau -->
+          <nav class="sticky-band-nav" aria-label="Repères de projets">
+            {
+              bandeauxProjets.map((projet, idx) => (
+                <a
+                  href={`#projet-${projet.id}`}
+                  class={`sticky-band-item ${idx === 0 ? 'active' : ''}`}
+                  data-target={`projet-${projet.id}`}
+                  data-cat={projet.categorie}
+                >
+                  <span class="sticky-item-bullet" aria-hidden="true"></span>
+                  <span class="sticky-item-num">{projet.numero}</span>
+                  <span class="sticky-item-title">{projet.titre}</span>
                 </a>
-                {projet.github && (
-                  <a
-                    href={projet.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="btn-outline bandeau-v-btn-gh"
-                    title={`Dépôt GitHub de ${projet.titre}`}
-                  >
-                    GitHub ↗
-                  </a>
-                )}
+              ))
+            }
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Flux chronologique vertical qui progresse au scroll -->
+      <div class="chrono-stream">
+        <!-- Rail vertical central qui se remplit au défilement -->
+        <div class="stream-spine-line" aria-hidden="true">
+          <div class="stream-spine-fill" id="streamSpineFill"></div>
+        </div>
+
+        {
+          bandeauxProjets.map((projet) => (
+            <article
+              class="chrono-project-card"
+              id={`projet-${projet.id}`}
+              data-cat={projet.categorie}
+            >
+              <!-- Nœud jalon sur la ligne verticale -->
+              <div class="project-spine-node" aria-hidden="true">
+                <span class="node-number">{projet.numero}</span>
               </div>
-            </div>
-          </article>
-        ))
-      }
+
+              <!-- Corps de la carte de projet -->
+              <div class="project-card-inner">
+                <!-- En-tête de projet -->
+                <div class="card-header-row">
+                  <div class="card-brand-box">
+                    <div class="card-logo-frame">
+                      <img src={projet.logo} alt={`Logo ${projet.titre}`} loading="lazy" />
+                    </div>
+                    <div>
+                      <span class="domaine-pill">{projet.domaine}</span>
+                      <h3 class="card-project-title">{projet.titre}</h3>
+                      <p class="card-project-sub">{projet.sousTitre}</p>
+                    </div>
+                  </div>
+
+                  <div class="card-top-actions">
+                    <a href={projet.lien} class="btn-noir btn-card-action">
+                      Fiche projet &rarr;
+                    </a>
+                    {projet.github && (
+                      <a
+                        href={projet.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn-outline btn-card-action"
+                        title={`Dépôt GitHub de ${projet.titre}`}
+                      >
+                        GitHub ↗
+                      </a>
+                    )}
+                  </div>
+                </div>
+
+                <!-- Jalons chronologiques du projet -->
+                <div class="project-steps-track">
+                  <div class="steps-spine-line" aria-hidden="true"></div>
+                  <div class="steps-nodes-list">
+                    {projet.etapes.map((etape) => {
+                      const isTempsFort = etape.type === 'temps_fort';
+                      const isPause = etape.type === 'pause';
+                      const isStatut = etape.type === 'statut';
+
+                      return (
+                        <div
+                          class={`v-step-node ${isTempsFort ? 'is-temps-fort' : ''} ${isPause ? 'is-pause' : ''} ${isStatut ? 'is-statut' : ''}`}
+                        >
+                          <div class="v-step-bullet" aria-hidden="true">
+                            {isTempsFort ? '★' : isPause ? '⏸' : isStatut ? '●' : '■'}
+                          </div>
+                          <div class="v-step-card">
+                            <div class="v-step-head">
+                              <span class="v-step-date">{etape.date}</span>
+                              {isTempsFort && <span class="v-tf-badge">TEMPS FORT</span>}
+                              {isPause && <span class="v-pause-badge">PAUSE R&amp;D</span>}
+                              {isStatut && <span class="v-statut-badge">STATUT ACTUEL</span>}
+                            </div>
+                            <h4 class="v-step-title">{etape.titre}</h4>
+                            <p class="v-step-desc">{etape.desc}</p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))
+        }
+      </div>
     </div>
   </section>
 </Base>
 
 <script>
-  // Interaction de l'accordéon de bandeaux verticaux & filtrage par catégorie
+  // Synchronisation dynamique du bandeau vertical et progression au défilement (scroll)
   document.addEventListener('DOMContentLoaded', () => {
-    const accordion = document.getElementById('accordionContainer');
-    if (!accordion) return;
-    const cards = Array.from(accordion.querySelectorAll<HTMLElement>('.bandeau-v-accordion'));
+    const streamSpineFill = document.getElementById('streamSpineFill');
+    const stickyTrackFill = document.getElementById('stickyTrackFill');
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('.chrono-project-card'));
+    const stickyItems = Array.from(document.querySelectorAll<HTMLAnchorElement>('.sticky-band-item'));
+    const section = document.getElementById('portfolio');
     const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-pill');
 
-    function expandCard(targetCard: HTMLElement) {
-      cards.forEach((c) => {
-        if (c === targetCard) {
-          c.classList.add('is-expanded');
-          c.setAttribute('aria-expanded', 'true');
+    if (!section) return;
+
+    let ticking = false;
+
+    function updateScrollProgress() {
+      const sRect = section.getBoundingClientRect();
+      const winHeight = window.innerHeight;
+
+      // Calcul précis du défilement dans la zone chronologie
+      const start = sRect.top - winHeight * 0.45;
+      const total = sRect.height - winHeight * 0.55;
+      const progress = Math.max(0, Math.min(1, -start / (total || 1)));
+      const pct = (progress * 100).toFixed(1) + '%';
+
+      if (streamSpineFill) streamSpineFill.style.height = pct;
+      if (stickyTrackFill) stickyTrackFill.style.height = pct;
+
+      // Détection du projet actif
+      let activeIndex = 0;
+      cards.forEach((card, i) => {
+        const cRect = card.getBoundingClientRect();
+        if (cRect.top <= winHeight * 0.5) {
+          activeIndex = i;
+          card.classList.add('is-passed');
         } else {
-          c.classList.remove('is-expanded');
-          c.setAttribute('aria-expanded', 'false');
+          card.classList.remove('is-passed');
+        }
+
+        if (cRect.top <= winHeight * 0.5 && cRect.bottom >= winHeight * 0.2) {
+          card.classList.add('is-active-project');
+        } else {
+          card.classList.remove('is-active-project');
         }
       });
+
+      stickyItems.forEach((item, i) => {
+        if (i === activeIndex) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
+
+      ticking = false;
     }
 
-    cards.forEach((card) => {
-      // Déploiement au survol (sur écran large)
-      card.addEventListener('mouseenter', () => {
-        if (window.innerWidth >= 900) {
-          expandCard(card);
-        }
-      });
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateScrollProgress);
+        ticking = true;
+      }
+    }, { passive: true });
 
-      // Déploiement au clic
-      card.addEventListener('click', (e) => {
-        // Laisser les liens internes fonctionner
-        const target = e.target as HTMLElement;
-        if (target.closest('a')) return;
-        expandCard(card);
-      });
+    updateScrollProgress();
 
-      // Accessibilité clavier
-      card.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          const target = e.target as HTMLElement;
-          if (target.closest('a')) return;
-          e.preventDefault();
-          expandCard(card);
-        }
-      });
-    });
-
-    // Filtrage instantané
+    // Filtrage instantané par domaine
     filterBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
-        const target = btn.getAttribute('data-filter') || 'all';
-
+        const cat = btn.getAttribute('data-filter') || 'all';
         filterBtns.forEach((b) => b.classList.remove('active'));
         btn.classList.add('active');
 
-        let firstVisible: HTMLElement | null = null;
-        let isExpandedVisible = false;
-
         cards.forEach((card) => {
           const cardCat = card.getAttribute('data-cat');
-          const isMatch = target === 'all' || cardCat === target;
-          if (isMatch) {
-            card.style.display = '';
-            if (!firstVisible) firstVisible = card;
-            if (card.classList.contains('is-expanded')) isExpandedVisible = true;
-          } else {
-            card.style.display = 'none';
-          }
+          const isMatch = cat === 'all' || cardCat === cat;
+          card.style.display = isMatch ? '' : 'none';
         });
 
-        if (!isExpandedVisible && firstVisible) {
-          expandCard(firstVisible);
-        }
+        stickyItems.forEach((item) => {
+          const itemCat = item.getAttribute('data-cat');
+          const isMatch = cat === 'all' || itemCat === cat;
+          item.style.display = isMatch ? '' : 'none';
+        });
+
+        updateScrollProgress();
       });
     });
   });
@@ -675,7 +714,6 @@ const bandeauxProjets = [
     filter: grayscale(100%) contrast(1.15) brightness(0.65);
   }
 
-  /* Voile monochrome pour une lisibilité parfaite */
   .video-overlay {
     position: absolute;
     inset: 0;
@@ -750,7 +788,6 @@ const bandeauxProjets = [
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   }
 
-  /* Indicateur de défilement */
   .scroll-cue {
     position: absolute;
     bottom: 24px;
@@ -787,22 +824,22 @@ const bandeauxProjets = [
   }
 
   /* ==========================================================================
-     SECTION PORTFOLIO & TOOLBAR
+     SECTION CHRONOLOGIE AU DÉFILEMENT (SCROLL)
      ========================================================================== */
-  .portfolio-section {
-    padding-top: clamp(32px, 5vh, 48px);
-    padding-bottom: clamp(48px, 8vh, 80px);
+  .chrono-section {
+    padding-top: clamp(36px, 6vh, 56px);
+    padding-bottom: clamp(48px, 8vh, 88px);
     max-width: 1200px;
   }
 
-  .portfolio-toolbar {
+  .chrono-toolbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 16px;
     flex-wrap: wrap;
-    margin-bottom: 28px;
-    padding-bottom: 18px;
+    margin-bottom: 36px;
+    padding-bottom: 20px;
     border-bottom: 1px dashed var(--dash);
   }
 
@@ -872,162 +909,273 @@ const bandeauxProjets = [
   }
 
   /* ==========================================================================
-     ACCORDÉON DE BANDEAUX VERTICAUX (SIDE-BY-SIDE)
+     LAYOUT DU BANDEAU VERTICAL ET DU FLUX
      ========================================================================== */
-  .accordion-container {
-    display: flex;
-    flex-direction: row;
-    gap: 12px;
-    width: 100%;
-    min-height: 640px;
-    align-items: stretch;
-    transition: all 0.3s ease;
+  .chrono-layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 48px;
+    align-items: start;
   }
 
-  .bandeau-v-accordion {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    flex: 0.65;
-    min-width: 60px;
+  /* Bandeau vertical sticky (Volet de gauche) */
+  .chrono-sticky-band {
+    position: sticky;
+    top: 36px;
     background: #ffffff;
     border: 2px dashed var(--dash);
     border-radius: 12px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: flex 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-                border-color 0.25s ease,
-                box-shadow 0.25s ease;
-  }
-
-  .bandeau-v-accordion:hover {
-    border-color: #000000;
-    border-style: solid;
-  }
-
-  .bandeau-v-accordion.is-expanded {
-    flex: 4.8;
-    min-width: 360px;
-    cursor: default;
-    border-color: #000000;
-    border-style: solid;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
-  }
-
-  /* Volet étroit (Bandelette d'identification) */
-  .bandeau-v-strip {
-    width: 58px;
-    flex-shrink: 0;
-    background: #fafafa;
-    border-right: 1px dashed rgba(0, 0, 0, 0.15);
+    padding: 22px 18px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 8px;
-    user-select: none;
-    transition: background-color 0.25s ease;
+    gap: 16px;
   }
 
-  .bandeau-v-accordion.is-expanded .bandeau-v-strip {
-    background: #000000;
-    color: #ffffff;
-    border-right: 1px solid #000000;
+  .sticky-band-head {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.15);
   }
 
-  .strip-num {
-    font: 700 15px var(--font);
+  .sticky-band-title {
+    margin: 0;
+    font: 700 13px var(--font);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
     color: #000000;
-    transition: color 0.25s ease;
   }
 
-  .bandeau-v-accordion.is-expanded .strip-num {
-    color: #ffffff;
+  .sticky-band-track {
+    position: relative;
+    padding-left: 20px;
   }
 
-  .strip-logo {
+  .sticky-track-line {
+    position: absolute;
+    left: 4px;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background: rgba(0, 0, 0, 0.12);
+  }
+
+  .sticky-track-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: #000000;
+    transition: height 0.1s linear;
+  }
+
+  .sticky-band-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .sticky-band-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font: 700 11px/1.3 var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.45);
+    padding: 4px 6px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+
+  .sticky-item-bullet {
+    position: absolute;
+    left: -20px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+  }
+
+  .sticky-band-item:hover {
+    color: #000000;
+  }
+
+  .sticky-band-item.active {
+    color: #000000;
+    background: #fafafa;
+  }
+
+  .sticky-band-item.active .sticky-item-bullet {
+    background: #000000;
+    border-color: #000000;
+    transform: scale(1.3);
+  }
+
+  .sticky-item-num {
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.85);
+  }
+
+  .sticky-item-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Flux chronologique vertical au scroll */
+  .chrono-stream {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    padding-left: 36px;
+  }
+
+  .stream-spine-line {
+    position: absolute;
+    left: 0;
+    top: 24px;
+    bottom: 40px;
+    width: 3px;
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  .stream-spine-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: #000000;
+    transition: height 0.1s linear;
+  }
+
+  /* Carte de projet */
+  .chrono-project-card {
+    position: relative;
+    background: #ffffff;
+    border: 2px dashed var(--dash);
+    border-radius: 12px;
+    padding: 28px 24px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .chrono-project-card:hover {
+    border-color: #000000;
+    border-style: solid;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.06);
+  }
+
+  .chrono-project-card.is-active-project {
+    border-color: #000000;
+    border-style: solid;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Nœud repère sur le rail vertical */
+  .project-spine-node {
+    position: absolute;
+    left: -53px;
+    top: 26px;
     width: 34px;
     height: 34px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px solid rgba(0, 0, 0, 0.25);
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 6px;
-    background: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    padding: 4px;
+    font: 700 12px var(--font);
+    color: rgba(0, 0, 0, 0.6);
+    z-index: 2;
+    transition: all 0.3s ease;
   }
 
-  .strip-logo img {
+  .chrono-project-card.is-passed .project-spine-node,
+  .chrono-project-card.is-active-project .project-spine-node {
+    background: #000000;
+    border-color: #000000;
+    color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.08);
+    transform: scale(1.1);
+  }
+
+  .project-card-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  /* En-tête de projet */
+  .card-header-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 20px;
+    border-bottom: 2px dashed rgba(0, 0, 0, 0.12);
+    flex-wrap: wrap;
+  }
+
+  .card-brand-box {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+    min-width: 260px;
+  }
+
+  .card-logo-frame {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 6px;
+    background: #fafafa;
+  }
+
+  .card-logo-frame img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
   }
 
-  .strip-title {
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    font: 700 13px var(--font);
-    letter-spacing: 0.14em;
+  .card-project-title {
+    margin: 4px 0 2px;
+    font: 700 20px/1.2 var(--font);
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: #000000;
-    white-space: nowrap;
-    margin: 12px 0;
-    transition: color 0.25s ease;
   }
 
-  .bandeau-v-accordion.is-expanded .strip-title {
-    color: #ffffff;
+  .card-project-sub {
+    margin: 0;
+    font: 400 12.5px/1.4 var(--font);
+    color: rgba(0, 0, 0, 0.65);
   }
 
-  .strip-indicator {
-    font-size: 15px;
-    font-weight: 700;
-    color: rgba(0, 0, 0, 0.4);
-    transition: transform 0.3s ease, color 0.25s ease;
-  }
-
-  .bandeau-v-accordion.is-expanded .strip-indicator {
-    color: #ffffff;
-    transform: rotate(45deg);
-  }
-
-  /* Contenu déplié (Détails complets de chronologie) */
-  .bandeau-v-expanded {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    padding: 22px 22px 18px;
-    min-width: 300px;
-    overflow-y: auto;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-
-  .bandeau-v-accordion.is-expanded .bandeau-v-expanded {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  /* En-tête de la carte de projet */
-  .bandeau-v-head {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding-bottom: 14px;
-    border-bottom: 2px dashed rgba(0, 0, 0, 0.12);
-  }
-
-  .bandeau-v-topline {
+  .card-top-actions {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
   }
 
-  .bandeau-v-num {
-    font: 700 16px var(--font);
-    color: #000000;
+  .btn-card-action {
+    padding: 8px 12px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
   }
 
   .domaine-pill {
@@ -1044,74 +1192,22 @@ const bandeauxProjets = [
     background: #fafafa;
   }
 
-  .bandeau-v-brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .bandeau-v-logo {
-    width: 48px;
-    height: 48px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px dashed rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    padding: 6px;
-    background: #fafafa;
-  }
-
-  .bandeau-v-logo img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-  }
-
-  .bandeau-v-title {
-    margin: 0;
-    font: 700 19px/1.2 var(--font);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #000000;
-  }
-
-  .bandeau-v-sub {
-    margin: 2px 0 0;
-    font: 400 12px/1.4 var(--font);
-    color: rgba(0, 0, 0, 0.6);
-  }
-
-  /* Parcours chronologique vertical */
-  .bandeau-v-track {
+  /* Fil vertical détaillé des jalons du projet */
+  .project-steps-track {
     position: relative;
-    flex: 1;
     padding-left: 24px;
-    display: flex;
-    flex-direction: column;
   }
 
-  .v-track-line {
+  .steps-spine-line {
     position: absolute;
     left: 7px;
     top: 10px;
     bottom: 10px;
     width: 2px;
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(0, 0, 0, 0.12);
   }
 
-  .v-track-fill {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #000000;
-    opacity: 0.15;
-  }
-
-  .v-track-steps {
+  .steps-nodes-list {
     display: flex;
     flex-direction: column;
     gap: 14px;
@@ -1141,8 +1237,8 @@ const bandeauxProjets = [
   }
 
   .v-step-card {
-    padding: 10px 12px;
-    border: 1px dashed rgba(0, 0, 0, 0.22);
+    padding: 12px 14px;
+    border: 1px dashed rgba(0, 0, 0, 0.2);
     border-radius: 6px;
     background: #fafafa;
     display: flex;
@@ -1166,18 +1262,18 @@ const bandeauxProjets = [
 
   .v-step-title {
     margin: 0;
-    font: 700 12.5px/1.3 var(--font);
+    font: 700 13px/1.3 var(--font);
     letter-spacing: 0.04em;
     color: #000000;
   }
 
   .v-step-desc {
     margin: 0;
-    font: 400 11.5px/1.5 var(--font);
+    font: 400 12px/1.5 var(--font);
     color: rgba(0, 0, 0, 0.75);
   }
 
-  /* Style TEMPS FORT (★) */
+  /* Jalons TEMPS FORT (★) */
   .v-step-node.is-temps-fort .v-step-card {
     background: #000000;
     border: 1px solid #000000;
@@ -1213,7 +1309,7 @@ const bandeauxProjets = [
     transform: scale(1.15);
   }
 
-  /* Style PAUSE R&D (⏸) */
+  /* Jalons PAUSE R&D (⏸) */
   .v-step-node.is-pause .v-step-card {
     background: repeating-linear-gradient(
       -45deg,
@@ -1236,99 +1332,66 @@ const bandeauxProjets = [
     border-radius: 10px;
   }
 
-  /* Style STATUT ACTUEL (●) */
+  /* Jalons STATUT ACTUEL (●) */
   .v-step-node.is-statut .v-step-card {
     border-color: #000000;
     background: #ffffff;
   }
 
-  /* Pied de carte */
-  .bandeau-v-foot {
-    padding-top: 12px;
-    border-top: 2px dashed rgba(0, 0, 0, 0.12);
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-
-  .bandeau-v-btn {
-    flex: 1.2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 9px 10px;
-    font-size: 11px;
-    text-decoration: none;
-    letter-spacing: 0.1em;
-    box-sizing: border-box;
-  }
-
-  .bandeau-v-btn-gh {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 9px 8px;
-    font-size: 11px;
-    text-decoration: none;
-    letter-spacing: 0.08em;
-    box-sizing: border-box;
-    white-space: nowrap;
+  .v-statut-badge {
+    font: 700 8.5px var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: #000000;
+    padding: 2px 6px;
+    border-radius: 10px;
   }
 
   /* ==========================================================================
-     RESPONSIVE SUR MOBILE ET PETITS ÉCRANS
+     RESPONSIVE SUR MOBILE & PETITS ÉCRANS
      ========================================================================== */
   @media (max-width: 899px) {
-    .accordion-container {
+    .chrono-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .chrono-sticky-band {
+      display: none;
+    }
+
+    .chrono-stream {
+      padding-left: 28px;
+      gap: 36px;
+    }
+
+    .project-spine-node {
+      left: -42px;
+      width: 28px;
+      height: 28px;
+      font-size: 11px;
+    }
+
+    .chrono-project-card {
+      padding: 20px 16px;
+    }
+
+    .card-header-row {
       flex-direction: column;
-      min-height: auto;
-      gap: 12px;
+      align-items: flex-start;
+      gap: 14px;
     }
 
-    .bandeau-v-accordion {
-      flex-direction: column;
-      flex: none;
-      min-width: 100%;
-      min-height: 60px;
-      max-height: 60px;
-      transition: max-height 0.4s ease, border-color 0.25s ease;
-    }
-
-    .bandeau-v-accordion.is-expanded {
-      flex: none;
-      min-width: 100%;
-      max-height: 1200px;
-    }
-
-    .bandeau-v-strip {
+    .card-top-actions {
       width: 100%;
-      height: 60px;
-      flex-direction: row;
-      border-right: none;
-      border-bottom: 1px dashed rgba(0, 0, 0, 0.15);
-      padding: 0 16px;
     }
 
-    .bandeau-v-accordion.is-expanded .bandeau-v-strip {
-      border-right: none;
-      border-bottom: 1px solid #000000;
-    }
-
-    .strip-title {
-      writing-mode: horizontal-tb;
-      transform: none;
-      margin: 0;
+    .btn-card-action {
       flex: 1;
-      padding-left: 12px;
+      text-align: center;
     }
 
-    .bandeau-v-expanded {
-      min-width: 100%;
-      padding: 18px 16px;
-    }
-
-    .portfolio-toolbar {
+    .chrono-toolbar {
       flex-direction: column;
       align-items: flex-start;
     }
