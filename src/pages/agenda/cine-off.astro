@@ -5,7 +5,7 @@ import { planningCinemaMois } from '../../data/planning';
 
 <Base
   titre="Espace Dédié Ciné-Off — Réservations & Tournées Cabine"
-  description="Portail officiel et exclusif de réservation de dates pour le circuit de cinéma itinérant Ciné-Off (Indre-et-Loire). Planifiez vos tournées et vacations cabine avec Tom Bigot."
+  description="Portail officiel et exclusif de réservation de dates pour le circuit de cinéma itinérant Ciné-Off (Indre-et-Loire). Planifiez vos tournées et vacations cabine avec Tom Bigot sans code."
 >
   <main class="prose-screen dedicated-agenda-page">
     <!-- Header dédié Ciné-Off -->
@@ -20,44 +20,20 @@ import { planningCinemaMois } from '../../data/planning';
       </p>
     </header>
 
-    <!-- Carte d'accueil & Authentification Ciné-Off -->
+    <!-- Carte d'accueil & Accès direct sans code -->
     <section class="partner-auth-box">
-      <div id="cineoffAuthLoggedOut" class="auth-card">
+      <div class="auth-card logged-in">
         <div class="auth-icon">🎞️</div>
         <div class="auth-info">
-          <div class="auth-status-tag">ACCÈS PARTENAIRE SÉCURISÉ</div>
+          <div class="auth-status-tag active">ACCÈS DIRECT PAR LIEN RÉSERVÉ &bull; SANS CODE</div>
           <h2>CIRCUIT ITINÉRANT CINÉ-OFF</h2>
           <p>
-            Saisissez votre code exploitant pour déverrouiller la vue détaillée de vos dates et poser directement vos prochaines vacations de tournée.
-          </p>
-          <form id="cineoffLoginForm" class="partner-login-form">
-            <div class="input-row">
-              <input
-                type="password"
-                id="cineoffPasscode"
-                placeholder="Code exploitant Ciné-Off..."
-                autocomplete="current-password"
-                required
-              />
-              <button type="submit" class="btn-noir">Déverrouiller l'espace &rarr;</button>
-            </div>
-            <div id="cineoffFeedback" class="feedback-msg" style="display: none;"></div>
-            <span class="demo-hint">💡 Code exploitant configuré : <code>CINEOFF</code></span>
-          </form>
-        </div>
-      </div>
-
-      <div id="cineoffAuthLoggedIn" class="auth-card logged-in" style="display: none;">
-        <div class="auth-icon">🎞️</div>
-        <div class="auth-info">
-          <div class="auth-status-tag active">SESSION ACTIVE &bull; CINÉ-OFF</div>
-          <h2>CIRCUIT CINÉ-OFF VÉRIFIÉ</h2>
-          <p>
-            Vos vacations de tournée sont affichées en clair dans le calendrier. Les séances des salles sédentaires (Les Studios) et périodes CFA sont masquées pour garantir la confidentialité entre exploitants.
+            Bienvenue sur votre espace de tournée exclusif. Vos dates de projection itinérante sont déjà affichées en clair ci-dessous. Les séances des salles sédentaires (Les Studios) et périodes de formation CFA restent confidentielles et grisées.
           </p>
           <div class="logged-actions">
             <a href="#formCineoff" class="btn-noir">+ Poser une date de tournée &darr;</a>
-            <button type="button" id="btnCineoffLogout" class="btn-outline">Verrouiller la session ✕</button>
+            <a href="sms:?body=Bonjour%20Tom%2C%20voici%20mes%20prochaines%20dates%20Cin%C3%A9-Off%20%3A%20" class="btn-outline">📱 Envoyer un SMS direct à Tom &rarr;</a>
+            <a href="mailto:contact@tom-bigot.fr?subject=[Cin%C3%A9-Off]%20Demande%20de%20dates%20de%20tourn%C3%A9e" class="btn-outline">✉️ Envoyer un Email direct &rarr;</a>
           </div>
         </div>
       </div>
@@ -81,17 +57,17 @@ import { planningCinemaMois } from '../../data/planning';
           </div>
         </div>
         <div class="legend-item">
+          <span class="legend-box box-pending"></span>
+          <div class="legend-text">
+            <strong>EN ATTENTE</strong>
+            <span>Demande en cours de validation</span>
+          </div>
+        </div>
+        <div class="legend-item">
           <span class="legend-box box-masked"></span>
           <div class="legend-text">
             <strong>AUTRE EXPLOITANT / CFA</strong>
             <span>Séance privée (confidentiel)</span>
-          </div>
-        </div>
-        <div class="legend-item">
-          <span class="legend-box box-option"></span>
-          <div class="legend-text">
-            <strong>OPTION EN COURS</strong>
-            <span>Date en cours de calage</span>
           </div>
         </div>
       </div>
@@ -167,21 +143,11 @@ import { planningCinemaMois } from '../../data/planning';
                     </>
                   )}
                 </div>
-                {isLibre && (
-                  <div class="day-hint">
-                    <span>Poser une date</span>
-                  </div>
-                )}
-                {isCineoff && (
-                  <div class="day-hint" style="color: #000000; font-weight: 700;">
-                    <span>Votre séance</span>
-                  </div>
-                )}
-                {isOther && (
-                  <div class="day-hint" style="color: #777777;">
-                    <span>🔒 Réservé tiers</span>
-                  </div>
-                )}
+                <div class="day-hint">
+                  {isLibre && <span>Poser une date</span>}
+                  {isCineoff && <span style="color: #000000; font-weight: 700;">Votre séance</span>}
+                  {isOther && <span style="color: #777777;">🔒 Réservé tiers</span>}
+                </div>
               </div>
             );
           })}
@@ -189,7 +155,7 @@ import { planningCinemaMois } from '../../data/planning';
       </section>
     ))}
 
-    <!-- Panier de sélection de dates -->
+    <!-- Panier de sélection de dates avec options rapides SMS & Email -->
     <div id="selectionBarCineoff" class="selection-summary-bar" style="display: none;">
       <div class="selection-info">
         <span class="etiquette">DATES DE TOURNÉE SÉLECTIONNÉES</span>
@@ -197,7 +163,9 @@ import { planningCinemaMois } from '../../data/planning';
       </div>
       <div class="selection-actions">
         <button type="button" id="btnClearCineoffDates" class="btn-clear">Vider</button>
-        <a href="#formCineoff" class="btn-noir btn-jump-form">Finaliser la demande &darr;</a>
+        <a id="btnQuickSmsCineoff" href="#" class="btn-action-pill">📱 Par SMS &rarr;</a>
+        <a id="btnQuickMailCineoff" href="#" class="btn-action-pill">✉️ Par Email &rarr;</a>
+        <a href="#formCineoff" class="btn-noir btn-jump-form">Finaliser formulaire &darr;</a>
       </div>
     </div>
 
@@ -207,7 +175,7 @@ import { planningCinemaMois } from '../../data/planning';
         <span class="etiquette">RÉGIE TECHNIQUE &bull; CIRCUIT DE TOURNÉE</span>
         <h2>TRANSMETTRE UNE DEMANDE DE TOURNÉE CINÉ-OFF</h2>
         <p class="form-intro">
-          Ce formulaire est pré-configuré pour l'équipe et la régie de <strong>Ciné-Off</strong>. Choisissez vos dates sur le calendrier et précisez les communes d'intervention.
+          Ce formulaire est pré-configuré pour l'équipe et la régie de <strong>Ciné-Off</strong>. Choisissez vos dates sur le calendrier ci-dessus et transmettez votre demande. Dès que Tom confirme la date, vous recevez un message de validation.
         </p>
       </div>
 
@@ -248,727 +216,942 @@ import { planningCinemaMois } from '../../data/planning';
             <label for="cineoffTypeSeance"><strong>TYPE DE TOURNÉE *</strong></label>
             <select id="cineoffTypeSeance" name="cineoffTypeSeance" required>
               <option value="Séance communale en salle polyvalente">Séance en salle communale / polyvalente</option>
-              <option value="Projection plein air (Saison estivale)">Projection plein air (Écran gonflable)</option>
-              <option value="Séance jeune public / Scolaire matin">Séance scolaire / Jeune public (Matin)</option>
-              <option value="Journée continue / Week-end événement">Tournée week-end (Plusieurs communes)</option>
-              <option value="Renfort cabine imprévu / Dépannage">Remplacement d'urgence / Dépannage</option>
+              <option value="Projection en plein air (Écran gonflable)">Projection en plein air (Écran gonflable)</option>
+              <option value="Séance scolaire / jeune public">Séance scolaire / jeune public</option>
+              <option value="Festival / Événement spécial">Festival / Événement spécial</option>
             </select>
           </div>
 
           <div class="form-field">
-            <label for="cineoffCommunes"><strong>COMMUNE(S) D'INTERVENTION (37) *</strong></label>
-            <input type="text" id="cineoffCommunes" name="cineoffCommunes" placeholder="Ex : Bléré, Richelieu, Bourgueil, Montbazon..." required />
+            <label for="cineoffCommunes"><strong>COMMUNE(S) D'INTERVENTION *</strong></label>
+            <input type="text" id="cineoffCommunes" name="cineoffCommunes" placeholder="Ex : Loches, Montrésor, Chinon..." required />
           </div>
 
           <div class="form-field full-width">
-            <label for="cineoffNotes"><strong>DÉTAILS DES PROJECTIONS &amp; ÉQUIPEMENTS</strong></label>
-            <textarea id="cineoffNotes" name="cineoffNotes" rows="4" placeholder="Précisez les titres des films prévus, horaires de montage du projecteur, camion assigné ou contraintes de salle..."></textarea>
+            <label for="cineoffNotes"><strong>DÉTAILS COMPLÉMENTAIRES (FILM, HORAIRES, RÉGIE)</strong></label>
+            <textarea id="cineoffNotes" name="cineoffNotes" rows="4" placeholder="Précisez le titre du film, format DCP / bluray, heure de début souhaitée..."></textarea>
           </div>
         </div>
 
-        <div class="form-footer">
-          <button type="submit" class="btn-noir btn-submit">Transmettre la proposition de dates Ciné-Off &rarr;</button>
-          <p class="form-notice">Une confirmation structurée est transmise directement à Tom Bigot.</p>
-        </div>
-
-        <div id="confirmationBoxCineoff" class="confirmation-box" style="display: none;">
-          <h3>DEMANDE DE TOURNÉE CINÉ-OFF ENVOYÉE</h3>
-          <p id="confirmationMessageCineoff"></p>
-          <a href="#" id="mailtoFallbackCineoff" class="btn-outline btn-inline">Ouvrir dans votre messagerie &rarr;</a>
+        <div class="form-submit-row">
+          <button type="submit" id="btnSubmitCineoff" class="btn-noir btn-large">
+            Transmettre la demande de tournée &rarr;
+          </button>
         </div>
       </form>
+
+      <!-- Résultat / Confirmation -->
+      <div id="resultModalCineoff" class="result-box" style="display: none;">
+        <div class="result-head">
+          <span class="etiquette">DEMANDE ENVOYÉE &bull; EN ATTENTE DE CONFIRMATION</span>
+          <h3>DEMANDE DE TOURNÉE TRANSMIS À TOM BIGOT</h3>
+        </div>
+        <p>
+          Votre demande a été ajoutée en attente de validation sur le calendrier. Vous pouvez également notifier Tom directement par SMS ou par email :
+        </p>
+        <pre id="resultPayloadCineoff" class="result-pre"></pre>
+        <div class="result-actions">
+          <a id="btnSmsCineoffModal" href="#" class="btn-noir">📱 Envoyer par SMS à Tom &rarr;</a>
+          <a id="btnMailtoCineoffModal" href="#" class="btn-outline">✉️ Envoyer par Email à Tom &rarr;</a>
+          <button type="button" id="btnCopyCineoff" class="btn-outline">Copier le récapitulatif</button>
+        </div>
+      </div>
     </section>
+
+    <!-- Navigation alternative -->
+    <nav class="dedicated-footer-nav" aria-label="Espaces dédiés par établissement">
+      <span class="etiquette">AUTRES ESPACES DÉDIÉS</span>
+      <div class="footer-nav-links">
+        <a href="/agenda/les-studios" class="portal-card">
+          <span class="portal-badge">SALLES SÉDENTAIRES</span>
+          <strong>Cinémas Les Studios &rarr;</strong>
+          <small>Planning cabines 7 écrans & 35mm</small>
+        </a>
+        <a href="/agenda/fpv" class="portal-card">
+          <span class="portal-badge">TOURNAGES VIDÉO</span>
+          <strong>Drone FPV & Devis &rarr;</strong>
+          <small>Réservations de vol cinématique</small>
+        </a>
+        <a href="/agenda" class="portal-card">
+          <span class="portal-badge">ACCUEIL GÉNÉRAL</span>
+          <strong>Agenda Global Tom Bigot &rarr;</strong>
+          <small>Vue d'ensemble et supervision</small>
+        </a>
+      </div>
+    </nav>
   </main>
-</Base>
 
-<script>
-  // Configuration cryptographique et hashes Ciné-Off (OWASP Level 3)
-  const CINEOFF_SALT = 'TOM_BIGOT_CABINE_SECURE_SALT_2026';
-  const CINEOFF_HASHES = [
-    '6cdb202dec49fca32acfc398b241bdaf3527ef2ce7b7bdde5767a648ebe844ba', // CINEOFF
-    'f7fe2d2de10134dff11186bedbf99e287587bd234f4841dafcb44b576bcf9aa7', // CINEOFF-37
-    '5915b24f372d999f3df327af4dedd158304c92b8c73d3b340d6cfa3dfbbf2311', // CINEOFF2026
-    '80aa5461ba670e6416aebc38614fde1cd0a775b0921a10e2be036c67b72cf980', // CINE-OFF
-    '8709e278a9adee0790e951ffd0c867497008c374e7e4fffaa5b83bc981be96ff', // CINE2
-    '707d7d71300e0c25336fea1eaf69bee99a89db9684bcdf97da641d8ffff2fde2'  // TOM-2026
-  ];
+  <script>
+    // Module Ciné-Off — Accès direct par lien (Zéro code / Frictionless)
+    let selectedDates: string[] = [];
+    let currentMonthIndex = 0;
+    const formMountedAt = Date.now();
+    const PENDING_STORAGE_KEY = 'tom_cineoff_pending_dates';
 
-  function constantTimeEqual(a: string, b: string): boolean {
-    if (a.length !== b.length) return false;
-    let diff = 0;
-    for (let i = 0; i < a.length; i++) {
-      diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+    function initCineoffPage() {
+      setupMonthNavigation();
+      setupDateSelection();
+      loadPendingDates();
+      setupFormSubmission();
     }
-    return diff === 0;
-  }
 
-  async function hashInput(pass: string): Promise<string> {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(pass.trim().toUpperCase() + ':' + CINEOFF_SALT);
-    const hashBuffer = await window.crypto.subtle.digest('SHA-256', data);
-    return Array.from(new Uint8Array(hashBuffer)).map((b) => b.toString(16).padStart(2, '0')).join('');
-  }
+    function setupMonthNavigation() {
+      const btnPrev = document.getElementById('btnPrevMonth');
+      const btnNext = document.getElementById('btnNextMonth');
+      const titleElem = document.getElementById('calendarMonthTitle');
+      const months = document.querySelectorAll<HTMLElement>('.cinema-month-view');
 
-  const authLoggedOut = document.getElementById('cineoffAuthLoggedOut');
-  const authLoggedIn = document.getElementById('cineoffAuthLoggedIn');
-  const loginForm = document.getElementById('cineoffLoginForm') as HTMLFormElement | null;
-  const inputPass = document.getElementById('cineoffPasscode') as HTMLInputElement | null;
-  const feedback = document.getElementById('cineoffFeedback');
-  const btnLogout = document.getElementById('btnCineoffLogout');
+      function updateMonthView() {
+        months.forEach((m, idx) => {
+          if (idx === currentMonthIndex) {
+            m.classList.remove('is-hidden-month');
+            m.classList.add('is-active-month');
+            const name = m.getAttribute('data-month-name');
+            if (titleElem && name) titleElem.textContent = name;
+          } else {
+            m.classList.remove('is-active-month');
+            m.classList.add('is-hidden-month');
+          }
+        });
 
-  function unlockCineoff() {
-    sessionStorage.setItem('tom_cineoff_auth', '1');
-    if (authLoggedOut) authLoggedOut.style.display = 'none';
-    if (authLoggedIn) authLoggedIn.style.display = 'block';
-  }
-
-  function lockCineoff() {
-    sessionStorage.removeItem('tom_cineoff_auth');
-    if (authLoggedIn) authLoggedIn.style.display = 'none';
-    if (authLoggedOut) authLoggedOut.style.display = 'block';
-    if (inputPass) inputPass.value = '';
-  }
-
-  loginForm?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const val = (inputPass?.value || '').trim();
-    if (!val) return;
-
-    const hash = await hashInput(val);
-    let match = false;
-    for (const h of CINEOFF_HASHES) {
-      if (constantTimeEqual(h, hash)) {
-        match = true;
-        break;
+        if (btnPrev) (btnPrev as HTMLButtonElement).disabled = (currentMonthIndex === 0);
+        if (btnNext) (btnNext as HTMLButtonElement).disabled = (currentMonthIndex === months.length - 1);
       }
-    }
 
-    if (match) {
-      unlockCineoff();
-    } else {
-      if (feedback) {
-        feedback.style.display = 'block';
-        feedback.textContent = 'Code exploitant Ciné-Off incorrect.';
-      }
-    }
-  });
-
-  btnLogout?.addEventListener('click', lockCineoff);
-
-  if (sessionStorage.getItem('tom_cineoff_auth') === '1') {
-    unlockCineoff();
-  }
-
-  // Navigation mois
-  const monthViews = document.querySelectorAll('.cinema-month-view');
-  const btnPrev = document.getElementById('btnPrevMonth') as HTMLButtonElement | null;
-  const btnNext = document.getElementById('btnNextMonth') as HTMLButtonElement | null;
-  const monthTitle = document.getElementById('calendarMonthTitle');
-  let currentMonth = 0;
-
-  function showMonth(idx: number) {
-    monthViews.forEach((v, i) => {
-      if (i === idx) {
-        v.classList.remove('is-hidden-month');
-        v.classList.add('is-active-month');
-        const name = v.getAttribute('data-month-name');
-        if (monthTitle && name) monthTitle.textContent = name;
-      } else {
-        v.classList.add('is-hidden-month');
-        v.classList.remove('is-active-month');
-      }
-    });
-    if (btnPrev) btnPrev.disabled = idx === 0;
-    if (btnNext) btnNext.disabled = idx === monthViews.length - 1;
-  }
-
-  if (btnPrev && btnNext) {
-    showMonth(0);
-    btnPrev.addEventListener('click', () => { if (currentMonth > 0) { currentMonth--; showMonth(currentMonth); } });
-    btnNext.addEventListener('click', () => { if (currentMonth < monthViews.length - 1) { currentMonth++; showMonth(currentMonth); } });
-  }
-
-  // Sélection des dates disponibles
-  const selectedDates = new Set<string>();
-  const selectionBar = document.getElementById('selectionBarCineoff');
-  const listDates = document.getElementById('selectedCineoffDatesList');
-  const inputDates = document.getElementById('cineoffDatesInput') as HTMLInputElement | null;
-  const btnClear = document.getElementById('btnClearCineoffDates');
-
-  function updateSelection() {
-    if (!selectionBar || !listDates || !inputDates) return;
-    listDates.replaceChildren();
-
-    if (selectedDates.size === 0) {
-      selectionBar.style.display = 'none';
-      inputDates.value = '';
-      return;
-    }
-
-    selectionBar.style.display = 'flex';
-    const sorted = Array.from(selectedDates).sort();
-    inputDates.value = sorted.join(', ');
-
-    sorted.forEach((d) => {
-      const pill = document.createElement('span');
-      pill.className = 'date-pill-selected';
-      const strong = document.createElement('strong');
-      strong.textContent = d;
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.textContent = '×';
-      btn.setAttribute('aria-label', `Retirer ${d}`);
-      btn.addEventListener('click', (ev) => {
-        ev.stopPropagation();
-        selectedDates.delete(d);
-        document.querySelectorAll(`.day-selectable[data-date="${d}"]`).forEach((c) => c.classList.remove('day-selected'));
-        updateSelection();
+      btnPrev?.addEventListener('click', () => {
+        if (currentMonthIndex > 0) {
+          currentMonthIndex--;
+          updateMonthView();
+        }
       });
-      pill.append(strong, btn);
-      listDates.appendChild(pill);
-    });
-  }
 
-  document.querySelectorAll('.day-selectable').forEach((cell) => {
-    cell.addEventListener('click', () => {
-      const date = cell.getAttribute('data-date');
-      if (!date) return;
-      if (selectedDates.has(date)) {
-        selectedDates.delete(date);
-        cell.classList.remove('day-selected');
-      } else {
-        selectedDates.add(date);
-        cell.classList.add('day-selected');
+      btnNext?.addEventListener('click', () => {
+        if (currentMonthIndex < months.length - 1) {
+          currentMonthIndex++;
+          updateMonthView();
+        }
+      });
+
+      updateMonthView();
+    }
+
+    function setupDateSelection() {
+      const selectableCells = document.querySelectorAll<HTMLElement>('.cinema-month-view .day-selectable');
+      const selectionBar = document.getElementById('selectionBarCineoff');
+      const tagsContainer = document.getElementById('selectedCineoffDatesList');
+      const inputDates = document.getElementById('cineoffDatesInput') as HTMLInputElement | null;
+      const btnClear = document.getElementById('btnClearCineoffDates');
+      const btnQuickSms = document.getElementById('btnQuickSmsCineoff') as HTMLAnchorElement | null;
+      const btnQuickMail = document.getElementById('btnQuickMailCineoff') as HTMLAnchorElement | null;
+
+      selectableCells.forEach((cell) => {
+        cell.addEventListener('click', () => {
+          const dateStr = cell.getAttribute('data-date');
+          if (!dateStr) return;
+
+          const idx = selectedDates.indexOf(dateStr);
+          if (idx >= 0) {
+            selectedDates.splice(idx, 1);
+            cell.classList.remove('day-is-selected');
+          } else {
+            selectedDates.push(dateStr);
+            selectedDates.sort();
+            cell.classList.add('day-is-selected');
+          }
+          renderSelectedDates();
+        });
+
+        cell.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            cell.click();
+          }
+        });
+      });
+
+      function renderSelectedDates() {
+        if (!selectionBar || !tagsContainer || !inputDates) return;
+
+        if (selectedDates.length === 0) {
+          selectionBar.style.display = 'none';
+          inputDates.value = '';
+          return;
+        }
+
+        selectionBar.style.display = 'flex';
+        tagsContainer.innerHTML = '';
+        inputDates.value = selectedDates.join(', ');
+
+        const datesText = selectedDates.join(', ');
+        const smsBody = encodeURIComponent(`Bonjour Tom, voici ma demande de tournée Ciné-Off pour le(s) : ${datesText}. Peux-tu me confirmer la disponibilité ? Merci !`);
+        const mailSub = encodeURIComponent(`[Ciné-Off] Demande de tournée : ${datesText}`);
+        const mailBody = encodeURIComponent(`Bonjour Tom,\n\nVoici les dates de tournée envisagées pour Ciné-Off :\n${datesText}\n\nMerci de me confirmer dès que possible.\n\nRégie Ciné-Off`);
+
+        if (btnQuickSms) btnQuickSms.href = `sms:?body=${smsBody}`;
+        if (btnQuickMail) btnQuickMail.href = `mailto:contact@tom-bigot.fr?subject=${mailSub}&body=${mailBody}`;
+
+        selectedDates.forEach((dateStr) => {
+          const tag = document.createElement('span');
+          tag.className = 'date-tag';
+          tag.textContent = dateStr;
+
+          const removeBtn = document.createElement('button');
+          removeBtn.type = 'button';
+          removeBtn.innerHTML = '&times;';
+          removeBtn.title = `Retirer le ${dateStr}`;
+          removeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const i = selectedDates.indexOf(dateStr);
+            if (i >= 0) {
+              selectedDates.splice(i, 1);
+              const cell = document.querySelector(`.cinema-month-view .day-cell[data-date="${dateStr}"]`);
+              if (cell) cell.classList.remove('day-is-selected');
+              renderSelectedDates();
+            }
+          });
+
+          tag.appendChild(removeBtn);
+          tagsContainer.appendChild(tag);
+        });
       }
-      updateSelection();
-    });
-  });
 
-  document.querySelectorAll('.day-masked-grise').forEach((cell) => {
-    cell.addEventListener('click', () => {
-      const date = cell.getAttribute('data-date');
-      alert(`Date indisponible (${date}) :\nCe créneau est déjà réservé par un autre exploitant ou engagé en formation CFA.\nPar respect de la confidentialité professionnelle, les détails sont masqués.`);
-    });
-  });
-
-  btnClear?.addEventListener('click', () => {
-    selectedDates.clear();
-    document.querySelectorAll('.day-selectable').forEach((c) => c.classList.remove('day-selected'));
-    updateSelection();
-  });
-
-  // Soumission et anti-bot
-  const pageLoadedAt = Date.now();
-  const form = document.getElementById('agendaFormCineoff') as HTMLFormElement | null;
-  const confBox = document.getElementById('confirmationBoxCineoff');
-  const confMsg = document.getElementById('confirmationMessageCineoff');
-  const mailtoBtn = document.getElementById('mailtoFallbackCineoff') as HTMLAnchorElement | null;
-
-  form?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const data = new FormData(form);
-    const guard = data.get('cineoff_guard');
-    if (guard && String(guard).trim() !== '') return;
-    if (Date.now() - pageLoadedAt < 2000) {
-      alert('Veuillez patienter 2 secondes avant de soumettre le formulaire.');
-      return;
+      btnClear?.addEventListener('click', () => {
+        selectedDates = [];
+        document.querySelectorAll('.cinema-month-view .day-is-selected').forEach((c) => {
+          c.classList.remove('day-is-selected');
+        });
+        renderSelectedDates();
+      });
     }
 
-    const contact = ((data.get('cineoffContact') as string) || '').replace(/[\r\n]+/g, ' ').trim();
-    const email = ((data.get('cineoffEmail') as string) || '').replace(/[\r\n]+/g, ' ').trim();
-    const tel = ((data.get('cineoffTel') as string) || 'Non renseigné').replace(/[\r\n]+/g, ' ').trim();
-    const dates = ((data.get('cineoffDatesInput') as string) || '').replace(/[\r\n]+/g, ' ').trim();
-    const typeSeance = (data.get('cineoffTypeSeance') as string) || '';
-    const communes = ((data.get('cineoffCommunes') as string) || '').replace(/[\r\n]+/g, ' ').trim();
-    const notes = ((data.get('cineoffNotes') as string) || 'Aucune').replace(/\r/g, '').trim();
-
-    const sujet = encodeURIComponent(`[TOURNÉE CINÉ-OFF] Proposition de dates — ${communes} (${dates})`);
-    const corps = encodeURIComponent(
-      `Bonjour Tom,\n\nUne nouvelle proposition de tournée vient d'être formulée depuis l'espace dédié Ciné-Off :\n\n` +
-      `• Structure : Ciné-Off (Circuit itinérant 37)\n` +
-      `• Coordinateur régie : ${contact}\n` +
-      `• Email direct : ${email}\n` +
-      `• Téléphone cabine : ${tel}\n\n` +
-      `DÉTAILS DE LA TOURNÉE :\n` +
-      `• Date(s) souhaitée(s) : ${dates}\n` +
-      `• Type de séance : ${typeSeance}\n` +
-      `• Commune(s) : ${communes}\n\n` +
-      `Notes de tournée & Films prévus :\n${notes}\n\n` +
-      `---\nTransmis depuis l'espace dédié ciné-off.tom-bigot.fr`
-    );
-
-    const mailtoUrl = `mailto:contact@tom-bigot.fr?subject=${sujet}&body=${corps}`;
-
-    if (confBox && confMsg) {
-      confBox.style.display = 'block';
-      confMsg.textContent = `Votre demande de tournée sur les dates (${dates}) à destination de "${communes}" a été préparée et transmise à Tom Bigot.`;
-      if (mailtoBtn) mailtoBtn.href = mailtoUrl;
-      confBox.scrollIntoView({ behavior: 'smooth' });
+    function loadPendingDates() {
+      try {
+        const raw = localStorage.getItem(PENDING_STORAGE_KEY);
+        if (!raw) return;
+        const pendingList: string[] = JSON.parse(raw);
+        pendingList.forEach((dateStr) => {
+          const cell = document.querySelector(`.cinema-month-view .day-cell[data-date="${dateStr}"]`);
+          if (cell) {
+            cell.classList.add('day-pending-approval');
+            const topTag = cell.querySelector('.day-topline');
+            if (topTag) {
+              const existingTag = topTag.querySelector('.tag-libre');
+              if (existingTag) existingTag.textContent = '⏳ En attente';
+            }
+            const desc = cell.querySelector('.day-desc');
+            if (desc) desc.textContent = 'Demande envoyée — En attente validation';
+          }
+        });
+      } catch {}
     }
-    window.location.href = mailtoUrl;
-  });
-</script>
-
-<style>
-  .dedicated-agenda-page {
-    max-width: 1060px;
-    margin: 0 auto;
-    padding: clamp(24px, 4vw, 56px) clamp(16px, 3vw, 36px);
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
-  }
-
-  .dedicated-badge-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 8px;
-  }
-
-  .badge-partner {
-    font: 700 11px var(--font);
-    letter-spacing: 0.1em;
-    background: #000000;
-    color: #ffffff;
-    padding: 3px 10px;
-    text-transform: uppercase;
-  }
-
-  .page-title {
-    margin: 6px 0 10px;
-    font: 700 clamp(28px, 4.5vw, 42px)/1.1 var(--font);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .page-subtitle {
-    margin: 0;
-    font: 400 14px/1.6 var(--font);
-    color: rgba(0, 0, 0, 0.75);
-  }
-
-  /* Carte d'accueil partenaire */
-  .partner-auth-box {
-    border: 2px dashed var(--dash);
-    background: #fafafa;
-    padding: clamp(20px, 3vw, 28px);
-  }
-
-  .auth-card {
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
-  }
-
-  .auth-icon {
-    font-size: 36px;
-    line-height: 1;
-  }
-
-  .auth-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .auth-status-tag {
-    font: 700 10.5px var(--font);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.55);
-  }
-
-  .auth-status-tag.active {
-    color: #000000;
-    font-weight: 900;
-  }
-
-  .auth-info h2 {
-    margin: 0;
-    font: 700 18px var(--font);
-    letter-spacing: 0.08em;
-  }
-
-  .auth-info p {
-    margin: 0;
-    font: 400 13px/1.5 var(--font);
-    color: rgba(0, 0, 0, 0.7);
-  }
-
-  .partner-login-form {
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .input-row {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-
-  .input-row input {
-    min-width: 240px;
-    flex: 1;
-    background: #ffffff;
-    border: 2px solid #000000;
-    padding: 10px 14px;
-    font: 700 13px var(--font);
-  }
-
-  .feedback-msg {
-    font: 700 11.5px var(--font);
-    color: #cc0000;
-  }
-
-  .demo-hint {
-    font: 400 11px var(--font);
-    color: rgba(0, 0, 0, 0.5);
-  }
-
-  .demo-hint code {
-    background: #eeeeee;
-    padding: 2px 6px;
-    border: 1px solid #cccccc;
-    font-weight: 700;
-  }
-
-  .logged-actions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: 8px;
-    flex-wrap: wrap;
-  }
-
-  /* Toolbar et légende */
-  .agenda-toolbar {
-    background: var(--paper);
-    border: 2px dashed var(--dash);
-    padding: 16px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .legend-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 12px;
-    padding-bottom: 14px;
-    border-bottom: 1px dashed rgba(0, 0, 0, 0.2);
-  }
-
-  .legend-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .legend-box {
-    width: 14px;
-    height: 14px;
-    margin-top: 2px;
-    flex-shrink: 0;
-    border: 1px solid #000000;
-  }
-
-  .box-libre {
-    background: #ffffff;
-    border: 2px solid #000000;
-  }
-
-  .box-cineoff {
-    background: #000000;
-  }
-
-  .box-masked {
-    background: repeating-linear-gradient(-45deg, #f0f0f0, #f0f0f0 4px, #dddddd 4px, #dddddd 8px);
-    border-color: #888888;
-  }
-
-  .box-option {
-    background: #eeeeee;
-    border: 1px dashed #000000;
-  }
-
-  .legend-text {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .legend-text strong {
-    font: 700 10.5px var(--font);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .legend-text span {
-    font: 400 10px var(--font);
-    color: rgba(0, 0, 0, 0.6);
-  }
-
-  .month-selector-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-
-  .month-heading {
-    margin: 4px 0 0;
-    font: 700 20px var(--font);
-    letter-spacing: 0.1em;
-  }
-
-  /* Grille Calendrier */
-  .calendar-card {
-    background: #ffffff;
-    border: 2px dashed var(--dash);
-    padding: clamp(16px, 3vw, 24px);
-  }
-
-  .calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 8px;
-  }
-
-  .weekday-col {
-    text-align: center;
-    font: 700 11px var(--font);
-    letter-spacing: 0.12em;
-    padding: 6px 0;
-    border-bottom: 2px solid #000000;
-  }
-
-  .day-cell {
-    min-height: 96px;
-    border: 1px solid #cccccc;
-    padding: 8px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 4px;
-    position: relative;
-    transition: all 0.2s ease;
-  }
-
-  .day-empty {
-    border: 1px dashed rgba(0, 0, 0, 0.08);
-    background: #fafafa;
-  }
-
-  .day-selectable {
-    border: 1.5px solid #000000;
-    background: #ffffff;
-    cursor: pointer;
-  }
-
-  .day-selectable:hover {
-    transform: translateY(-2px);
-    box-shadow: 2px 2px 0 #000000;
-  }
-
-  .day-selected {
-    background: #000000 !important;
-    color: #ffffff !important;
-    border-color: #000000 !important;
-    box-shadow: 3px 3px 0 #000000;
-  }
-
-  .day-selected .day-title,
-  .day-selected .day-desc,
-  .day-selected .day-hint,
-  .day-selected .day-number {
-    color: #ffffff !important;
-  }
-
-  .day-selected .tag-libre {
-    background: #ffffff;
-    color: #000000;
-  }
-
-  .day-cineoff-active {
-    background: #ffffff;
-    border: 2px solid #000000;
-    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
-  }
-
-  .day-masked-grise {
-    background: repeating-linear-gradient(-45deg, #fafafa, #fafafa 5px, #f0f0f0 5px, #f0f0f0 10px) !important;
-    border: 1px dashed #cccccc;
-    border-left: 3px solid #888888;
-    cursor: pointer;
-  }
-
-  .day-topline {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .day-number {
-    font: 700 13px var(--font);
-  }
-
-  .tag-libre {
-    font: 700 8.5px var(--font);
-    background: #000000;
-    color: #ffffff;
-    padding: 1px 4px;
-  }
-
-  .tag-cineoff {
-    font: 700 8.5px var(--font);
-    background: #000000;
-    color: #ffffff;
-    padding: 1px 5px;
-    letter-spacing: 0.05em;
-  }
-
-  .tag-masked {
-    font: 700 8.5px var(--font);
-    background: #666666;
-    color: #ffffff;
-    padding: 1px 4px;
-  }
-
-  .day-title {
-    font: 700 11px var(--font);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-
-  .day-desc {
-    font: 400 9.5px/1.2 var(--font);
-    color: rgba(0, 0, 0, 0.7);
-  }
-
-  .day-hint {
-    font: 700 8.5px var(--font);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    border-top: 1px dashed rgba(0, 0, 0, 0.15);
-    padding-top: 3px;
-  }
-
-  /* Panier */
-  .selection-summary-bar {
-    background: #000000;
-    color: #ffffff;
-    padding: 14px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 14px;
-    flex-wrap: wrap;
-  }
-
-  .selected-tags-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 6px;
-  }
-
-  .date-pill-selected {
-    background: #ffffff;
-    color: #000000;
-    padding: 3px 8px;
-    font: 700 11px var(--font);
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .btn-clear {
-    background: transparent;
-    color: #ffffff;
-    border: 1px dashed rgba(255, 255, 255, 0.4);
-    padding: 6px 12px;
-    cursor: pointer;
-    font: 700 11px var(--font);
-  }
-
-  /* Formulaire */
-  .form-container {
-    border: 2px dashed var(--dash);
-    padding: clamp(20px, 3.5vw, 36px);
-  }
-
-  .form-header h2 {
-    margin: 6px 0 10px;
-    font: 700 22px var(--font);
-    letter-spacing: 0.08em;
-  }
-
-  .styled-agenda-form {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .form-grid-fields {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-
-  .form-field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .form-field.full-width {
-    grid-column: 1 / -1;
-  }
-
-  .form-field label {
-    font: 700 11px var(--font);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  .form-field input,
-  .form-field select,
-  .form-field textarea {
-    background: #ffffff;
-    border: 1.5px solid #000000;
-    padding: 10px 12px;
-    font: 400 13px var(--font);
-  }
-
-  .confirmation-box {
-    margin-top: 16px;
-    background: #000000;
-    color: #ffffff;
-    padding: 20px;
-  }
-
-  .confirmation-box h3 {
-    color: #ffffff;
-    margin: 0 0 6px;
-  }
-
-  .is-hidden-month {
-    display: none;
-  }
-
-  @media (max-width: 768px) {
+
+    function setupFormSubmission() {
+      const form = document.getElementById('agendaFormCineoff') as HTMLFormElement | null;
+      const modal = document.getElementById('resultModalCineoff');
+      const payloadPre = document.getElementById('resultPayloadCineoff');
+      const btnSmsModal = document.getElementById('btnSmsCineoffModal') as HTMLAnchorElement | null;
+      const btnMailtoModal = document.getElementById('btnMailtoCineoffModal') as HTMLAnchorElement | null;
+      const btnCopy = document.getElementById('btnCopyCineoff');
+
+      if (!form) return;
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        // Protection honeypot
+        const hp = (document.getElementById('cineoff_guard') as HTMLInputElement)?.value;
+        if (hp && hp.trim().length > 0) return;
+
+        // Protection soumission trop rapide
+        const elapsed = (Date.now() - formMountedAt) / 1000;
+        if (elapsed < 1.5) {
+          alert('Veuillez vérifier votre saisie.');
+          return;
+        }
+
+        const structure = (document.getElementById('cineoffStructure') as HTMLInputElement).value.trim();
+        const contact = (document.getElementById('cineoffContact') as HTMLInputElement).value.trim();
+        const email = (document.getElementById('cineoffEmail') as HTMLInputElement).value.trim();
+        const tel = (document.getElementById('cineoffTel') as HTMLInputElement).value.trim();
+        const dates = (document.getElementById('cineoffDatesInput') as HTMLInputElement).value.trim();
+        const typeSeance = (document.getElementById('cineoffTypeSeance') as HTMLSelectElement).value;
+        const communes = (document.getElementById('cineoffCommunes') as HTMLInputElement).value.trim();
+        const notes = (document.getElementById('cineoffNotes') as HTMLTextAreaElement).value.trim();
+
+        // Enregistrer dans le stockage local des dates en attente
+        try {
+          const currentPending = JSON.parse(localStorage.getItem(PENDING_STORAGE_KEY) || '[]');
+          selectedDates.forEach((d) => {
+            if (!currentPending.includes(d)) currentPending.push(d);
+          });
+          localStorage.setItem(PENDING_STORAGE_KEY, JSON.stringify(currentPending));
+          loadPendingDates();
+        } catch {}
+
+        const recap = [
+          'DEMANDE DE TOURNÉE &bull; CINÉ-OFF (37)',
+          '======================================',
+          `Structure   : ${structure}`,
+          `Contact     : ${contact}`,
+          `Email       : ${email}`,
+          `Téléphone   : ${tel || 'Non précisé'}`,
+          `Date(s)     : ${dates}`,
+          `Commune(s)  : ${communes}`,
+          `Format      : ${typeSeance}`,
+          `Détails     : ${notes || 'Aucun'}`,
+          '--------------------------------------',
+          'État        : EN ATTENTE DE CONFIRMATION TOM BIGOT',
+          '======================================'
+        ].join('\n');
+
+        if (payloadPre) payloadPre.textContent = recap;
+
+        const smsText = encodeURIComponent(`Bonjour Tom, demande Ciné-Off de ${contact} pour le(s) ${dates} à ${communes}. Peux-tu me confirmer ? Merci !`);
+        const mailSubject = encodeURIComponent(`[Ciné-Off] Demande de tournée : ${communes} (${dates})`);
+        const mailBody = encodeURIComponent(recap);
+
+        if (btnSmsModal) btnSmsModal.href = `sms:?body=${smsText}`;
+        if (btnMailtoModal) btnMailtoModal.href = `mailto:contact@tom-bigot.fr?subject=${mailSubject}&body=${mailBody}`;
+
+        if (modal) {
+          modal.style.display = 'block';
+          modal.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      });
+
+      btnCopy?.addEventListener('click', async () => {
+        if (!payloadPre || !payloadPre.textContent) return;
+        try {
+          await navigator.clipboard.writeText(payloadPre.textContent);
+          btnCopy.textContent = 'Copié !';
+          setTimeout(() => {
+            btnCopy.textContent = 'Copier le récapitulatif';
+          }, 2500);
+        } catch {
+          alert('Veuillez copier manuellement le texte ci-dessus.');
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCineoffPage);
+    } else {
+      initCineoffPage();
+    }
+  </script>
+
+  <style>
+    .dedicated-agenda-page {
+      padding-top: 1.5rem;
+      padding-bottom: 4rem;
+    }
+
+    .dedicated-header {
+      margin-bottom: 2rem;
+    }
+
+    .dedicated-badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .badge-partner {
+      display: inline-block;
+      font-family: var(--font-mono, monospace);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      background: #000000;
+      color: #ffffff;
+      border: 1px solid #000000;
+    }
+
+    .partner-auth-box {
+      margin-bottom: 2.5rem;
+    }
+
+    .auth-card {
+      display: flex;
+      gap: 1.5rem;
+      padding: 1.75rem;
+      background: #fdfdfd;
+      border: 2px solid #000000;
+      box-shadow: 6px 6px 0px #000000;
+      align-items: flex-start;
+    }
+
+    .auth-card.logged-in {
+      border: 2px solid #000000;
+      background: #fafafa;
+    }
+
+    .auth-icon {
+      font-size: 2.5rem;
+      line-height: 1;
+      padding: 0.5rem;
+      background: #000000;
+      color: #ffffff;
+      border-radius: 2px;
+    }
+
+    .auth-info {
+      flex: 1;
+    }
+
+    .auth-status-tag {
+      font-family: var(--font-mono, monospace);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+      color: #555555;
+    }
+
+    .auth-status-tag.active {
+      color: #000000;
+      font-weight: 900;
+    }
+
+    .auth-info h2 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.4rem;
+      letter-spacing: -0.01em;
+    }
+
+    .auth-info p {
+      margin: 0 0 1rem 0;
+      color: #333333;
+      line-height: 1.5;
+    }
+
+    .logged-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .agenda-toolbar {
+      margin-bottom: 1.75rem;
+    }
+
+    .legend-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.75rem;
+      padding: 1rem;
+      border: 2px dashed #000000;
+      background: #fafafa;
+      margin-bottom: 1.25rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .legend-box {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      border: 1px solid #000000;
+    }
+
+    .box-libre {
+      background: #ffffff;
+      border: 2px solid #000000;
+    }
+
+    .box-cineoff {
+      background: #000000;
+    }
+
+    .box-pending {
+      background: #ffea00;
+      border: 2px dashed #000000;
+    }
+
+    .box-masked {
+      background: #eaeaea;
+      border: 1px dashed #777777;
+    }
+
+    .legend-text {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.75rem;
+      line-height: 1.2;
+    }
+
+    .legend-text strong {
+      font-family: var(--font-mono, monospace);
+      letter-spacing: 0.05em;
+    }
+
+    .month-selector-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      border: 2px solid #000000;
+      background: #ffffff;
+    }
+
+    .current-month-display {
+      text-align: center;
+    }
+
+    .month-heading {
+      margin: 0;
+      font-size: 1.3rem;
+      letter-spacing: 0.05em;
+    }
+
+    .calendar-card {
+      border: 2px solid #000000;
+      background: #ffffff;
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+
+    .calendar-card.is-hidden-month {
+      display: none;
+    }
+
     .calendar-grid {
-      grid-template-columns: repeat(2, 1fr);
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0;
+      background: #000000;
+      border-top: 1px solid #000000;
     }
+
+    .weekday-col {
+      background: #000000;
+      color: #ffffff;
+      padding: 0.6rem 0.4rem;
+      text-align: center;
+      font-family: var(--font-mono, monospace);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+    }
+
+    .day-cell {
+      background: #ffffff;
+      min-height: 110px;
+      padding: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid #000000;
+      transition: background 0.15s ease, transform 0.1s ease;
+      position: relative;
+    }
+
+    .day-empty {
+      background: #f3f3f3;
+      min-height: 110px;
+    }
+
+    .day-topline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono, monospace);
+      margin-bottom: 0.4rem;
+    }
+
+    .day-number {
+      font-size: 0.95rem;
+      font-weight: 800;
+    }
+
+    .tag-libre {
+      font-size: 0.62rem;
+      font-weight: 700;
+      background: #000000;
+      color: #ffffff;
+      padding: 0.1rem 0.35rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .tag-cineoff {
+      font-size: 0.62rem;
+      font-weight: 700;
+      background: #000000;
+      color: #ffffff;
+      padding: 0.1rem 0.35rem;
+      text-transform: uppercase;
+    }
+
+    .tag-masked {
+      font-size: 0.62rem;
+      font-weight: 700;
+      background: #888888;
+      color: #ffffff;
+      padding: 0.1rem 0.35rem;
+    }
+
+    .day-body {
+      flex: 1;
+      font-size: 0.74rem;
+      line-height: 1.25;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .day-title {
+      font-weight: 700;
+    }
+
+    .day-desc {
+      color: #555555;
+      font-size: 0.7rem;
+    }
+
+    .day-hint {
+      font-family: var(--font-mono, monospace);
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #666666;
+      margin-top: 0.35rem;
+      border-top: 1px dashed #cccccc;
+      padding-top: 0.25rem;
+    }
+
+    .day-selectable {
+      cursor: pointer;
+    }
+
+    .day-selectable:hover {
+      background: #f7f7f7;
+      outline: 2px solid #000000;
+      z-index: 2;
+    }
+
+    .day-is-selected {
+      background: #000000 !important;
+      color: #ffffff !important;
+      outline: 3px solid #000000;
+      z-index: 3;
+    }
+
+    .day-is-selected .day-desc,
+    .day-is-selected .day-hint {
+      color: #cccccc !important;
+    }
+
+    .day-is-selected .tag-libre {
+      background: #ffffff;
+      color: #000000;
+    }
+
+    .day-pending-approval {
+      background: #fffde7 !important;
+      border: 2px dashed #000000 !important;
+    }
+
+    .day-cineoff-active {
+      background: #ffffff;
+      border-left: 4px solid #000000;
+    }
+
+    .day-masked-grise {
+      background: #f0f0f0;
+      color: #777777;
+    }
+
+    .day-masked-grise .day-title,
+    .day-masked-grise .day-desc {
+      color: #777777;
+    }
+
+    .selection-summary-bar {
+      position: sticky;
+      bottom: 1.5rem;
+      z-index: 50;
+      background: #000000;
+      color: #ffffff;
+      border: 2px solid #ffffff;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      padding: 1rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .selection-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .selection-info .etiquette {
+      color: #aaaaaa;
+      font-size: 0.68rem;
+    }
+
+    .selected-tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .date-tag {
+      background: #ffffff;
+      color: #000000;
+      font-family: var(--font-mono, monospace);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .date-tag button {
+      background: none;
+      border: none;
+      font-size: 1rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0;
+      color: #000000;
+      font-weight: 900;
+    }
+
+    .selection-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-action-pill {
+      background: #ffffff;
+      color: #000000;
+      font-family: var(--font-mono, monospace);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.5rem 0.75rem;
+      text-decoration: none;
+      border: 1px solid #ffffff;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .btn-action-pill:hover {
+      background: #e0e0e0;
+    }
+
+    .btn-clear {
+      background: none;
+      border: 1px solid #ffffff;
+      color: #ffffff;
+      font-family: var(--font-mono, monospace);
+      font-size: 0.75rem;
+      padding: 0.5rem 0.75rem;
+      cursor: pointer;
+    }
+
+    .btn-clear:hover {
+      background: #ffffff;
+      color: #000000;
+    }
+
+    .btn-jump-form {
+      background: #ffffff;
+      color: #000000;
+      border-color: #ffffff;
+    }
+
+    .form-container {
+      border: 2px solid #000000;
+      box-shadow: 6px 6px 0px #000000;
+      padding: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .form-header {
+      margin-bottom: 1.75rem;
+    }
+
+    .form-header h2 {
+      margin: 0.25rem 0 0.5rem 0;
+      font-size: 1.5rem;
+    }
+
+    .form-intro {
+      color: #444444;
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    .styled-agenda-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
     .form-grid-fields {
-      grid-template-columns: 1fr;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
     }
-  }
-</style>
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .form-field.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-field label {
+      font-family: var(--font-mono, monospace);
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      padding: 0.75rem;
+      border: 2px solid #000000;
+      font-family: inherit;
+      font-size: 0.92rem;
+      background: #ffffff;
+      outline: none;
+    }
+
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus {
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .form-submit-row {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .btn-large {
+      padding: 0.9rem 1.75rem;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .result-box {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      border: 2px solid #000000;
+      background: #fafafa;
+    }
+
+    .result-head h3 {
+      margin: 0.25rem 0 0.5rem 0;
+      font-size: 1.3rem;
+    }
+
+    .result-pre {
+      background: #000000;
+      color: #00ff66;
+      font-family: var(--font-mono, monospace);
+      font-size: 0.82rem;
+      padding: 1rem;
+      white-space: pre-wrap;
+      overflow-x: auto;
+      border: 1px solid #333333;
+      line-height: 1.4;
+      margin: 1rem 0;
+    }
+
+    .result-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .dedicated-footer-nav {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 2px dashed #000000;
+    }
+
+    .footer-nav-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .portal-card {
+      border: 2px solid #000000;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      text-decoration: none;
+      color: #000000;
+      background: #ffffff;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .portal-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 4px 4px 0px #000000;
+    }
+
+    .portal-badge {
+      font-family: var(--font-mono, monospace);
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #666666;
+      text-transform: uppercase;
+    }
+
+    .portal-card strong {
+      font-size: 1.05rem;
+    }
+
+    .portal-card small {
+      color: #555555;
+      font-size: 0.78rem;
+    }
+
+    @media (max-width: 768px) {
+      .form-grid-fields {
+        grid-template-columns: 1fr;
+      }
+      .calendar-grid {
+        grid-template-columns: repeat(7, minmax(42px, 1fr));
+      }
+      .day-cell {
+        min-height: 80px;
+        padding: 0.3rem;
+      }
+      .day-body {
+        display: none;
+      }
+      .auth-card {
+        flex-direction: column;
+      }
+    }
+  </style>
+</Base>

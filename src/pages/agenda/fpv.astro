@@ -177,7 +177,9 @@ import { planningFpvMois } from '../../data/planning';
       </div>
       <div class="selection-actions">
         <button type="button" id="btnClearFpvDates" class="btn-clear">Vider</button>
-        <a href="#formFpv" class="btn-noir btn-jump-form">Finaliser la demande de devis &darr;</a>
+        <a id="btnQuickSmsFpv" href="#" class="btn-action-pill">📱 Par SMS &rarr;</a>
+        <a id="btnQuickMailFpv" href="#" class="btn-action-pill">✉️ Par Email &rarr;</a>
+        <a href="#formFpv" class="btn-noir btn-jump-form">Finaliser le devis &darr;</a>
       </div>
     </div>
 
@@ -295,8 +297,9 @@ import { planningFpvMois } from '../../data/planning';
         </p>
         <pre id="resultPayloadFpv" class="result-pre"></pre>
         <div class="result-actions">
-          <a id="btnMailtoFpv" href="#" class="btn-noir">Ouvrir dans mon logiciel de messagerie &rarr;</a>
-          <button type="button" id="btnCopyFpv" class="btn-outline">Copier le texte dans le presse-papier</button>
+          <a id="btnSmsFpv" href="#" class="btn-noir">📱 Envoyer par SMS à Tom &rarr;</a>
+          <a id="btnMailtoFpv" href="#" class="btn-outline">✉️ Envoyer par Email à Tom &rarr;</a>
+          <button type="button" id="btnCopyFpv" class="btn-outline">Copier le récapitulatif</button>
         </div>
       </div>
     </section>
@@ -382,6 +385,8 @@ import { planningFpvMois } from '../../data/planning';
       const tagsContainer = document.getElementById('selectedFpvDatesList');
       const inputDates = document.getElementById('fpvDatesInput') as HTMLInputElement | null;
       const btnClear = document.getElementById('btnClearFpvDates');
+      const btnQuickSms = document.getElementById('btnQuickSmsFpv') as HTMLAnchorElement | null;
+      const btnQuickMail = document.getElementById('btnQuickMailFpv') as HTMLAnchorElement | null;
 
       selectableCells.forEach((cell) => {
         cell.addEventListener('click', () => {
@@ -420,6 +425,14 @@ import { planningFpvMois } from '../../data/planning';
         selectionBar.style.display = 'flex';
         tagsContainer.innerHTML = '';
         inputDates.value = selectedDates.join(', ');
+
+        const datesText = selectedDates.join(', ');
+        const smsBody = encodeURIComponent(`Bonjour Tom, voici ma demande de tournage Drone FPV pour le(s) : ${datesText}. Peux-tu me confirmer les disponibilités ? Merci !`);
+        const mailSub = encodeURIComponent(`[Devis FPV] Demande de tournage : ${datesText}`);
+        const mailBody = encodeURIComponent(`Bonjour Tom,\n\nVoici les dates de tournage envisagées en drone FPV :\n${datesText}\n\nMerci de me recontacter pour établir le protocole et devis.\n\nProduction`);
+
+        if (btnQuickSms) btnQuickSms.href = `sms:?body=${smsBody}`;
+        if (btnQuickMail) btnQuickMail.href = `mailto:contact@tom-bigot.fr?subject=${mailSub}&body=${mailBody}`;
 
         selectedDates.forEach((dateStr) => {
           const tag = document.createElement('span');
@@ -460,6 +473,7 @@ import { planningFpvMois } from '../../data/planning';
       const modal = document.getElementById('resultModalFpv');
       const payloadPre = document.getElementById('resultPayloadFpv');
       const btnMailto = document.getElementById('btnMailtoFpv') as HTMLAnchorElement | null;
+      const btnSmsModal = document.getElementById('btnSmsFpv') as HTMLAnchorElement | null;
       const btnCopy = document.getElementById('btnCopyFpv');
 
       if (!form) return;
@@ -519,6 +533,11 @@ import { planningFpvMois } from '../../data/planning';
 
         if (btnMailto) {
           btnMailto.href = mailtoUrl;
+        }
+
+        const smsBrief = encodeURIComponent(`Bonjour Tom, devis FPV ${structure} pour le(s) ${dates} (${prestation} à ${lieu}). Peux-tu me confirmer ?`);
+        if (btnSmsModal) {
+          btnSmsModal.href = `sms:?body=${smsBrief}`;
         }
 
         if (modal) {
@@ -987,6 +1006,23 @@ import { planningFpvMois } from '../../data/planning';
     .btn-clear:hover {
       background: #ffffff;
       color: #000000;
+    }
+
+    .btn-action-pill {
+      background: #ffffff;
+      color: #000000;
+      font-family: var(--font-mono, monospace);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.5rem 0.75rem;
+      text-decoration: none;
+      border: 1px solid #ffffff;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .btn-action-pill:hover {
+      background: #e0e0e0;
     }
 
     .btn-jump-form {
