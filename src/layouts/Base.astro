@@ -8,10 +8,10 @@ interface Props {
 
 const {
   titre,
-  description = 'Tom Bigot — Développeur, créateur technique & projets.',
+  description = 'Tom Bigot — Développeur, créateur technique & ingénieur systèmes. Portfolio et blog technique.',
 } = Astro.props;
 
-const titreComplet = titre ? `${titre} — Tom Bigot` : 'TOM BIGOT';
+const titreComplet = titre ? `${titre} — Tom Bigot` : 'TOM BIGOT — Portfolio & Blog';
 const chemin = Astro.url.pathname;
 ---
 
@@ -39,6 +39,7 @@ const chemin = Astro.url.pathname;
       </a>
       <div class="nav-group">
         <a class={`nav-pill ${chemin === '/' ? 'active' : ''}`} href="/#projets-chronologie">Projets</a>
+        <a class={`nav-pill ${chemin.startsWith('/blog') ? 'active' : ''}`} href="/blog">Blog</a>
         <a class={`nav-pill ${chemin === '/a-propos' ? 'active' : ''}`} href="/a-propos">À propos</a>
         <a class={`nav-pill ${chemin === '/contact' ? 'active' : ''}`} href="/contact">Contact</a>
       </div>
@@ -54,10 +55,14 @@ const chemin = Astro.url.pathname;
       <div class="foot-brand">
         <span class="brand-nom">TOM BIGOT</span>
         <span class="foot-sep">&bull;</span>
+        <span>Portfolio & Blog</span>
+        <span class="foot-sep">&bull;</span>
         <span>&copy; {new Date().getFullYear()}</span>
       </div>
       <div class="foot-links">
         <a href="https://github.com/TakDai" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <span class="foot-sep">&bull;</span>
+        <a href="/blog">Blog</a>
         <span class="foot-sep">&bull;</span>
         <a href="/contact">Contact</a>
         <span class="foot-sep">&bull;</span>

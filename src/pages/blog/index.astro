@@ -1,0 +1,206 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const articles = (await getCollection('blog', ({ data }) => !data.brouillon)).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+
+function formaterDate(date: Date) {
+  return new Intl.DateTimeFormat('fr-FR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).format(date);
+}
+---
+
+<Base
+  titre="Blog & Articles Techniques"
+  description="Articles, retours d'expérience, ingénierie logicielle et systèmes embarqués par Tom Bigot."
+>
+  <main class="prose-screen">
+    <header class="page-head">
+      <span class="etiquette">PUBLICATIONS &bull; ANALYSES TECHNIQUES</span>
+      <h1 class="page-title">LE BLOG TECHNIQUE</h1>
+      <p class="page-subtitle">
+        Retours d'expérience approfondis, architectures logicielles, optimisation de systèmes embarqués et pratiques d'ingénierie moderne.
+      </p>
+    </header>
+
+    <div class="articles-liste">
+      {
+        articles.map((article) => {
+          const { titre, description, date, tags, tempsLecture } = article.data;
+          return (
+            <a class="article-card" href={`/blog/${article.id}`}>
+              <span class="card-ext">↗</span>
+
+              <div class="article-meta-row">
+                <span class="article-date">{formaterDate(date)}</span>
+                {tempsLecture && (
+                  <>
+                    <span class="meta-sep">&bull;</span>
+                    <span class="article-lecture">{tempsLecture} de lecture</span>
+                  </>
+                )}
+              </div>
+
+              <h2 class="article-titre">{titre}</h2>
+              <p class="article-desc">{description}</p>
+
+              {tags && tags.length > 0 && (
+                <div class="article-tags">
+                  {tags.map((tag) => (
+                    <span class="domaine-pill">{tag}</span>
+                  ))}
+                </div>
+              )}
+            </a>
+          );
+        })
+      }
+    </div>
+
+    <div class="actions-row">
+      <a href="/#projets-chronologie" class="btn-noir">Voir les projets</a>
+      <a href="/" class="nav-pill">&larr; Retour à l'accueil</a>
+    </div>
+  </main>
+</Base>
+
+<style>
+  .prose-screen {
+    flex: 1;
+    width: 100%;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: clamp(32px, 5vh, 64px) clamp(16px, 4vw, 32px);
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .page-head {
+    border-bottom: 2px dashed var(--dash);
+    padding-bottom: 24px;
+  }
+
+  .page-title {
+    margin: 6px 0 12px;
+    font: 700 clamp(30px, 5vw, 44px)/1.1 var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .page-subtitle {
+    margin: 0;
+    font: 400 14px/1.6 var(--font);
+    letter-spacing: 0.03em;
+    color: rgba(0, 0, 0, 0.75);
+  }
+
+  .articles-liste {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .article-card {
+    display: flex;
+    flex-direction: column;
+    padding: 24px 22px 20px;
+    border: 2px dashed var(--dash);
+    border-radius: 12px;
+    background: var(--paper);
+    text-decoration: none;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.2s ease,
+                border-style 0.2s ease,
+                box-shadow 0.2s ease;
+  }
+
+  .article-card:hover {
+    transform: translateX(6px);
+    border-style: solid;
+    border-color: var(--ink);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .card-ext {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.35);
+    transition: color 0.2s, transform 0.2s;
+  }
+
+  .article-card:hover .card-ext {
+    color: var(--ink);
+    transform: translate(1px, -1px);
+  }
+
+  .article-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    font: 700 11px var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.55);
+  }
+
+  .meta-sep {
+    opacity: 0.4;
+  }
+
+  .article-titre {
+    margin: 0 0 10px;
+    font: 700 clamp(18px, 3.5vw, 22px)/1.25 var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .article-desc {
+    margin: 0 0 16px;
+    font: 400 14px/1.6 var(--font);
+    letter-spacing: 0.02em;
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-top: 12px;
+    border-top: 2px dashed rgba(0, 0, 0, 0.15);
+  }
+
+  .domaine-pill {
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 8px;
+    border: 1px dashed var(--dash);
+    border-radius: 11px;
+    font: 700 9px var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.7);
+    background: #fafafa;
+  }
+
+  .actions-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+</style>

@@ -2,13 +2,12 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
-// Une fiche par projet : src/content/projets/<slug>.md
+// Projets / Portfolio : src/content/projets/<slug>.md
 const projets = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/projets' }),
   schema: z.object({
     titre: z.string(),
     resume: z.string(),
-    // « création » = projet porté par Tom, « participation » = contribution à un projet tiers
     nature: z.enum(['création', 'participation']).optional(),
     statut: z.enum(['en cours', 'réalisé']).optional(),
     domaines: z.array(z.string()).default([]),
@@ -19,4 +18,17 @@ const projets = defineCollection({
   }),
 });
 
-export const collections = { projets };
+// Blog / Articles techniques & retours d'expérience : src/content/blog/<slug>.md
+const blog = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
+  schema: z.object({
+    titre: z.string(),
+    description: z.string(),
+    date: z.coerce.date(),
+    tags: z.array(z.string()).default([]),
+    tempsLecture: z.string().optional(),
+    brouillon: z.boolean().default(false),
+  }),
+});
+
+export const collections = { projets, blog };
