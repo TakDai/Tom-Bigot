@@ -4,11 +4,13 @@ import '../styles/global.css';
 interface Props {
   titre?: string;
   description?: string;
+  sansNav?: boolean;
 }
 
 const {
   titre,
   description = 'Tom Bigot — Développeur, créateur technique & ingénieur systèmes. Portfolio et blog technique.',
+  sansNav = false,
 } = Astro.props;
 
 const titreComplet = titre ? `${titre} — Tom Bigot` : 'TOM BIGOT — Portfolio & Blog';
@@ -54,21 +56,23 @@ const chemin = Astro.url.pathname;
     <a href="#main-content" class="skip-link">Aller au contenu principal</a>
 
     <!-- ================= EN-TÊTE ================= -->
-    <nav class="topnav" aria-label="Navigation principale">
-      <a class="site-logo" href="/" aria-label="Tom Bigot — Accueil">
-        <span class="site-logo-icon"></span>
-        <span class="site-name">TOM BIGOT</span>
-      </a>
-      <div class="nav-group">
-        <a class={`nav-pill ${chemin === '/' ? 'active' : ''}`} href="/#projets-chronologie" aria-current={chemin === '/' ? 'page' : undefined}>Projets</a>
-        <a class={`nav-pill ${chemin === '/projectionniste' ? 'active' : ''}`} href="/projectionniste" aria-current={chemin === '/projectionniste' ? 'page' : undefined}>Projectionniste</a>
-        <a class={`nav-pill ${chemin === '/pilote-fpv' ? 'active' : ''}`} href="/pilote-fpv" aria-current={chemin === '/pilote-fpv' ? 'page' : undefined}>Pilote FPV</a>
-        <a class={`nav-pill ${chemin === '/developpement' ? 'active' : ''}`} href="/developpement" aria-current={chemin === '/developpement' ? 'page' : undefined}>Développement</a>
-        <a class={`nav-pill ${chemin === '/agenda' ? 'active' : ''}`} href="/agenda" aria-current={chemin === '/agenda' ? 'page' : undefined}>Agenda</a>
-        <a class={`nav-pill ${chemin.startsWith('/blog') ? 'active' : ''}`} href="/blog" aria-current={chemin.startsWith('/blog') ? 'page' : undefined}>Blog</a>
-        <a class={`nav-pill ${chemin === '/contact' ? 'active' : ''}`} href="/contact" aria-current={chemin === '/contact' ? 'page' : undefined}>Contact</a>
-      </div>
-    </nav>
+    {!sansNav && (
+      <nav class="topnav" aria-label="Navigation principale">
+        <a class="site-logo" href="/" aria-label="Tom Bigot — Accueil">
+          <span class="site-logo-icon"></span>
+          <span class="site-name">TOM BIGOT</span>
+        </a>
+        <div class="nav-group">
+          <a class={`nav-pill ${chemin === '/' ? 'active' : ''}`} href="/#projets-chronologie" aria-current={chemin === '/' ? 'page' : undefined}>Projets</a>
+          <a class={`nav-pill ${chemin === '/projectionniste' ? 'active' : ''}`} href="/projectionniste" aria-current={chemin === '/projectionniste' ? 'page' : undefined}>Projectionniste</a>
+          <a class={`nav-pill ${chemin === '/pilote-fpv' ? 'active' : ''}`} href="/pilote-fpv" aria-current={chemin === '/pilote-fpv' ? 'page' : undefined}>Pilote FPV</a>
+          <a class={`nav-pill ${chemin === '/developpement' ? 'active' : ''}`} href="/developpement" aria-current={chemin === '/developpement' ? 'page' : undefined}>Développement</a>
+          <a class={`nav-pill ${chemin === '/agenda' ? 'active' : ''}`} href="/agenda" aria-current={chemin === '/agenda' ? 'page' : undefined}>Agenda</a>
+          <a class={`nav-pill ${chemin.startsWith('/blog') ? 'active' : ''}`} href="/blog" aria-current={chemin.startsWith('/blog') ? 'page' : undefined}>Blog</a>
+          <a class={`nav-pill ${chemin === '/contact' ? 'active' : ''}`} href="/contact" aria-current={chemin === '/contact' ? 'page' : undefined}>Contact</a>
+        </div>
+      </nav>
+    )}
 
     <!-- ================= CONTENU ================= -->
     <main class="page-main" id="main-content">
@@ -80,27 +84,37 @@ const chemin = Astro.url.pathname;
       <div class="foot-brand">
         <span class="brand-nom">TOM BIGOT</span>
         <span class="foot-sep">&bull;</span>
-        <span>Portfolio & Blog</span>
+        <span>Portfolio</span>
         <span class="foot-sep">&bull;</span>
         <span>&copy; {new Date().getFullYear()}</span>
       </div>
-      <div class="foot-links">
-        <a href="/projectionniste">Projectionniste</a>
-        <span class="foot-sep">&bull;</span>
-        <a href="/pilote-fpv">Pilote FPV</a>
-        <span class="foot-sep">&bull;</span>
-        <a href="/developpement">Développement</a>
-        <span class="foot-sep">&bull;</span>
-        <a href="/agenda">Agenda</a>
-        <span class="foot-sep">&bull;</span>
-        <a href="https://github.com/TakDai" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <span class="foot-sep">&bull;</span>
-        <a href="/blog">Blog</a>
-        <span class="foot-sep">&bull;</span>
-        <a href="/contact">Contact</a>
-        <span class="foot-sep">&bull;</span>
-        <a href="/mentions-legales">Mentions</a>
-      </div>
+      {!sansNav ? (
+        <div class="foot-links">
+          <a href="/projectionniste">Projectionniste</a>
+          <span class="foot-sep">&bull;</span>
+          <a href="/pilote-fpv">Pilote FPV</a>
+          <span class="foot-sep">&bull;</span>
+          <a href="/developpement">Développement</a>
+          <span class="foot-sep">&bull;</span>
+          <a href="/agenda">Agenda</a>
+          <span class="foot-sep">&bull;</span>
+          <a href="https://github.com/TakDai" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <span class="foot-sep">&bull;</span>
+          <a href="/blog">Blog</a>
+          <span class="foot-sep">&bull;</span>
+          <a href="/contact">Contact</a>
+          <span class="foot-sep">&bull;</span>
+          <a href="/mentions-legales">Mentions</a>
+        </div>
+      ) : (
+        <div class="foot-links">
+          <a href="https://github.com/TakDai" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <span class="foot-sep">&bull;</span>
+          <a href="mailto:contact@tom-bigot.fr">contact@tom-bigot.fr</a>
+          <span class="foot-sep">&bull;</span>
+          <a href="/mentions-legales">Mentions</a>
+        </div>
+      )}
     </footer>
   </body>
 </html>
