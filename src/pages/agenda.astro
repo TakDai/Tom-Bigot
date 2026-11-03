@@ -1429,18 +1429,45 @@ const planningFpvMois: MoisFpv[] = [
     }
   });
 
-  // Restauration de session sécurisée ou détection par URL
+  // Restauration de session sécurisée ou détection par URL et sous-domaine dédié
   const rawSavedAcc = sessionStorage.getItem('tom_active_cinema_account');
   const validAccounts: ('studios' | 'cineoff' | 'admin')[] = ['studios', 'cineoff', 'admin'];
   const savedAcc = validAccounts.includes(rawSavedAcc as any) ? (rawSavedAcc as 'studios' | 'cineoff' | 'admin') : null;
 
   const urlParams = new URLSearchParams(window.location.search);
   const paramCompte = urlParams.get('compte')?.toLowerCase();
+  const currentHost = window.location.hostname.toLowerCase();
+
+  // Détection automatique de l'organisation par son sous-domaine dédié (cine-off, studios, admin)
+  let autoOrg: 'studios' | 'cineoff' | 'admin' | null = null;
+  if (
+    currentHost.includes('cine-off') ||
+    currentHost.includes('cineoff') ||
+    currentHost.includes('xn--cin-off-cya') ||
+    paramCompte === 'cineoff' ||
+    paramCompte === 'cine-off'
+  ) {
+    autoOrg = 'cineoff';
+  } else if (
+    currentHost.includes('studio') ||
+    paramCompte === 'studios' ||
+    paramCompte === 'les-studios' ||
+    paramCompte === 'lesstudios'
+  ) {
+    autoOrg = 'studios';
+  } else if (
+    currentHost.includes('admin') ||
+    currentHost.includes('superviseur') ||
+    paramCompte === 'admin' ||
+    paramCompte === 'superviseur'
+  ) {
+    autoOrg = 'admin';
+  }
 
   if (savedAcc && CINEMA_ACCOUNTS[savedAcc]) {
     connecterCompte(savedAcc);
-  } else if (paramCompte === 'cineoff' || paramCompte === 'cine-off') {
-    choisirOngletCompte('cineoff');
+  } else if (autoOrg) {
+    choisirOngletCompte(autoOrg);
     actualiserCalendrierCompte(null);
   } else {
     choisirOngletCompte('studios');

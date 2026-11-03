@@ -93,19 +93,31 @@ AddDefaultCharset UTF-8
   RewriteCond %{HTTP:X-Forwarded-Proto} !https
   RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
-  # 6.4 Sous-domaines Cabine Cinéma (cine.tom-bigot.fr & cinema.tom-bigot.fr)
+  # 6.4 Sous-domaines Organisation : Ciné-Off (cine-off, ciné-off IDN, cineoff)
+  RewriteCond %{HTTP_HOST} ^(cine-off|cineoff|xn--cin-off-cya)\.tom-bigot\.fr$ [NC]
+  RewriteRule ^$ /agenda?compte=cineoff#agenda-cinema [R=302,NE,L]
+
+  # 6.5 Sous-domaines Organisation : Cinémas Les Studios (studios, les-studios, lesstudios)
+  RewriteCond %{HTTP_HOST} ^(studios|les-studios|lesstudios)\.tom-bigot\.fr$ [NC]
+  RewriteRule ^$ /agenda?compte=studios#agenda-cinema [R=302,NE,L]
+
+  # 6.6 Sous-domaine Organisation : Administration / Superviseur (admin, superviseur)
+  RewriteCond %{HTTP_HOST} ^(admin|superviseur)\.tom-bigot\.fr$ [NC]
+  RewriteRule ^$ /agenda?compte=admin#agenda-cinema [R=302,NE,L]
+
+  # 6.7 Sous-domaines Génériques Cabine Cinéma (cine.tom-bigot.fr & cinema.tom-bigot.fr)
   RewriteCond %{HTTP_HOST} ^(cine|cinema)\.tom-bigot\.fr$ [NC]
   RewriteRule ^$ /agenda#agenda-cinema [R=302,NE,L]
 
-  # 6.5 Sous-domaines Drone FPV & Devis (fpv.tom-bigot.fr & drone.tom-bigot.fr)
+  # 6.8 Sous-domaines Drone FPV & Devis (fpv.tom-bigot.fr & drone.tom-bigot.fr)
   RewriteCond %{HTTP_HOST} ^(fpv|drone)\.tom-bigot\.fr$ [NC]
   RewriteRule ^$ /agenda#agenda-fpv [R=302,NE,L]
 
-  # 6.6 Sous-domaine Développement (dev.tom-bigot.fr)
+  # 6.9 Sous-domaine Développement (dev.tom-bigot.fr)
   RewriteCond %{HTTP_HOST} ^dev\.tom-bigot\.fr$ [NC]
   RewriteRule ^$ /developpement/ [R=302,L]
 
-  # 6.7 Sous-domaine Agenda général (agenda.tom-bigot.fr)
+  # 6.10 Sous-domaine Agenda général (agenda.tom-bigot.fr)
   RewriteCond %{HTTP_HOST} ^agenda\.tom-bigot\.fr$ [NC]
   RewriteRule ^$ /agenda/ [R=302,L]
 </IfModule>
