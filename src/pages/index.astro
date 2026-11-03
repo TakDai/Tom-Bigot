@@ -370,388 +370,400 @@ const bandeauxProjets = [
   },
 ];
 
-const epoques = [
+const periodesLigneDuTemps = [
+  { id: '2025', label: '2025', sousLabel: 'Genèse' },
+  { id: 'debut-2026', label: 'Début 2026', sousLabel: 'Lancement' },
+  { id: 'fevrier-2026', label: 'Fév. 2026', sousLabel: 'Points forts & 1ères pauses' },
+  { id: 'mars-2026', label: 'Mars 2026', sousLabel: 'Sorties de fente & bascules' },
+  { id: 'avril-2026', label: 'Avril 2026', sousLabel: 'Ajustements & tests' },
+  { id: 'aujourdhui', label: 'Aujourd\'hui', sousLabel: 'Statuts opérationnels' },
+];
+
+// Configuration pour chaque projet de sa grosse ligne verticale le long du temps
+const rubansProjets = [
   {
-    id: '2025',
-    dateLabel: '2025',
-    badge: 'GENÈSE & FONDATION',
-    titre: 'Premier chantier : structuration locale',
-    desc: 'Un seul bandeau actif sur l\'établi : la conception du portail régional indépendant Les Tourangeaux.',
-    rubans: [
-      {
-        projetId: 'lestourangeaux',
-        titre: 'LES TOURANGEAUX',
-        numero: '06',
-        logo: '/assets/logos/les-tourangeaux.svg',
-        domaine: 'Web & Communauté',
-        statutType: 'phase',
-        etapeDate: '2025',
-        etapeTitre: 'Architecture & Collecte locale',
-        etapeDesc: 'Conception de la plateforme web pour valoriser les artisans et créateurs de Tours.',
-        badgeTissu: 'PREMIER BANDEAU ACTIF',
-        lien: '/projets/lestourangeaux',
-        github: 'https://github.com/TakDai',
+    id: 'multi-motors',
+    numero: '01',
+    titre: 'MULTI-MOTORS',
+    sousTitre: 'Bancs d\'essai & télémétrie moteur',
+    domaine: 'Électronique & Embarqué',
+    logo: '/assets/logos/multi-motors.png',
+    lien: '/projets/multi-motors',
+    github: 'https://github.com/TakDai/Multi-Motors',
+    segments: {
+      '2025': { etat: 'vide' },
+      'debut-2026': {
+        etat: 'debut',
+        titre: 'Conception mécanique',
+        desc: 'Dessin 3D du support & calibration capteurs.',
       },
-    ],
-    fentesPause: [],
+      'fevrier-2026': {
+        etat: 'temps_fort',
+        titre: 'Mesure 32 kHz',
+        desc: 'Couplage direct à 32 kHz au gramme près.',
+      },
+      'mars-2026': {
+        etat: 'fente_pause',
+        titre: 'Validation thermique ESC',
+        desc: 'Pause : échauffement MOSFETs sous 80A.',
+      },
+      'avril-2026': {
+        etat: 'sortie_phase',
+        titre: 'Optimisation timing & PID',
+        desc: 'Ajustement injection brushless.',
+      },
+      'aujourdhui': {
+        etat: 'statut',
+        titre: 'Essais en vol & Validation',
+        desc: 'Intégration sur châssis de vol réel.',
+      },
+    },
   },
   {
-    id: 'debut-2026',
-    dateLabel: 'Début 2026',
-    badge: 'MULTIPLICATION DES CHANTIERS',
-    titre: 'Les rubans descendent et s\'ajoutent en parallèle',
-    desc: 'Lancement simultané des projets d\'électronique embarquée, robotique modulaire, monitoring bare-metal et FPV.',
-    rubans: [
-      {
-        projetId: 'multi-motors',
-        titre: 'MULTI-MOTORS',
-        numero: '01',
-        logo: '/assets/logos/multi-motors.png',
-        domaine: 'Électronique & Embarqué',
-        statutType: 'phase',
-        etapeDate: 'Début 2026',
-        etapeTitre: 'Conception mécanique',
-        etapeDesc: 'Dessin 3D du support de poussée et calibration des capteurs dynamométriques.',
-        badgeTissu: 'NOUVEAU BANDEAU AJOUTÉ',
-        lien: '/projets/multi-motors',
-        github: 'https://github.com/TakDai/Multi-Motors',
+    id: 'fix-my-drone',
+    numero: '02',
+    titre: 'FIX-MY-DRONE',
+    sousTitre: 'Diagnostic & réparation FPV',
+    domaine: 'Drones & Hardware',
+    logo: '/assets/logos/fix-my-drone.svg',
+    lien: '/projets/fix-my-drone',
+    github: 'https://github.com/TakDai/fix-my-drone',
+    segments: {
+      '2025': { etat: 'vide' },
+      'debut-2026': {
+        etat: 'debut',
+        titre: 'Cartographie des pannes',
+        desc: 'Dépouillement des logs blackbox.',
       },
-      {
-        projetId: 'fix-my-drone',
-        titre: 'FIX-MY-DRONE',
-        numero: '02',
-        logo: '/assets/logos/fix-my-drone.svg',
-        domaine: 'Drones & Hardware',
-        statutType: 'phase',
-        etapeDate: 'Début 2026',
-        etapeTitre: 'Cartographie des pannes',
-        etapeDesc: 'Dépouillement des logs blackbox et identification des causes d\'avarie récurrentes.',
-        badgeTissu: 'NOUVEAU BANDEAU AJOUTÉ',
-        lien: '/projets/fix-my-drone',
-        github: 'https://github.com/TakDai/fix-my-drone',
+      'fevrier-2026': {
+        etat: 'actif',
+        titre: 'Bancs de test régulateurs',
+        desc: 'Analyse des chutes de tension 5V/9V.',
       },
-      {
-        projetId: 'openbots',
-        titre: 'OPENBOTS',
-        numero: '03',
-        logo: '/assets/logos/openbots.png',
-        domaine: 'Robotique & Open Source',
-        statutType: 'phase',
-        etapeDate: 'Début 2026',
-        etapeTitre: 'Modélisation CAD modulaire',
-        etapeDesc: 'Conception d\'un châssis polyvalent imprimable en 3D avec microcontrôleur ouvert.',
-        badgeTissu: 'NOUVEAU BANDEAU AJOUTÉ',
-        lien: '/projets/openbots',
-        github: 'https://github.com/TakDai/openbots',
+      'mars-2026': {
+        etat: 'temps_fort',
+        titre: 'Sauvetage STM32',
+        desc: 'Protocole pour ressusciter les MCU brickés.',
       },
-      {
-        projetId: 'superviseur',
-        titre: 'SUPERVISEUR',
-        numero: '04',
-        logo: '/assets/logos/superviseur.svg',
-        domaine: 'DevOps & Sécurité',
-        statutType: 'phase',
-        etapeDate: 'Début 2026',
-        etapeTitre: 'Conception agents légers',
-        etapeDesc: 'Développement de micro-sondes système en C/Node sans surcharge CPU.',
-        badgeTissu: 'NOUVEAU BANDEAU AJOUTÉ',
-        lien: '/projets/superviseur',
-        github: 'https://github.com/TakDai/Superviseur',
+      'avril-2026': {
+        etat: 'fente_pause',
+        titre: 'Rédaction protocoles',
+        desc: 'Pause des soudures pour documenter.',
       },
-      {
-        projetId: 'lestourangeaux',
-        titre: 'LES TOURANGEAUX',
-        numero: '06',
-        logo: '/assets/logos/les-tourangeaux.svg',
-        domaine: 'Web & Communauté',
-        statutType: 'temps_fort',
-        etapeDate: 'Début 2026',
-        etapeTitre: '150+ initiatives référencées',
-        etapeDesc: 'Mise en ligne et adoption rapide par le tissu local sans publicité payante.',
-        badgeTissu: '★ POINT FORT BRODÉ',
-        lien: '/projets/lestourangeaux',
-        github: 'https://github.com/TakDai',
+      'aujourdhui': {
+        etat: 'sortie_statut',
+        titre: 'Plateforme en dev',
+        desc: 'Outil interactif de diagnostic.',
       },
-    ],
-    fentesPause: [],
+    },
   },
   {
-    id: 'fevrier-2026',
-    dateLabel: 'Février 2026',
-    badge: 'POINTS FORTS & RETRAIT EN FENTE',
-    titre: 'Écussons brodés ★ & rubans qui rentrent dans une fente',
-    desc: 'Mesure 32 kHz et bascule bare-metal en points forts. OpenBots et Les Tourangeaux s\'interrompent : leurs rubans plongent et disparaissent dans une fente.',
-    rubans: [
-      {
-        projetId: 'multi-motors',
-        titre: 'MULTI-MOTORS',
-        numero: '01',
-        logo: '/assets/logos/multi-motors.png',
-        domaine: 'Électronique & Embarqué',
-        statutType: 'temps_fort',
-        etapeDate: 'Fév. 2026',
-        etapeTitre: 'Mesure télémétrique 32 kHz',
-        etapeDesc: 'Couplage direct à 32 kHz pour mesurer le rendement poussée/ampérage au gramme près.',
-        badgeTissu: '★ POINT FORT BRODÉ',
-        lien: '/projets/multi-motors',
-        github: 'https://github.com/TakDai/Multi-Motors',
+    id: 'openbots',
+    numero: '03',
+    titre: 'OPENBOTS',
+    sousTitre: 'Robotique modulaire 3D',
+    domaine: 'Robotique & Open Source',
+    logo: '/assets/logos/openbots.png',
+    lien: '/projets/openbots',
+    github: 'https://github.com/TakDai/openbots',
+    segments: {
+      '2025': { etat: 'vide' },
+      'debut-2026': {
+        etat: 'debut',
+        titre: 'Modélisation modulaire',
+        desc: 'Châssis 3D polyvalent avec MCU ouvert.',
       },
-      {
-        projetId: 'superviseur',
-        titre: 'SUPERVISEUR',
-        numero: '04',
-        logo: '/assets/logos/superviseur.svg',
-        domaine: 'DevOps & Sécurité',
-        statutType: 'temps_fort',
-        etapeDate: 'Fév. 2026',
-        etapeTitre: 'Bascule bare-metal 100%',
-        etapeDesc: 'Migration réussie des serveurs physiques sous surveillance temps réel sans tiers cloud.',
-        badgeTissu: '★ POINT FORT BRODÉ',
-        lien: '/projets/superviseur',
-        github: 'https://github.com/TakDai/Superviseur',
+      'fevrier-2026': {
+        etat: 'fente_pause',
+        titre: 'Rupture PETG',
+        desc: 'Casse pignons, passage filament carbone.',
       },
-      {
-        projetId: '127il',
-        titre: '127IL',
-        numero: '05',
-        logo: '/assets/logos/127il.svg',
-        domaine: 'Live & Partage',
-        statutType: 'temps_fort',
-        etapeDate: 'Fév. 2026',
-        etapeTitre: 'Marathon live 6h sans coupure',
-        etapeDesc: 'Session continue de soudure CMS, programmation STM32 et questions/réponses en direct.',
-        badgeTissu: '★ POINT FORT BRODÉ',
-        lien: '/projets/127il',
-        github: 'https://github.com/TakDai/127il',
+      'mars-2026': {
+        etat: 'sortie_temps_fort',
+        titre: 'Roulage autonome',
+        desc: 'Premier cycle autonome réussi.',
       },
-      {
-        projetId: 'tete-de-piaf',
-        titre: 'TÊTE DE PIAF',
-        numero: '10',
-        logo: '/assets/logos/tdp.png',
-        domaine: 'Création & Graphisme',
-        statutType: 'temps_fort',
-        etapeDate: 'Fév. 2026',
-        etapeTitre: 'Charte vectorielle complète',
-        etapeDesc: 'Finalisation des 10 logos vectoriels signature et harmonisation typographique.',
-        badgeTissu: '★ POINT FORT BRODÉ',
-        lien: '/projets/tete-de-piaf',
-        github: 'https://github.com/TakDai/tete-de-piaf',
+      'avril-2026': {
+        etat: 'actif',
+        titre: 'Plans & STL ouverts',
+        desc: 'Préparation documentation publique.',
       },
-    ],
-    fentesPause: [
-      {
-        projetId: 'openbots',
-        titre: 'OPENBOTS',
-        numero: '03',
-        logo: '/assets/logos/openbots.png',
-        domaine: 'Robotique & Open Source',
-        date: 'Fév. 2026',
-        titrePause: 'Tests de rupture PETG',
-        descPause: 'Arrêt de l\'assemblage après casse de pignons, passage au filament carbone.',
+      'aujourdhui': {
+        etat: 'statut',
+        titre: 'Plans & Code ouverts',
+        desc: 'Prêt pour reproduction atelier.',
       },
-      {
-        projetId: 'lestourangeaux',
-        titre: 'LES TOURANGEAUX',
-        numero: '06',
-        logo: '/assets/logos/les-tourangeaux.svg',
-        domaine: 'Web & Communauté',
-        date: 'Fév. 2026',
-        titrePause: 'Transition vers le hardware',
-        descPause: 'Mise en veille du dev web pour consacrer l\'hiver à l\'atelier physique.',
-      },
-    ],
+    },
   },
   {
-    id: 'mars-2026',
-    dateLabel: 'Mars 2026',
-    badge: 'RENAISSANCES & NOUVEAUX RETRAITS',
-    titre: 'Rubans qui ressortent de fente & nouveaux départs',
-    desc: 'OpenBots et Les Tourangeaux réémergent d\'une fente. Multi-Motors et Superviseur plongent dans la fente pour leurs validations thermiques et sécurité.',
-    rubans: [
-      {
-        projetId: 'openbots',
-        titre: 'OPENBOTS',
-        numero: '03',
-        logo: '/assets/logos/openbots.png',
-        domaine: 'Robotique & Open Source',
-        statutType: 'temps_fort_emergent',
-        etapeDate: 'Mars 2026',
-        etapeTitre: 'Premier roulage autonome',
-        etapeDesc: 'Validation physique du cycle évitement d\'obstacles et navigation autonome en intérieur.',
-        badgeTissu: '★ RESSORT DE FENTE & POINT FORT',
-        lien: '/projets/openbots',
-        github: 'https://github.com/TakDai/openbots',
+    id: 'superviseur',
+    numero: '04',
+    titre: 'SUPERVISEUR',
+    sousTitre: 'Monitoring bare-metal',
+    domaine: 'DevOps & Sécurité',
+    logo: '/assets/logos/superviseur.svg',
+    lien: '/projets/superviseur',
+    github: 'https://github.com/TakDai/Superviseur',
+    segments: {
+      '2025': { etat: 'vide' },
+      'debut-2026': {
+        etat: 'debut',
+        titre: 'Agents légers C/Node',
+        desc: 'Micro-sondes système sans overhead CPU.',
       },
-      {
-        projetId: 'fix-my-drone',
-        titre: 'FIX-MY-DRONE',
-        numero: '02',
-        logo: '/assets/logos/fix-my-drone.svg',
-        domaine: 'Drones & Hardware',
-        statutType: 'temps_fort',
-        etapeDate: 'Mars 2026',
-        etapeTitre: 'Sauvetage STM32 & Filtres Notch',
-        etapeDesc: 'Mise au point d\'un protocole pour ressusciter les processeurs de vol brickés.',
-        badgeTissu: '★ POINT FORT BRODÉ',
-        lien: '/projets/fix-my-drone',
-        github: 'https://github.com/TakDai/fix-my-drone',
+      'fevrier-2026': {
+        etat: 'temps_fort',
+        titre: 'Bascule bare-metal 100%',
+        desc: 'Serveurs physiques sous surveillance totale.',
       },
-      {
-        projetId: 'komeon',
-        titre: 'KOMEON',
-        numero: '08',
-        logo: '/assets/logos/komeon.png',
-        domaine: 'Réseaux & Protocoles',
-        statutType: 'temps_fort',
-        etapeDate: 'Mars 2026',
-        etapeTitre: 'Latence mesurée < 12 ms',
-        etapeDesc: 'Validation des tests de charge sous fort trafic avec une latence quasi imperceptible.',
-        badgeTissu: '★ POINT FORT BRODÉ',
-        lien: '/projets/komeon',
-        github: 'https://github.com/TakDai/komeon',
+      'mars-2026': {
+        etat: 'fente_pause',
+        titre: 'Durcissement réseau',
+        desc: 'Pause des features pour blinder TLS.',
       },
-      {
-        projetId: 'inskin',
-        titre: 'INSKIN',
-        numero: '09',
-        logo: '/assets/logos/inskin.png',
-        domaine: 'Design & Interface',
-        statutType: 'temps_fort',
-        etapeDate: 'Mars 2026',
-        etapeTitre: 'Système tactile haute réactivité',
-        etapeDesc: 'Mise au point de composants d\'interface répondant instantanément aux micro-gestes.',
-        badgeTissu: '★ POINT FORT BRODÉ',
-        lien: '/projets/inskin',
-        github: 'https://github.com/TakDai/Inskin',
+      'avril-2026': {
+        etat: 'sortie_phase',
+        titre: 'Mise en exploitation',
+        desc: 'Déploiement sondes périphériques.',
       },
-      {
-        projetId: 'lestourangeaux',
-        titre: 'LES TOURANGEAUX',
-        numero: '06',
-        logo: '/assets/logos/les-tourangeaux.svg',
-        domaine: 'Web & Communauté',
-        statutType: 'phase_emergente',
-        etapeDate: 'Mars 2026',
-        etapeTitre: 'Nouveau flux éditorial',
-        etapeDesc: 'Refonte complète du moteur de publication et des flux automatisés.',
-        badgeTissu: '↑ RESSORT DE FENTE',
-        lien: '/projets/lestourangeaux',
-        github: 'https://github.com/TakDai',
+      'aujourdhui': {
+        etat: 'statut',
+        titre: 'En production 24/7',
+        desc: 'Supervision continue du homelab.',
       },
-    ],
-    fentesPause: [
-      {
-        projetId: 'multi-motors',
-        titre: 'MULTI-MOTORS',
-        numero: '01',
-        logo: '/assets/logos/multi-motors.png',
-        domaine: 'Électronique & Embarqué',
-        date: 'Mars 2026',
-        titrePause: 'Validation thermique ESC',
-        descPause: 'Interruption des tests pour mesurer l\'échauffement des MOSFETs sous 80A continus.',
-      },
-      {
-        projetId: 'superviseur',
-        titre: 'SUPERVISEUR',
-        numero: '04',
-        logo: '/assets/logos/superviseur.svg',
-        domaine: 'DevOps & Sécurité',
-        date: 'Mars 2026',
-        titrePause: 'Durcissement réseau & TLS',
-        descPause: 'Pause des nouvelles features pour blinder la cryptographie, pare-feu et clés SSH.',
-      },
-      {
-        projetId: 'tete-de-piaf',
-        titre: 'TÊTE DE PIAF',
-        numero: '10',
-        logo: '/assets/logos/tdp.png',
-        domaine: 'Création & Graphisme',
-        date: 'Mars 2026',
-        titrePause: 'Optimisation SVG & chargement',
-        descPause: 'Nettoyage des nœuds vectoriels pour minimiser le poids au kilo-octet près.',
-      },
-    ],
+    },
   },
   {
-    id: 'avril-2026',
-    dateLabel: 'Avril 2026',
-    badge: 'OPTIMISATIONS & DERNIÈRES FENTES',
-    titre: 'Multi-Motors réémerge • Dernières fentes de documentation',
-    desc: 'Multi-Motors ressort de sa fente pour régler les timings d\'injection brushless. Fix-My-Drone et Komeon rentrent en fente pour documenter et refactoriser.',
-    rubans: [
-      {
-        projetId: 'multi-motors',
-        titre: 'MULTI-MOTORS',
-        numero: '01',
-        logo: '/assets/logos/multi-motors.png',
-        domaine: 'Électronique & Embarqué',
-        statutType: 'phase_emergente',
-        etapeDate: 'Avril 2026',
-        etapeTitre: 'Optimisation timing & PID',
-        etapeDesc: 'Ajustement des timings d\'injection brushless selon le pas d\'hélice.',
-        badgeTissu: '↑ RESSORT DE FENTE',
-        lien: '/projets/multi-motors',
-        github: 'https://github.com/TakDai/Multi-Motors',
+    id: '127il',
+    numero: '05',
+    titre: '127IL',
+    sousTitre: 'Live streaming atelier',
+    domaine: 'Live & Partage',
+    logo: '/assets/logos/127il.svg',
+    lien: '/projets/127il',
+    github: 'https://github.com/TakDai/127il',
+    segments: {
+      '2025': { etat: 'vide' },
+      'debut-2026': {
+        etat: 'debut',
+        titre: 'Installation régie atelier',
+        desc: 'Caméras zénithales et microscopes.',
       },
-    ],
-    fentesPause: [
-      {
-        projetId: 'fix-my-drone',
-        titre: 'FIX-MY-DRONE',
-        numero: '02',
-        logo: '/assets/logos/fix-my-drone.svg',
-        domaine: 'Drones & Hardware',
-        date: 'Avril 2026',
-        titrePause: 'Rédaction des protocoles',
-        descPause: 'Pause des soudures pour documenter méthodiquement chaque étape de diagnostic.',
+      'fevrier-2026': {
+        etat: 'temps_fort',
+        titre: 'Live 6h sans coupure',
+        desc: 'Session continue soudure CMS & STM32.',
       },
-      {
-        projetId: 'komeon',
-        titre: 'KOMEON',
-        numero: '08',
-        logo: '/assets/logos/komeon.png',
-        domaine: 'Réseaux & Protocoles',
-        date: 'Avril 2026',
-        titrePause: 'Nettoyage des dépendances',
-        descPause: 'Chantier de refactorisation pour supprimer les bibliothèques superflues.',
+      'mars-2026': {
+        etat: 'actif',
+        titre: 'Optimisation pipeline',
+        desc: 'Zéro frame perdue en encodage local.',
       },
-      {
-        projetId: 'inskin',
-        titre: 'INSKIN',
-        numero: '09',
-        logo: '/assets/logos/inskin.png',
-        domaine: 'Design & Interface',
-        date: 'Avril 2026',
-        titrePause: 'Fusion avec Tête de Piaf',
-        descPause: 'Mise en pause des tests d\'interface pour converger avec l\'identité visuelle générale.',
+      'avril-2026': {
+        etat: 'fente_pause',
+        titre: 'Refonte éclairage',
+        desc: 'Pause lives pour extraction fumées.',
       },
-    ],
+      'aujourdhui': {
+        etat: 'sortie_statut',
+        titre: 'Sessions régulières',
+        desc: 'Diffusions techniques sur Twitch.',
+      },
+    },
   },
   {
-    id: 'aujourdhui',
-    dateLabel: 'Aujourd\'hui',
-    badge: 'STATUT OPÉRATIONNEL GLOBAL',
-    titre: 'Tous les rubans déployés & en production',
-    desc: 'L\'ensemble des projets a complété sa trajectoire : systèmes en production 24/7, plateformes actives et dépôts ouverts.',
-    rubans: bandeauxProjets.map((p) => {
-      const der = p.etapes[p.etapes.length - 1];
-      return {
-        projetId: p.id,
-        titre: p.titre,
-        numero: p.numero,
-        logo: p.logo,
-        domaine: p.domaine,
-        statutType: 'statut',
-        etapeDate: der.date,
-        etapeTitre: der.titre,
-        etapeDesc: der.desc,
-        badgeTissu: '● OPÉRATIONNEL',
-        lien: p.lien,
-        github: p.github,
-      };
-    }),
-    fentesPause: [],
+    id: 'lestourangeaux',
+    numero: '06',
+    titre: 'LES TOURANGEAUX',
+    sousTitre: 'Portail régional indépendant',
+    domaine: 'Web & Communauté',
+    logo: '/assets/logos/les-tourangeaux.svg',
+    lien: '/projets/lestourangeaux',
+    github: 'https://github.com/TakDai',
+    segments: {
+      '2025': {
+        etat: 'debut',
+        titre: 'Architecture & Collecte',
+        desc: 'Genèse : valorisation des artisans locaux.',
+      },
+      'debut-2026': {
+        etat: 'temps_fort',
+        titre: '150+ initiatives',
+        desc: 'Adoption rapide par le tissu tourangeau.',
+      },
+      'fevrier-2026': {
+        etat: 'fente_pause',
+        titre: 'Transition hardware',
+        desc: 'Pause dev web pour l\'atelier physique.',
+      },
+      'mars-2026': {
+        etat: 'sortie_phase',
+        titre: 'Flux éditorial v2',
+        desc: 'Moteur publication automatisé.',
+      },
+      'avril-2026': {
+        etat: 'actif',
+        titre: 'CDN & Mise à l\'échelle',
+        desc: 'Déploiement cluster haute disponibilité.',
+      },
+      'aujourdhui': {
+        etat: 'statut',
+        titre: 'En ligne & autonome',
+        desc: 'Accessible sur lestourangeaux.fr.',
+      },
+    },
+  },
+  {
+    id: 'pensee-nocturne',
+    numero: '07',
+    titre: 'PENSÉE NOCTURNE',
+    sousTitre: 'Essais sur la technique',
+    domaine: 'Édition & Écriture',
+    logo: '/assets/logos/pensee-nocturne.png',
+    lien: '/projets/pensee-nocturne',
+    github: 'https://github.com/TakDai/Pensee-nocturne',
+    segments: {
+      '2025': { etat: 'vide' },
+      'debut-2026': {
+        etat: 'debut',
+        titre: 'Genèse des écrits',
+        desc: 'Prise de notes nocturnes sur l\'atelier.',
+      },
+      'fevrier-2026': {
+        etat: 'temps_fort',
+        titre: 'Manifestes atelier',
+        desc: 'Publication du texte sur l\'indépendance.',
+      },
+      'mars-2026': {
+        etat: 'fente_pause',
+        titre: 'Maturation textes',
+        desc: 'Pause publication pour relecture à froid.',
+      },
+      'avril-2026': {
+        etat: 'sortie_phase',
+        titre: 'Typographie & papier',
+        desc: 'Calibrage contrastes lecture reposante.',
+      },
+      'aujourdhui': {
+        etat: 'statut',
+        titre: 'Publications actives',
+        desc: 'Articles rédigés à tête reposée.',
+      },
+    },
+  },
+  {
+    id: 'komeon',
+    numero: '08',
+    titre: 'KOMEON',
+    sousTitre: 'Websocket & streaming binaire',
+    domaine: 'Réseaux & Protocoles',
+    logo: '/assets/logos/komeon.png',
+    lien: '/projets/komeon',
+    github: 'https://github.com/TakDai/komeon',
+    segments: {
+      '2025': { etat: 'vide' },
+      'debut-2026': {
+        etat: 'debut',
+        titre: 'Protocole websocket',
+        desc: 'Format binaire temps réel épuré.',
+      },
+      'fevrier-2026': {
+        etat: 'actif',
+        titre: 'Compression paquets',
+        desc: 'Optimisation de la bande passante.',
+      },
+      'mars-2026': {
+        etat: 'temps_fort',
+        titre: 'Latence < 12 ms',
+        desc: 'Tests de charge sous fort trafic.',
+      },
+      'avril-2026': {
+        etat: 'fente_pause',
+        titre: 'Nettoyage dépendances',
+        desc: 'Refactorisation sans libs tierces.',
+      },
+      'aujourdhui': {
+        etat: 'sortie_statut',
+        titre: 'Prototype prêt',
+        desc: 'Architecture temps réel validée.',
+      },
+    },
+  },
+  {
+    id: 'inskin',
+    numero: '09',
+    titre: 'INSKIN',
+    sousTitre: 'Design d\'interfaces & micro-gestes',
+    domaine: 'Design & Interface',
+    logo: '/assets/logos/inskin.png',
+    lien: '/projets/inskin',
+    github: 'https://github.com/TakDai/Inskin',
+    segments: {
+      '2025': { etat: 'vide' },
+      'debut-2026': {
+        etat: 'debut',
+        titre: 'Micro-interactions CSS',
+        desc: 'Animations réactives sans framework lourd.',
+      },
+      'fevrier-2026': {
+        etat: 'actif',
+        titre: 'Design tokens sobres',
+        desc: 'Système de styles monochrome strict.',
+      },
+      'mars-2026': {
+        etat: 'temps_fort',
+        titre: 'Composants haute réponse',
+        desc: 'Réactivité tactile instantanée.',
+      },
+      'avril-2026': {
+        etat: 'fente_pause',
+        titre: 'Convergence TDP',
+        desc: 'Pause pour alignement charte vectorielle.',
+      },
+      'aujourdhui': {
+        etat: 'sortie_statut',
+        titre: 'En intégration',
+        desc: 'Composants déployés sur les projets.',
+      },
+    },
+  },
+  {
+    id: 'tete-de-piaf',
+    numero: '10',
+    titre: 'TÊTE DE PIAF',
+    sousTitre: 'Laboratoire visuel & logos',
+    domaine: 'Création & Graphisme',
+    logo: '/assets/logos/tdp.png',
+    lien: '/projets/tete-de-piaf',
+    github: 'https://github.com/TakDai/tete-de-piaf',
+    segments: {
+      '2025': { etat: 'vide' },
+      'debut-2026': {
+        etat: 'debut',
+        titre: 'Esquisses noir & blanc',
+        desc: 'Recherche de symboles tranchés.',
+      },
+      'fevrier-2026': {
+        etat: 'temps_fort',
+        titre: 'Charte 10 logos',
+        desc: 'Finalisation des 10 logos vectoriels.',
+      },
+      'mars-2026': {
+        etat: 'fente_pause',
+        titre: 'Optimisation SVG',
+        desc: 'Nettoyage des nœuds au kilo-octet près.',
+      },
+      'avril-2026': {
+        etat: 'sortie_phase',
+        titre: 'Export multi-formats',
+        desc: 'Génération assets web & print.',
+      },
+      'aujourdhui': {
+        etat: 'statut',
+        titre: 'Identité déployée',
+        desc: 'Actif sur l\'ensemble du portfolio.',
+      },
+    },
   },
 ];
 ---
@@ -786,8 +798,8 @@ const epoques = [
       </p>
 
       <div class="hero-actions">
-        <a href="#chronologie-verticale" class="btn-noir btn-hero">
-          Descendre dans la chronologie &darr;
+        <a href="#chronologie-rubans" class="btn-noir btn-hero">
+          Descendre le temps &darr;
         </a>
         <a
           href="https://github.com/TakDai"
@@ -807,254 +819,292 @@ const epoques = [
     </div>
 
     <!-- Indicateur de défilement vers le bas -->
-    <a href="#chronologie-verticale" class="scroll-cue" aria-label="Découvrir la chronologie en rubans">
-      <span class="scroll-label">CHRONOLOGIE &bull; RUBANS VERTICAUX</span>
+    <a href="#chronologie-rubans" class="scroll-cue" aria-label="Découvrir les rubans verticaux du temps">
+      <span class="scroll-label">BANDEAUX VERTICAUX DU TEMPS</span>
       <span class="scroll-arrow">&darr;</span>
     </a>
   </section>
 
-  <!-- ================= SECTION CHRONOLOGIE VERTICALE AU SCROLL ================= -->
-  <section class="chrono-verticale-section" id="chronologie-verticale">
-    <!-- Barre temporelle sticky en haut : navigation directe dans les dates -->
-    <nav class="sticky-time-bar" aria-label="Navigation chronologique des dates">
-      <div class="time-bar-inner">
-        <span class="time-bar-legend">AXE CHRONOLOGIQUE :</span>
-        <div class="time-bar-pills">
-          {epoques.map((ep, idx) => (
-            <a
-              href={`#epoque-${ep.id}`}
-              class={`time-pill ${idx === 0 ? 'is-active' : ''}`}
-              data-target={`epoque-${ep.id}`}
-            >
-              <span class="time-pill-date">{ep.dateLabel}</span>
-              <span class="time-pill-count">
-                {ep.rubans.length} ruban{ep.rubans.length > 1 ? 's' : ''}
-                {ep.fentesPause.length > 0 && ` &bull; ${ep.fentesPause.length} fente${ep.fentesPause.length > 1 ? 's' : ''}`}
-              </span>
-            </a>
-          ))}
+  <!-- ================= SECTION BANDEAUX VERTICAUX (GROSSES LIGNES DU TEMPS) ================= -->
+  <section class="chrono-table-section" id="chronologie-rubans">
+    <!-- En-tête explicatif de la section -->
+    <div class="chrono-table-intro">
+      <div class="intro-left">
+        <span class="etiquette">AXE VERTICAL = TEMPS &bull; 10 BANDEAUX PARALLÈLES</span>
+        <h2 class="intro-titre">CHRONOLOGIE PAR BANDEAUX VERTICAUX</h2>
+        <p class="intro-desc">
+          Chaque projet possède son propre <strong>bandeau vertical (une grosse ligne continue de tissu)</strong> qui descend le long du temps. Le ruban <strong>commence</strong> à sa date de début, affiche ses <strong>points forts ★</strong>, et lors d'une pause, <strong>rentre physiquement dans une fente</strong> avant d'en ressortir à la reprise.
+        </p>
+      </div>
+
+      <div class="intro-legende">
+        <div class="legende-item">
+          <span class="leg-tissu-echantillon"></span>
+          <span>Bandeau Actif</span>
+        </div>
+        <div class="legende-item">
+          <span class="leg-patch-echantillon">&#9733;</span>
+          <span>Écusson Point Fort</span>
+        </div>
+        <div class="legende-item">
+          <span class="leg-fente-echantillon"></span>
+          <span>Fente R&amp;D (Entrée / Sortie)</span>
         </div>
       </div>
-    </nav>
+    </div>
 
-    <!-- Déroulé vertical des époques au fil du scroll -->
-    <div class="epoques-vertical-flow">
-      {epoques.map((epoque, epIndex) => (
-        <section class="epoque-vertical-slice" id={`epoque-${epoque.id}`}>
-          <!-- En-tête de date de la période -->
-          <header class="epoque-header-block">
-            <div class="epoque-date-badge-row">
-              <span class="epoque-tag">{epoque.badge}</span>
-              <span class="epoque-year">{epoque.dateLabel}</span>
+    <!-- La grande grille de temps : le scroll vertical descend le temps -->
+    <div class="timeline-viewport-scroll">
+      <div class="timeline-matrix-board">
+        <!-- Colonne d'axe du temps (à gauche, sticky) -->
+        <aside class="time-axis-col">
+          <div class="axis-header-placeholder">
+            <span class="axis-title">TEMPS &darr;</span>
+          </div>
+          {periodesLigneDuTemps.map((p) => (
+            <div class="time-axis-marker" id={`date-marker-${p.id}`}>
+              <span class="axis-year">{p.label}</span>
+              <span class="axis-sub">{p.sousLabel}</span>
+              <div class="axis-notch"></div>
             </div>
-            <h2 class="epoque-titre">{epoque.titre}</h2>
-            <p class="epoque-desc">{epoque.desc}</p>
-          </header>
+          ))}
+        </aside>
 
-          <!-- Zone centrale : les rubans actifs descendent verticalement côte à côte -->
-          <div class="rubans-active-stage">
-            <div class="rubans-row">
-              {epoque.rubans.map((r) => {
-                const isTempsFort = r.statutType === 'temps_fort' || r.statutType === 'temps_fort_emergent';
-                const isEmergent = r.statutType === 'phase_emergente' || r.statutType === 'temps_fort_emergent';
-                const isStatut = r.statutType === 'statut';
+        <!-- Les 10 colonnes de projet côte à côte, traversées par leurs bandeaux verticaux -->
+        <div class="projects-lanes-container">
+          {rubansProjets.map((projet) => (
+            <div class="project-lane" id={`col-${projet.id}`}>
+              <!-- En-tête de la colonne du projet -->
+              <header class="lane-header">
+                <span class="lane-num">{projet.numero}</span>
+                <div class="lane-logo">
+                  <img src={projet.logo} alt={`Logo ${projet.titre}`} loading="lazy" />
+                </div>
+                <h3 class="lane-title">{projet.titre}</h3>
+                <span class="lane-domain">{projet.domaine}</span>
+              </header>
 
-                return (
-                  <article class={`ruban-vertical-band ${isTempsFort ? 'has-temps-fort' : ''} ${isStatut ? 'is-statut-final' : ''}`}>
-                    <!-- Si le ruban ressort d'une fente à cette date -->
-                    {isEmergent && (
-                      <div class="ruban-fente-emergence-top" title="Le ruban ressort de la fente">
-                        <div class="fente-levre-haut"></div>
-                        <div class="fente-abyme-shadow">
-                          <span class="fente-indic">&uarr; RESSORT DE LA FENTE &uarr;</span>
-                        </div>
-                        <div class="fente-levre-bas"></div>
-                      </div>
-                    )}
+              <!-- Rail vertical où coule le bandeau du projet -->
+              <div class="lane-ribbon-track">
+                {periodesLigneDuTemps.map((periode) => {
+                  const seg = projet.segments[periode.id] || { etat: 'vide' };
+                  const isVide = seg.etat === 'vide';
+                  const isDebut = seg.etat === 'debut';
+                  const isActif = seg.etat === 'actif';
+                  const isTempsFort = seg.etat === 'temps_fort';
+                  const isFentePause = seg.etat === 'fente_pause';
+                  const isSortiePhase = seg.etat === 'sortie_phase';
+                  const isSortieTempsFort = seg.etat === 'sortie_temps_fort';
+                  const isSortieStatut = seg.etat === 'sortie_statut';
+                  const isStatut = seg.etat === 'statut';
 
-                    <!-- Suspension du ruban : rivets et barre métallique -->
-                    {!isEmergent && (
-                      <div class="ruban-suspension-tete" aria-hidden="true">
-                        <span class="rivet-oeillet"></span>
-                        <div class="tringle-fil"></div>
-                        <span class="rivet-oeillet"></span>
-                      </div>
-                    )}
-
-                    <!-- Corps du ruban textile -->
-                    <div class="ruban-tissu-surface">
-                      <!-- Surpiqûres de couture le long des liserés du ruban -->
-                      <div class="surpiqure-bord-gauche" aria-hidden="true"></div>
-                      <div class="surpiqure-bord-droite" aria-hidden="true"></div>
-
-                      <!-- En-tête imprimé sur le ruban -->
-                      <div class="ruban-imprime-head">
-                        <div class="ruban-meta-row">
-                          <span class="ruban-num">{r.numero}</span>
-                          <span class="ruban-domaine">{r.domaine}</span>
-                        </div>
-
-                        <div class="ruban-identite">
-                          <div class="ruban-logo-box">
-                            <img src={r.logo} alt={`Logo ${r.titre}`} loading="lazy" />
-                          </div>
-                          <div>
-                            <h3 class="ruban-nom">{r.titre}</h3>
-                            <span class="ruban-badge-tissu">{r.badgeTissu}</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Contenu de l'étape sur le tissu -->
-                      {isTempsFort ? (
-                        <div class="ecusson-patch-noir">
-                          <div class="ecusson-fil-bordure">
-                            <div class="ecusson-top">
-                              <span class="ecusson-etoile">&#9733;</span>
-                              <span class="ecusson-mention">POINT FORT</span>
-                              <span class="ecusson-date">{r.etapeDate}</span>
-                            </div>
-                            <h4 class="ecusson-titre">{r.etapeTitre}</h4>
-                            <p class="ecusson-texte">{r.etapeDesc}</p>
-                          </div>
-                        </div>
-                      ) : (
-                        <div class="etape-imprimee-tissu">
-                          <div class="etape-top">
-                            <span class="etape-bullet">&#9632;</span>
-                            <span class="etape-date">{r.etapeDate}</span>
-                          </div>
-                          <h4 class="etape-titre">{r.etapeTitre}</h4>
-                          <p class="etape-texte">{r.etapeDesc}</p>
+                  return (
+                    <div class={`ribbon-cell-block cell-${seg.etat}`} data-periode={periode.id}>
+                      {/* 1. ÉTAT VIDE : Le projet n'a pas encore commencé à cette date */}
+                      {isVide && (
+                        <div class="cell-empty-space" aria-hidden="true">
+                          <div class="faint-guide-line"></div>
                         </div>
                       )}
 
-                      <!-- Bas de ruban : ourlet en biseau & actions -->
-                      <div class="ruban-base-ourlet">
-                        <div class="ruban-actions">
-                          <a href={r.lien} class="btn-noir ruban-btn">
-                            Fiche &rarr;
-                          </a>
-                          {r.github && (
-                            <a
-                              href={r.github}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              class="btn-outline ruban-btn"
-                              title={`Dépôt GitHub de ${r.titre}`}
-                            >
-                              GitHub ↗
-                            </a>
+                      {/* 2. DÉBUT DU RUBAN : Le ruban commence et descend */}
+                      {isDebut && (
+                        <div class="cell-debut-ribbon">
+                          <div class="ribbon-suspension-mount">
+                            <span class="mount-rivet"></span>
+                            <div class="mount-rod"></div>
+                            <span class="mount-rivet"></span>
+                          </div>
+                          <div class="thick-fabric-ribbon ribbon-running-down">
+                            <div class="ribbon-stitch-left"></div>
+                            <div class="ribbon-stitch-right"></div>
+                            <div class="ribbon-content-tag">
+                              <span class="cell-tag-date">{periode.label}</span>
+                              <h4 class="cell-node-title">{seg.titre}</h4>
+                              <p class="cell-node-desc">{seg.desc}</p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* 3. RUBAN ACTIF : Le bandeau continue de descendre */}
+                      {isActif && (
+                        <div class="cell-active-ribbon">
+                          <div class="thick-fabric-ribbon ribbon-running-down">
+                            <div class="ribbon-stitch-left"></div>
+                            <div class="ribbon-stitch-right"></div>
+                            <div class="ribbon-content-tag">
+                              <span class="cell-tag-date">{periode.label}</span>
+                              <h4 class="cell-node-title">{seg.titre}</h4>
+                              <p class="cell-node-desc">{seg.desc}</p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* 4. POINT FORT BRODÉ ★ : Écusson noir cousu sur le bandeau */}
+                      {isTempsFort && (
+                        <div class="cell-temps-fort-ribbon">
+                          <div class="thick-fabric-ribbon ribbon-running-down has-patch">
+                            <div class="ribbon-stitch-left"></div>
+                            <div class="ribbon-stitch-right"></div>
+                            <div class="stitched-patch-black">
+                              <div class="patch-header">
+                                <span class="patch-star">&#9733;</span>
+                                <span class="patch-label">POINT FORT</span>
+                              </div>
+                              <h4 class="patch-title">{seg.titre}</h4>
+                              <p class="patch-desc">{seg.desc}</p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* 5. PAUSE R&D : LE RUBAN RENTRE DANS UNE FENTE */}
+                      {isFentePause && (
+                        <div class="cell-fente-pause">
+                          <!-- Le ruban plonge dans la fente d'entrée -->
+                          <div class="ribbon-into-slot">
+                            <div class="thick-fabric-ribbon ribbon-diving">
+                              <div class="ribbon-stitch-left"></div>
+                              <div class="ribbon-stitch-right"></div>
+                            </div>
+                            <div class="architectural-slit slit-in" title="Le ruban rentre dans la fente">
+                              <div class="slit-bevel-top"></div>
+                              <div class="slit-deep-shadow">
+                                <span class="slit-caption">&darr; RENTRE DANS LA FENTE &darr;</span>
+                              </div>
+                              <div class="slit-bevel-bot"></div>
+                            </div>
+                          </div>
+
+                          <!-- Zone sous la paroi : le ruban est en retrait, caché dans la fente -->
+                          <div class="slot-hidden-void">
+                            <div class="pause-ghost-card">
+                              <span class="pause-tag">PAUSE R&amp;D</span>
+                              <h4 class="pause-title">{seg.titre}</h4>
+                              <p class="pause-desc">{seg.desc}</p>
+                              <span class="pause-status-sub">Ruban sous la fente</span>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* 6. LE RUBAN RESSORT DE LA FENTE (phase ou point fort) */}
+                      {(isSortiePhase || isSortieTempsFort) && (
+                        <div class="cell-sortie-fente">
+                          <!-- Fente de sortie d'où émerge le ruban -->
+                          <div class="architectural-slit slit-out" title="Le ruban ressort de la fente">
+                            <div class="slit-bevel-top"></div>
+                            <div class="slit-deep-shadow">
+                              <span class="slit-caption">&uarr; RESSORT DE LA FENTE &uarr;</span>
+                            </div>
+                            <div class="slit-bevel-bot"></div>
+                          </div>
+
+                          <!-- Le ruban qui continue sa course après la sortie -->
+                          <div class={`thick-fabric-ribbon ribbon-running-down ${isSortieTempsFort ? 'has-patch' : ''}`}>
+                            <div class="ribbon-stitch-left"></div>
+                            <div class="ribbon-stitch-right"></div>
+
+                            {isSortieTempsFort ? (
+                              <div class="stitched-patch-black">
+                                <div class="patch-header">
+                                  <span class="patch-star">&#9733;</span>
+                                  <span class="patch-label">SORTIE &bull; POINT FORT</span>
+                                </div>
+                                <h4 class="patch-title">{seg.titre}</h4>
+                                <p class="patch-desc">{seg.desc}</p>
+                              </div>
+                            ) : (
+                              <div class="ribbon-content-tag">
+                                <span class="cell-tag-date">{periode.label}</span>
+                                <h4 class="cell-node-title">{seg.titre}</h4>
+                                <p class="cell-node-desc">{seg.desc}</p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* 7. STATUT FINAL DU RUBAN (Aujourd'hui) : ourlet en pointe et boutons */}
+                      {(isStatut || isSortieStatut) && (
+                        <div class="cell-terminal-ribbon">
+                          {isSortieStatut && (
+                            <div class="architectural-slit slit-out" title="Le ruban ressort de la fente vers le statut actuel">
+                              <div class="slit-bevel-top"></div>
+                              <div class="slit-deep-shadow">
+                                <span class="slit-caption">&uarr; RESSORT DE LA FENTE &uarr;</span>
+                              </div>
+                              <div class="slit-bevel-bot"></div>
+                            </div>
                           )}
+                          <div class="thick-fabric-ribbon ribbon-terminal">
+                            <div class="ribbon-stitch-left"></div>
+                            <div class="ribbon-stitch-right"></div>
+                            <div class="terminal-content">
+                              <div class="terminal-badge">
+                                <span class="terminal-dot"></span>
+                                <span>STATUT ACTUEL</span>
+                              </div>
+                              <h4 class="terminal-title">{seg.titre}</h4>
+                              <p class="terminal-desc">{seg.desc}</p>
+
+                              <div class="terminal-actions">
+                                <a href={projet.lien} class="btn-noir btn-terminal">
+                                  Fiche &rarr;
+                                </a>
+                                {projet.github && (
+                                  <a
+                                    href={projet.github}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="btn-outline btn-terminal"
+                                    title={`GitHub ${projet.titre}`}
+                                  >
+                                    GitHub ↗
+                                  </a>
+                                )}
+                              </div>
+                            </div>
+                            <!-- Ourlet en pointe de ruban (queue d'aronde) -->
+                            <div class="ribbon-swallowtail" aria-hidden="true"></div>
+                          </div>
                         </div>
-                        <div class="ruban-queue-biseau" aria-hidden="true"></div>
-                      </div>
+                      )}
                     </div>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-
-          <!-- Si des projets sont en pause à cette date : ils plongent et disparaissent dans une fente -->
-          {epoque.fentesPause.length > 0 && (
-            <div class="fentes-pause-zone">
-              <div class="fentes-pause-intro">
-                <span class="fentes-pause-badge">&#9208; EN PAUSE R&amp;D &bull; LE RUBAN RENTRE DANS UNE FENTE</span>
-                <span class="fentes-pause-count">{epoque.fentesPause.length} projet{epoque.fentesPause.length > 1 ? 's' : ''} en retrait sous la paroi</span>
-              </div>
-
-              <div class="fentes-pause-grid">
-                {epoque.fentesPause.map((f) => (
-                  <div class="fente-pause-artefact">
-                    <!-- Partie supérieure : ruban qui plonge vers la fente -->
-                    <div class="ruban-plongeon-slot-in">
-                      <div class="ruban-plongeon-etiquette">
-                        <span class="ruban-mini-num">{f.numero}</span>
-                        <span class="ruban-mini-nom">{f.titre}</span>
-                      </div>
-                    </div>
-
-                    <!-- FENTE PHYSIQUE 3D DANS LAQUELLE LE RUBAN RENTRE -->
-                    <div class="fente-cavite-physique" title={`${f.titre} rentre dans la fente`}>
-                      <div class="fente-levre-haut"></div>
-                      <div class="fente-abyme-shadow">
-                        <span class="fente-indic">&darr; RENTRE DANS LA FENTE &darr;</span>
-                      </div>
-                      <div class="fente-levre-bas"></div>
-                    </div>
-
-                    <!-- Sous la fente : le ruban a disparu dans la paroi -->
-                    <div class="fente-sous-paroi">
-                      <div class="fente-pause-motif" aria-hidden="true"></div>
-                      <div class="fente-pause-fiche">
-                        <div class="fente-pause-meta">
-                          <span class="fente-pause-tag">PAUSE R&amp;D</span>
-                          <span class="fente-pause-date">{f.date}</span>
-                        </div>
-                        <h4 class="fente-pause-titre">{f.titrePause}</h4>
-                        <p class="fente-pause-desc">{f.descPause}</p>
-                        <div class="fente-pause-sub">
-                          <span class="fente-pause-dot"></span>
-                          Ruban rétracté dans la fente &bull; absent de l'établi
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
-          )}
-        </section>
-      ))}
+          ))}
+        </div>
+      </div>
     </div>
   </section>
 </Base>
 
 <script>
-  // Mise à jour de la barre temporelle sticky au scroll vertical
+  // Surveillance de la ligne du temps lors du scroll vertical naturel
   document.addEventListener('DOMContentLoaded', () => {
-    const timePills = document.querySelectorAll<HTMLAnchorElement>('.time-pill');
-    const slices = document.querySelectorAll<HTMLElement>('.epoque-vertical-slice');
-
-    if (slices.length === 0 || timePills.length === 0) return;
+    const markers = document.querySelectorAll<HTMLElement>('.time-axis-marker');
+    if (markers.length === 0) return;
 
     function onScroll() {
-      const scrollY = window.scrollY + 180;
-      let activeIndex = 0;
-
-      slices.forEach((slice, idx) => {
-        const top = slice.offsetTop;
-        if (scrollY >= top) {
-          activeIndex = idx;
-        }
-      });
-
-      timePills.forEach((pill, idx) => {
-        if (idx === activeIndex) {
-          pill.classList.add('is-active');
+      const scrollY = window.scrollY + 200;
+      markers.forEach((marker) => {
+        const top = marker.offsetTop;
+        const height = marker.offsetHeight;
+        if (scrollY >= top && scrollY < top + height) {
+          marker.classList.add('is-current');
         } else {
-          pill.classList.remove('is-active');
+          marker.classList.remove('is-current');
         }
       });
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
-
-    // Défilement doux lors du clic sur une puce de date
-    timePills.forEach((pill) => {
-      pill.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetId = pill.getAttribute('data-target');
-        if (!targetId) return;
-        const targetEl = document.getElementById(targetId);
-        if (targetEl) {
-          const top = targetEl.getBoundingClientRect().top + window.scrollY - 70;
-          window.scrollTo({ top, behavior: 'smooth' });
-        }
-      });
-    });
   });
 </script>
 
@@ -1208,717 +1258,685 @@ const epoques = [
   }
 
   /* ==========================================================================
-     CHRONOLOGIE VERTICALE NATURELLE AU SCROLL
+     TABLEAU CHRONOLOGIQUE : BANDEAUX VERTICAUX (GROSSES LIGNES DE TEMPS)
      ========================================================================== */
-  .chrono-verticale-section {
+  .chrono-table-section {
     position: relative;
     background: #f4f4f3;
-  }
-
-  /* Barre temporelle sticky en haut */
-  .sticky-time-bar {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    background: rgba(255, 255, 255, 0.94);
-    backdrop-filter: blur(10px);
+    padding: clamp(30px, 5vh, 60px) clamp(16px, 3vw, 40px);
     border-bottom: 2px dashed var(--dash);
-    padding: 10px clamp(16px, 3vw, 40px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
   }
 
-  .time-bar-inner {
+  .chrono-table-intro {
+    max-width: 1500px;
+    margin: 0 auto 36px;
     display: flex;
-    align-items: center;
-    gap: 14px;
-    max-width: 1400px;
-    margin: 0 auto;
-    overflow-x: auto;
-    scrollbar-width: none;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    border-bottom: 2px dashed rgba(0, 0, 0, 0.12);
+    padding-bottom: 20px;
   }
 
-  .time-bar-inner::-webkit-scrollbar {
-    display: none;
+  .intro-left {
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
   }
 
-  .time-bar-legend {
-    font: 700 9.5px var(--font);
-    letter-spacing: 0.14em;
+  .intro-titre {
+    margin: 0;
+    font: 700 clamp(22px, 3vw, 32px)/1.15 var(--font);
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.5);
-    white-space: nowrap;
+    color: #000000;
   }
 
-  .time-bar-pills {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: nowrap;
+  .intro-desc {
+    margin: 4px 0 0;
+    font: 400 14px/1.55 var(--font);
+    color: rgba(0, 0, 0, 0.75);
   }
 
-  .time-pill {
+  .intro-legende {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 5px 12px;
-    background: #f5f5f4;
-    border: 1px dashed rgba(0, 0, 0, 0.25);
-    border-radius: 14px;
-    text-decoration: none;
-    color: rgba(0, 0, 0, 0.7);
-    font: 700 10.5px var(--font);
-    letter-spacing: 0.06em;
-    white-space: nowrap;
-    transition: all 0.2s ease;
-  }
-
-  .time-pill:hover {
-    border-color: #000000;
-    color: #000000;
+    gap: 16px;
+    padding: 8px 16px;
     background: #ffffff;
+    border: 1px dashed var(--dash);
+    border-radius: 20px;
+    flex-wrap: wrap;
   }
 
-  .time-pill.is-active {
-    background: #000000;
-    color: #ffffff;
-    border-style: solid;
-    border-color: #000000;
-  }
-
-  .time-pill-date {
-    text-transform: uppercase;
-  }
-
-  .time-pill-count {
-    font-size: 9px;
-    opacity: 0.6;
-    letter-spacing: 0.04em;
-  }
-
-  .time-pill.is-active .time-pill-count {
-    opacity: 0.85;
-    color: #ffffff;
-  }
-
-  /* Tranche d'époque verticale */
-  .epoques-vertical-flow {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 clamp(16px, 3vw, 40px);
-  }
-
-  .epoque-vertical-slice {
-    position: relative;
-    padding: 60px 0 70px;
-    border-bottom: 2px dashed rgba(0, 0, 0, 0.15);
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-  }
-
-  .epoque-vertical-slice:last-child {
-    border-bottom: none;
-  }
-
-  /* En-tête de tranche */
-  .epoque-header-block {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    border-left: 3px solid #000000;
-    padding-left: 16px;
-  }
-
-  .epoque-date-badge-row {
-    display: flex;
+  .legende-item {
+    display: inline-flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
+    font: 700 10.5px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.7);
   }
 
-  .epoque-tag {
-    font: 700 10px var(--font);
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: #ffffff;
+  .leg-tissu-echantillon {
+    width: 14px;
+    height: 18px;
+    background: #ffffff;
+    border-left: 2px dashed #000000;
+    border-right: 2px dashed #000000;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  }
+
+  .leg-patch-echantillon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
     background: #000000;
-    padding: 3px 8px;
+    color: #ffffff;
+    font-size: 10px;
     border-radius: 3px;
   }
 
-  .epoque-year {
-    font: 700 clamp(24px, 3.5vw, 36px)/1 var(--font);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #000000;
-  }
-
-  .epoque-titre {
-    margin: 0;
-    font: 700 clamp(18px, 2.2vw, 24px)/1.2 var(--font);
-    letter-spacing: 0.04em;
-    color: #000000;
-  }
-
-  .epoque-desc {
-    margin: 0;
-    font: 400 13.5px/1.5 var(--font);
-    color: rgba(0, 0, 0, 0.7);
-    max-width: 800px;
-  }
-
-  /* ==========================================================================
-     LES RUBANS EN TISSU ACTIFS CÔTE À CÔTE
-     ========================================================================== */
-  .rubans-active-stage {
-    width: 100%;
-  }
-
-  .rubans-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    align-items: flex-start;
-  }
-
-  /* Un bandeau vertical textile */
-  .ruban-vertical-band {
-    width: clamp(230px, 22vw, 260px);
-    display: flex;
-    flex-direction: column;
-    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.07));
-    transition: transform 0.2s ease, filter 0.2s ease;
-  }
-
-  .ruban-vertical-band:hover {
-    transform: translateY(-4px);
-    filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.12));
-  }
-
-  /* Suspension métallique supérieure */
-  .ruban-suspension-tete {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 16px;
-    height: 14px;
-  }
-
-  .rivet-oeillet {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
+  .leg-fente-echantillon {
+    width: 18px;
+    height: 7px;
     background: #000000;
-    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
+    border-radius: 2px;
+    box-shadow: inset 0 2px 2px #444444;
   }
 
-  .tringle-fil {
-    flex: 1;
-    height: 2px;
-    background: repeating-linear-gradient(
-      90deg,
-      #000000,
-      #000000 6px,
-      rgba(0, 0, 0, 0.2) 6px,
-      rgba(0, 0, 0, 0.2) 10px
-    );
+  /* Viewport avec scroll horizontal si l'écran est plus petit que les 10 colonnes */
+  .timeline-viewport-scroll {
+    max-width: 1500px;
+    margin: 0 auto;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    background: #efefee;
+    border-radius: 8px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.05);
   }
 
-  /* Corps textile du ruban */
-  .ruban-tissu-surface {
+  .timeline-matrix-board {
+    display: flex;
+    min-width: 1420px;
     position: relative;
-    background: #fbfbfb;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-    display: flex;
-    flex-direction: column;
-    padding: 14px 14px 16px;
-    gap: 12px;
-    box-sizing: border-box;
   }
 
-  /* Liserés de couture brodés */
-  .surpiqure-bord-gauche,
-  .surpiqure-bord-droite {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    pointer-events: none;
-  }
-
-  .surpiqure-bord-gauche {
-    left: 4px;
-    border-left: 1px dashed rgba(0, 0, 0, 0.28);
-  }
-
-  .surpiqure-bord-droite {
-    right: 4px;
-    border-right: 1px dashed rgba(0, 0, 0, 0.28);
-  }
-
-  /* En-tête imprimé sur le ruban */
-  .ruban-imprime-head {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding-bottom: 10px;
-    border-bottom: 1px dashed rgba(0, 0, 0, 0.15);
-  }
-
-  .ruban-meta-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .ruban-num {
-    font: 700 14px var(--font);
-    color: #000000;
-  }
-
-  .ruban-domaine {
-    font: 700 8.5px var(--font);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.6);
-    background: rgba(0, 0, 0, 0.05);
-    padding: 2px 6px;
-    border-radius: 4px;
-  }
-
-  .ruban-identite {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .ruban-logo-box {
-    width: 36px;
-    height: 36px;
+  /* Colonne de gauche : Axe du temps sticky */
+  .time-axis-col {
+    position: sticky;
+    left: 0;
+    z-index: 10;
+    width: 110px;
     flex-shrink: 0;
+    background: #ffffff;
+    border-right: 2px dashed rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.04);
+  }
+
+  .axis-header-placeholder {
+    height: 100px;
+    border-bottom: 2px solid #000000;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px dashed rgba(0, 0, 0, 0.25);
-    border-radius: 6px;
-    background: #ffffff;
-    padding: 3px;
+    background: #000000;
+    color: #ffffff;
   }
 
-  .ruban-logo-box img {
+  .axis-title {
+    font: 700 11px var(--font);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .time-axis-marker {
+    height: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 12px;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.15);
+    position: relative;
+    box-sizing: border-box;
+    transition: background 0.2s ease;
+  }
+
+  .time-axis-marker.is-current {
+    background: #000000;
+    color: #ffffff;
+  }
+
+  .axis-year {
+    font: 700 13px/1.2 var(--font);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #000000;
+  }
+
+  .time-axis-marker.is-current .axis-year {
+    color: #ffffff;
+  }
+
+  .axis-sub {
+    font: 400 9.5px/1.3 var(--font);
+    color: rgba(0, 0, 0, 0.55);
+    margin-top: 2px;
+  }
+
+  .time-axis-marker.is-current .axis-sub {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .axis-notch {
+    position: absolute;
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #000000;
+  }
+
+  /* Les 10 couloirs de projet */
+  .projects-lanes-container {
+    display: flex;
+    flex: 1;
+  }
+
+  .project-lane {
+    flex: 1;
+    min-width: 130px;
+    max-width: 155px;
+    border-right: 1px dashed rgba(0, 0, 0, 0.12);
+    display: flex;
+    flex-direction: column;
+    background: #fbfbfb;
+  }
+
+  .project-lane:last-child {
+    border-right: none;
+  }
+
+  /* En-tête de couloir de projet */
+  .lane-header {
+    height: 100px;
+    padding: 8px 8px;
+    border-bottom: 2px solid #000000;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 3px;
+    box-sizing: border-box;
+  }
+
+  .lane-num {
+    font: 700 11px var(--font);
+    color: rgba(0, 0, 0, 0.45);
+  }
+
+  .lane-logo {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lane-logo img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
   }
 
-  .ruban-nom {
+  .lane-title {
     margin: 0;
-    font: 700 15px/1.2 var(--font);
-    letter-spacing: 0.06em;
+    font: 700 11.5px/1.1 var(--font);
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     color: #000000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
   }
 
-  .ruban-badge-tissu {
-    font: 700 8.5px var(--font);
+  .lane-domain {
+    font: 700 7.5px var(--font);
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.55);
+    color: rgba(0, 0, 0, 0.5);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
   }
 
-  /* Étape ordinaire imprimée */
-  .etape-imprimee-tissu {
+  /* Rail vertical où coule la grosse ligne (ruban) */
+  .lane-ribbon-track {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    background: #ffffff;
-    border: 1px dashed rgba(0, 0, 0, 0.15);
-    border-radius: 4px;
-    padding: 10px;
   }
 
-  .etape-top {
+  /* Cellule d'époque (hauteur fixe de 240px alignée avec l'axe) */
+  .ribbon-cell-block {
+    height: 240px;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 6px;
+  }
+
+  /* 1. Espace vide : le projet n'a pas commencé */
+  .cell-empty-space {
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 8px,
+      rgba(0, 0, 0, 0.03) 8px,
+      rgba(0, 0, 0, 0.03) 16px
+    );
   }
 
-  .etape-bullet {
-    font-size: 8px;
-    color: #000000;
+  .faint-guide-line {
+    width: 2px;
+    height: 100%;
+    border-left: 1px dashed rgba(0, 0, 0, 0.15);
   }
 
-  .etape-date {
-    font: 700 9px var(--font);
+  /* 2. & 3. La grosse ligne de tissu (ruban vertical) */
+  .thick-fabric-ribbon {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    border-left: 2px dashed #000000;
+    border-right: 2px dashed #000000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 8px 6px;
+  }
+
+  .ribbon-stitch-left,
+  .ribbon-stitch-right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    border-left: 1px dashed rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+  }
+
+  .ribbon-stitch-left { left: 2px; }
+  .ribbon-stitch-right { right: 2px; }
+
+  /* Début du ruban : tête de suspension métallique */
+  .cell-debut-ribbon {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ribbon-suspension-mount {
+    height: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4px;
+    background: #ffffff;
+    border: 1px dashed rgba(0, 0, 0, 0.2);
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+  }
+
+  .mount-rivet {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #000000;
+  }
+
+  .mount-rod {
+    flex: 1;
+    height: 2px;
+    background: #000000;
+  }
+
+  .ribbon-content-tag {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    text-align: center;
+  }
+
+  .cell-tag-date {
+    font: 700 8px var(--font);
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.5);
+    color: rgba(0, 0, 0, 0.45);
   }
 
-  .etape-titre {
+  .cell-node-title {
     margin: 0;
-    font: 700 12.5px/1.3 var(--font);
+    font: 700 11px/1.2 var(--font);
     letter-spacing: 0.03em;
     color: #000000;
   }
 
-  .etape-texte {
+  .cell-node-desc {
     margin: 0;
-    font: 400 11px/1.45 var(--font);
-    color: rgba(0, 0, 0, 0.75);
+    font: 400 9.5px/1.35 var(--font);
+    color: rgba(0, 0, 0, 0.7);
   }
 
-  /* Écusson brodé noir (★ POINT FORT) */
-  .ecusson-patch-noir {
+  /* 4. Écusson brodé noir pour POINT FORT ★ */
+  .cell-temps-fort-ribbon {
+    width: 100%;
+    height: 100%;
+  }
+
+  .thick-fabric-ribbon.has-patch {
+    background: #111111;
+    border-color: #000000;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .stitched-patch-black {
+    border: 1px dashed rgba(255, 255, 255, 0.7);
+    border-radius: 3px;
+    padding: 8px 6px;
     background: #000000;
-    border-radius: 4px;
     color: #ffffff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
-  }
-
-  .ecusson-fil-bordure {
-    border: 1.5px dashed rgba(255, 255, 255, 0.7);
-    border-radius: 4px;
-    padding: 10px 11px;
     display: flex;
     flex-direction: column;
+    gap: 3px;
+    text-align: center;
+  }
+
+  .patch-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 4px;
   }
 
-  .ecusson-top {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .ecusson-etoile {
-    font-size: 13px;
+  .patch-star {
+    font-size: 11px;
     color: #ffffff;
-    line-height: 1;
   }
 
-  .ecusson-mention {
-    font: 700 8.5px var(--font);
-    letter-spacing: 0.14em;
+  .patch-label {
+    font: 700 7.5px var(--font);
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: #ffffff;
-    background: rgba(255, 255, 255, 0.2);
-    padding: 2px 6px;
-    border-radius: 3px;
   }
 
-  .ecusson-date {
-    margin-left: auto;
-    font: 700 9px var(--font);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.65);
-  }
-
-  .ecusson-titre {
+  .patch-title {
     margin: 0;
-    font: 700 12.5px/1.25 var(--font);
-    letter-spacing: 0.04em;
+    font: 700 11px/1.2 var(--font);
     color: #ffffff;
   }
 
-  .ecusson-texte {
+  .patch-desc {
     margin: 0;
-    font: 400 11px/1.45 var(--font);
-    color: rgba(255, 255, 255, 0.9);
+    font: 400 9px/1.35 var(--font);
+    color: rgba(255, 255, 255, 0.85);
   }
 
-  /* Bas du ruban : ourlet en biseau & boutons */
-  .ruban-base-ourlet {
+  /* 5. PAUSE R&D : LA FENTE D'ENTRÉE & ZONE SOUS LA PAROI */
+  .cell-fente-pause {
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding-top: 8px;
-    border-top: 1px dashed rgba(0, 0, 0, 0.15);
   }
 
-  .ruban-actions {
+  .ribbon-into-slot {
     display: flex;
-    align-items: center;
-    gap: 6px;
+    flex-direction: column;
   }
 
-  .ruban-btn {
-    flex: 1;
-    text-align: center;
-    padding: 6px 8px;
-    font-size: 10px;
-    letter-spacing: 0.08em;
-    white-space: nowrap;
-  }
-
-  .ruban-queue-biseau {
-    width: 100%;
-    height: 12px;
-    background: #fbfbfb;
-    clip-path: polygon(0 0, 100% 0, 50% 100%);
-    margin-top: -4px;
-    border-top: 1px dashed rgba(0, 0, 0, 0.15);
-  }
-
-  /* Fente d'émergence quand le ruban ressort */
-  .ruban-fente-emergence-top {
-    position: relative;
-    width: 100%;
+  .ribbon-diving {
     height: 22px;
-    background: #000000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(to bottom, #ffffff 0%, #cccccc 70%, #555555 100%);
   }
 
-  /* ==========================================================================
-     SYSTÈME DES FENTES R&D (LE RUBAN RENTRE DANS LA FENTE)
-     ========================================================================== */
-  .fentes-pause-zone {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    background: #eaeae9;
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    border-radius: 8px;
-    padding: 20px 24px;
-  }
-
-  .fentes-pause-intro {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-
-  .fentes-pause-badge {
-    font: 700 10px var(--font);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #ffffff;
-    background: #000000;
-    padding: 4px 10px;
-    border-radius: 4px;
-  }
-
-  .fentes-pause-count {
-    font: 700 10.5px var(--font);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.6);
-  }
-
-  .fentes-pause-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-
-  .fente-pause-artefact {
-    width: clamp(230px, 22vw, 260px);
-    display: flex;
-    flex-direction: column;
-    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
-  }
-
-  /* Le ruban qui plonge vers la fente */
-  .ruban-plongeon-slot-in {
-    height: 38px;
-    background: linear-gradient(to bottom, #fbfbfb 0%, #e0e0df 65%, #666666 100%);
-    border-left: 2px dashed rgba(0, 0, 0, 0.25);
-    border-right: 2px dashed rgba(0, 0, 0, 0.25);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-  }
-
-  .ruban-plongeon-etiquette {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: #ffffff;
-    padding: 2px 8px;
-    border-radius: 10px;
-    border: 1px dashed rgba(0, 0, 0, 0.3);
-  }
-
-  .ruban-mini-num {
-    font: 700 9px var(--font);
-    color: #000000;
-  }
-
-  .ruban-mini-nom {
-    font: 700 9px var(--font);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #000000;
-  }
-
-  /* La fissure / cavité 3D */
-  .fente-cavite-physique {
+  /* Fissure / Fente architecturale 3D */
+  .architectural-slit {
     position: relative;
     width: 100%;
-    height: 24px;
+    height: 20px;
     background: #000000;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 4;
+    z-index: 5;
   }
 
-  .fente-levre-haut {
+  .slit-bevel-top {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 3px;
+    height: 2px;
     background: #ffffff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
   }
 
-  .fente-abyme-shadow {
+  .slit-deep-shadow {
     position: absolute;
-    inset: 3px 0;
-    background: #080808;
-    box-shadow: inset 0 8px 10px #000000, inset 0 -4px 6px #000000;
+    inset: 2px 0;
+    background: #050505;
+    box-shadow: inset 0 6px 8px #000000, inset 0 -3px 4px #000000;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .fente-indic {
-    font: 700 8px var(--font);
-    letter-spacing: 0.18em;
+  .slit-caption {
+    font: 700 6.5px var(--font);
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.65);
+    color: rgba(255, 255, 255, 0.7);
+    white-space: nowrap;
   }
 
-  .fente-levre-bas {
+  .slit-bevel-bot {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     height: 2px;
     background: #222222;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
   }
 
-  /* Sous la fente : le ruban est en retrait dans la paroi */
-  .fente-sous-paroi {
-    position: relative;
+  /* Sous la paroi : le ruban est en retrait dans la fente */
+  .slot-hidden-void {
+    flex: 1;
     background: repeating-linear-gradient(
       -45deg,
-      #dedede,
-      #dedede 8px,
-      #d4d4d3 8px,
-      #d4d4d3 16px
+      #e8e8e7,
+      #e8e8e7 6px,
+      #dfdfde 6px,
+      #dfdfde 12px
     );
-    border-left: 1px dashed rgba(0, 0, 0, 0.2);
-    border-right: 1px dashed rgba(0, 0, 0, 0.2);
-    border-bottom: 1px dashed rgba(0, 0, 0, 0.2);
-    padding: 14px 12px;
-  }
-
-  .fente-pause-fiche {
-    background: #ffffff;
-    border: 1px dashed rgba(0, 0, 0, 0.35);
-    border-left: 3px solid #000000;
-    border-radius: 4px;
-    padding: 10px 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  }
-
-  .fente-pause-meta {
+    border: 1px dashed rgba(0, 0, 0, 0.25);
+    border-top: none;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    padding: 6px;
+    box-sizing: border-box;
   }
 
-  .fente-pause-tag {
-    font: 700 8.5px var(--font);
+  .pause-ghost-card {
+    background: #ffffff;
+    border: 1px dashed rgba(0, 0, 0, 0.35);
+    border-left: 2px solid #000000;
+    border-radius: 3px;
+    padding: 6px 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    text-align: center;
+  }
+
+  .pause-tag {
+    font: 700 7px var(--font);
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: #ffffff;
     background: #000000;
-    padding: 2px 6px;
-    border-radius: 3px;
+    padding: 1px 4px;
+    border-radius: 2px;
+    align-self: center;
   }
 
-  .fente-pause-date {
-    font: 700 9px var(--font);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.5);
-  }
-
-  .fente-pause-titre {
+  .pause-title {
     margin: 0;
-    font: 700 12.5px/1.3 var(--font);
-    letter-spacing: 0.03em;
+    font: 700 10px/1.2 var(--font);
     color: #000000;
   }
 
-  .fente-pause-desc {
+  .pause-desc {
     margin: 0;
-    font: 400 11px/1.45 var(--font);
+    font: 400 8.5px/1.3 var(--font);
+    color: rgba(0, 0, 0, 0.65);
+  }
+
+  .pause-status-sub {
+    font: 700 7px var(--font);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.45);
+    margin-top: 2px;
+  }
+
+  /* 6. SORTIE DE FENTE */
+  .cell-sortie-fente {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* 7. STATUT TERMINAL DU RUBAN */
+  .cell-terminal-ribbon {
+    width: 100%;
+    height: 100%;
+  }
+
+  .thick-fabric-ribbon.ribbon-terminal {
+    background: #ffffff;
+    border-color: #000000;
+    justify-content: space-between;
+    padding-bottom: 0;
+  }
+
+  .terminal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    text-align: center;
+    padding: 4px 2px;
+  }
+
+  .terminal-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font: 700 7px var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: #000000;
+    padding: 2px 6px;
+    border-radius: 2px;
+    align-self: center;
+  }
+
+  .terminal-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #ffffff;
+  }
+
+  .terminal-title {
+    margin: 0;
+    font: 700 11px/1.2 var(--font);
+    color: #000000;
+  }
+
+  .terminal-desc {
+    margin: 0;
+    font: 400 9px/1.35 var(--font);
     color: rgba(0, 0, 0, 0.7);
   }
 
-  .fente-pause-sub {
-    display: inline-flex;
+  .terminal-actions {
+    display: flex;
     align-items: center;
-    gap: 6px;
-    font: 700 8px var(--font);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.6);
+    gap: 4px;
     margin-top: 4px;
   }
 
-  .fente-pause-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #000000;
-    opacity: 0.5;
+  .btn-terminal {
+    flex: 1;
+    font-size: 8.5px;
+    padding: 5px 2px;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  .ribbon-swallowtail {
+    width: 100%;
+    height: 12px;
+    background: #ffffff;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    border-top: 1px dashed rgba(0, 0, 0, 0.2);
+    margin-top: 4px;
   }
 
   /* ==========================================================================
-     RESPONSIVE SUR MOBILE
+     RESPONSIVE
      ========================================================================== */
   @media (max-width: 899px) {
-    .sticky-time-bar {
-      padding: 8px 14px;
+    .chrono-table-section {
+      padding: 30px 12px;
     }
 
-    .epoque-vertical-slice {
-      padding: 40px 0 50px;
-      gap: 24px;
-    }
-
-    .rubans-row {
-      gap: 14px;
-    }
-
-    .ruban-vertical-band,
-    .fente-pause-artefact {
-      width: 100%;
-      max-width: 320px;
-    }
-
-    .fentes-pause-zone {
-      padding: 16px;
+    .chrono-table-intro {
+      margin-bottom: 20px;
     }
   }
 </style>
