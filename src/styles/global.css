@@ -1,60 +1,215 @@
-/* Charte seeworld — sobre, peu d'éléments.
-   Toutes les couleurs et tailles passent par ces jetons : les sous-projets peuvent les reprendre tels quels. */
+/* ==========================================================================
+   Charte Graphique Officielle SEEWORLD pour tom-bigot.fr
+   Inspirée du binarisme strict de seeworld.fr et multi-motors.fr :
+   - Blanc Papier (#FFFFFF) et Noir Encre (#000000)
+   - Typographie officielle : Glacial Indifference
+   - Contour pointillé signature : 2px dashed rgba(0, 0, 0, 0.45)
+   - Arrondis 12px (cartes) et 15px (pilules)
+   - Majuscules & espacement étendu (letter-spacing: 0.12em - 0.15em)
+   ========================================================================== */
+
+@font-face {
+  font-family: "Glacial Indifference";
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url("/fonts/glacial-indifference-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Glacial Indifference";
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url("/fonts/glacial-indifference-700.woff2") format("woff2");
+}
+
 :root {
-  --fond: #f7f6f3;
-  --encre: #141414;
-  --discret: #6b6b66;
-  --filet: #dcdad4;
-  --accent: #141414;
+  --paper: #ffffff;
+  --ink: #000000;
+  --dash: rgba(0, 0, 0, 0.45);
+  --hover-bg: #fafafa;
+  --font: "Glacial Indifference", "Century Gothic", "Futura", "Trebuchet MS", sans-serif;
 
-  --police: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --police-titre: "Fraunces", Georgia, serif;
+  /* Jetons de compatibilité */
+  --fond: var(--paper);
+  --encre: var(--ink);
+  --discret: rgba(0, 0, 0, 0.65);
+  --filet: var(--dash);
+  --accent: var(--ink);
+  --police: var(--font);
+  --police-titre: var(--font);
 
-  --largeur: 68rem;
-  --marge: clamp(1rem, 4vw, 2.5rem);
-  --espace: clamp(3rem, 8vw, 6rem);
+  --largeur: 960px;
+  --marge: clamp(16px, 3vw, 36px);
+  --espace: clamp(32px, 6vw, 64px);
+
+  color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --fond: #111110;
-    --encre: #ecebe7;
-    --discret: #8e8d88;
-    --filet: #2a2a28;
-    --accent: #ecebe7;
-  }
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-*, *::before, *::after { box-sizing: border-box; }
-
-html { -webkit-text-size-adjust: 100%; }
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
 
 body {
   margin: 0;
-  background: var(--fond);
-  color: var(--encre);
-  font: 400 1.0625rem/1.6 var(--police);
+  overflow-x: clip;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 14px/1.6 var(--font);
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
   -webkit-font-smoothing: antialiased;
 }
 
-a { color: inherit; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
-a:hover { text-decoration-thickness: 2px; }
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
-h1, h2, h3 { font-family: var(--police-titre); font-weight: 400; line-height: 1.1; letter-spacing: -0.01em; }
-
-.conteneur { width: 100%; max-width: var(--largeur); margin: 0 auto; padding: 0 var(--marge); }
-
-.discret { color: var(--discret); }
-
-.etiquette {
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
+h1, h2, h3, h4 {
+  font-family: var(--font);
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
+  color: var(--ink);
+  margin-top: 0;
+}
+
+p {
+  font-family: var(--font);
+  letter-spacing: 0.02em;
+}
+
+.conteneur {
+  width: 100%;
+  max-width: var(--largeur);
+  margin: 0 auto;
+  padding: 0 var(--marge);
+}
+
+.discret {
   color: var(--discret);
 }
 
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.etiquette {
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+/* Pilules de navigation & boutons signatures */
+.nav-pill {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 14px;
+  border: 2px dashed var(--dash);
+  border-radius: 15px;
+  font: 700 11px var(--font);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: transparent;
+  text-decoration: none;
+  transition: border-color 0.2s, background-color 0.2s, border-style 0.2s, transform 0.2s;
+  cursor: pointer;
+}
+
+.nav-pill:hover,
+.nav-pill.active {
+  border-style: solid;
+  border-color: var(--ink);
+  background: var(--hover-bg);
+  transform: translateY(-1px);
+}
+
+/* Bouton principal plein (style seeworld / multi-motors) */
+.btn-noir {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  padding: 0 20px;
+  border: 2px solid var(--ink);
+  border-radius: 19px;
+  background: var(--ink);
+  color: var(--paper);
+  font: 700 12px var(--font);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.btn-noir:hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  padding: 0 20px;
+  border: 2px dashed var(--dash);
+  border-radius: 19px;
+  background: var(--paper);
+  color: var(--ink);
+  font: 700 12px var(--font);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-outline:hover {
+  border-style: solid;
+  border-color: var(--ink);
+  background: var(--hover-bg);
+  transform: translateY(-2px);
+}
+
+/* Cartes signatures avec pointillés 2px dashed */
+.seeworld-card {
+  border: 2px dashed var(--dash);
+  border-radius: 12px;
+  padding: 24px;
+  background: var(--paper);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s ease,
+              border-style 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+.seeworld-card:hover {
+  transform: translateY(-4px);
+  border-style: solid;
+  border-color: var(--ink);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; animation: none !important; }
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
 }

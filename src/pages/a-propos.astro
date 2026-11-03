@@ -2,184 +2,188 @@
 import Base from '../layouts/Base.astro';
 ---
 
-<Base titre="À propos" description="À propos de Tom Bigot — parcours, vision technique et collectif seeworld.">
-  <section class="conteneur page">
-    <div class="page-badge">
-      <span class="etiquette">Profil & Démarche</span>
-    </div>
-    <h1>Tom Bigot</h1>
+<Base titre="À propos" description="À propos de Tom Bigot — parcours, vision technique et écosystème seeworld.">
+  <main class="prose-screen">
+    <header class="page-head">
+      <span class="etiquette">PROFIL &bull; PARCOURS</span>
+      <h1 class="page-title">TOM BIGOT</h1>
+      <p class="page-subtitle">
+        Développeur et créateur technique. Je rassemble sous le nom <strong>seeworld</strong> l’ensemble de mes projets,
+        recherches et participations numériques et physiques.
+      </p>
+    </header>
 
-    <p class="chapo">
-      Développeur et créateur technique, je rassemble sous le nom <strong>seeworld</strong> l’ensemble de mes projets,
-      créations et participations. Une ligne directrice commune : <em>regarder le monde, et en faire quelque chose</em>.
-    </p>
+    <!-- 01. Vision -->
+    <article class="prose-card">
+      <h2>1. FAIRE LE PONT ENTRE LE CODE ET LA MATIÈRE</h2>
+      <p>
+        Passionné d'informatique, de mécanique et d'électronique depuis toujours, j'ai développé une pratique décloisonnée
+        reliant le développement web moderne, les systèmes embarqués (drones, robotique autonome) et l'administration
+        de serveurs réseau fiables.
+      </p>
+      <p>
+        Je privilégie la maîtrise des outils de bout en bout : comprendre comment fonctionne un protocole, savoir
+        configurer un serveur Linux de zéro, concevoir une interface web fluide et dépanner un contrôleur de vol. Cette
+        curiosité me permet d'aborder des défis complexes avec pragmatisme et rapidité.
+      </p>
+    </article>
 
-    <div class="contenu-texte">
-      <section class="bloc">
-        <span class="etiquette">Parcours & Vision</span>
-        <h2>Faire le pont entre le code et la matière</h2>
-        <p>
-          Passionné d'informatique, de mécanique et d'électronique depuis toujours, j'ai développé une pratique décloisonnée
-          qui va du développement applicatif web jusqu'aux systèmes embarqués (drones, robotique autonome) et à l'administration
-          de serveurs réseau.
-        </p>
-        <p>
-          Je crois fermement en la maîtrise des outils de bout en bout : comprendre comment fonctionne un protocole, savoir
-          configurer un serveur Linux de zéro, concevoir une interface web fluide et dépanner un contrôleur de vol. Cette
-          curiosité me permet d'aborder des problèmes complexes avec pragmatisme et rapidité.
-        </p>
-      </section>
+    <!-- 02. Le collectif seeworld -->
+    <article class="prose-card">
+      <h2>2. LE COLLECTIF SEEWORLD</h2>
+      <p>
+        <strong>SEEWORLD</strong> est la structure au sein de laquelle prennent vie et grandissent mes réalisations :
+      </p>
+      <ul>
+        <li><strong>Plateformes web & logiciels</strong> : applications fluides, sobres et centrées sur l'efficacité.</li>
+        <li><strong>Robotique & Drones FPV</strong> : prototypage physique, modélisme et automatisation embarquée.</li>
+        <li><strong>Infrastructures & auto-hébergement</strong> : services fiables, décentralisés et respectueux de la vie privée.</li>
+      </ul>
+    </article>
 
-      <section class="bloc">
-        <span class="etiquette">Le collectif seeworld</span>
-        <h2>Une structure pour expérimenter et construire</h2>
-        <p>
-          <strong>seeworld</strong> est l'écosystème au sein duquel prennent vie mes projets :
-        </p>
-        <ul class="liste-points discret">
-          <li><strong>Projets logiciels & plateformes web</strong> : solutions sur mesure, rapides et sobres.</li>
-          <li><strong>Robotique & Drones</strong> : prototypage physique, modélisme et automatisation.</li>
-          <li><strong>Infrastructures & auto-hébergement</strong> : services fiables, décentralisés et respectueux de la vie privée.</li>
-        </ul>
-      </section>
-
-      <section class="bloc">
-        <span class="etiquette">Principes de travail</span>
-        <h2>Ce qui guide mes réalisations</h2>
-        <div class="grille-principes">
-          <div class="principe">
-            <h3>Sobriété & Efficacité</h3>
-            <p class="discret">
-              Moins de dépendances superflues, du code lisible et des architectures pérennes qui durent dans le temps sans
-              maintenance démesurée.
-            </p>
-          </div>
-          <div class="principe">
-            <h3>Autonomie & Maîtrise</h3>
-            <p class="discret">
-              Comprendre chaque couche de la pile technologique : matériel, système d'exploitation, réseau et interface utilisateur.
-            </p>
-          </div>
-          <div class="principe">
-            <h3>Pragmatisme Maker</h3>
-            <p class="discret">
-              Tester vite, prototyper concrètement et itérer en situation réelle plutôt que de rester dans la théorie.
-            </p>
-          </div>
+    <!-- 03. Principes -->
+    <article class="prose-card">
+      <h2>3. PRINCIPES DE CONCEPTION</h2>
+      <div class="swatch-grid">
+        <div class="principe-item">
+          <h3>Sobriété & Pérennité</h3>
+          <p>Moins de dépendances superflues, du code lisible et des architectures conçues pour durer dans le temps sans maintenance démesurée.</p>
         </div>
-      </section>
-    </div>
+        <div class="principe-item">
+          <h3>Autonomie Technique</h3>
+          <p>Comprendre chaque strate de la pile : matériel, système d'exploitation, réseau, protocoles et interface utilisateur.</p>
+        </div>
+        <div class="principe-item">
+          <h3>Pragmatisme Maker</h3>
+          <p>Tester rapidement, prototyper concrètement et itérer en situation réelle plutôt que de rester dans la théorie.</p>
+        </div>
+      </div>
+    </article>
 
-    <div class="actions-page">
-      <a href="/#projets" class="btn btn-secondaire">Découvrir les projets</a>
-      <a href="/contact" class="btn btn-primaire">Me contacter</a>
+    <div class="actions-row">
+      <a href="/#projets" class="btn-noir">Découvrir les projets</a>
+      <a href="/contact" class="btn-outline">Me contacter &rarr;</a>
+      <a href="/" class="nav-pill">&larr; Retour à l'accueil</a>
     </div>
-  </section>
+  </main>
 </Base>
 
 <style>
-  .page {
-    padding-top: clamp(2.5rem, 5vw, 4.5rem);
-    padding-bottom: clamp(3rem, 6vw, 5rem);
-    max-width: 52rem;
-  }
-  .page-badge {
-    margin-bottom: 0.75rem;
-  }
-  h1 {
-    margin: 0 0 1.5rem;
-    font-size: clamp(2.5rem, 6vw, 4.25rem);
-    line-height: 1.1;
-  }
-  .chapo {
-    font-size: clamp(1.15rem, 2vw, 1.35rem);
-    line-height: 1.6;
-    margin-bottom: 3rem;
-  }
-  .chapo strong {
-    font-weight: 500;
-    color: var(--encre);
-  }
-  .contenu-texte {
+  .prose-screen {
+    flex: 1;
+    width: 100%;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: clamp(32px, 5vh, 64px) clamp(16px, 4vw, 32px);
     display: flex;
     flex-direction: column;
-    gap: 3rem;
-    border-top: 1px solid var(--filet);
-    padding-top: 3rem;
+    gap: 28px;
   }
-  .bloc h2 {
-    margin: 0.5rem 0 1rem;
-    font-size: clamp(1.5rem, 3vw, 2rem);
+
+  .page-head {
+    border-bottom: 2px dashed var(--dash);
+    padding-bottom: 24px;
   }
-  .bloc p {
-    font-size: 1.05rem;
-    line-height: 1.7;
-    margin: 0 0 1.25rem;
+
+  .page-title {
+    margin: 6px 0 12px;
+    font: 700 clamp(30px, 5vw, 44px)/1.1 var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
-  .liste-points {
-    padding-left: 1.25rem;
-    line-height: 1.8;
+
+  .page-subtitle {
     margin: 0;
-    font-size: 1rem;
+    font: 400 14px/1.6 var(--font);
+    letter-spacing: 0.03em;
+    color: rgba(0, 0, 0, 0.75);
   }
-  .liste-points strong {
-    color: var(--encre);
-    font-weight: 500;
-  }
-  .grille-principes {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
-    gap: 1.5rem;
-    margin-top: 1.5rem;
-  }
-  .principe {
-    padding: 1.25rem;
-    border: 1px solid var(--filet);
-    border-radius: 4px;
-  }
-  .principe h3 {
-    margin: 0 0 0.5rem;
-    font-size: 1.15rem;
-  }
-  .principe p {
-    margin: 0;
-    font-size: 0.9rem;
-    line-height: 1.5;
-  }
-  .actions-page {
+
+  .prose-card {
+    border: 2px dashed var(--dash);
+    border-radius: 12px;
+    padding: clamp(20px, 3vw, 28px);
+    background: var(--paper);
     display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-top: 3.5rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--filet);
+    flex-direction: column;
+    gap: 14px;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
   }
-  .btn {
-    display: inline-flex;
+
+  .prose-card:hover {
+    border-color: var(--ink);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  }
+
+  .prose-card h2 {
+    margin: 0;
+    font: 700 15px/1.3 var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    display: flex;
     align-items: center;
-    padding: 0.65rem 1.25rem;
-    font-size: 0.9375rem;
-    font-weight: 500;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: all 0.2s ease;
+    gap: 10px;
   }
-  .btn-primaire {
-    background: var(--encre);
-    color: var(--fond);
-    border: 1px solid var(--encre);
+
+  .prose-card h2::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--ink);
   }
-  .btn-primaire:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
+
+  .prose-card p {
+    margin: 0;
+    font: 400 13px/1.6 var(--font);
+    letter-spacing: 0.03em;
+    color: rgba(0, 0, 0, 0.85);
   }
-  .btn-secondaire {
-    background: transparent;
-    color: var(--encre);
-    border: 1px solid var(--filet);
+
+  .prose-card ul {
+    margin: 0;
+    padding-left: 18px;
+    font: 400 13px/1.6 var(--font);
+    letter-spacing: 0.03em;
+    color: rgba(0, 0, 0, 0.85);
   }
-  .btn-secondaire:hover {
-    border-color: var(--encre);
-    transform: translateY(-1px);
+
+  .prose-card li {
+    margin-bottom: 6px;
+  }
+
+  .swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin-top: 6px;
+  }
+
+  .principe-item {
+    border: 2px dashed var(--dash);
+    border-radius: 8px;
+    padding: 14px;
+    background: #fafafa;
+  }
+
+  .principe-item h3 {
+    margin: 0 0 6px;
+    font: 700 12px var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .principe-item p {
+    margin: 0;
+    font: 400 12px/1.5 var(--font);
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  .actions-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 12px;
   }
 </style>

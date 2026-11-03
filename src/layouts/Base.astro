@@ -8,10 +8,10 @@ interface Props {
 
 const {
   titre,
-  description = 'Tom Bigot — Développeur, créateur technique & projets seeworld.',
+  description = 'Tom Bigot — Développeur, créateur technique & projets de l’écosystème seeworld.',
 } = Astro.props;
 
-const titreComplet = titre ? `${titre} — Tom Bigot` : 'Tom Bigot';
+const titreComplet = titre ? `${titre} — Tom Bigot` : 'TOM BIGOT — SEEWORLD';
 const chemin = Astro.url.pathname;
 ---
 
@@ -19,7 +19,7 @@ const chemin = Astro.url.pathname;
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{titreComplet}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={new URL(chemin, Astro.site)} />
@@ -28,96 +28,153 @@ const chemin = Astro.url.pathname;
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={new URL(chemin, Astro.site)} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500&family=Inter:wght@400;500;600&display=swap"
-    />
+    <meta name="theme-color" content="#ffffff" />
   </head>
   <body>
-    <header class="conteneur entete">
-      <a href="/" class="marque" aria-label="Accueil">Tom Bigot</a>
-      <nav aria-label="Navigation principale">
-        <a href="/#competences">Compétences</a>
-        <a href="/#projets" aria-current={chemin.startsWith('/projets') ? 'page' : undefined}>Projets</a>
-        <a href="/a-propos" aria-current={chemin.startsWith('/a-propos') ? 'page' : undefined}>À propos</a>
-        <a href="/contact" aria-current={chemin.startsWith('/contact') ? 'page' : undefined}>Contact</a>
-      </nav>
-    </header>
+    <!-- ================= EN-TÊTE (Style Officiel SEEWORLD) ================= -->
+    <nav class="topnav" aria-label="Navigation principale">
+      <a class="site-logo" href="/" aria-label="Tom Bigot — Accueil">
+        <img src="/assets/logo-seeworld.svg" alt="SEEWORLD" width="32" height="32" />
+        <span class="site-name">TOM BIGOT</span>
+      </a>
+      <div class="nav-group">
+        <a class={`nav-pill ${chemin === '/' ? 'active' : ''}`} href="/#competences">Compétences</a>
+        <a class={`nav-pill ${chemin.startsWith('/projets') ? 'active' : ''}`} href="/#projets">Projets</a>
+        <a class={`nav-pill ${chemin === '/a-propos' ? 'active' : ''}`} href="/a-propos">À propos</a>
+        <a class={`nav-pill ${chemin === '/contact' ? 'active' : ''}`} href="/contact">Contact</a>
+      </div>
+    </nav>
 
-    <main>
+    <!-- ================= CONTENU ================= -->
+    <main class="page-main">
       <slot />
     </main>
 
-    <footer class="conteneur pied">
-      <div class="pied-gauche">
-        <span>seeworld — regarder le monde</span>
-        <span class="discret">Conception sobre & durable</span>
+    <!-- ================= PIED DE PAGE ================= -->
+    <footer class="foot">
+      <div class="foot-brand">
+        <span class="brand-nom">TOM BIGOT</span>
+        <span class="foot-sep">&bull;</span>
+        <a href="https://seeworld.fr" target="_blank" rel="noopener">SEEWORLD</a>
+        <span class="foot-sep">&bull;</span>
+        <span>&copy; {new Date().getFullYear()}</span>
       </div>
-      <div class="pied-droite">
+      <div class="foot-links">
         <a href="https://github.com/TakDai" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <span class="foot-sep">&bull;</span>
         <a href="/contact">Contact</a>
-        <span class="discret">© {new Date().getFullYear()} Tom Bigot</span>
+        <span class="foot-sep">&bull;</span>
+        <a href="/mentions-legales">Mentions</a>
       </div>
     </footer>
   </body>
 </html>
 
 <style>
-  .entete {
+  /* ---------- EN-TÊTE (Strictement inspiré de seeworld.fr) ---------- */
+  .topnav {
     display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 1rem;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-  }
-  .marque {
-    font-weight: 500;
-    text-decoration: none;
-    letter-spacing: -0.01em;
-    font-size: 1.125rem;
-  }
-  nav {
-    display: flex;
-    gap: clamp(1rem, 2.5vw, 2rem);
-    font-size: 0.9375rem;
-  }
-  nav a {
-    text-decoration: none;
-    color: var(--discret);
-    transition: color 0.15s ease;
-  }
-  nav a:hover,
-  nav a[aria-current='page'] {
-    color: var(--encre);
-  }
-  .pied {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 1.5rem;
-    margin-top: var(--espace);
-    padding-top: 2rem;
-    padding-bottom: 3rem;
-    border-top: 1px solid var(--filet);
-    font-size: 0.875rem;
-  }
-  .pied-gauche,
-  .pied-droite {
-    display: flex;
-    gap: 1.5rem;
     align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    padding: 0 clamp(16px, 3vw, 36px);
+    border-bottom: 2px dashed var(--dash);
+    background: var(--paper);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .site-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .site-logo img {
+    width: 32px;
+    height: 32px;
+    display: block;
+  }
+
+  .site-name {
+    font: 700 17px/1 var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .nav-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     flex-wrap: wrap;
   }
-  .pied-droite a {
-    text-decoration: none;
-    color: var(--discret);
-    transition: color 0.15s ease;
+
+  .page-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
   }
-  .pied-droite a:hover {
-    color: var(--encre);
+
+  /* ---------- PIED DE PAGE ---------- */
+  .foot {
+    border-top: 2px dashed var(--dash);
+    padding: 18px clamp(16px, 3vw, 36px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    font: 700 11px var(--font);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.55);
+    background: var(--paper);
+  }
+
+  .foot-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .brand-nom {
+    color: var(--ink);
+  }
+
+  .foot-links {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .foot-sep {
+    opacity: 0.35;
+  }
+
+  .foot a {
+    color: var(--ink);
+    transition: opacity 0.2s;
+  }
+
+  .foot a:hover {
+    opacity: 0.6;
+    text-decoration: none;
+  }
+
+  @media (max-width: 640px) {
+    .topnav {
+      height: auto;
+      padding: 12px 16px;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .foot {
+      flex-direction: column;
+      gap: 10px;
+      text-align: center;
+    }
   }
 </style>

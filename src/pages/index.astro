@@ -12,73 +12,73 @@ const competences = [
     numero: '01',
     titre: 'Développement Web & Logiciel',
     description:
-      'Conception d’applications web modernes, fluides et performantes. Du code robuste axé sur la sobriété, l’accessibilité et une typographie rigoureuse.',
-    technos: ['TypeScript', 'Astro', 'React', 'Node.js', 'API REST', 'WebSockets', 'CSS Moderne'],
+      'Conception d’applications web réactives, fluides et performantes. Code typé, architecture sobre et interfaces épurées conformes aux standards de l’écosystème.',
+    technos: ['TypeScript', 'Astro', 'React', 'Node.js', 'API REST', 'WebSockets'],
   },
   {
     numero: '02',
-    titre: 'Systèmes, DevOps & Hébergement',
+    titre: 'Systèmes, DevOps & Cloud',
     description:
-      'Mise en place d’infrastructures fiables et sécurisées, automatisation complète des pipelines de build et déploiement continu, gestion de serveurs autonomes.',
-    technos: ['Linux (Debian)', 'Docker', 'GitHub Actions', 'OVHcloud & Webhooks', 'DNS & SSL/TLS', 'Git'],
+      'Administration de serveurs Linux autonomes, orchestration de conteneurs, automatisation CI/CD (GitHub Actions, OVH webhooks) et sécurisation SSL/DNS.',
+    technos: ['Linux (Debian)', 'Docker', 'GitHub Actions', 'OVH & Webhooks', 'DNS & SSL/TLS'],
   },
   {
     numero: '03',
-    titre: 'Robotique, Drones & Systèmes Embarqués',
+    titre: 'Robotique, Drones & Embarqué',
     description:
-      'Prototypage matériel et logiciel, asservissement moteur, télémétrie, développement sur microcontrôleurs et conception de robots modulaires.',
-    technos: ['Microcontrôleurs', 'Électronique & Capteurs', 'Drones & Modélisme', 'Télémétrie', 'IoT'],
+      'Conception matérielle et logicielle, asservissement moteur, télémétrie, prototypage sur microcontrôleurs et ingénierie de drones FPV / robots modulaires.',
+    technos: ['Microcontrôleurs', 'Électronique & Capteurs', 'Drones FPV', 'Télémétrie', 'IoT'],
   },
   {
     numero: '04',
-    titre: 'Architecture & Vision Produit',
+    titre: 'Architecture & Vision seeworld',
     description:
-      'De l’idée initiale jusqu’à la livraison en production : démarche pragmatique, résolution de problèmes complexes et création d’outils clairs et durables.',
+      'Démarche complète du cahier des charges à la mise en production : indépendance technique, résolution de défis complexes et construction d’outils durables.',
     technos: ['Architecture logicielle', 'Esprit Maker', 'Sobriété numérique', 'Direction technique'],
   },
 ];
 ---
 
 <Base>
-  <!-- Hero / Introduction -->
-  <section class="conteneur intro">
-    <div class="intro-badge">
-      <span class="etiquette">seeworld · portfolio & savoir-faire</span>
+  <!-- ================= HERO ================= -->
+  <section class="screen-hero">
+    <div class="hero-badge">
+      <span class="etiquette">SEEWORLD &bull; PORTFOLIO &bull; SAVOIR-FAIRE</span>
     </div>
-    <h1>Concevoir, construire,<br />regarder le monde.</h1>
-    <p class="chapo discret">
-      Je suis <strong>Tom Bigot</strong> — développeur et créateur technique. J’associe le développement web moderne,
-      l’administration système et l’ingénierie embarquée pour donner vie à des projets complets, autonomes et durables.
+    <h1 class="hero-title">CONCEVOIR,<br />CONSTRUIRE,<br />REGARDER LE MONDE.</h1>
+    <p class="hero-chapo">
+      Je suis <strong>Tom Bigot</strong> — développeur et créateur technique. J’associe le développement logiciel moderne,
+      l’administration système et l’ingénierie embarquée pour donner vie à des plateformes et outils durables au sein du collectif <strong>seeworld</strong>.
     </p>
-    <div class="intro-actions">
-      <a href="#competences" class="btn btn-primaire">Explorer mes compétences ↓</a>
-      <a href="#projets" class="btn btn-secondaire">Voir les projets</a>
-      <a href="/contact" class="btn btn-texte">Me contacter →</a>
+    <div class="hero-actions">
+      <a href="#competences" class="btn-noir">Mes compétences ↓</a>
+      <a href="#projets" class="btn-outline">Voir les projets</a>
+      <a href="/contact" class="nav-pill">Me contacter &rarr;</a>
     </div>
   </section>
 
-  <!-- Section Compétences -->
-  <section id="competences" class="conteneur section-espace">
-    <div class="section-entete">
-      <span class="etiquette">01 / Savoir-faire</span>
-      <h2>Compétences & domaines d'expertise</h2>
-      <p class="section-sous-titre discret">
-        Une pratique transversale reliant le logiciel, le réseau et le matériel physique.
+  <!-- ================= COMPÉTENCES ================= -->
+  <section id="competences" class="conteneur section-bloc">
+    <header class="section-head">
+      <span class="etiquette">01 / SAVOIR-FAIRE</span>
+      <h2 class="section-title">COMPÉTENCES & EXPERTISE TECHNIQUE</h2>
+      <p class="section-desc">
+        Une pratique transversale reliant le logiciel de haut niveau, le réseau et le matériel physique.
       </p>
-    </div>
+    </header>
 
     <div class="grille-competences">
       {
         competences.map((c) => (
           <article class="carte-competence">
-            <div class="competence-haut">
+            <div class="competence-entete">
               <span class="etiquette">{c.numero}</span>
-              <h3>{c.titre}</h3>
+              <h3 class="competence-titre">{c.titre}</h3>
             </div>
-            <p class="discret competence-desc">{c.description}</p>
+            <p class="competence-desc">{c.description}</p>
             <div class="competence-technos">
               {c.technos.map((tech) => (
-                <span class="techno-tag">{tech}</span>
+                <span class="techno-pill">{tech}</span>
               ))}
             </div>
           </article>
@@ -87,229 +87,277 @@ const competences = [
     </div>
   </section>
 
-  <!-- Section Philosophie -->
-  <section class="conteneur section-espace">
-    <div class="encart-philosophie">
-      <span class="etiquette">Démarche · seeworld</span>
-      <blockquote>
-        « Regarder le monde, comprendre comment les choses fonctionnent, et en faire quelque chose d’utile et de durable. »
+  <!-- ================= PHILOSOPHIE SEEWORLD ================= -->
+  <section class="conteneur section-bloc">
+    <article class="prose-card encart-seeworld">
+      <div class="seeworld-eyebrow">
+        <img src="/assets/logo-seeworld.svg" alt="SEEWORLD" width="24" height="24" />
+        <span class="etiquette">DÉMARCHE &bull; SEEWORLD</span>
+      </div>
+      <blockquote class="seeworld-quote">
+        « REGARDER LE MONDE, COMPRENDRE COMMENT LES CHOSES FONCTIONNENT, ET EN FAIRE QUELQUE CHOSE D’UTILE ET DE DURABLE. »
       </blockquote>
-      <p class="discret">
-        Qu’il s’agisse d’une ligne de commande, d’un serveur auto-hébergé, d’un drone ou d’un site vitrine, je privilégie
-        l’autonomie technique, la maîtrise des fondations et la simplicité de maintenance.
+      <p class="seeworld-text">
+        Qu’il s’agisse d’une ligne de commande, d’un serveur auto-hébergé, d’un drone FPV ou d’un portail web, je privilégie
+        l’autonomie technique, la maîtrise des fondations et la simplicité de maintenance sans dépendances superflues.
       </p>
-    </div>
+    </article>
   </section>
 
-  <!-- Section Projets -->
-  <section id="projets" class="conteneur section-espace">
-    <div class="section-entete">
-      <span class="etiquette">02 / Réalisations — {projets.length}</span>
-      <h2>Projets récents</h2>
-      <p class="section-sous-titre discret">
-        Créations personnelles et participations aux initiatives du groupe seeworld.
+  <!-- ================= PROJETS ================= -->
+  <section id="projets" class="conteneur section-bloc">
+    <header class="section-head">
+      <span class="etiquette">02 / RÉALISATIONS ({projets.length})</span>
+      <h2 class="section-title">PROJETS & CRÉATIONS</h2>
+      <p class="section-desc">
+        Vitrine des projets personnels et participations aux initiatives de l'écosystème seeworld.
       </p>
-    </div>
+    </header>
 
     <div class="grille-projets">
       {projets.map((projet) => <CarteProjet projet={projet} />)}
     </div>
   </section>
 
-  <!-- Section Contact CTA -->
-  <section class="conteneur section-espace">
-    <div class="cta-contact">
-      <span class="etiquette">03 / Échange</span>
-      <h2>Un projet ou une question ?</h2>
-      <p class="discret cta-desc">
-        Je suis toujours à l’écoute de nouveaux défis techniques, de collaborations ou d’échanges autour du développement et des technologies.
+  <!-- ================= CONTACT CTA ================= -->
+  <section class="conteneur section-bloc section-fin">
+    <article class="prose-card cta-box">
+      <span class="etiquette">03 / ÉCHANGE</span>
+      <h2 class="cta-title">UN PROJET OU UNE QUESTION ?</h2>
+      <p class="cta-desc">
+        Disponible pour de nouveaux défis techniques, des projets logiciels ou matériels, et des collaborations autour des technologies libres et autonomes.
       </p>
       <div class="cta-actions">
-        <a href="mailto:contact@tom-bigot.fr" class="btn btn-primaire">contact@tom-bigot.fr</a>
-        <a href="/contact" class="btn btn-secondaire">Tous les moyens de contact</a>
+        <a href="mailto:contact@tom-bigot.fr" class="btn-noir">contact@tom-bigot.fr</a>
+        <a href="/contact" class="btn-outline">Tous les moyens de contact &rarr;</a>
       </div>
-    </div>
+    </article>
   </section>
 </Base>
 
 <style>
-  /* Intro */
-  .intro {
-    padding-top: clamp(2rem, 5vw, 4rem);
-    padding-bottom: clamp(3rem, 6vw, 5rem);
-  }
-  .intro-badge {
-    margin-bottom: 1rem;
-  }
-  h1 {
-    margin: 0 0 1.5rem;
-    font-size: clamp(2.5rem, 6.5vw, 4.75rem);
-    max-width: 14ch;
-    line-height: 1.05;
-  }
-  .chapo {
-    max-width: 36rem;
-    margin: 0 0 2rem;
-    font-size: clamp(1.05rem, 2vw, 1.25rem);
-    line-height: 1.6;
-  }
-  .chapo strong {
-    color: var(--encre);
-    font-weight: 500;
-  }
-  .intro-actions {
+  /* ---------- HERO ---------- */
+  .screen-hero {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: clamp(40px, 8vh, 80px) 20px clamp(30px, 6vh, 60px);
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .hero-badge {
+    margin-bottom: 20px;
+  }
+
+  .hero-title {
+    margin: 0 0 24px;
+    font: 700 clamp(36px, 7vw, 68px)/1.1 var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .hero-chapo {
+    margin: 0 0 32px;
+    font: 400 clamp(14px, 2vw, 16px)/1.6 var(--font);
+    letter-spacing: 0.03em;
+    color: rgba(0, 0, 0, 0.75);
+    max-width: 640px;
+  }
+
+  .hero-chapo strong {
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
     flex-wrap: wrap;
-    align-items: center;
-    gap: 1rem;
   }
 
-  /* Boutons */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.65rem 1.25rem;
-    font-size: 0.9375rem;
-    font-weight: 500;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: all 0.2s ease;
-  }
-  .btn-primaire {
-    background: var(--encre);
-    color: var(--fond);
-    border: 1px solid var(--encre);
-  }
-  .btn-primaire:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
-  }
-  .btn-secondaire {
-    background: transparent;
-    color: var(--encre);
-    border: 1px solid var(--filet);
-  }
-  .btn-secondaire:hover {
-    border-color: var(--encre);
-    transform: translateY(-1px);
-  }
-  .btn-texte {
-    background: transparent;
-    color: var(--discret);
-    padding-left: 0.5rem;
-  }
-  .btn-texte:hover {
-    color: var(--encre);
+  /* ---------- SECTIONS COMMUNES ---------- */
+  .section-bloc {
+    padding-top: clamp(32px, 6vh, 56px);
+    padding-bottom: clamp(16px, 3vh, 28px);
   }
 
-  /* Sections */
-  .section-espace {
-    padding-top: clamp(3rem, 6vw, 5rem);
+  .section-fin {
+    padding-bottom: clamp(48px, 8vh, 80px);
   }
-  .section-entete {
-    margin-bottom: 2.5rem;
+
+  .section-head {
+    border-bottom: 2px dashed var(--dash);
+    padding-bottom: 20px;
+    margin-bottom: 28px;
   }
-  .section-entete h2 {
-    margin: 0.5rem 0 0.5rem;
-    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+
+  .section-title {
+    margin: 6px 0 8px;
+    font: 700 clamp(22px, 4vw, 32px)/1.2 var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
-  .section-sous-titre {
-    max-width: 32rem;
+
+  .section-desc {
     margin: 0;
-    font-size: 1rem;
+    font: 400 13px/1.5 var(--font);
+    letter-spacing: 0.03em;
+    color: rgba(0, 0, 0, 0.65);
+    max-width: 600px;
   }
 
-  /* Grille Compétences */
+  /* ---------- COMPÉTENCES ---------- */
   .grille-competences {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 28rem), 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: 20px;
   }
+
   .carte-competence {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 2rem;
-    border: 1px solid var(--filet);
-    border-radius: 6px;
-    background: var(--fond);
-    transition: border-color 0.2s ease, transform 0.2s ease;
+    padding: 24px;
+    border: 2px dashed var(--dash);
+    border-radius: 12px;
+    background: var(--paper);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.2s ease,
+                border-style 0.2s ease,
+                box-shadow 0.2s ease;
   }
+
   .carte-competence:hover {
-    border-color: var(--encre);
-    transform: translateY(-2px);
+    transform: translateY(-4px);
+    border-style: solid;
+    border-color: var(--ink);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   }
-  .competence-haut h3 {
-    margin: 0.5rem 0 1rem;
-    font-size: 1.35rem;
-    font-family: var(--police-titre);
+
+  .competence-entete {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 12px;
   }
+
+  .competence-titre {
+    margin: 0;
+    font: 700 16px/1.3 var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
   .competence-desc {
-    margin: 0 0 1.5rem;
-    font-size: 0.9375rem;
-    line-height: 1.6;
+    margin: 0 0 16px;
+    font: 400 13px/1.6 var(--font);
+    color: rgba(0, 0, 0, 0.75);
+    flex: 1;
   }
+
   .competence-technos {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-top: auto;
-    padding-top: 1rem;
-    border-top: 1px dashed var(--filet);
-  }
-  .techno-tag {
-    font-size: 0.75rem;
-    padding: 0.2rem 0.55rem;
-    border-radius: 3px;
-    background: var(--fond);
-    border: 1px solid var(--filet);
-    color: var(--discret);
+    gap: 6px;
+    padding-top: 14px;
+    border-top: 2px dashed rgba(0, 0, 0, 0.2);
   }
 
-  /* Encart Philosophie */
-  .encart-philosophie {
-    border-top: 1px solid var(--filet);
-    border-bottom: 1px solid var(--filet);
-    padding: clamp(2.5rem, 5vw, 4rem) 0;
+  .techno-pill {
+    display: inline-flex;
+    align-items: center;
+    height: 24px;
+    padding: 0 10px;
+    border: 1px dashed var(--dash);
+    border-radius: 12px;
+    font: 700 10px var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: #fafafa;
   }
-  blockquote {
-    margin: 1rem 0 1.25rem;
-    font-family: var(--police-titre);
-    font-size: clamp(1.35rem, 2.5vw, 1.85rem);
-    font-style: italic;
-    line-height: 1.35;
-    max-width: 44rem;
+
+  /* ---------- ENCART SEEWORLD ---------- */
+  .prose-card {
+    border: 2px dashed var(--dash);
+    border-radius: 12px;
+    padding: clamp(24px, 4vw, 36px);
+    background: var(--paper);
+    transition: border-color 0.2s;
   }
-  .encart-philosophie p {
-    max-width: 36rem;
+
+  .prose-card:hover {
+    border-color: var(--ink);
+  }
+
+  .encart-seeworld {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .seeworld-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .seeworld-quote {
     margin: 0;
-    line-height: 1.6;
+    font: 700 clamp(18px, 3vw, 24px)/1.3 var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    border-left: 3px solid var(--ink);
+    padding-left: 16px;
   }
 
-  /* Grille Projets */
+  .seeworld-text {
+    margin: 0;
+    font: 400 14px/1.6 var(--font);
+    color: rgba(0, 0, 0, 0.8);
+    max-width: 720px;
+  }
+
+  /* ---------- GRILLE PROJETS ---------- */
   .grille-projets {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 28rem), 1fr));
-    column-gap: 3rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    gap: 18px;
   }
 
-  /* CTA Contact */
-  .cta-contact {
-    border-top: 1px solid var(--filet);
-    padding-top: 3rem;
+  /* ---------- CTA BOX ---------- */
+  .cta-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
   }
-  .cta-contact h2 {
-    margin: 0.5rem 0 1rem;
-    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+
+  .cta-title {
+    margin: 0;
+    font: 700 clamp(20px, 3.5vw, 28px)/1.2 var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
+
   .cta-desc {
-    max-width: 32rem;
-    margin: 0 0 1.75rem;
-    font-size: 1.05rem;
+    margin: 0 0 8px;
+    font: 400 14px/1.6 var(--font);
+    color: rgba(0, 0, 0, 0.7);
+    max-width: 560px;
   }
+
   .cta-actions {
     display: flex;
+    gap: 12px;
     flex-wrap: wrap;
-    gap: 1rem;
+    justify-content: center;
   }
 </style>

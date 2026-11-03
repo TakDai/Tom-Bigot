@@ -11,48 +11,224 @@ const { projet } = Astro.props;
 const { Content } = await render(projet);
 const { titre, resume, nature, statut, domaines, lien, annee } = projet.data;
 const meta = [nature, statut, annee].filter(Boolean).join(' · ');
+
+const logoMap: Record<string, string> = {
+  '127il': '/assets/logos/127il.svg',
+  'fix-my-drone': '/assets/logos/fix-my-drone.svg',
+  'inskin': '/assets/logos/inskin.png',
+  'komeon': '/assets/logos/komeon.png',
+  'lestourangeaux': '/assets/logos/lestourangeaux.svg',
+  'multi-motors': '/assets/logos/multi-motors.png',
+  'openbots': '/assets/logos/openbots.png',
+  'pensee-nocturne': '/assets/logos/pensee-nocturne.svg',
+  'superviseur': '/assets/logos/superviseur.svg',
+  'tete-de-piaf': '/assets/logos/tdp.png',
+  'tours2tours': '/assets/logos/tours2tours.png',
+};
+
+const logoUrl = logoMap[projet.id];
 ---
 
 <Base titre={titre} description={resume}>
-  <article class="conteneur fiche">
-    <a href="/#projets" class="retour discret">← Tous les projets</a>
-    {meta && <p class="etiquette">{meta}</p>}
-    <h1>{titre}</h1>
-    <p class="chapo">{resume}</p>
+  <main class="prose-screen">
+    <div class="retour-bar">
+      <a href="/#projets" class="nav-pill">&larr; Retour aux projets</a>
+    </div>
+
+    <header class="page-head fiche-head">
+      {logoUrl && (
+        <div class="fiche-logo">
+          <img src={logoUrl} alt={titre} />
+        </div>
+      )}
+      <div>
+        {meta && <span class="etiquette">{meta}</span>}
+        <h1 class="page-title">{titre}</h1>
+        <p class="page-subtitle">{resume}</p>
+      </div>
+    </header>
 
     {
       (domaines.length > 0 || lien) && (
-        <dl class="infos">
-          {domaines.length > 0 && (
-            <div>
-              <dt class="etiquette">Domaines</dt>
-              <dd>{domaines.join(', ')}</dd>
-            </div>
-          )}
-          {lien && (
-            <div>
-              <dt class="etiquette">Site</dt>
-              <dd>
-                <a href={lien} rel="noopener">{lien.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')} ↗</a>
-              </dd>
-            </div>
-          )}
-        </dl>
+        <article class="prose-card meta-box">
+          <h2>INFORMATIONS CLÉS</h2>
+          <div class="meta-grille">
+            {domaines.length > 0 && (
+              <div>
+                <span class="etiquette">Domaines</span>
+                <div class="domaines-pills">
+                  {domaines.map((d: string) => (
+                    <span class="nav-pill pill-sm">{d}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+            {lien && (
+              <div>
+                <span class="etiquette">Accès au projet</span>
+                <div style="margin-top: 6px;">
+                  <a href={lien} target="_blank" rel="noopener noreferrer" class="btn-noir btn-sm">
+                    Ouvrir le projet ↗
+                  </a>
+                </div>
+              </div>
+            )}
+          </div>
+        </article>
       )
     }
 
-    <div class="contenu">
+    <article class="prose-card contenu-markdown">
       <Content />
+    </article>
+
+    <div class="retour-bar">
+      <a href="/#projets" class="nav-pill">&larr; Retour à la liste des projets</a>
     </div>
-  </article>
+  </main>
 </Base>
 
 <style>
-  .fiche { padding-top: calc(var(--espace) / 2); max-width: 46rem; }
-  .retour { display: inline-block; margin-bottom: 2.5rem; text-decoration: none; font-size: 0.9375rem; }
-  h1 { margin: 0.5rem 0 1rem; font-size: clamp(2.25rem, 6vw, 4rem); }
-  .chapo { font-size: 1.25rem; margin: 0 0 2rem; }
-  .infos { display: flex; flex-wrap: wrap; gap: 2rem; margin: 0 0 2.5rem; padding: 1.25rem 0; border-block: 1px solid var(--filet); }
-  dd { margin: 0.25rem 0 0; }
-  .contenu :global(h2) { font-size: 1.5rem; margin-top: 2.5rem; }
+  .prose-screen {
+    flex: 1;
+    width: 100%;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: clamp(24px, 4vh, 48px) clamp(16px, 4vw, 32px);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .retour-bar {
+    display: flex;
+    align-items: center;
+  }
+
+  .fiche-head {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    border-bottom: 2px dashed var(--dash);
+    padding-bottom: 24px;
+  }
+
+  .fiche-logo {
+    width: 72px;
+    height: 72px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed var(--dash);
+    border-radius: 12px;
+    padding: 8px;
+    background: #fafafa;
+  }
+
+  .fiche-logo img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .page-title {
+    margin: 4px 0 8px;
+    font: 700 clamp(26px, 5vw, 38px)/1.15 var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .page-subtitle {
+    margin: 0;
+    font: 400 14px/1.55 var(--font);
+    letter-spacing: 0.03em;
+    color: rgba(0, 0, 0, 0.75);
+  }
+
+  .prose-card {
+    border: 2px dashed var(--dash);
+    border-radius: 12px;
+    padding: clamp(20px, 3vw, 28px);
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .prose-card h2 {
+    margin: 0;
+    font: 700 15px/1.3 var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .prose-card h2::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--ink);
+  }
+
+  .meta-grille {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: flex-start;
+  }
+
+  .domaines-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+  }
+
+  .pill-sm {
+    height: 24px;
+    padding: 0 10px;
+    font-size: 10px;
+  }
+
+  .btn-sm {
+    height: 32px;
+    padding: 0 14px;
+    font-size: 11px;
+  }
+
+  .contenu-markdown :global(h2) {
+    margin: 24px 0 10px;
+    font: 700 16px/1.3 var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .contenu-markdown :global(p) {
+    margin: 0 0 14px;
+    font: 400 14px/1.65 var(--font);
+    color: rgba(0, 0, 0, 0.85);
+  }
+
+  .contenu-markdown :global(ul) {
+    margin: 0 0 14px;
+    padding-left: 20px;
+    font: 400 14px/1.65 var(--font);
+    color: rgba(0, 0, 0, 0.85);
+  }
+
+  .contenu-markdown :global(li) {
+    margin-bottom: 6px;
+  }
+
+  @media (max-width: 600px) {
+    .fiche-head {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
 </style>
