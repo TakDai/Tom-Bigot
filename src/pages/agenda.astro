@@ -202,6 +202,51 @@ const planningFpvMois: MoisFpv[] = [
       </p>
     </header>
 
+    <!-- BANDEAU ACCÈS DIRECT PAR ORGANISATION -->
+    <aside class="org-subdomain-hub" aria-label="Espaces dédiés par organisation">
+      <div class="org-hub-header">
+        <span class="etiquette">PAGES DÉDIÉES &bull; SOUS-DOMAINES RÉSERVÉS</span>
+        <span class="hub-privacy-badge">ISOLATION STRICTE CONFIDENTIALITÉ</span>
+      </div>
+      <p class="org-hub-desc">
+        Chaque établissement dispose désormais de sa propre page exclusive avec formulaire adapté et calendrier isolé. Cliquez sur votre espace dédié :
+      </p>
+      <div class="org-hub-grid">
+        <a href="/agenda/cine-off" class="org-hub-card">
+          <span class="hub-icon">🎞️</span>
+          <div class="hub-info">
+            <strong>Ciné-Off (37)</strong>
+            <small>cine-off.tom-bigot.fr</small>
+            <span>Circuit itinérant &bull; Tournées &rarr;</span>
+          </div>
+        </a>
+        <a href="/agenda/les-studios" class="org-hub-card">
+          <span class="hub-icon">🏛️</span>
+          <div class="hub-info">
+            <strong>Les Studios (Tours)</strong>
+            <small>studios.tom-bigot.fr</small>
+            <span>7 Écrans &bull; Cabines &amp; 35mm &rarr;</span>
+          </div>
+        </a>
+        <a href="/agenda/fpv" class="org-hub-card">
+          <span class="hub-icon">🚁</span>
+          <div class="hub-info">
+            <strong>Drone FPV &amp; Devis</strong>
+            <small>fpv.tom-bigot.fr</small>
+            <span>Tournages &bull; Devis instantané &rarr;</span>
+          </div>
+        </a>
+        <a href="/agenda/admin" class="org-hub-card">
+          <span class="hub-icon">🛡️</span>
+          <div class="hub-info">
+            <strong>Superviseur</strong>
+            <small>admin.tom-bigot.fr</small>
+            <span>Master planning consolidé &rarr;</span>
+          </div>
+        </a>
+      </div>
+    </aside>
+
     <!-- GRAND SÉLECTEUR D'AGENDA INDÉPENDANT -->
     <nav class="agenda-master-selector" aria-label="Sélection de l'agenda">
       <button
@@ -1861,6 +1906,96 @@ const planningFpvMois: MoisFpv[] = [
     margin-bottom: 24px;
     padding-bottom: 20px;
     border-bottom: 2px dashed var(--dash);
+  }
+
+  /* Bandeau Hub Organisations */
+  .org-subdomain-hub {
+    margin-bottom: 32px;
+    padding: 20px;
+    border: 2px solid #000000;
+    background: #fafafa;
+    box-shadow: 4px 4px 0px #000000;
+  }
+
+  .org-hub-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  .hub-privacy-badge {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.6rem;
+    background: #000000;
+    color: #ffffff;
+    text-transform: uppercase;
+  }
+
+  .org-hub-desc {
+    font-size: 0.9rem;
+    color: #444444;
+    margin: 0 0 16px 0;
+    line-height: 1.4;
+  }
+
+  .org-hub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+  }
+
+  .org-hub-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px;
+    background: #ffffff;
+    border: 2px solid #000000;
+    text-decoration: none;
+    color: #000000;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .org-hub-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 3px 3px 0px #000000;
+    background: #fdfdfd;
+  }
+
+  .hub-icon {
+    font-size: 1.6rem;
+    line-height: 1;
+    padding: 4px;
+  }
+
+  .hub-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .hub-info strong {
+    font-size: 0.95rem;
+    line-height: 1.2;
+  }
+
+  .hub-info small {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.72rem;
+    color: #666666;
+  }
+
+  .hub-info span {
+    font-size: 0.76rem;
+    color: #333333;
+    margin-top: 4px;
+    font-weight: 600;
   }
 
   .head-topline {

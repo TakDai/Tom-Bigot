@@ -1,0 +1,974 @@
+---
+import Base from '../../layouts/Base.astro';
+import { planningCinemaMois } from '../../data/planning';
+---
+
+<Base
+  titre="Espace Dédié Ciné-Off — Réservations & Tournées Cabine"
+  description="Portail officiel et exclusif de réservation de dates pour le circuit de cinéma itinérant Ciné-Off (Indre-et-Loire). Planifiez vos tournées et vacations cabine avec Tom Bigot."
+>
+  <main class="prose-screen dedicated-agenda-page">
+    <!-- Header dédié Ciné-Off -->
+    <header class="page-head dedicated-header">
+      <div class="dedicated-badge-row">
+        <span class="etiquette">CIRCUIT ITINÉRANT 37 &bull; INDRE-ET-LOIRE</span>
+        <span class="badge-partner">PORTAIL DÉDIÉ CINÉ-OFF</span>
+      </div>
+      <h1 class="page-title">ESPACE RÉSERVATIONS &bull; CINÉ-OFF</h1>
+      <p class="page-subtitle">
+        Planning exclusif pour la coordination des projections itinérantes, tournées communales et séances en plein air du circuit Ciné-Off. Vos séances sont affichées en clair ci-dessous.
+      </p>
+    </header>
+
+    <!-- Carte d'accueil & Authentification Ciné-Off -->
+    <section class="partner-auth-box">
+      <div id="cineoffAuthLoggedOut" class="auth-card">
+        <div class="auth-icon">🎞️</div>
+        <div class="auth-info">
+          <div class="auth-status-tag">ACCÈS PARTENAIRE SÉCURISÉ</div>
+          <h2>CIRCUIT ITINÉRANT CINÉ-OFF</h2>
+          <p>
+            Saisissez votre code exploitant pour déverrouiller la vue détaillée de vos dates et poser directement vos prochaines vacations de tournée.
+          </p>
+          <form id="cineoffLoginForm" class="partner-login-form">
+            <div class="input-row">
+              <input
+                type="password"
+                id="cineoffPasscode"
+                placeholder="Code exploitant Ciné-Off..."
+                autocomplete="current-password"
+                required
+              />
+              <button type="submit" class="btn-noir">Déverrouiller l'espace &rarr;</button>
+            </div>
+            <div id="cineoffFeedback" class="feedback-msg" style="display: none;"></div>
+            <span class="demo-hint">💡 Code exploitant configuré : <code>CINEOFF</code></span>
+          </form>
+        </div>
+      </div>
+
+      <div id="cineoffAuthLoggedIn" class="auth-card logged-in" style="display: none;">
+        <div class="auth-icon">🎞️</div>
+        <div class="auth-info">
+          <div class="auth-status-tag active">SESSION ACTIVE &bull; CINÉ-OFF</div>
+          <h2>CIRCUIT CINÉ-OFF VÉRIFIÉ</h2>
+          <p>
+            Vos vacations de tournée sont affichées en clair dans le calendrier. Les séances des salles sédentaires (Les Studios) et périodes CFA sont masquées pour garantir la confidentialité entre exploitants.
+          </p>
+          <div class="logged-actions">
+            <a href="#formCineoff" class="btn-noir">+ Poser une date de tournée &darr;</a>
+            <button type="button" id="btnCineoffLogout" class="btn-outline">Verrouiller la session ✕</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Barre d'outils et Légende -->
+    <div class="agenda-toolbar">
+      <div class="legend-grid">
+        <div class="legend-item">
+          <span class="legend-box box-libre"></span>
+          <div class="legend-text">
+            <strong>DISPONIBLE</strong>
+            <span>Créneau ouvert pour Ciné-Off</span>
+          </div>
+        </div>
+        <div class="legend-item">
+          <span class="legend-box box-cineoff"></span>
+          <div class="legend-text">
+            <strong>VOTRE TOURNÉE</strong>
+            <span>Séance confirmée Ciné-Off</span>
+          </div>
+        </div>
+        <div class="legend-item">
+          <span class="legend-box box-masked"></span>
+          <div class="legend-text">
+            <strong>AUTRE EXPLOITANT / CFA</strong>
+            <span>Séance privée (confidentiel)</span>
+          </div>
+        </div>
+        <div class="legend-item">
+          <span class="legend-box box-option"></span>
+          <div class="legend-text">
+            <strong>OPTION EN COURS</strong>
+            <span>Date en cours de calage</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="month-selector-bar">
+        <button type="button" id="btnPrevMonth" class="btn-outline btn-month">&larr; Mois précédent</button>
+        <div class="current-month-display">
+          <span class="etiquette">TOURNÉES 37</span>
+          <h2 id="calendarMonthTitle" class="month-heading">NOVEMBRE 2026</h2>
+        </div>
+        <button type="button" id="btnNextMonth" class="btn-outline btn-month">Mois suivant &rarr;</button>
+      </div>
+    </div>
+
+    <!-- Calendriers Ciné-Off -->
+    {planningCinemaMois.map((mois, indexMois) => (
+      <section
+        id={`cineoff-calendar-${indexMois}`}
+        class={`calendar-card cinema-month-view ${indexMois === 0 ? 'is-active-month' : 'is-hidden-month'}`}
+        data-month-index={indexMois}
+        data-month-name={`${mois.nom.toUpperCase()} ${mois.annee}`}
+      >
+        <div class="calendar-grid">
+          <div class="weekday-col">LUN</div>
+          <div class="weekday-col">MAR</div>
+          <div class="weekday-col">MER</div>
+          <div class="weekday-col">JEU</div>
+          <div class="weekday-col">VEN</div>
+          <div class="weekday-col">SAM</div>
+          <div class="weekday-col">DIM</div>
+
+          {Array.from({ length: mois.decalageLundi }).map(() => (
+            <div class="day-cell day-empty" aria-hidden="true"></div>
+          ))}
+
+          {mois.jours.map((item) => {
+            const isLibre = item.statut === 'libre';
+            const isCineoff = item.ownerId === 'cineoff';
+            const isOther = !isLibre && !isCineoff;
+
+            return (
+              <div
+                class={`day-cell ${isLibre ? 'day-selectable' : (isCineoff ? 'day-cineoff-active' : 'day-masked-grise')}`}
+                data-date={item.dateStr}
+                data-owner={item.ownerId}
+                data-detail={item.detail || ''}
+                role={isLibre ? 'button' : 'region'}
+                tabindex={isLibre ? '0' : '-1'}
+              >
+                <div class="day-topline">
+                  <span class="day-number">{item.jour}</span>
+                  {isLibre && <span class="tag-libre">+ Choisir</span>}
+                  {isCineoff && <span class="tag-cineoff">Ciné-Off</span>}
+                  {isOther && <span class="tag-masked">🔒 Occupé</span>}
+                </div>
+                <div class="day-body">
+                  {isLibre && (
+                    <>
+                      <div class="day-title">Disponible Cabine</div>
+                      <div class="day-desc">Ouvert aux tournées</div>
+                    </>
+                  )}
+                  {isCineoff && (
+                    <>
+                      <div class="day-title" data-cineoff-title>Ciné-Off (Tournée)</div>
+                      <div class="day-desc" data-cineoff-desc>{item.detail}</div>
+                    </>
+                  )}
+                  {isOther && (
+                    <>
+                      <div class="day-title" style="color: #666666; font-style: italic;">🔒 Indisponible</div>
+                      <div class="day-desc" style="color: #999999;">Créneau engagé (Confidentiel)</div>
+                    </>
+                  )}
+                </div>
+                {isLibre && (
+                  <div class="day-hint">
+                    <span>Poser une date</span>
+                  </div>
+                )}
+                {isCineoff && (
+                  <div class="day-hint" style="color: #000000; font-weight: 700;">
+                    <span>Votre séance</span>
+                  </div>
+                )}
+                {isOther && (
+                  <div class="day-hint" style="color: #777777;">
+                    <span>🔒 Réservé tiers</span>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </section>
+    ))}
+
+    <!-- Panier de sélection de dates -->
+    <div id="selectionBarCineoff" class="selection-summary-bar" style="display: none;">
+      <div class="selection-info">
+        <span class="etiquette">DATES DE TOURNÉE SÉLECTIONNÉES</span>
+        <div id="selectedCineoffDatesList" class="selected-tags-container"></div>
+      </div>
+      <div class="selection-actions">
+        <button type="button" id="btnClearCineoffDates" class="btn-clear">Vider</button>
+        <a href="#formCineoff" class="btn-noir btn-jump-form">Finaliser la demande &darr;</a>
+      </div>
+    </div>
+
+    <!-- Formulaire dédié Ciné-Off -->
+    <section id="formCineoff" class="prose-card form-container">
+      <div class="form-header">
+        <span class="etiquette">RÉGIE TECHNIQUE &bull; CIRCUIT DE TOURNÉE</span>
+        <h2>TRANSMETTRE UNE DEMANDE DE TOURNÉE CINÉ-OFF</h2>
+        <p class="form-intro">
+          Ce formulaire est pré-configuré pour l'équipe et la régie de <strong>Ciné-Off</strong>. Choisissez vos dates sur le calendrier et précisez les communes d'intervention.
+        </p>
+      </div>
+
+      <form id="agendaFormCineoff" class="styled-agenda-form">
+        <!-- Honeypot anti-bot OWASP OAT-007 -->
+        <div class="hp-field-guard" aria-hidden="true" style="position: absolute; left: -9999px; opacity: 0; pointer-events: none; width: 0; height: 0; overflow: hidden;">
+          <label for="cineoff_guard">Ne pas remplir</label>
+          <input type="text" id="cineoff_guard" name="cineoff_guard" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="form-grid-fields">
+          <div class="form-field">
+            <label for="cineoffStructure"><strong>STRUCTURE *</strong></label>
+            <input type="text" id="cineoffStructure" name="cineoffStructure" value="Ciné-Off (Circuit itinérant 37)" readonly required />
+          </div>
+
+          <div class="form-field">
+            <label for="cineoffContact"><strong>RESPONSABLE TOURNÉE / COORDINATEUR *</strong></label>
+            <input type="text" id="cineoffContact" name="cineoffContact" placeholder="Ex : Régie Ciné-Off" required />
+          </div>
+
+          <div class="form-field">
+            <label for="cineoffEmail"><strong>EMAIL DE CONTACT *</strong></label>
+            <input type="email" id="cineoffEmail" name="cineoffEmail" value="contact@cine-off.fr" required />
+          </div>
+
+          <div class="form-field">
+            <label for="cineoffTel"><strong>TÉLÉPHONE DU CONDUCTEUR / CABINE</strong></label>
+            <input type="tel" id="cineoffTel" name="cineoffTel" placeholder="Ex : 02 47 XX XX XX" />
+          </div>
+
+          <div class="form-field full-width">
+            <label for="cineoffDatesInput"><strong>DATE(S) RETENUE(S) *</strong></label>
+            <input type="text" id="cineoffDatesInput" name="cineoffDatesInput" placeholder="Cliquez sur les dates disponibles ci-dessus..." required />
+          </div>
+
+          <div class="form-field">
+            <label for="cineoffTypeSeance"><strong>TYPE DE TOURNÉE *</strong></label>
+            <select id="cineoffTypeSeance" name="cineoffTypeSeance" required>
+              <option value="Séance communale en salle polyvalente">Séance en salle communale / polyvalente</option>
+              <option value="Projection plein air (Saison estivale)">Projection plein air (Écran gonflable)</option>
+              <option value="Séance jeune public / Scolaire matin">Séance scolaire / Jeune public (Matin)</option>
+              <option value="Journée continue / Week-end événement">Tournée week-end (Plusieurs communes)</option>
+              <option value="Renfort cabine imprévu / Dépannage">Remplacement d'urgence / Dépannage</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="cineoffCommunes"><strong>COMMUNE(S) D'INTERVENTION (37) *</strong></label>
+            <input type="text" id="cineoffCommunes" name="cineoffCommunes" placeholder="Ex : Bléré, Richelieu, Bourgueil, Montbazon..." required />
+          </div>
+
+          <div class="form-field full-width">
+            <label for="cineoffNotes"><strong>DÉTAILS DES PROJECTIONS &amp; ÉQUIPEMENTS</strong></label>
+            <textarea id="cineoffNotes" name="cineoffNotes" rows="4" placeholder="Précisez les titres des films prévus, horaires de montage du projecteur, camion assigné ou contraintes de salle..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-footer">
+          <button type="submit" class="btn-noir btn-submit">Transmettre la proposition de dates Ciné-Off &rarr;</button>
+          <p class="form-notice">Une confirmation structurée est transmise directement à Tom Bigot.</p>
+        </div>
+
+        <div id="confirmationBoxCineoff" class="confirmation-box" style="display: none;">
+          <h3>DEMANDE DE TOURNÉE CINÉ-OFF ENVOYÉE</h3>
+          <p id="confirmationMessageCineoff"></p>
+          <a href="#" id="mailtoFallbackCineoff" class="btn-outline btn-inline">Ouvrir dans votre messagerie &rarr;</a>
+        </div>
+      </form>
+    </section>
+  </main>
+</Base>
+
+<script>
+  // Configuration cryptographique et hashes Ciné-Off (OWASP Level 3)
+  const CINEOFF_SALT = 'TOM_BIGOT_CABINE_SECURE_SALT_2026';
+  const CINEOFF_HASHES = [
+    '6cdb202dec49fca32acfc398b241bdaf3527ef2ce7b7bdde5767a648ebe844ba', // CINEOFF
+    'f7fe2d2de10134dff11186bedbf99e287587bd234f4841dafcb44b576bcf9aa7', // CINEOFF-37
+    '5915b24f372d999f3df327af4dedd158304c92b8c73d3b340d6cfa3dfbbf2311', // CINEOFF2026
+    '80aa5461ba670e6416aebc38614fde1cd0a775b0921a10e2be036c67b72cf980', // CINE-OFF
+    '8709e278a9adee0790e951ffd0c867497008c374e7e4fffaa5b83bc981be96ff', // CINE2
+    '707d7d71300e0c25336fea1eaf69bee99a89db9684bcdf97da641d8ffff2fde2'  // TOM-2026
+  ];
+
+  function constantTimeEqual(a: string, b: string): boolean {
+    if (a.length !== b.length) return false;
+    let diff = 0;
+    for (let i = 0; i < a.length; i++) {
+      diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+    }
+    return diff === 0;
+  }
+
+  async function hashInput(pass: string): Promise<string> {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(pass.trim().toUpperCase() + ':' + CINEOFF_SALT);
+    const hashBuffer = await window.crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(hashBuffer)).map((b) => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  const authLoggedOut = document.getElementById('cineoffAuthLoggedOut');
+  const authLoggedIn = document.getElementById('cineoffAuthLoggedIn');
+  const loginForm = document.getElementById('cineoffLoginForm') as HTMLFormElement | null;
+  const inputPass = document.getElementById('cineoffPasscode') as HTMLInputElement | null;
+  const feedback = document.getElementById('cineoffFeedback');
+  const btnLogout = document.getElementById('btnCineoffLogout');
+
+  function unlockCineoff() {
+    sessionStorage.setItem('tom_cineoff_auth', '1');
+    if (authLoggedOut) authLoggedOut.style.display = 'none';
+    if (authLoggedIn) authLoggedIn.style.display = 'block';
+  }
+
+  function lockCineoff() {
+    sessionStorage.removeItem('tom_cineoff_auth');
+    if (authLoggedIn) authLoggedIn.style.display = 'none';
+    if (authLoggedOut) authLoggedOut.style.display = 'block';
+    if (inputPass) inputPass.value = '';
+  }
+
+  loginForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const val = (inputPass?.value || '').trim();
+    if (!val) return;
+
+    const hash = await hashInput(val);
+    let match = false;
+    for (const h of CINEOFF_HASHES) {
+      if (constantTimeEqual(h, hash)) {
+        match = true;
+        break;
+      }
+    }
+
+    if (match) {
+      unlockCineoff();
+    } else {
+      if (feedback) {
+        feedback.style.display = 'block';
+        feedback.textContent = 'Code exploitant Ciné-Off incorrect.';
+      }
+    }
+  });
+
+  btnLogout?.addEventListener('click', lockCineoff);
+
+  if (sessionStorage.getItem('tom_cineoff_auth') === '1') {
+    unlockCineoff();
+  }
+
+  // Navigation mois
+  const monthViews = document.querySelectorAll('.cinema-month-view');
+  const btnPrev = document.getElementById('btnPrevMonth') as HTMLButtonElement | null;
+  const btnNext = document.getElementById('btnNextMonth') as HTMLButtonElement | null;
+  const monthTitle = document.getElementById('calendarMonthTitle');
+  let currentMonth = 0;
+
+  function showMonth(idx: number) {
+    monthViews.forEach((v, i) => {
+      if (i === idx) {
+        v.classList.remove('is-hidden-month');
+        v.classList.add('is-active-month');
+        const name = v.getAttribute('data-month-name');
+        if (monthTitle && name) monthTitle.textContent = name;
+      } else {
+        v.classList.add('is-hidden-month');
+        v.classList.remove('is-active-month');
+      }
+    });
+    if (btnPrev) btnPrev.disabled = idx === 0;
+    if (btnNext) btnNext.disabled = idx === monthViews.length - 1;
+  }
+
+  if (btnPrev && btnNext) {
+    showMonth(0);
+    btnPrev.addEventListener('click', () => { if (currentMonth > 0) { currentMonth--; showMonth(currentMonth); } });
+    btnNext.addEventListener('click', () => { if (currentMonth < monthViews.length - 1) { currentMonth++; showMonth(currentMonth); } });
+  }
+
+  // Sélection des dates disponibles
+  const selectedDates = new Set<string>();
+  const selectionBar = document.getElementById('selectionBarCineoff');
+  const listDates = document.getElementById('selectedCineoffDatesList');
+  const inputDates = document.getElementById('cineoffDatesInput') as HTMLInputElement | null;
+  const btnClear = document.getElementById('btnClearCineoffDates');
+
+  function updateSelection() {
+    if (!selectionBar || !listDates || !inputDates) return;
+    listDates.replaceChildren();
+
+    if (selectedDates.size === 0) {
+      selectionBar.style.display = 'none';
+      inputDates.value = '';
+      return;
+    }
+
+    selectionBar.style.display = 'flex';
+    const sorted = Array.from(selectedDates).sort();
+    inputDates.value = sorted.join(', ');
+
+    sorted.forEach((d) => {
+      const pill = document.createElement('span');
+      pill.className = 'date-pill-selected';
+      const strong = document.createElement('strong');
+      strong.textContent = d;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = '×';
+      btn.setAttribute('aria-label', `Retirer ${d}`);
+      btn.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        selectedDates.delete(d);
+        document.querySelectorAll(`.day-selectable[data-date="${d}"]`).forEach((c) => c.classList.remove('day-selected'));
+        updateSelection();
+      });
+      pill.append(strong, btn);
+      listDates.appendChild(pill);
+    });
+  }
+
+  document.querySelectorAll('.day-selectable').forEach((cell) => {
+    cell.addEventListener('click', () => {
+      const date = cell.getAttribute('data-date');
+      if (!date) return;
+      if (selectedDates.has(date)) {
+        selectedDates.delete(date);
+        cell.classList.remove('day-selected');
+      } else {
+        selectedDates.add(date);
+        cell.classList.add('day-selected');
+      }
+      updateSelection();
+    });
+  });
+
+  document.querySelectorAll('.day-masked-grise').forEach((cell) => {
+    cell.addEventListener('click', () => {
+      const date = cell.getAttribute('data-date');
+      alert(`Date indisponible (${date}) :\nCe créneau est déjà réservé par un autre exploitant ou engagé en formation CFA.\nPar respect de la confidentialité professionnelle, les détails sont masqués.`);
+    });
+  });
+
+  btnClear?.addEventListener('click', () => {
+    selectedDates.clear();
+    document.querySelectorAll('.day-selectable').forEach((c) => c.classList.remove('day-selected'));
+    updateSelection();
+  });
+
+  // Soumission et anti-bot
+  const pageLoadedAt = Date.now();
+  const form = document.getElementById('agendaFormCineoff') as HTMLFormElement | null;
+  const confBox = document.getElementById('confirmationBoxCineoff');
+  const confMsg = document.getElementById('confirmationMessageCineoff');
+  const mailtoBtn = document.getElementById('mailtoFallbackCineoff') as HTMLAnchorElement | null;
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const guard = data.get('cineoff_guard');
+    if (guard && String(guard).trim() !== '') return;
+    if (Date.now() - pageLoadedAt < 2000) {
+      alert('Veuillez patienter 2 secondes avant de soumettre le formulaire.');
+      return;
+    }
+
+    const contact = ((data.get('cineoffContact') as string) || '').replace(/[\r\n]+/g, ' ').trim();
+    const email = ((data.get('cineoffEmail') as string) || '').replace(/[\r\n]+/g, ' ').trim();
+    const tel = ((data.get('cineoffTel') as string) || 'Non renseigné').replace(/[\r\n]+/g, ' ').trim();
+    const dates = ((data.get('cineoffDatesInput') as string) || '').replace(/[\r\n]+/g, ' ').trim();
+    const typeSeance = (data.get('cineoffTypeSeance') as string) || '';
+    const communes = ((data.get('cineoffCommunes') as string) || '').replace(/[\r\n]+/g, ' ').trim();
+    const notes = ((data.get('cineoffNotes') as string) || 'Aucune').replace(/\r/g, '').trim();
+
+    const sujet = encodeURIComponent(`[TOURNÉE CINÉ-OFF] Proposition de dates — ${communes} (${dates})`);
+    const corps = encodeURIComponent(
+      `Bonjour Tom,\n\nUne nouvelle proposition de tournée vient d'être formulée depuis l'espace dédié Ciné-Off :\n\n` +
+      `• Structure : Ciné-Off (Circuit itinérant 37)\n` +
+      `• Coordinateur régie : ${contact}\n` +
+      `• Email direct : ${email}\n` +
+      `• Téléphone cabine : ${tel}\n\n` +
+      `DÉTAILS DE LA TOURNÉE :\n` +
+      `• Date(s) souhaitée(s) : ${dates}\n` +
+      `• Type de séance : ${typeSeance}\n` +
+      `• Commune(s) : ${communes}\n\n` +
+      `Notes de tournée & Films prévus :\n${notes}\n\n` +
+      `---\nTransmis depuis l'espace dédié ciné-off.tom-bigot.fr`
+    );
+
+    const mailtoUrl = `mailto:contact@tom-bigot.fr?subject=${sujet}&body=${corps}`;
+
+    if (confBox && confMsg) {
+      confBox.style.display = 'block';
+      confMsg.textContent = `Votre demande de tournée sur les dates (${dates}) à destination de "${communes}" a été préparée et transmise à Tom Bigot.`;
+      if (mailtoBtn) mailtoBtn.href = mailtoUrl;
+      confBox.scrollIntoView({ behavior: 'smooth' });
+    }
+    window.location.href = mailtoUrl;
+  });
+</script>
+
+<style>
+  .dedicated-agenda-page {
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: clamp(24px, 4vw, 56px) clamp(16px, 3vw, 36px);
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .dedicated-badge-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  .badge-partner {
+    font: 700 11px var(--font);
+    letter-spacing: 0.1em;
+    background: #000000;
+    color: #ffffff;
+    padding: 3px 10px;
+    text-transform: uppercase;
+  }
+
+  .page-title {
+    margin: 6px 0 10px;
+    font: 700 clamp(28px, 4.5vw, 42px)/1.1 var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .page-subtitle {
+    margin: 0;
+    font: 400 14px/1.6 var(--font);
+    color: rgba(0, 0, 0, 0.75);
+  }
+
+  /* Carte d'accueil partenaire */
+  .partner-auth-box {
+    border: 2px dashed var(--dash);
+    background: #fafafa;
+    padding: clamp(20px, 3vw, 28px);
+  }
+
+  .auth-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .auth-icon {
+    font-size: 36px;
+    line-height: 1;
+  }
+
+  .auth-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .auth-status-tag {
+    font: 700 10.5px var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.55);
+  }
+
+  .auth-status-tag.active {
+    color: #000000;
+    font-weight: 900;
+  }
+
+  .auth-info h2 {
+    margin: 0;
+    font: 700 18px var(--font);
+    letter-spacing: 0.08em;
+  }
+
+  .auth-info p {
+    margin: 0;
+    font: 400 13px/1.5 var(--font);
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  .partner-login-form {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .input-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .input-row input {
+    min-width: 240px;
+    flex: 1;
+    background: #ffffff;
+    border: 2px solid #000000;
+    padding: 10px 14px;
+    font: 700 13px var(--font);
+  }
+
+  .feedback-msg {
+    font: 700 11.5px var(--font);
+    color: #cc0000;
+  }
+
+  .demo-hint {
+    font: 400 11px var(--font);
+    color: rgba(0, 0, 0, 0.5);
+  }
+
+  .demo-hint code {
+    background: #eeeeee;
+    padding: 2px 6px;
+    border: 1px solid #cccccc;
+    font-weight: 700;
+  }
+
+  .logged-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+
+  /* Toolbar et légende */
+  .agenda-toolbar {
+    background: var(--paper);
+    border: 2px dashed var(--dash);
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .legend-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.2);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .legend-box {
+    width: 14px;
+    height: 14px;
+    margin-top: 2px;
+    flex-shrink: 0;
+    border: 1px solid #000000;
+  }
+
+  .box-libre {
+    background: #ffffff;
+    border: 2px solid #000000;
+  }
+
+  .box-cineoff {
+    background: #000000;
+  }
+
+  .box-masked {
+    background: repeating-linear-gradient(-45deg, #f0f0f0, #f0f0f0 4px, #dddddd 4px, #dddddd 8px);
+    border-color: #888888;
+  }
+
+  .box-option {
+    background: #eeeeee;
+    border: 1px dashed #000000;
+  }
+
+  .legend-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .legend-text strong {
+    font: 700 10.5px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .legend-text span {
+    font: 400 10px var(--font);
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .month-selector-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .month-heading {
+    margin: 4px 0 0;
+    font: 700 20px var(--font);
+    letter-spacing: 0.1em;
+  }
+
+  /* Grille Calendrier */
+  .calendar-card {
+    background: #ffffff;
+    border: 2px dashed var(--dash);
+    padding: clamp(16px, 3vw, 24px);
+  }
+
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+  }
+
+  .weekday-col {
+    text-align: center;
+    font: 700 11px var(--font);
+    letter-spacing: 0.12em;
+    padding: 6px 0;
+    border-bottom: 2px solid #000000;
+  }
+
+  .day-cell {
+    min-height: 96px;
+    border: 1px solid #cccccc;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 4px;
+    position: relative;
+    transition: all 0.2s ease;
+  }
+
+  .day-empty {
+    border: 1px dashed rgba(0, 0, 0, 0.08);
+    background: #fafafa;
+  }
+
+  .day-selectable {
+    border: 1.5px solid #000000;
+    background: #ffffff;
+    cursor: pointer;
+  }
+
+  .day-selectable:hover {
+    transform: translateY(-2px);
+    box-shadow: 2px 2px 0 #000000;
+  }
+
+  .day-selected {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border-color: #000000 !important;
+    box-shadow: 3px 3px 0 #000000;
+  }
+
+  .day-selected .day-title,
+  .day-selected .day-desc,
+  .day-selected .day-hint,
+  .day-selected .day-number {
+    color: #ffffff !important;
+  }
+
+  .day-selected .tag-libre {
+    background: #ffffff;
+    color: #000000;
+  }
+
+  .day-cineoff-active {
+    background: #ffffff;
+    border: 2px solid #000000;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  .day-masked-grise {
+    background: repeating-linear-gradient(-45deg, #fafafa, #fafafa 5px, #f0f0f0 5px, #f0f0f0 10px) !important;
+    border: 1px dashed #cccccc;
+    border-left: 3px solid #888888;
+    cursor: pointer;
+  }
+
+  .day-topline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .day-number {
+    font: 700 13px var(--font);
+  }
+
+  .tag-libre {
+    font: 700 8.5px var(--font);
+    background: #000000;
+    color: #ffffff;
+    padding: 1px 4px;
+  }
+
+  .tag-cineoff {
+    font: 700 8.5px var(--font);
+    background: #000000;
+    color: #ffffff;
+    padding: 1px 5px;
+    letter-spacing: 0.05em;
+  }
+
+  .tag-masked {
+    font: 700 8.5px var(--font);
+    background: #666666;
+    color: #ffffff;
+    padding: 1px 4px;
+  }
+
+  .day-title {
+    font: 700 11px var(--font);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .day-desc {
+    font: 400 9.5px/1.2 var(--font);
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  .day-hint {
+    font: 700 8.5px var(--font);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-top: 1px dashed rgba(0, 0, 0, 0.15);
+    padding-top: 3px;
+  }
+
+  /* Panier */
+  .selection-summary-bar {
+    background: #000000;
+    color: #ffffff;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .selected-tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+  }
+
+  .date-pill-selected {
+    background: #ffffff;
+    color: #000000;
+    padding: 3px 8px;
+    font: 700 11px var(--font);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-clear {
+    background: transparent;
+    color: #ffffff;
+    border: 1px dashed rgba(255, 255, 255, 0.4);
+    padding: 6px 12px;
+    cursor: pointer;
+    font: 700 11px var(--font);
+  }
+
+  /* Formulaire */
+  .form-container {
+    border: 2px dashed var(--dash);
+    padding: clamp(20px, 3.5vw, 36px);
+  }
+
+  .form-header h2 {
+    margin: 6px 0 10px;
+    font: 700 22px var(--font);
+    letter-spacing: 0.08em;
+  }
+
+  .styled-agenda-form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .form-grid-fields {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .form-field.full-width {
+    grid-column: 1 / -1;
+  }
+
+  .form-field label {
+    font: 700 11px var(--font);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .form-field input,
+  .form-field select,
+  .form-field textarea {
+    background: #ffffff;
+    border: 1.5px solid #000000;
+    padding: 10px 12px;
+    font: 400 13px var(--font);
+  }
+
+  .confirmation-box {
+    margin-top: 16px;
+    background: #000000;
+    color: #ffffff;
+    padding: 20px;
+  }
+
+  .confirmation-box h3 {
+    color: #ffffff;
+    margin: 0 0 6px;
+  }
+
+  .is-hidden-month {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .calendar-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .form-grid-fields {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

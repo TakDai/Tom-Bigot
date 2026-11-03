@@ -1,0 +1,1116 @@
+---
+import Base from '../../layouts/Base.astro';
+import {
+  planningCinemaMois,
+  planningFpvMois
+} from '../../data/planning';
+---
+
+<Base
+  titre="Supervision Globale — Espace Superviseur & Administration Agenda"
+  description="Console d'administration et vue de supervision globale pour Tom Bigot. Visualisation démasquée de tous les plannings cinémas, formations et tournages FPV."
+>
+  <main class="prose-screen dedicated-agenda-page">
+    <!-- Header Supervision -->
+    <header class="page-head dedicated-header">
+      <div class="dedicated-badge-row">
+        <span class="etiquette">SUPERVISION GLOBALE &bull; TOM BIGOT</span>
+        <span class="badge-partner">CONSOLE ADMINISTRATEUR</span>
+      </div>
+      <h1 class="page-title">ESPACE SUPERVISEUR &bull; MASTER PLANNING</h1>
+      <p class="page-subtitle">
+        Console d'administration sécurisée. Cet espace démasque l'intégralité des vacations cabine (Les Studios, Ciné-Off, CFA) ainsi que les tournages et repérages Drone FPV sans restriction.
+      </p>
+    </header>
+
+    <!-- Zone d'authentification Superviseur -->
+    <section class="partner-auth-box">
+      <div id="adminAuthLoggedOut" class="auth-card">
+        <div class="auth-icon">🛡️</div>
+        <div class="auth-info">
+          <div class="auth-status-tag">ACCÈS ADMINISTRATEUR RESTREINT</div>
+          <h2>AUTHENTIFICATION SUPERVISEUR</h2>
+          <p>
+            Veuillez entrer le code d'administration maître pour déverrouiller l'accès complet et démasquer les détails confidentiels de toutes les organisations.
+          </p>
+          <form id="adminLoginForm" class="partner-login-form">
+            <div class="input-row">
+              <input
+                type="password"
+                id="adminPasscode"
+                placeholder="Code superviseur maître..."
+                autocomplete="current-password"
+                required
+              />
+              <button type="submit" class="btn-noir">Déverrouiller le master agenda &rarr;</button>
+            </div>
+            <div id="adminFeedback" class="feedback-msg" style="display: none;"></div>
+            <span class="demo-hint">💡 Code administrateur configuré : <code>TOM-2026</code></span>
+          </form>
+        </div>
+      </div>
+
+      <div id="adminAuthLoggedIn" class="auth-card logged-in" style="display: none;">
+        <div class="auth-icon">🔓</div>
+        <div class="auth-info">
+          <div class="auth-status-tag active">SESSION MAÎTRE ACTIVE &bull; TOM BIGOT</div>
+          <h2>CONSOLE SUPERVISEUR DÉVERROUILLÉE</h2>
+          <p>
+            Tous les plannings et données confidentielles sont démasqués ci-dessous. Vous pouvez filtrer par domaine d'activité, inspecter chaque créneau et exporter les données consolidées.
+          </p>
+          <div class="logged-actions">
+            <button type="button" id="btnAdminExport" class="btn-noir">Copier le récapitulatif mensuel &rarr;</button>
+            <button type="button" id="btnAdminLogout" class="btn-outline">Verrouiller la console ✕</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Console de commande & Filtres (Visible quand connecté) -->
+    <section id="adminDashboardView" style="display: none;">
+      <!-- Stats globales -->
+      <div class="admin-stats-grid">
+        <div class="stat-card">
+          <span class="stat-number">10</span>
+          <span class="stat-label">Vacations Les Studios</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">8</span>
+          <span class="stat-label">Tournées Ciné-Off</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">10</span>
+          <span class="stat-label">Jours CFA / Formation</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">5</span>
+          <span class="stat-label">Missions Drone FPV</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">28</span>
+          <span class="stat-label">Créneaux Disponibles</span>
+        </div>
+      </div>
+
+      <!-- Barre d'outils et Filtres -->
+      <div class="agenda-toolbar">
+        <div class="filter-controls-row">
+          <div class="filter-group">
+            <span class="filter-title">FILTRE D'AFFICHAGE :</span>
+            <div class="btn-group-filter">
+              <button type="button" class="btn-filter is-active" data-filter="all">Tous (Global)</button>
+              <button type="button" class="btn-filter" data-filter="cinema">Cabines Cinéma (7 Écrans & Itinérant)</button>
+              <button type="button" class="btn-filter" data-filter="fpv">Drone FPV (Tournages & Repérages)</button>
+            </div>
+          </div>
+
+          <div class="month-selector-bar admin-month-nav">
+            <button type="button" id="btnPrevMonthAdmin" class="btn-outline btn-month">&larr; Mois précédent</button>
+            <div class="current-month-display">
+              <span class="etiquette">CONSOLE 2026</span>
+              <h2 id="calendarMonthTitleAdmin" class="month-heading">NOVEMBRE 2026</h2>
+            </div>
+            <button type="button" id="btnNextMonthAdmin" class="btn-outline btn-month">Mois suivant &rarr;</button>
+          </div>
+        </div>
+
+        <div class="legend-grid">
+          <div class="legend-item">
+            <span class="legend-box box-studios"></span>
+            <div class="legend-text">
+              <strong>LES STUDIOS</strong>
+              <span>Cabines 7 écrans / 35mm</span>
+            </div>
+          </div>
+          <div class="legend-item">
+            <span class="legend-box box-cineoff"></span>
+            <div class="legend-text">
+              <strong>CINÉ-OFF</strong>
+              <span>Circuit itinérant 37</span>
+            </div>
+          </div>
+          <div class="legend-item">
+            <span class="legend-box box-cfa"></span>
+            <div class="legend-text">
+              <strong>CFA / FORMATION</strong>
+              <span>Module technique</span>
+            </div>
+          </div>
+          <div class="legend-item">
+            <span class="legend-box box-fpv"></span>
+            <div class="legend-text">
+              <strong>DRONE FPV</strong>
+              <span>Tournage / Repérage</span>
+            </div>
+          </div>
+          <div class="legend-item">
+            <span class="legend-box box-libre"></span>
+            <div class="legend-text">
+              <strong>DISPONIBLE</strong>
+              <span>Créneau non réservé</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Master Calendriers -->
+      {planningCinemaMois.map((moisCinema, indexMois) => {
+        const moisFpv = planningFpvMois[indexMois];
+
+        return (
+          <section
+            id={`admin-calendar-${indexMois}`}
+            class={`calendar-card admin-month-view ${indexMois === 0 ? 'is-active-month' : 'is-hidden-month'}`}
+            data-month-index={indexMois}
+            data-month-name={`${moisCinema.nom.toUpperCase()} ${moisCinema.annee}`}
+          >
+            <div class="calendar-grid">
+              <div class="weekday-col">LUN</div>
+              <div class="weekday-col">MAR</div>
+              <div class="weekday-col">MER</div>
+              <div class="weekday-col">JEU</div>
+              <div class="weekday-col">VEN</div>
+              <div class="weekday-col">SAM</div>
+              <div class="weekday-col">DIM</div>
+
+              {Array.from({ length: moisCinema.decalageLundi }).map(() => (
+                <div class="day-cell day-empty" aria-hidden="true"></div>
+              ))}
+
+              {moisCinema.jours.map((itemCinema, dayIdx) => {
+                const itemFpv = moisFpv ? moisFpv.jours[dayIdx] : null;
+
+                const isStudios = itemCinema.ownerId === 'studios';
+                const isCineoff = itemCinema.ownerId === 'cineoff';
+                const isCfa = itemCinema.ownerId === 'cfa';
+                const isCinemaLibre = itemCinema.statut === 'libre';
+
+                const hasFpvActivity = itemFpv && itemFpv.statut !== 'libre' && itemFpv.statut !== 'indisponible';
+                const isFpvLibre = itemFpv && itemFpv.statut === 'libre';
+
+                return (
+                  <div
+                    class={`day-cell day-admin-cell ${isStudios ? 'slot-studios' : ''} ${isCineoff ? 'slot-cineoff' : ''} ${isCfa ? 'slot-cfa' : ''} ${hasFpvActivity ? 'slot-fpv' : ''}`}
+                    data-date={itemCinema.dateStr}
+                    data-has-cinema={(!isCinemaLibre).toString()}
+                    data-has-fpv={hasFpvActivity ? 'true' : 'false'}
+                  >
+                    <div class="day-topline">
+                      <span class="day-number">{itemCinema.jour}</span>
+                      <div class="badges-stack">
+                        {isStudios && <span class="tag-studios">Studios</span>}
+                        {isCineoff && <span class="tag-cineoff">Ciné-Off</span>}
+                        {isCfa && <span class="tag-cfa">CFA</span>}
+                        {hasFpvActivity && <span class="tag-fpv">FPV</span>}
+                        {isCinemaLibre && !hasFpvActivity && <span class="tag-dispo">Libre</span>}
+                      </div>
+                    </div>
+
+                    <div class="day-body">
+                      <!-- Section Cinéma -->
+                      <div class="admin-event-block event-cinema">
+                        <span class="event-type-label">🎬 CINÉMA :</span>
+                        {isStudios && <span class="event-desc studios-text"><strong>Les Studios</strong> — {itemCinema.detail}</span>}
+                        {isCineoff && <span class="event-desc cineoff-text"><strong>Ciné-Off</strong> — {itemCinema.detail}</span>}
+                        {isCfa && <span class="event-desc cfa-text"><strong>CFA</strong> — {itemCinema.detail}</span>}
+                        {isCinemaLibre && <span class="event-desc dispo-text">Disponible cabine</span>}
+                      </div>
+
+                      <!-- Section Drone FPV -->
+                      <div class="admin-event-block event-fpv">
+                        <span class="event-type-label">🚁 DRONE FPV :</span>
+                        {itemFpv && itemFpv.statut === 'reserve_tournage' && (
+                          <span class="event-desc fpv-tournage-text"><strong>Tournage</strong> — {itemFpv.detail}</span>
+                        )}
+                        {itemFpv && itemFpv.statut === 'reserve_reperage' && (
+                          <span class="event-desc fpv-reperage-text"><strong>Repérage</strong> — {itemFpv.detail}</span>
+                        )}
+                        {itemFpv && itemFpv.statut === 'option_meteo' && (
+                          <span class="event-desc fpv-option-text"><strong>Option</strong> — {itemFpv.detail}</span>
+                        )}
+                        {itemFpv && itemFpv.statut === 'libre' && (
+                          <span class="event-desc dispo-text">Vol disponible</span>
+                        )}
+                        {itemFpv && itemFpv.statut === 'indisponible' && (
+                          <span class="event-desc indispo-text">Bloqué cabine</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        );
+      })}
+
+      <!-- Modal Export & Presse-Papier -->
+      <div id="exportModalAdmin" class="result-box" style="display: none;">
+        <div class="result-head">
+          <span class="etiquette">EXPORT PLANNING GLOBAL</span>
+          <h3>SYNTHÈSE DU PLANNING CONSOLIDÉ</h3>
+        </div>
+        <pre id="exportPayloadAdmin" class="result-pre"></pre>
+        <div class="result-actions">
+          <button type="button" id="btnCopyAdminExport" class="btn-noir">Copier dans le presse-papier</button>
+          <button type="button" id="btnCloseAdminExport" class="btn-outline">Fermer</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation directe vers les portails réservés -->
+    <nav class="dedicated-footer-nav" aria-label="Espaces dédiés par organisation">
+      <span class="etiquette">PORTAILS ORGANISATIONS INDÉPENDANTS</span>
+      <div class="footer-nav-links">
+        <a href="/agenda/les-studios" class="portal-card">
+          <span class="portal-badge">PORTAIL DÉDIÉ</span>
+          <strong>Cinémas Les Studios &rarr;</strong>
+          <small>Vue isolée 7 écrans & 35mm (Code: STUDIOS)</small>
+        </a>
+        <a href="/agenda/cine-off" class="portal-card">
+          <span class="portal-badge">PORTAIL DÉDIÉ</span>
+          <strong>Circuit Ciné-Off &rarr;</strong>
+          <small>Vue isolée circuit itinérant 37 (Code: CINEOFF)</small>
+        </a>
+        <a href="/agenda/fpv" class="portal-card">
+          <span class="portal-badge">PORTAIL DÉDIÉ</span>
+          <strong>Tournages Drone FPV &rarr;</strong>
+          <small>Réservation & devis pour productions & agences</small>
+        </a>
+        <a href="/agenda" class="portal-card">
+          <span class="portal-badge">PORTAIL PUBLIC</span>
+          <strong>Agenda Global Client &rarr;</strong>
+          <small>Interface publique masquée standard</small>
+        </a>
+      </div>
+    </nav>
+  </main>
+
+  <script>
+    // Module de gestion de la console d'administration
+    const ADMIN_HASH = '796dc21b3eeab2f920eccd168f7ae13f03a4d6d370761731f5e49e4ab949ccab'; // SHA-256('TOM-2026')
+    const SESSION_KEY = 'tom_admin_session_v1';
+    const SEC_KEY = 'tom_admin_sec_guard_v1';
+
+    let currentMonthIndex = 0;
+
+    async function sha256(str: string): Promise<string> {
+      const buffer = new TextEncoder().encode(str);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function constantTimeEqual(a: string, b: string): boolean {
+      if (a.length !== b.length) return false;
+      let diff = 0;
+      for (let i = 0; i < a.length; i++) {
+        diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+      }
+      return diff === 0;
+    }
+
+    function getSecurityState() {
+      try {
+        const raw = localStorage.getItem(SEC_KEY);
+        if (!raw) return { attempts: 0, lockedUntil: 0 };
+        return JSON.parse(raw);
+      } catch {
+        return { attempts: 0, lockedUntil: 0 };
+      }
+    }
+
+    function setSecurityState(state: { attempts: number; lockedUntil: number }) {
+      try {
+        localStorage.setItem(SEC_KEY, JSON.stringify(state));
+      } catch {}
+    }
+
+    function initAdminPage() {
+      setupAuth();
+      setupMonthNavigation();
+      setupFilters();
+      setupExport();
+    }
+
+    function setupAuth() {
+      const form = document.getElementById('adminLoginForm') as HTMLFormElement | null;
+      const input = document.getElementById('adminPasscode') as HTMLInputElement | null;
+      const feedback = document.getElementById('adminFeedback');
+      const boxLoggedOut = document.getElementById('adminAuthLoggedOut');
+      const boxLoggedIn = document.getElementById('adminAuthLoggedIn');
+      const dashboard = document.getElementById('adminDashboardView');
+      const btnLogout = document.getElementById('btnAdminLogout');
+
+      const isAuthed = sessionStorage.getItem(SESSION_KEY) === 'true';
+      if (isAuthed) {
+        showLoggedInState();
+      }
+
+      function showLoggedInState() {
+        if (boxLoggedOut) boxLoggedOut.style.display = 'none';
+        if (boxLoggedIn) boxLoggedIn.style.display = 'flex';
+        if (dashboard) dashboard.style.display = 'block';
+      }
+
+      function showLoggedOutState() {
+        sessionStorage.removeItem(SESSION_KEY);
+        if (boxLoggedOut) boxLoggedOut.style.display = 'flex';
+        if (boxLoggedIn) boxLoggedIn.style.display = 'none';
+        if (dashboard) dashboard.style.display = 'none';
+      }
+
+      form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const sec = getSecurityState();
+        const now = Date.now();
+
+        if (sec.lockedUntil > now) {
+          const remainingSec = Math.ceil((sec.lockedUntil - now) / 1000);
+          if (feedback) {
+            feedback.style.display = 'block';
+            feedback.textContent = `Accès temporairement verrouillé (sécurité anti-brute force). Réessayez dans ${remainingSec}s.`;
+          }
+          return;
+        }
+
+        const entered = (input?.value || '').trim();
+        const hash = await sha256(entered);
+
+        if (constantTimeEqual(hash, ADMIN_HASH)) {
+          setSecurityState({ attempts: 0, lockedUntil: 0 });
+          sessionStorage.setItem(SESSION_KEY, 'true');
+          if (feedback) feedback.style.display = 'none';
+          showLoggedInState();
+        } else {
+          sec.attempts = (sec.attempts || 0) + 1;
+          let delayMs = 0;
+          if (sec.attempts >= 4) {
+            delayMs = 15000;
+          }
+          if (sec.attempts >= 7) {
+            delayMs = 60000;
+          }
+          if (sec.attempts >= 10) {
+            delayMs = 300000;
+          }
+          sec.lockedUntil = delayMs > 0 ? now + delayMs : 0;
+          setSecurityState(sec);
+
+          if (feedback) {
+            feedback.style.display = 'block';
+            feedback.textContent = delayMs > 0
+              ? `Code incorrect. Trop de tentatives : verrouillage actif pour ${Math.round(delayMs / 1000)}s.`
+              : 'Code administrateur incorrect. Veuillez vérifier votre saisie.';
+          }
+        }
+      });
+
+      btnLogout?.addEventListener('click', () => {
+        showLoggedOutState();
+      });
+    }
+
+    function setupMonthNavigation() {
+      const btnPrev = document.getElementById('btnPrevMonthAdmin');
+      const btnNext = document.getElementById('btnNextMonthAdmin');
+      const titleElem = document.getElementById('calendarMonthTitleAdmin');
+      const months = document.querySelectorAll<HTMLElement>('.admin-month-view');
+
+      function updateMonthView() {
+        months.forEach((m, idx) => {
+          if (idx === currentMonthIndex) {
+            m.classList.remove('is-hidden-month');
+            m.classList.add('is-active-month');
+            const name = m.getAttribute('data-month-name');
+            if (titleElem && name) titleElem.textContent = name;
+          } else {
+            m.classList.remove('is-active-month');
+            m.classList.add('is-hidden-month');
+          }
+        });
+
+        if (btnPrev) (btnPrev as HTMLButtonElement).disabled = (currentMonthIndex === 0);
+        if (btnNext) (btnNext as HTMLButtonElement).disabled = (currentMonthIndex === months.length - 1);
+      }
+
+      btnPrev?.addEventListener('click', () => {
+        if (currentMonthIndex > 0) {
+          currentMonthIndex--;
+          updateMonthView();
+        }
+      });
+
+      btnNext?.addEventListener('click', () => {
+        if (currentMonthIndex < months.length - 1) {
+          currentMonthIndex++;
+          updateMonthView();
+        }
+      });
+
+      updateMonthView();
+    }
+
+    function setupFilters() {
+      const filterBtns = document.querySelectorAll<HTMLButtonElement>('.btn-filter');
+      const eventBlocksCinema = document.querySelectorAll<HTMLElement>('.event-cinema');
+      const eventBlocksFpv = document.querySelectorAll<HTMLElement>('.event-fpv');
+
+      filterBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach((b) => b.classList.remove('is-active'));
+          btn.classList.add('is-active');
+
+          const mode = btn.getAttribute('data-filter');
+
+          if (mode === 'all') {
+            eventBlocksCinema.forEach((el) => (el.style.display = 'block'));
+            eventBlocksFpv.forEach((el) => (el.style.display = 'block'));
+          } else if (mode === 'cinema') {
+            eventBlocksCinema.forEach((el) => (el.style.display = 'block'));
+            eventBlocksFpv.forEach((el) => (el.style.display = 'none'));
+          } else if (mode === 'fpv') {
+            eventBlocksCinema.forEach((el) => (el.style.display = 'none'));
+            eventBlocksFpv.forEach((el) => (el.style.display = 'block'));
+          }
+        });
+      });
+    }
+
+    function setupExport() {
+      const btnExport = document.getElementById('btnAdminExport');
+      const modal = document.getElementById('exportModalAdmin');
+      const payload = document.getElementById('exportPayloadAdmin');
+      const btnCopy = document.getElementById('btnCopyAdminExport');
+      const btnClose = document.getElementById('btnCloseAdminExport');
+
+      btnExport?.addEventListener('click', () => {
+        const text = [
+          'SYNTHÈSE GLOBALE DU PLANNING &bull; TOM BIGOT',
+          '===============================================',
+          'LES STUDIOS (7 Écrans & 35mm) :',
+          '  - 01/11 : Cabine DCI & 35mm (Soir)',
+          '  - 11/11 : Férié — Séances continues DCI',
+          '  - 14/11 : Séance 35mm Spéciale Patrimoine',
+          '  - 28/11 : Soirée ciné-débat & régie micro',
+          '  - 05/12 & 06/12 : Week-end 7 écrans',
+          '  - 23/12, 25/12 & 26/12 : Fêtes & Séances continues',
+          '-----------------------------------------------',
+          'CINÉ-OFF (Circuit itinérant 37) :',
+          '  - 07/11 : Projection itinérante',
+          '  - 21/11 & 22/11 : Tournée week-end',
+          '  - 16/12, 19/12, 20/12 : Circuit jeunesse',
+          '  - 31/12 : Séance Réveillon festive',
+          '-----------------------------------------------',
+          'CFA / FORMATION PRO :',
+          '  - 02/11 au 06/11 : Théorie DCI, optique, acoustique',
+          '  - 16/11 au 20/11 : Dolby CP, calibration TMS, réseaux',
+          '  - 07/12 au 11/12 : Multi-écrans & évaluation',
+          '-----------------------------------------------',
+          'DRONE FPV :',
+          '  - 10/11 : Repérage site industriel',
+          '  - 20/11 : Prise de vue cinématique 5"',
+          '  - 03/12 : Cinewhoop bureaux & show-room',
+          '  - 15/12 : Repérage validation DGAC',
+          '==============================================='
+        ].join('\n');
+
+        if (payload) payload.textContent = text;
+        if (modal) {
+          modal.style.display = 'block';
+          modal.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      });
+
+      btnCopy?.addEventListener('click', async () => {
+        if (!payload || !payload.textContent) return;
+        try {
+          await navigator.clipboard.writeText(payload.textContent);
+          btnCopy.textContent = 'Copié !';
+          setTimeout(() => {
+            btnCopy.textContent = 'Copier dans le presse-papier';
+          }, 2500);
+        } catch {
+          alert('Veuillez copier manuellement le texte ci-dessus.');
+        }
+      });
+
+      btnClose?.addEventListener('click', () => {
+        if (modal) modal.style.display = 'none';
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAdminPage);
+    } else {
+      initAdminPage();
+    }
+  </script>
+
+  <style>
+    .dedicated-agenda-page {
+      padding-top: 1.5rem;
+      padding-bottom: 4rem;
+    }
+
+    .dedicated-header {
+      margin-bottom: 2rem;
+    }
+
+    .dedicated-badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .badge-partner {
+      display: inline-block;
+      font-family: var(--font-mono, monospace);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      background: #000000;
+      color: #ffffff;
+      border: 1px solid #000000;
+    }
+
+    .partner-auth-box {
+      margin-bottom: 2.5rem;
+    }
+
+    .auth-card {
+      display: flex;
+      gap: 1.5rem;
+      padding: 1.75rem;
+      background: #fdfdfd;
+      border: 2px solid #000000;
+      box-shadow: 6px 6px 0px #000000;
+      align-items: flex-start;
+    }
+
+    .auth-card.logged-in {
+      background: #f5f5f5;
+    }
+
+    .auth-icon {
+      font-size: 2.5rem;
+      line-height: 1;
+      padding: 0.5rem;
+      background: #000000;
+      color: #ffffff;
+      border-radius: 2px;
+    }
+
+    .auth-info {
+      flex: 1;
+    }
+
+    .auth-status-tag {
+      font-family: var(--font-mono, monospace);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+      color: #555555;
+    }
+
+    .auth-status-tag.active {
+      color: #000000;
+      font-weight: 900;
+    }
+
+    .auth-info h2 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.4rem;
+      letter-spacing: -0.01em;
+    }
+
+    .auth-info p {
+      margin: 0 0 1rem 0;
+      color: #333333;
+      line-height: 1.5;
+    }
+
+    .partner-login-form {
+      margin-top: 1rem;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .input-row input {
+      flex: 1;
+      min-width: 240px;
+      padding: 0.75rem 1rem;
+      border: 2px solid #000000;
+      font-family: inherit;
+      font-size: 0.95rem;
+      background: #ffffff;
+    }
+
+    .feedback-msg {
+      margin-top: 0.75rem;
+      padding: 0.6rem 0.9rem;
+      background: #000000;
+      color: #ffffff;
+      font-family: var(--font-mono, monospace);
+      font-size: 0.8rem;
+    }
+
+    .demo-hint {
+      display: block;
+      margin-top: 0.75rem;
+      font-size: 0.8rem;
+      color: #555555;
+    }
+
+    .demo-hint code {
+      background: #eeeeee;
+      padding: 0.15rem 0.4rem;
+      border: 1px solid #cccccc;
+      font-weight: 700;
+    }
+
+    .logged-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .admin-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      border: 2px solid #000000;
+      background: #ffffff;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      box-shadow: 4px 4px 0px #000000;
+    }
+
+    .stat-number {
+      font-size: 2.2rem;
+      font-weight: 900;
+      line-height: 1;
+      font-family: var(--font-mono, monospace);
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      color: #555555;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .agenda-toolbar {
+      margin-bottom: 1.75rem;
+    }
+
+    .filter-controls-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-title {
+      font-family: var(--font-mono, monospace);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-group-filter {
+      display: flex;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-filter {
+      background: #ffffff;
+      border: 2px solid #000000;
+      padding: 0.45rem 0.85rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.1s ease;
+    }
+
+    .btn-filter:hover {
+      background: #f0f0f0;
+    }
+
+    .btn-filter.is-active {
+      background: #000000;
+      color: #ffffff;
+    }
+
+    .month-selector-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.5rem 1rem;
+      border: 2px solid #000000;
+      background: #ffffff;
+    }
+
+    .admin-month-nav {
+      min-width: 320px;
+    }
+
+    .current-month-display {
+      text-align: center;
+    }
+
+    .month-heading {
+      margin: 0;
+      font-size: 1.15rem;
+      letter-spacing: 0.05em;
+    }
+
+    .legend-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 0.75rem;
+      padding: 0.85rem 1rem;
+      border: 2px dashed #000000;
+      background: #fafafa;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .legend-box {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      border: 1px solid #000000;
+    }
+
+    .box-studios {
+      background: #000000;
+    }
+
+    .box-cineoff {
+      background: #ffffff;
+      border: 2px solid #000000;
+    }
+
+    .box-cfa {
+      background: #555555;
+    }
+
+    .box-fpv {
+      background: #222222;
+      border: 2px dashed #000000;
+    }
+
+    .box-libre {
+      background: #f5f5f5;
+      border: 1px dotted #888888;
+    }
+
+    .legend-text {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.72rem;
+      line-height: 1.2;
+    }
+
+    .legend-text strong {
+      font-family: var(--font-mono, monospace);
+      letter-spacing: 0.05em;
+    }
+
+    .calendar-card {
+      border: 2px solid #000000;
+      background: #ffffff;
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+
+    .calendar-card.is-hidden-month {
+      display: none;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0;
+      background: #000000;
+      border-top: 1px solid #000000;
+    }
+
+    .weekday-col {
+      background: #000000;
+      color: #ffffff;
+      padding: 0.5rem 0.4rem;
+      text-align: center;
+      font-family: var(--font-mono, monospace);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+    }
+
+    .day-cell {
+      background: #ffffff;
+      min-height: 140px;
+      padding: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid #000000;
+    }
+
+    .day-empty {
+      background: #f3f3f3;
+      min-height: 140px;
+    }
+
+    .day-topline {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.4rem;
+    }
+
+    .day-number {
+      font-family: var(--font-mono, monospace);
+      font-size: 0.95rem;
+      font-weight: 800;
+    }
+
+    .badges-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.2rem;
+      justify-content: flex-end;
+    }
+
+    .tag-studios {
+      font-size: 0.6rem;
+      font-weight: 700;
+      background: #000000;
+      color: #ffffff;
+      padding: 0.1rem 0.35rem;
+      text-transform: uppercase;
+    }
+
+    .tag-cineoff {
+      font-size: 0.6rem;
+      font-weight: 700;
+      background: #ffffff;
+      color: #000000;
+      border: 1px solid #000000;
+      padding: 0.05rem 0.3rem;
+      text-transform: uppercase;
+    }
+
+    .tag-cfa {
+      font-size: 0.6rem;
+      font-weight: 700;
+      background: #555555;
+      color: #ffffff;
+      padding: 0.1rem 0.35rem;
+      text-transform: uppercase;
+    }
+
+    .tag-fpv {
+      font-size: 0.6rem;
+      font-weight: 700;
+      background: #000000;
+      color: #ffffff;
+      padding: 0.1rem 0.35rem;
+      border-radius: 2px;
+      letter-spacing: 0.05em;
+    }
+
+    .tag-dispo {
+      font-size: 0.6rem;
+      color: #888888;
+      border: 1px dotted #888888;
+      padding: 0.05rem 0.25rem;
+    }
+
+    .day-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      font-size: 0.72rem;
+      line-height: 1.25;
+    }
+
+    .admin-event-block {
+      padding: 0.3rem 0.4rem;
+      background: #fafafa;
+      border-left: 2px solid #000000;
+    }
+
+    .event-type-label {
+      display: block;
+      font-family: var(--font-mono, monospace);
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: #666666;
+      margin-bottom: 0.15rem;
+    }
+
+    .event-desc {
+      display: block;
+      color: #222222;
+    }
+
+    .studios-text strong {
+      color: #000000;
+    }
+
+    .cineoff-text strong {
+      color: #000000;
+    }
+
+    .cfa-text strong {
+      color: #444444;
+    }
+
+    .dispo-text {
+      color: #888888;
+      font-style: italic;
+    }
+
+    .indispo-text {
+      color: #999999;
+    }
+
+    .slot-studios {
+      border-left: 3px solid #000000;
+    }
+
+    .slot-cineoff {
+      border-right: 3px solid #000000;
+    }
+
+    .result-box {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      border: 2px solid #000000;
+      background: #fafafa;
+    }
+
+    .result-head h3 {
+      margin: 0.25rem 0 0.5rem 0;
+      font-size: 1.3rem;
+    }
+
+    .result-pre {
+      background: #000000;
+      color: #ffffff;
+      font-family: var(--font-mono, monospace);
+      font-size: 0.82rem;
+      padding: 1rem;
+      white-space: pre-wrap;
+      overflow-x: auto;
+      border: 1px solid #333333;
+      line-height: 1.4;
+      margin: 1rem 0;
+    }
+
+    .result-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .dedicated-footer-nav {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 2px dashed #000000;
+    }
+
+    .footer-nav-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .portal-card {
+      border: 2px solid #000000;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      text-decoration: none;
+      color: #000000;
+      background: #ffffff;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .portal-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 4px 4px 0px #000000;
+    }
+
+    .portal-badge {
+      font-family: var(--font-mono, monospace);
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #666666;
+      text-transform: uppercase;
+    }
+
+    .portal-card strong {
+      font-size: 1.05rem;
+    }
+
+    .portal-card small {
+      color: #555555;
+      font-size: 0.78rem;
+    }
+
+    @media (max-width: 900px) {
+      .calendar-grid {
+        grid-template-columns: repeat(7, minmax(60px, 1fr));
+      }
+      .admin-event-block {
+        font-size: 0.65rem;
+      }
+      .filter-controls-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .admin-month-nav {
+        min-width: unset;
+      }
+    }
+  </style>
+</Base>
