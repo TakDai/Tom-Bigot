@@ -371,12 +371,42 @@ const bandeauxProjets = [
 ];
 
 const periodesLigneDuTemps = [
-  { id: '2025', label: '2025', sousLabel: 'Genèse' },
-  { id: 'debut-2026', label: 'Début 2026', sousLabel: 'Lancement' },
-  { id: 'fevrier-2026', label: 'Fév. 2026', sousLabel: 'Points forts & 1ères pauses' },
-  { id: 'mars-2026', label: 'Mars 2026', sousLabel: 'Sorties de fente & bascules' },
-  { id: 'avril-2026', label: 'Avril 2026', sousLabel: 'Ajustements & tests' },
-  { id: 'aujourdhui', label: 'Aujourd\'hui', sousLabel: 'Statuts opérationnels' },
+  {
+    id: '2025',
+    label: '2025',
+    sousLabel: 'Genèse locale',
+    resume: 'Démarrage du premier projet tourangeau. Un unique ruban actif.',
+  },
+  {
+    id: 'debut-2026',
+    label: 'Début 2026',
+    sousLabel: 'Lancement des chantiers',
+    resume: 'Éclosion simultanée des projets hardware, systèmes et outils : les rubans s\'ajoutent.',
+  },
+  {
+    id: 'fevrier-2026',
+    label: 'Fév. 2026',
+    sousLabel: 'Accélérations & pauses en fente',
+    resume: 'Premiers bancs d\'essai, télémétrie 32 kHz et premières plongées de rubans en fente R&D.',
+  },
+  {
+    id: 'mars-2026',
+    label: 'Mars 2026',
+    sousLabel: 'Sorties de fente & chantiers sous terre',
+    resume: 'Sorties de fente avec roulage autonome, tandis que d\'autres rubans restent masqués en pause.',
+  },
+  {
+    id: 'avril-2026',
+    label: 'Avril 2026',
+    sousLabel: 'Reprises & validations',
+    resume: 'Reprises des chantiers techniques et pauses documentaires.',
+  },
+  {
+    id: 'aujourdhui',
+    label: 'Aujourd\'hui',
+    sousLabel: 'Statuts opérationnels',
+    resume: 'L\'ensemble des bandeaux atteignent leur statut avec découpe en pointe de fanion et accès directs.',
+  },
 ];
 
 // Configuration pour chaque projet de sa grosse ligne verticale le long du temps
@@ -597,14 +627,14 @@ const rubansProjets = [
         desc: 'Pause dev web pour l\'atelier physique.',
       },
       'mars-2026': {
-        etat: 'sortie_phase',
-        titre: 'Flux éditorial v2',
-        desc: 'Moteur publication automatisé.',
+        etat: 'en_pause',
+        titre: 'En pause dans la fente',
+        desc: 'En hibernation R&D à l\'atelier.',
       },
       'avril-2026': {
-        etat: 'actif',
-        titre: 'CDN & Mise à l\'échelle',
-        desc: 'Déploiement cluster haute disponibilité.',
+        etat: 'sortie_phase',
+        titre: 'Maintenance & CDN',
+        desc: 'Sortie de fente : remise à niveau de l\'infrastructure haute disponibilité.',
       },
       'aujourdhui': {
         etat: 'statut',
@@ -825,226 +855,174 @@ const rubansProjets = [
     </a>
   </section>
 
-  <!-- ================= SECTION FANIONS VERTICAUX DU TEMPS ================= -->
-  <section class="fanions-time-section" id="chronologie-rubans">
-    <!-- En-tête épuré de la section -->
-    <header class="fanions-header">
-      <div class="fanions-title-block">
-        <span class="etiquette">CHRONOLOGIE DU TRAVAIL &bull; 10 FANIONS VERTICAUX</span>
-        <h2 class="fanions-main-title">BANDEAUX DU TEMPS (FANIONS)</h2>
-        <p class="fanions-sub">
-          L'axe vertical représente le temps (2025 &rarr; Aujourd'hui). Chaque projet est matérialisé par un <strong>fanion vertical (une ligne épaisse en tissu)</strong> qui commence à sa date de début, porte ses étoiles <strong>★</strong> pour les points forts, et <strong>plonge dans une fente</strong> lors d'une pause R&amp;D.
+  <!-- ================= SECTION BANDEAUX NOIRS DU TEMPS ================= -->
+  <section class="bandeaux-time-section" id="chronologie-rubans">
+    <!-- En-tête épuré et percutant -->
+    <header class="bandeaux-section-header">
+      <div class="bandeaux-title-block">
+        <span class="etiquette">CHRONOLOGIE DU TRAVAIL &bull; BANDEAUX NOIRS PURS</span>
+        <h2 class="bandeaux-main-title">BANDEAUX DU TEMPS</h2>
+        <p class="bandeaux-sub">
+          L'axe vertical représente le temps (2025 &rarr; Aujourd'hui). Chaque projet est matérialisé par un <strong>bandeau noir</strong> sans rien autour.
+          Suivant les dates de début et de pause, les rubans s'ajoutent ou se retirent, et <strong>plongent dans une fente R&amp;D</strong> lors des suspensions de chantier.
         </p>
       </div>
 
-      <div class="fanions-legend" aria-label="Légende des fanions">
-        <div class="f-leg-item"><span class="f-leg-band"></span><span>Fanion actif</span></div>
-        <div class="f-leg-item"><span class="f-leg-star">&#9733;</span><span>Point fort</span></div>
-        <div class="f-leg-item"><span class="f-leg-slit"></span><span>Fente R&amp;D (entrée / sortie)</span></div>
+      <div class="bandeaux-legend" aria-label="Légende des bandeaux">
+        <div class="b-leg-item"><span class="b-leg-swatch"></span><span>Bandeau noir actif</span></div>
+        <div class="b-leg-item"><span class="b-leg-star">&#9733;</span><span>Point fort</span></div>
+        <div class="b-leg-item"><span class="b-leg-slot"></span><span>Fente R&amp;D (entrée / sortie)</span></div>
       </div>
     </header>
 
-    <!-- La scène des fanions suspendus avec défilement vertical du temps -->
-    <div class="fanions-board-viewport">
-      <div class="fanions-board-canvas">
-        <!-- Règle de temps verticale (à gauche, sticky) -->
-        <aside class="fanions-time-ruler">
-          <div class="ruler-head">TEMPS &darr;</div>
-          {periodesLigneDuTemps.map((p) => (
-            <div class="ruler-date-node" id={`ruler-${p.id}`}>
-              <span class="ruler-year">{p.label}</span>
-              <span class="ruler-sub">{p.sousLabel}</span>
-              <span class="ruler-tick"></span>
-            </div>
-          ))}
-        </aside>
+    <!-- Défilement vertical du temps par période -->
+    <div class="bandeaux-chronologie-flow">
+      {periodesLigneDuTemps.map((periode) => {
+        // Filtrer uniquement les rubans actifs ou en transition pour cette date précise
+        const rubansVisibles = rubansProjets
+          .map((p) => {
+            const seg = p.segments[periode.id] || { etat: 'vide' };
+            return { projet: p, segment: seg };
+          })
+          .filter((item) => item.segment.etat !== 'vide' && item.segment.etat !== 'en_pause');
 
-        <!-- Les 10 fanions verticaux suspendus en parallèle -->
-        <div class="fanions-lanes">
-          {rubansProjets.map((p) => (
-            <div class="fanion-column" id={`fanion-${p.id}`}>
-              <!-- Tête de colonne : numéro, logo et titre compact -->
-              <div class="fanion-pennant-head">
-                <span class="f-num">{p.numero}</span>
-                <div class="f-logo">
-                  <img src={p.logo} alt={`Logo ${p.titre}`} loading="lazy" />
-                </div>
-                <h3 class="f-name">{p.titre}</h3>
-                <span class="f-domaine">{p.domaine}</span>
+        const isSingle = rubansVisibles.length === 1;
+
+        return (
+          <div class="periode-scroll-block" id={`periode-${periode.id}`}>
+            <!-- Barre de jalon temporel -->
+            <div class="periode-marker-bar">
+              <div class="periode-marker-left">
+                <span class="periode-year-label">{periode.label}</span>
+                <span class="periode-sub-label">{periode.sousLabel}</span>
               </div>
+              <p class="periode-resume-line">{periode.resume}</p>
+              <div class="periode-marker-right">
+                <span class="periode-count-tag">
+                  {rubansVisibles.length} {rubansVisibles.length > 1 ? 'bandeaux actifs' : 'seul bandeau actif'}
+                </span>
+              </div>
+            </div>
 
-              <!-- Tracé vertical du fanion à travers les 6 époques du temps -->
-              <div class="fanion-vertical-track">
-                {periodesLigneDuTemps.map((periode) => {
-                  const seg = p.segments[periode.id] || { etat: 'vide' };
-                  const isVide = seg.etat === 'vide';
-                  const isDebut = seg.etat === 'debut';
-                  const isActif = seg.etat === 'actif';
-                  const isTempsFort = seg.etat === 'temps_fort';
-                  const isFentePause = seg.etat === 'fente_pause';
-                  const isSortiePhase = seg.etat === 'sortie_phase';
-                  const isSortieTempsFort = seg.etat === 'sortie_temps_fort';
-                  const isSortieStatut = seg.etat === 'sortie_statut';
-                  const isStatut = seg.etat === 'statut';
+            <!-- Piste des bandeaux noirs suspendus -->
+            <div class={`periode-bandeaux-track ${isSingle ? 'is-single-center' : ''}`}>
+              {rubansVisibles.map(({ projet, segment }) => {
+                const isDebut = segment.etat === 'debut';
+                const isActif = segment.etat === 'actif';
+                const isTempsFort = segment.etat === 'temps_fort';
+                const isFentePause = segment.etat === 'fente_pause';
+                const isSortiePhase = segment.etat === 'sortie_phase';
+                const isSortieTempsFort = segment.etat === 'sortie_temps_fort';
+                const isSortieStatut = segment.etat === 'sortie_statut';
+                const isStatut = segment.etat === 'statut';
+                const isTerminal = isStatut || isSortieStatut;
+                const isEmerging = isSortiePhase || isSortieTempsFort || isSortieStatut;
 
-                  return (
-                    <div class={`fanion-tier-slot tier-${seg.etat}`}>
-                      {/* 1. ÉTAT VIDE : Le projet n'a pas encore commencé à cette date */}
-                      {isVide && (
-                        <div class="f-void-guide" aria-hidden="true"></div>
-                      )}
-
-                      {/* 2. DÉBUT DU FANION : Attache supérieure et départ de la ligne épaisse */}
-                      {isDebut && (
-                        <div class="f-ribbon-wrapper">
-                          <div class="f-mount-ring" aria-hidden="true">
-                            <span class="ring-rivet"></span>
-                          </div>
-                          <div class="fanion-thick-band band-running">
-                            <div class="fanion-stitch-left"></div>
-                            <div class="fanion-stitch-right"></div>
-                            <div class="fanion-label-tag">
-                              <span class="f-tag-date">{periode.label}</span>
-                              <span class="f-tag-titre">{seg.titre}</span>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* 3. FANION ACTIF : La ligne épaisse continue de descendre */}
-                      {isActif && (
-                        <div class="f-ribbon-wrapper">
-                          <div class="fanion-thick-band band-running">
-                            <div class="fanion-stitch-left"></div>
-                            <div class="fanion-stitch-right"></div>
-                            <div class="fanion-label-tag">
-                              <span class="f-tag-titre">{seg.titre}</span>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* 4. TEMPS FORT (★) : Étoile brodée directement sur le fanion */}
-                      {isTempsFort && (
-                        <div class="f-ribbon-wrapper">
-                          <div class="fanion-thick-band band-running is-temps-fort" title={`${seg.titre} : ${seg.desc}`}>
-                            <div class="fanion-stitch-left"></div>
-                            <div class="fanion-stitch-right"></div>
-                            <div class="fanion-star-badge">
-                              <span class="f-star-glyph">&#9733;</span>
-                              <span class="f-star-name">{seg.titre}</span>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* 5. PAUSE R&D : LE FANION RENTRE DANS UNE FENTE */}
-                      {isFentePause && (
-                        <div class="f-pause-wrapper">
-                          <!-- Le fanion plonge dans la fente -->
-                          <div class="fanion-thick-band band-diving">
-                            <div class="fanion-stitch-left"></div>
-                            <div class="fanion-stitch-right"></div>
-                          </div>
-                          <!-- Fente physique 3D -->
-                          <div class="fanion-slot-slit slot-entry" title={`Le fanion rentre dans la fente : ${seg.titre}`}>
-                            <div class="slit-bevel"></div>
-                            <div class="slit-hole">
-                              <span class="slit-arrow">&darr; FENTE &darr;</span>
-                            </div>
-                          </div>
-                          <!-- Sous la paroi : le fanion a disparu à l'intérieur -->
-                          <div class="fanion-under-wall" title={`Pause R&D : ${seg.titre} (${seg.desc})`}>
-                            <span class="pause-tag-tiny">PAUSE</span>
-                            <span class="pause-title-tiny">{seg.titre}</span>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* 6. LE FANION RESSORT DE LA FENTE */}
-                      {(isSortiePhase || isSortieTempsFort) && (
-                        <div class="f-sortie-wrapper">
-                          <!-- Fente de sortie -->
-                          <div class="fanion-slot-slit slot-exit" title="Le fanion ressort de la fente">
-                            <div class="slit-hole">
-                              <span class="slit-arrow">&uarr; SORTIE &uarr;</span>
-                            </div>
-                            <div class="slit-bevel"></div>
-                          </div>
-                          <!-- Le fanion qui continue sa descente -->
-                          <div class={`fanion-thick-band band-running ${isSortieTempsFort ? 'is-temps-fort' : ''}`} title={`${seg.titre} : ${seg.desc}`}>
-                            <div class="fanion-stitch-left"></div>
-                            <div class="fanion-stitch-right"></div>
-                            {isSortieTempsFort ? (
-                              <div class="fanion-star-badge">
-                                <span class="f-star-glyph">&#9733;</span>
-                                <span class="f-star-name">{seg.titre}</span>
-                              </div>
-                            ) : (
-                              <div class="fanion-label-tag">
-                                <span class="f-tag-titre">{seg.titre}</span>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* 7. POINTE DU FANION (Aujourd'hui) : ourlet en biseau / queue d'aronde */}
-                      {(isStatut || isSortieStatut) && (
-                        <div class="f-terminal-wrapper">
-                          {isSortieStatut && (
-                            <div class="fanion-slot-slit slot-exit" title="Le fanion ressort de la fente vers le statut actuel">
-                              <div class="slit-hole">
-                                <span class="slit-arrow">&uarr; SORTIE &uarr;</span>
-                              </div>
-                              <div class="slit-bevel"></div>
-                            </div>
-                          )}
-                          <div class="fanion-thick-band band-terminal">
-                            <div class="fanion-stitch-left"></div>
-                            <div class="fanion-stitch-right"></div>
-                            <div class="terminal-status-info">
-                              <span class="terminal-dot"></span>
-                              <span class="terminal-titre">{seg.titre}</span>
-                            </div>
-                            <div class="terminal-buttons">
-                              <a href={p.lien} class="f-btn btn-fiche" title="Fiche projet">Fiche &rarr;</a>
-                              {p.github && (
-                                <a href={p.github} target="_blank" rel="noopener noreferrer" class="f-btn btn-gh" title="Dépôt GitHub">GH ↗</a>
-                              )}
-                            </div>
-                            <!-- Découpe en pointe de fanion (queue de pie / chevron) -->
-                            <div class="fanion-chevron-tip" aria-hidden="true"></div>
-                          </div>
-                        </div>
-                      )}
+                return (
+                  <article
+                    class={`bandeau-noir ${isTerminal ? 'bandeau-terminal' : ''} ${isTempsFort || isSortieTempsFort ? 'has-star' : ''}`}
+                    id={`bandeau-${projet.id}-${periode.id}`}
+                  >
+                    <!-- Anneau de fixation au sommet -->
+                    <div class="bandeau-hanger" aria-hidden="true">
+                      <span class="hanger-ring"></span>
                     </div>
-                  );
-                })}
-              </div>
+
+                    <!-- Si le bandeau ressort de la fente -->
+                    {isEmerging && (
+                      <div class="fente-3d-exit" title="Le bandeau noir ressort de la fente R&D">
+                        <span class="fente-arrow">&uarr; RESSORT DE LA FENTE &uarr;</span>
+                      </div>
+                    )}
+
+                    <!-- En-tête sur le bandeau noir (numéro, titre, domaine) -->
+                    <header class="bandeau-header">
+                      <div class="bandeau-meta">
+                        <span class="bandeau-num">{projet.numero}</span>
+                        <span class="bandeau-date-badge">{periode.label}</span>
+                      </div>
+                      <h3 class="bandeau-title">{projet.titre}</h3>
+                      <span class="bandeau-domaine">{projet.domaine}</span>
+                    </header>
+
+                    <!-- Corps de l'étape sur le tissu noir -->
+                    <div class="bandeau-body">
+                      {(isTempsFort || isSortieTempsFort) && (
+                        <div class="bandeau-star-pill">
+                          <span class="star-icon">&#9733;</span>
+                          <span>TEMPS FORT</span>
+                        </div>
+                      )}
+
+                      <h4 class="bandeau-step-title">{segment.titre}</h4>
+                      <p class="bandeau-step-desc">{segment.desc}</p>
+                    </div>
+
+                    <!-- Si le bandeau plonge dans la fente lors d'une pause -->
+                    {isFentePause && (
+                      <div class="fente-3d-entry" title={`Le bandeau noir rentre dans la fente : ${segment.titre}`}>
+                        <div class="fente-lip"></div>
+                        <div class="fente-void">
+                          <span class="fente-arrow">&darr; RENTRE DANS LA FENTE (PAUSE) &darr;</span>
+                        </div>
+                      </div>
+                    )}
+
+                    <!-- Si terminal (Aujourd'hui) : pointe fanion & boutons -->
+                    {isTerminal && (
+                      <footer class="bandeau-terminal-footer">
+                        <div class="bandeau-status-pill">
+                          <span class="status-dot"></span>
+                          <span>STATUT ACTUEL</span>
+                        </div>
+
+                        <div class="bandeau-actions">
+                          <a href={projet.lien} class="b-btn b-btn-white" title={`Fiche du projet ${projet.titre}`}>
+                            Fiche &rarr;
+                          </a>
+                          {projet.github && (
+                            <a
+                              href={projet.github}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              class="b-btn b-btn-ghost"
+                              title="Code source GitHub"
+                            >
+                              GH ↗
+                            </a>
+                          )}
+                        </div>
+
+                        <!-- Découpe biseautée / chevron de fanion au bas -->
+                        <div class="bandeau-chevron-tail" aria-hidden="true"></div>
+                      </footer>
+                    )}
+                  </article>
+                );
+              })}
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
+        );
+      })}
     </div>
   </section>
 </Base>
 
 <script>
-  // Suivi de la date courante sur l'axe vertical lors du scroll
+  // Suivi de la période courante lors du défilement
   document.addEventListener('DOMContentLoaded', () => {
-    const nodes = document.querySelectorAll<HTMLElement>('.ruler-date-node');
-    if (nodes.length === 0) return;
+    const blocks = document.querySelectorAll<HTMLElement>('.periode-scroll-block');
+    if (blocks.length === 0) return;
 
     function onScroll() {
       const scrollY = window.scrollY + 220;
-      nodes.forEach((node) => {
-        const top = node.offsetTop;
-        const height = node.offsetHeight;
-        if (scrollY >= top && scrollY < top + height) {
-          node.classList.add('is-current');
+      blocks.forEach((b) => {
+        const top = b.offsetTop;
+        const h = b.offsetHeight;
+        if (scrollY >= top && scrollY < top + h) {
+          b.classList.add('is-active-era');
         } else {
-          node.classList.remove('is-current');
+          b.classList.remove('is-active-era');
         }
       });
     }
@@ -1204,622 +1182,461 @@ const rubansProjets = [
   }
 
   /* ==========================================================================
-     SECTION DES FANIONS DU TEMPS (LIGNES ÉPAISSES VERTICALES)
+     SECTION DES BANDEAUX NOIRS DU TEMPS (LIGNES ÉPAISSES SANS RIEN AUTOUR)
      ========================================================================== */
-  .fanions-time-section {
+  .bandeaux-time-section {
     position: relative;
-    background: #f7f7f6;
-    padding: clamp(30px, 4vh, 50px) clamp(16px, 2.5vw, 36px);
+    background: #ffffff;
+    padding: clamp(40px, 6vh, 80px) clamp(16px, 3vw, 48px);
     border-bottom: 2px dashed var(--dash);
   }
 
-  .fanions-header {
-    max-width: 1480px;
-    margin: 0 auto 28px;
+  .bandeaux-section-header {
+    max-width: 1400px;
+    margin: 0 auto clamp(36px, 5vh, 60px);
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    gap: 20px;
+    gap: 24px;
     flex-wrap: wrap;
-    border-bottom: 2px dashed rgba(0, 0, 0, 0.12);
-    padding-bottom: 16px;
+    border-bottom: 2px solid #000000;
+    padding-bottom: 20px;
   }
 
-  .fanions-title-block {
-    max-width: 800px;
+  .bandeaux-title-block {
+    max-width: 820px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
   }
 
-  .fanions-main-title {
+  .bandeaux-main-title {
     margin: 0;
-    font: 700 clamp(20px, 2.6vw, 28px)/1.15 var(--font);
-    letter-spacing: 0.08em;
+    font: 800 clamp(24px, 3.2vw, 36px)/1.1 var(--font);
+    letter-spacing: -0.01em;
     text-transform: uppercase;
     color: #000000;
   }
 
-  .fanions-sub {
+  .bandeaux-sub {
     margin: 4px 0 0;
-    font: 400 13.5px/1.5 var(--font);
-    color: rgba(0, 0, 0, 0.7);
-  }
-
-  .fanions-legend {
-    display: inline-flex;
-    align-items: center;
-    gap: 14px;
-    padding: 6px 14px;
-    background: #ffffff;
-    border: 1px dashed var(--dash);
-    border-radius: 18px;
-    flex-wrap: wrap;
-  }
-
-  .f-leg-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font: 700 10px var(--font);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font: 400 14px/1.55 var(--font);
     color: rgba(0, 0, 0, 0.75);
   }
 
-  .f-leg-band {
-    width: 12px;
-    height: 16px;
-    background: #ffffff;
-    border-left: 2px dashed #000000;
-    border-right: 2px dashed #000000;
+  .bandeaux-legend {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    padding: 8px 16px;
+    background: #f8f8f8;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 20px;
+    flex-wrap: wrap;
   }
 
-  .f-leg-star {
+  .b-leg-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font: 700 10.5px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.85);
+  }
+
+  .b-leg-swatch {
+    width: 14px;
+    height: 18px;
+    background: #000000;
+    border-radius: 1px;
+  }
+
+  .b-leg-star {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 15px;
-    height: 15px;
-    background: #000000;
-    color: #ffffff;
-    font-size: 9px;
-    border-radius: 3px;
-  }
-
-  .f-leg-slit {
     width: 16px;
-    height: 6px;
-    background: #000000;
-    border-radius: 2px;
-    box-shadow: inset 0 2px 2px #333333;
-  }
-
-  /* Scène des fanions */
-  .fanions-board-viewport {
-    max-width: 1480px;
-    margin: 0 auto;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    border: 1px solid rgba(0, 0, 0, 0.14);
-    background: #efefee;
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-  }
-
-  .fanions-board-canvas {
-    display: flex;
-    min-width: 1380px;
-    position: relative;
-  }
-
-  /* Règle de temps verticale (à gauche, sticky) */
-  .fanions-time-ruler {
-    position: sticky;
-    left: 0;
-    z-index: 10;
-    width: 100px;
-    flex-shrink: 0;
-    background: #ffffff;
-    border-right: 2px dashed rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.03);
-  }
-
-  .ruler-head {
-    height: 80px;
-    border-bottom: 2px solid #000000;
-    background: #000000;
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font: 700 11px var(--font);
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-  }
-
-  .ruler-date-node {
-    height: 190px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0 10px;
-    border-bottom: 1px dashed rgba(0, 0, 0, 0.12);
-    position: relative;
-    box-sizing: border-box;
-    transition: background 0.2s ease;
-  }
-
-  .ruler-date-node.is-current {
-    background: #000000;
-    color: #ffffff;
-  }
-
-  .ruler-year {
-    font: 700 12.5px/1.2 var(--font);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #000000;
-  }
-
-  .ruler-date-node.is-current .ruler-year {
-    color: #ffffff;
-  }
-
-  .ruler-sub {
-    font: 400 8.5px/1.3 var(--font);
-    color: rgba(0, 0, 0, 0.55);
-    margin-top: 2px;
-  }
-
-  .ruler-date-node.is-current .ruler-sub {
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  .ruler-tick {
-    position: absolute;
-    right: -4px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #000000;
-  }
-
-  /* Les 10 couloirs de fanions */
-  .fanions-lanes {
-    display: flex;
-    flex: 1;
-  }
-
-  .fanion-column {
-    flex: 1;
-    min-width: 124px;
-    max-width: 145px;
-    border-right: 1px dashed rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    background: #fafaf9;
-  }
-
-  .fanion-column:last-child {
-    border-right: none;
-  }
-
-  /* Tête du fanion */
-  .fanion-pennant-head {
-    height: 80px;
-    padding: 6px 4px;
-    border-bottom: 2px solid #000000;
-    background: #ffffff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    gap: 2px;
-    box-sizing: border-box;
-  }
-
-  .f-num {
-    font: 700 10.5px var(--font);
-    color: rgba(0, 0, 0, 0.4);
-  }
-
-  .f-logo {
-    width: 22px;
-    height: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .f-logo img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-  }
-
-  .f-name {
-    margin: 0;
-    font: 700 10.5px/1.1 var(--font);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: #000000;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100%;
-  }
-
-  .f-domaine {
-    font: 700 7px var(--font);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.45);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100%;
-  }
-
-  /* Piste verticale du fanion */
-  .fanion-vertical-track {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .fanion-tier-slot {
-    height: 190px;
-    border-bottom: 1px dashed rgba(0, 0, 0, 0.08);
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-  }
-
-  /* 1. Vide */
-  .f-void-guide {
-    width: 2px;
-    height: 100%;
-    border-left: 1px dashed rgba(0, 0, 0, 0.1);
-  }
-
-  /* ==========================================================================
-     LE FANION EN TISSU (LA LIGNE ÉPAISSE)
-     ========================================================================== */
-  .f-ribbon-wrapper {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .f-mount-ring {
-    width: 100%;
-    height: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .ring-rivet {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #000000;
-  }
-
-  /* La ligne épaisse de fanion : 68px de large */
-  .fanion-thick-band {
-    position: relative;
-    width: 68px;
-    height: 100%;
-    background: #ffffff;
-    border-left: 1.5px dashed #000000;
-    border-right: 1.5px dashed #000000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    transition: transform 0.15s ease;
-    padding: 4px 2px;
-  }
-
-  .fanion-thick-band:hover {
-    transform: scale(1.03);
-  }
-
-  .fanion-stitch-left,
-  .fanion-stitch-right {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 1px;
-    border-left: 1px dashed rgba(0, 0, 0, 0.15);
-    pointer-events: none;
-  }
-
-  .fanion-stitch-left { left: 2px; }
-  .fanion-stitch-right { right: 2px; }
-
-  /* Étiquette compacte sur la bande */
-  .fanion-label-tag {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-    text-align: center;
-    padding: 0 4px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .f-tag-date {
-    font: 700 7px var(--font);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.45);
-  }
-
-  .f-tag-titre {
-    font: 700 8.5px/1.2 var(--font);
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    color: #000000;
-    word-break: normal;
-    overflow-wrap: break-word;
-  }
-
-  /* TEMPS FORT (★) : Écusson noir brodé avec étoile directement sur le fanion */
-  .fanion-thick-band.is-temps-fort {
-    background: #000000;
-    border-color: #000000;
-    color: #ffffff;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
-  }
-
-  .fanion-star-badge {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3px;
-    text-align: center;
-    padding: 0 4px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .f-star-glyph {
-    font-size: 13px;
-    color: #ffffff;
-    line-height: 1;
-    animation: pulseStar 2.5s infinite ease-in-out;
-  }
-
-  @keyframes pulseStar {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-  }
-
-  .f-star-name {
-    font: 700 8.5px/1.15 var(--font);
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    color: #ffffff;
-    word-break: normal;
-    overflow-wrap: break-word;
-  }
-
-  /* ==========================================================================
-     FENTE (LE FANION RENTRE DANS UNE FENTE)
-     ========================================================================== */
-  .f-pause-wrapper {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  /* Le fanion plonge vers la fente */
-  .band-diving {
-    height: 24px;
-    background: linear-gradient(to bottom, #ffffff 0%, #b8b8b7 80%, #333333 100%);
-  }
-
-  /* Fente 3D découpée dans la paroi */
-  .fanion-slot-slit {
-    position: relative;
-    width: 78px;
     height: 16px;
     background: #000000;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 5;
+    color: #ffffff;
+    font-size: 10px;
+    border-radius: 50%;
   }
 
-  .slit-bevel {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
+  .b-leg-slot {
+    width: 18px;
+    height: 7px;
+    background: #080808;
+    border-top: 1.5px solid #444444;
+    border-bottom: 1.5px solid #222222;
+  }
+
+  /* Flux chronologique vertical */
+  .bandeaux-chronologie-flow {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(64px, 9vh, 100px);
+  }
+
+  .periode-scroll-block {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Barre de jalon de date */
+  .periode-marker-bar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    border-bottom: 2px solid #000000;
+    padding-bottom: 12px;
+    flex-wrap: wrap;
+  }
+
+  .periode-marker-left {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .periode-year-label {
+    font: 800 clamp(24px, 3vw, 32px)/1 var(--font);
+    letter-spacing: -0.02em;
+    color: #000000;
+  }
+
+  .periode-sub-label {
+    font: 700 11.5px var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.55);
+  }
+
+  .periode-resume-line {
+    margin: 0;
+    font: 400 13px/1.45 var(--font);
+    color: rgba(0, 0, 0, 0.65);
+    flex: 1;
+    min-width: 260px;
+    max-width: 580px;
+  }
+
+  .periode-marker-right {
+    display: flex;
+    align-items: center;
+  }
+
+  .periode-count-tag {
+    font: 700 10.5px monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: #000000;
+    color: #ffffff;
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+
+  /* Piste horizontale des bandeaux */
+  .periode-bandeaux-track {
+    display: flex;
+    align-items: stretch;
+    gap: 20px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 12px 4px 28px 4px;
+    scrollbar-width: thin;
+    scrollbar-color: #000000 #f0f0f0;
+  }
+
+  .periode-bandeaux-track::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .periode-bandeaux-track::-webkit-scrollbar-track {
+    background: #f0f0f0;
+  }
+
+  .periode-bandeaux-track::-webkit-scrollbar-thumb {
+    background: #000000;
+  }
+
+  /* Si 1 seul bandeau actif (comme en 2025), centré sur l'écran */
+  .periode-bandeaux-track.is-single-center {
+    justify-content: center;
+  }
+
+  /* ==========================================================================
+     LE BANDEAU NOIR PUR (SANS RIEN AUTOUR)
+     ========================================================================== */
+  .bandeau-noir {
+    position: relative;
+    background: #000000;
+    color: #ffffff;
+    width: 215px;
+    min-width: 195px;
+    max-width: 235px;
+    box-sizing: border-box;
+    padding: 22px 18px 24px 18px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease;
+  }
+
+  .bandeau-noir:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+  }
+
+  /* Attache suspension en haut */
+  .bandeau-hanger {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+
+  .hanger-ring {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
     background: #ffffff;
+    border: 2px solid #333333;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
   }
 
-  .slit-hole {
-    position: absolute;
-    inset: 2px 0;
-    background: #080808;
-    box-shadow: inset 0 6px 8px #000000, inset 0 -2px 3px #000000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .slit-arrow {
-    font: 700 6.5px var(--font);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.85);
-    white-space: nowrap;
-  }
-
-  /* Sous la paroi : le fanion est en retrait (invisible) */
-  .fanion-under-wall {
-    flex: 1;
-    width: 68px;
-    background: repeating-linear-gradient(
-      -45deg,
-      #e4e4e3,
-      #e4e4e3 4px,
-      #dcdcdb 4px,
-      #dcdcdb 8px
-    );
-    border-left: 1px dashed rgba(0, 0, 0, 0.2);
-    border-right: 1px dashed rgba(0, 0, 0, 0.2);
+  /* En-tête sur le tissu noir */
+  .bandeau-header {
+    border-bottom: 1px solid #222222;
+    padding-bottom: 12px;
+    margin-bottom: 14px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2px;
-    text-align: center;
-    padding: 3px;
-    box-sizing: border-box;
+    gap: 3px;
   }
 
-  .pause-tag-tiny {
-    font: 700 6.5px var(--font);
-    letter-spacing: 0.1em;
+  .bandeau-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    color: #777777;
+    margin-bottom: 2px;
+  }
+
+  .bandeau-num {
+    font-family: monospace;
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 11px;
+  }
+
+  .bandeau-date-badge {
+    font: 700 8.5px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #888888;
+  }
+
+  .bandeau-title {
+    margin: 0;
+    font: 700 13.5px/1.2 var(--font);
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     color: #ffffff;
-    background: #000000;
-    padding: 1px 4px;
-    border-radius: 2px;
-  }
-
-  .pause-title-tiny {
-    font: 700 8px/1.2 var(--font);
-    color: rgba(0, 0, 0, 0.7);
-    text-transform: uppercase;
     word-break: normal;
     overflow-wrap: break-word;
   }
 
-  /* Sortie de fente */
-  .f-sortie-wrapper {
-    width: 100%;
-    height: 100%;
+  .bandeau-domaine {
+    font: 700 9px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #777777;
+  }
+
+  /* Corps de l'étape sur le bandeau noir */
+  .bandeau-body {
     display: flex;
     flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+
+  .bandeau-star-pill {
+    display: inline-flex;
     align-items: center;
+    gap: 5px;
+    background: #ffffff;
+    color: #000000;
+    font: 800 9px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2.5px 8px;
+    border-radius: 999px;
+    align-self: flex-start;
+    margin-bottom: 2px;
+  }
+
+  .star-icon {
+    font-size: 11px;
+    color: #000000;
+  }
+
+  .bandeau-step-title {
+    margin: 0;
+    font: 700 12.5px/1.3 var(--font);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #ffffff;
+    word-break: normal;
+    overflow-wrap: break-word;
+  }
+
+  .bandeau-step-desc {
+    margin: 0;
+    font: 400 11px/1.5 var(--font);
+    color: #b0b0b0;
+    word-break: normal;
+    overflow-wrap: break-word;
   }
 
   /* ==========================================================================
-     POINTE FINALE DU FANION (AUJOURD'HUI)
+     FENTE R&D (ENTRÉE DANS LA FENTE & RESSORTIE)
      ========================================================================== */
-  .f-terminal-wrapper {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .band-terminal {
-    height: 100%;
-    justify-content: space-between;
-    padding-bottom: 0;
-  }
-
-  .terminal-status-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3px;
+  .fente-3d-entry {
+    margin-top: 14px;
     padding-top: 8px;
-    text-align: center;
-    width: 100%;
-    box-sizing: border-box;
   }
 
-  .terminal-dot {
+  .fente-lip {
+    height: 3px;
+    background: #333333;
+    border-top: 1px solid #555555;
+  }
+
+  .fente-void {
+    background: #080808;
+    padding: 8px 6px;
+    text-align: center;
+    box-shadow: inset 0 8px 12px #000000, inset 0 -2px 4px #000000;
+    border-bottom: 2px solid #222222;
+  }
+
+  .fente-3d-exit {
+    background: #080808;
+    border-bottom: 2px solid #444444;
+    border-top: 2px solid #222222;
+    padding: 7px 6px;
+    text-align: center;
+    margin-bottom: 12px;
+    box-shadow: inset 0 -6px 10px #000000;
+  }
+
+  .fente-arrow {
+    font: 800 8px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #ffffff;
+    white-space: nowrap;
+  }
+
+  /* ==========================================================================
+     TERMINAISON EN FANION (AUJOURD'HUI)
+     ========================================================================== */
+  .bandeau-terminal {
+    padding-bottom: 46px;
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% calc(100% - 22px),
+      50% 100%,
+      0 calc(100% - 22px)
+    );
+  }
+
+  .bandeau-terminal-footer {
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .bandeau-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font: 700 8.5px var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #999999;
+  }
+
+  .status-dot {
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background: #000000;
-  }
-
-  .terminal-titre {
-    font: 700 8px/1.2 var(--font);
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    color: #000000;
-    word-break: normal;
-    overflow-wrap: break-word;
-    padding: 0 2px;
-  }
-
-  .terminal-buttons {
-    display: flex;
-    align-items: center;
-    gap: 3px;
-    width: 100%;
-    padding: 0 4px;
-    box-sizing: border-box;
-  }
-
-  .f-btn {
-    flex: 1;
-    text-decoration: none;
-    font: 700 7.5px var(--font);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    padding: 3px 0;
-    text-align: center;
-    border-radius: 2px;
-  }
-
-  .btn-fiche {
-    background: #000000;
-    color: #ffffff;
-  }
-
-  .btn-gh {
-    border: 1px dashed #000000;
-    color: #000000;
-    background: transparent;
-  }
-
-  /* Pointe biseautée de fanion (queue de pie / chevron) */
-  .pennant-tip-swallowtail,
-  .fanion-chevron-tip {
-    width: 68px;
-    height: 16px;
     background: #ffffff;
-    clip-path: polygon(0 0, 100% 0, 50% 100%);
-    border-top: 1px dashed rgba(0, 0, 0, 0.2);
-    margin-top: 4px;
+  }
+
+  .bandeau-actions {
+    display: flex;
+    gap: 6px;
+  }
+
+  .b-btn {
+    flex: 1;
+    padding: 6px 0;
+    text-align: center;
+    text-decoration: none;
+    font: 700 9px var(--font);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    transition: all 0.2s ease;
+  }
+
+  .b-btn-white {
+    background: #ffffff;
+    color: #000000;
+  }
+
+  .b-btn-white:hover {
+    background: #e2e2e2;
+  }
+
+  .b-btn-ghost {
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid #444444;
+  }
+
+  .b-btn-ghost:hover {
+    border-color: #ffffff;
+  }
+
+  .bandeau-chevron-tail {
+    display: none;
   }
 
   /* ==========================================================================
      RESPONSIVE
      ========================================================================== */
   @media (max-width: 899px) {
-    .fanions-time-section {
-      padding: 24px 10px;
+    .bandeaux-time-section {
+      padding: 30px 12px;
+    }
+
+    .periode-marker-bar {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
     }
   }
 </style>
