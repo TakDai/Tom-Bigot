@@ -1,11 +1,11 @@
 ---
 titre: "tête-de-piaf"
-resume: "Résumé à compléter."
-# nature: création        # ou : participation
-# statut: en cours        # ou : réalisé
-# annee: 2026
-domaines: []
+resume: "Projet créatif et expérimental de l'écosystème seeworld."
+nature: création
+statut: en cours
+annee: 2026
+domaines: ["création", "expérimentation"]
 ordre: 100
 ---
 
-Description du projet à compléter : l'idée, ce que tu as fait, les outils, des images.
+Laboratoire d'idées, d'illustrations et d'expérimentations graphiques et interactives.

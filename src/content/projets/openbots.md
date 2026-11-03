@@ -1,12 +1,12 @@
 ---
 titre: "openbots"
-resume: "Résumé à compléter."
-# nature: création        # ou : participation
-# statut: en cours        # ou : réalisé
-# annee: 2026
-domaines: []
+resume: "Plateforme et conception de robots modulaires et open source."
+nature: création
+statut: en cours
+annee: 2026
+domaines: ["robotique", "open source", "hardware"]
 lien: https://openbots.fr
 ordre: 30
 ---
 
-Description du projet à compléter : l'idée, ce que tu as fait, les outils, des images.
+Initiative visant à concevoir des robots accessibles, modulaires et faciles à reproduire, alliant impression 3D, microcontrôleurs et logiciels ouverts.

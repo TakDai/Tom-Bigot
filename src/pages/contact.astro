@@ -2,17 +2,106 @@
 import Base from '../layouts/Base.astro';
 ---
 
-<Base titre="Contact">
+<Base titre="Contact" description="Prendre contact avec Tom Bigot — projets, collaborations et échanges techniques.">
   <section class="conteneur page">
-    <p class="etiquette">Contact</p>
+    <div class="page-badge">
+      <span class="etiquette">Contact</span>
+    </div>
     <h1>Parlons-en.</h1>
-    <!-- À COMPLÉTER : adresse de contact, réseaux (Twitch 127IL, etc.). -->
-    <p class="chapo discret">Coordonnées à compléter.</p>
+
+    <p class="chapo">
+      Un projet à développer, un défi technique à relever, ou simplement l’envie d’échanger autour du code, de l’embarqué
+      ou des infrastructures ? N'hésitez pas à me contacter.
+    </p>
+
+    <div class="grille-contacts">
+      <!-- Email -->
+      <a class="carte-contact" href="mailto:contact@tom-bigot.fr">
+        <span class="etiquette">Email direct</span>
+        <h3>contact@tom-bigot.fr</h3>
+        <p class="discret">Le moyen le plus simple et rapide pour toute demande ou collaboration.</p>
+      </a>
+
+      <!-- GitHub -->
+      <a class="carte-contact" href="https://github.com/TakDai" target="_blank" rel="noopener noreferrer">
+        <span class="etiquette">Code & Open Source</span>
+        <h3>GitHub · @TakDai ↗</h3>
+        <p class="discret">Consultez l'ensemble de mes dépôts, projets publics et contributions.</p>
+      </a>
+
+      <!-- Live / 127IL -->
+      <div class="carte-contact">
+        <span class="etiquette">Live & Échanges</span>
+        <h3>127IL · Twitch</h3>
+        <p class="discret">Sessions de live et partages autour des projets et de la technologie.</p>
+      </div>
+    </div>
+
+    <div class="encart-disponibilite">
+      <span class="etiquette">Disponibilité</span>
+      <p>
+        Je suis réactif par email et disponible pour étudier vos propositions de projets, partenariats techniques ou missions.
+      </p>
+    </div>
   </section>
 </Base>
 
 <style>
-  .page { padding-top: var(--espace); max-width: 46rem; }
-  h1 { margin: 0.5rem 0 1.5rem; font-size: clamp(2.25rem, 6vw, 4rem); }
-  .chapo { font-size: 1.25rem; }
+  .page {
+    padding-top: clamp(2.5rem, 5vw, 4.5rem);
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+    max-width: 52rem;
+  }
+  .page-badge {
+    margin-bottom: 0.75rem;
+  }
+  h1 {
+    margin: 0 0 1.5rem;
+    font-size: clamp(2.5rem, 6vw, 4.25rem);
+    line-height: 1.1;
+  }
+  .chapo {
+    font-size: clamp(1.1rem, 2vw, 1.25rem);
+    line-height: 1.6;
+    margin-bottom: 3rem;
+  }
+  .grille-contacts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .carte-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 2rem;
+    border: 1px solid var(--filet);
+    border-radius: 6px;
+    text-decoration: none;
+    background: var(--fond);
+    transition: all 0.2s ease;
+  }
+  a.carte-contact:hover {
+    border-color: var(--encre);
+    transform: translateY(-2px);
+  }
+  .carte-contact h3 {
+    margin: 0.25rem 0;
+    font-size: 1.35rem;
+  }
+  .carte-contact p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .encart-disponibilite {
+    border-top: 1px solid var(--filet);
+    padding-top: 2rem;
+  }
+  .encart-disponibilite p {
+    margin: 0.5rem 0 0;
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
 </style>

@@ -1,11 +1,12 @@
 ---
 titre: "multi-motors"
-resume: "Résumé à compléter."
-# nature: création        # ou : participation
-# statut: en cours        # ou : réalisé
-# annee: 2026
-domaines: []
+resume: "Ingénierie, bancs d'essai et pilotage de motorisations électriques."
+nature: création
+statut: en cours
+annee: 2026
+domaines: ["embarqué", "moteurs", "électronique"]
+lien: https://multi-motors.fr
 ordre: 10
 ---
 
-Description du projet à compléter : l'idée, ce que tu as fait, les outils, des images.
+Plateforme et expérimentations autour du banc d'essai, du contrôle de vitesse (ESC) et de l'optimisation des moteurs électriques pour drones et véhicules autonomes.

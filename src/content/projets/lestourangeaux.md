@@ -1,11 +1,12 @@
 ---
 titre: "lestourangeaux"
-resume: "Résumé à compléter."
-# nature: création        # ou : participation
-# statut: en cours        # ou : réalisé
-# annee: 2026
-domaines: []
+resume: "Portail et plateforme locale pour la communauté et les initiatives tourangelles."
+nature: création
+statut: réalisé
+annee: 2025
+domaines: ["web", "communauté", "région"]
+lien: https://lestourangeaux.fr
 ordre: 90
 ---
 
-Description du projet à compléter : l'idée, ce que tu as fait, les outils, des images.
+Site et portail communautaire valorisant les créateurs, commerces et événements de Tours et de la région Centre-Val de Loire.

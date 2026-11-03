@@ -1,11 +1,11 @@
 ---
 titre: "komeon"
-resume: "Résumé à compléter."
-# nature: création        # ou : participation
-# statut: en cours        # ou : réalisé
-# annee: 2026
-domaines: []
+resume: "Projet numérique et collaboratif du collectif seeworld."
+nature: création
+statut: en cours
+annee: 2026
+domaines: ["web", "plateforme"]
 ordre: 80
 ---
 
-Description du projet à compléter : l'idée, ce que tu as fait, les outils, des images.
+Plateforme collaborative et modulaire développée sous l'égide de seeworld pour centraliser les échanges et le partage de ressources techniques.

@@ -1,11 +1,11 @@
 ---
 titre: "superviseur"
-resume: "Résumé à compléter."
-# nature: création        # ou : participation
-# statut: en cours        # ou : réalisé
-# annee: 2026
-domaines: []
+resume: "Outil de monitoring et de supervision d'infrastructures et de serveurs autonomes."
+nature: création
+statut: en cours
+annee: 2026
+domaines: ["devops", "monitoring", "système"]
 ordre: 60
 ---
 
-Description du projet à compléter : l'idée, ce que tu as fait, les outils, des images.
+Solution de supervision légère et autonome pour suivre en continu la disponibilité, la charge et la sécurité d'infrastructures de serveurs hébergés et auto-hébergés.
