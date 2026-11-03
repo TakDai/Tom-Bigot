@@ -54,18 +54,172 @@ const logoMap: Record<string, string> = {
   'tours2tours': '/assets/logos/tours2tours.png',
 };
 
-const raisonProjet: Record<string, string> = {
-  'multi-motors': 'Mesurer, calibrer et optimiser le rendement réel des motorisations électriques sans approximations.',
-  'fix-my-drone': 'Fournir aux pilotes FPV les guides et protocoles de diagnostic précis pour dépanner et régler leurs machines.',
-  'openbots': 'Démocratiser la robotique mobile grâce à du matériel modulaire open-source et à limpression 3D.',
-  'superviseur': 'Garder la souveraineté sur mes serveurs et homelabs avec un monitoring autonome sans usine à gaz.',
-  '127il': 'Diffuser sans filtre la réalité du code, de lélectronique et de la soudure en direct.',
-  'lestourangeaux': 'Créer un point de ralliement numérique indépendant pour lécosystème et les artisans de Tours.',
-  'komeon': 'Expérimenter une messagerie collaborative temps réel sobre, réactive et modulaire.',
-  'pensee-nocturne': 'Prendre du recul critique sur lévolution du numérique et nos dépendances technologiques.',
-  'inskin': 'Explorer des interactions tactiles et des interfaces ergonomiques réduites à lessentiel.',
-  'tete-de-piaf': 'Laboratoire dexpérimentations graphiques et de créations visuelles débridées.',
-};
+const chronoItems = [
+  {
+    id: 'lestourangeaux',
+    type: 'projet',
+    annee: '2025',
+    titre: 'Les Tourangeaux',
+    sousTitre: 'Portail régional & écosystème local indépendant',
+    tempsFort: 'Mise en ligne du portail et référencement autonome de plus de 150 artisans, tiers-lieux et initiatives tourangelles.',
+    pause: 'Mise en retrait temporaire du web pour se consacrer au prototypage matériel et à l\'outillage d\'atelier.',
+    resume: 'Portail communautaire indépendant valorisant les créateurs, commerces et événements de Tours et du Val de Loire.',
+    statut: 'En production',
+    domaines: ['Web', 'Communauté', 'Région'],
+    logo: '/assets/logos/lestourangeaux.svg',
+    lien: '/projets/lestourangeaux',
+  },
+  {
+    id: 'pause-2025-2026',
+    type: 'pause',
+    annee: 'Hiver 2025-2026',
+    titre: 'Pause & Installation Atelier',
+    sousTitre: 'Transition Hardware & R&D physique',
+    tempsFort: 'Étalonnage des fers à souder, acquisition d\'imprimantes 3D et aménagement d\'un laboratoire électronique dédié en Touraine.',
+    pause: '3 mois de recherche fondamentale sans publication de code, concentrés sur la micro-électronique et les STM32.',
+    resume: 'Intermède indispensable : passage d\'un environnement 100% logiciel à un véritable atelier physique de prototypage.',
+    statut: 'Jalon clé',
+    domaines: ['Atelier', 'R&D', 'Électronique'],
+  },
+  {
+    id: 'multi-motors',
+    type: 'projet',
+    annee: '2026',
+    titre: 'Multi-Motors',
+    sousTitre: 'Bancs d\'essai & télémétrie moteur dynamique',
+    tempsFort: 'Conception d\'un banc de traction dynamique couplé à une lecture télémétrique à 32 kHz pour mesurer le rendement moteur au gramme près.',
+    pause: 'Validation thermique des ESC et tests de contraintes mécaniques avant essais en vol réel.',
+    resume: 'Plateforme et expérimentations autour du banc d\'essai et de l\'optimisation de moteurs brushless pour multirotors.',
+    statut: 'En cours',
+    domaines: ['Embarqué', 'Moteurs', 'Électronique'],
+    logo: '/assets/logos/multi-motors.png',
+    lien: '/projets/multi-motors',
+  },
+  {
+    id: 'fix-my-drone',
+    type: 'projet',
+    annee: '2026',
+    titre: 'Fix-My-Drone',
+    sousTitre: 'Diagnostic & sauvetage FPV haute cadence',
+    tempsFort: 'Mise au point de protocoles de diagnostic de contrôleurs de vol STM32 et de filtres notch dynamiques en vol.',
+    pause: 'Pause opérationnelle pour formaliser les fiches de maintenance et cartographier les pannes récurrentes.',
+    resume: 'Outils et guides techniques pour diagnostiquer, régler et réparer les drones FPV et multirotors.',
+    statut: 'En cours',
+    domaines: ['Drones', 'Hardware', 'Diagnostic'],
+    logo: '/assets/logos/fix-my-drone.svg',
+    lien: '/projets/fix-my-drone',
+  },
+  {
+    id: 'openbots',
+    type: 'projet',
+    annee: '2026',
+    titre: 'OpenBots',
+    sousTitre: 'Robotique modulaire & open hardware',
+    tempsFort: 'Premier châssis modulaire entièrement fonctionnel, imprimé en PETG avec microcontrôleur embarqué open-source.',
+    pause: 'Itérations sur la résistance mécanique des engrenages imprimés et réduction du jeu fonctionnel.',
+    resume: 'Initiative pour concevoir des robots accessibles et modulaires alliant impression 3D et logiciels ouverts.',
+    statut: 'En cours',
+    domaines: ['Robotique', 'Open Source', 'Hardware'],
+    logo: '/assets/logos/openbots.png',
+    lien: '/projets/openbots',
+  },
+  {
+    id: 'superviseur',
+    type: 'projet',
+    annee: '2026',
+    titre: 'Superviseur',
+    sousTitre: 'Monitoring autonome & homelab bare-metal',
+    tempsFort: 'Bascule complète de l\'ensemble de l\'infrastructure sous supervision temps réel sans tiers cloud.',
+    pause: 'Stabilisation des seuils d\'alerte et durcissement des règles de pare-feu et certificats SSL.',
+    resume: 'Solution de supervision légère et autonome pour suivre en continu la santé des serveurs auto-hébergés.',
+    statut: 'En production',
+    domaines: ['DevOps', 'Système', 'Sécurité'],
+    logo: '/assets/logos/superviseur.svg',
+    lien: '/projets/superviseur',
+  },
+  {
+    id: '127il',
+    type: 'projet',
+    annee: '2026',
+    titre: '127IL',
+    sousTitre: 'Live streaming technique & fabrication',
+    tempsFort: 'Première session marathon de 6h en direct : conception de circuit imprimé, soudure CMS et code en live sans coupure.',
+    pause: 'Pause de diffusion pour repenser la régie vidéo locale et l\'éclairage macroscopique de l\'établi.',
+    resume: 'Sessions en direct sur Twitch consacrées à la programmation, à l\'électronique et aux retours d\'expérience.',
+    statut: 'En cours',
+    domaines: ['Streaming', 'Live', 'Partage'],
+    logo: '/assets/logos/127il.svg',
+    lien: '/projets/127il',
+  },
+  {
+    id: 'pause-printemps-2026',
+    type: 'pause',
+    annee: 'Printemps 2026',
+    titre: 'Pause & Prise de Hauteur',
+    sousTitre: 'Maturation critique & essais',
+    tempsFort: 'Rédaction d\'une série de manifestes techniques sur l\'autonomie numérique et le refus des technologies propriétaires opaques.',
+    pause: 'Période sans développement de code, dédiée à la lecture d\'architectures décentralisées.',
+    resume: 'Prise de recul indispensable sur l\'impact de nos choix technologiques et nos dépendances.',
+    statut: 'Jalon clé',
+    domaines: ['Éditorial', 'Réflexion', 'Souveraineté'],
+  },
+  {
+    id: 'pensee-nocturne',
+    type: 'projet',
+    annee: '2026',
+    titre: 'Pensée Nocturne',
+    sousTitre: 'Essais & questionnements technologiques',
+    tempsFort: 'Publication d\'articles critiques sur le droit à la réparation et la souveraineté numérique individuelle.',
+    pause: 'Période d\'incubation pour laisser mûrir les sujets avant chaque nouvelle publication.',
+    resume: 'Recueil d\'articles et de réflexions nocturnes autour du monde numérique et des choix d\'ingénierie.',
+    statut: 'En cours',
+    domaines: ['Éditorial', 'Écriture', 'Web'],
+    logo: '/assets/logos/pensee-nocturne.svg',
+    lien: '/projets/pensee-nocturne',
+  },
+  {
+    id: 'komeon',
+    type: 'projet',
+    annee: '2026',
+    titre: 'Komeon',
+    sousTitre: 'Messagerie collaborative basse latence',
+    tempsFort: 'Validation d\'un protocole d\'échange temps réel ultra-léger avec latence mesurée inférieure à 12 ms.',
+    pause: 'Nettoyage d\'architecture pour supprimer 40% de dépendances superflues.',
+    resume: 'Plateforme collaborative temps réel développée pour centraliser les échanges techniques sans fioritures.',
+    statut: 'En cours',
+    domaines: ['Web', 'Plateforme', 'Temps réel'],
+    logo: '/assets/logos/komeon.png',
+    lien: '/projets/komeon',
+  },
+  {
+    id: 'inskin',
+    type: 'projet',
+    annee: '2026',
+    titre: 'Inskin',
+    sousTitre: 'Laboratoire d\'interfaces tactiles',
+    tempsFort: 'Expérimentation d\'un système de composants UI ultra-contrastés réagissant aux micro-gestes.',
+    pause: 'Transition vers la synthèse graphique avec le projet Tête de Piaf.',
+    resume: 'Recherches et expérimentations sur de nouvelles approches d\'interfaces utilisateurs.',
+    statut: 'En cours',
+    domaines: ['Design', 'Interface', 'Web'],
+    logo: '/assets/logos/inskin.png',
+    lien: '/projets/inskin',
+  },
+  {
+    id: 'tete-de-piaf',
+    type: 'projet',
+    annee: '2026',
+    titre: 'Tête de Piaf',
+    sousTitre: 'Laboratoire visuel & expérimental',
+    tempsFort: 'Création du design system contrasté noir sur blanc, typographie Glacial Indifference et identités vectorielles.',
+    pause: 'Finalisation des déclinaisons SVG et intégration sur l\'ensemble des projets actifs.',
+    resume: 'Laboratoire d\'idées, d\'illustrations et d\'expérimentations graphiques et interactives.',
+    statut: 'En cours',
+    domaines: ['Création', 'Illustration', 'Expérimental'],
+    logo: '/assets/logos/tdp.png',
+    lien: '/projets/tete-de-piaf',
+  },
+];
 ---
 
 <Base>
@@ -197,102 +351,135 @@ const raisonProjet: Record<string, string> = {
   </section>
 
   <!-- ================= 03. CHRONOLOGIE EN BANDES VERTICALES ================= -->
-  <section id="projets-chronologie" class="conteneur section-chrono-bandes">
+  <section id="projets-chronologie" class="conteneur section-chrono-verticale">
     <header class="timeline-header">
       <div class="header-pre">
-        <span class="etiquette">02 &bull; FLUX CHRONOLOGIQUE ({projetsChronologiques.length} PROJETS)</span>
+        <span class="etiquette">02 &bull; CHRONOLOGIE EN BANDES VERTICALES</span>
       </div>
       <div class="chrono-head-flex">
         <div>
-          <h2 class="timeline-main-title">CHRONOLOGIE DES RÉALISATIONS</h2>
+          <h2 class="timeline-main-title">CHRONOLOGIE : PROJETS, TEMPS FORTS &amp; PAUSES</h2>
           <p class="timeline-main-desc">
-            Chaque bande représente un projet technique autonome. Défilez pour parcourir la chronologie et découvrir les architectures.
+            Chaque bande verticale représente une étape de mon parcours. Défilez pour parcourir la chronologie ou cliquez sur une bande pour la déployer.
           </p>
         </div>
-        <!-- Indicateur de progression dynamique au scroll -->
-        <div class="scroll-progress-badge" aria-hidden="true">
-          <span class="progress-label">LECTURE //</span>
-          <span class="progress-count" id="chronoCounter">01 / {String(projetsChronologiques.length).padStart(2, '0')}</span>
+        <!-- Contrôles interactifs et compteur de jalon -->
+        <div class="chrono-nav-controls">
+          <button type="button" class="btn-bande-nav" id="btnPrevBande" aria-label="Bande précédente">&larr;</button>
+          <span class="progress-count" id="chronoCounter">01 / {String(chronoItems.length).padStart(2, '0')}</span>
+          <button type="button" class="btn-bande-nav" id="btnNextBande" aria-label="Bande suivante">&rarr;</button>
         </div>
       </div>
     </header>
 
-    <!-- La colonne des bandes avec rail de défilement interactif -->
-    <div class="bandes-wrapper" id="bandesTrack">
-      <!-- Rail vertical de progression -->
-      <div class="bandes-rail" aria-hidden="true">
-        <div class="bandes-rail-fill" id="railFill"></div>
-      </div>
+    <!-- La scène des bandes verticales -->
+    <div class="bandes-v-stage" id="bandesVStage">
+      {
+        chronoItems.map((item, index) => {
+          const numero = String(index + 1).padStart(2, '0');
+          const isPause = item.type === 'pause';
+          const isActive = index === 0;
 
-      <!-- Liste verticale des bandes de projet -->
-      <div class="bandes-stack">
-        {
-          projetsChronologiques.map((projet, index) => {
-            const { titre, resume, nature, statut, domaines, annee } = projet.data;
-            const meta = [nature, statut].filter(Boolean).join(' · ');
-            const logo = logoMap[projet.id];
-            const numero = String(index + 1).padStart(2, '0');
-            const raison = raisonProjet[projet.id] || resume;
-
-            return (
-              <a
-                href={`/projets/${projet.id}`}
-                class={`projet-bande ${index === 0 ? 'is-active' : ''}`}
-                data-index={numero}
-                id={`bande-${projet.id}`}
-                aria-label={`Projet ${titre} (${annee})`}
-              >
-                <!-- Indicateur gauche : Index & Année -->
-                <div class="bande-marker-col">
-                  <span class="bande-num">{numero}</span>
-                  <span class="bande-year">{annee || '2026'}</span>
-                  <span class="bande-pin" aria-hidden="true">
-                    <span class="bande-pin-dot"></span>
-                  </span>
+          return (
+            <article
+              class={`bande-v ${isActive ? 'is-active' : ''} ${isPause ? 'is-pause' : ''}`}
+              data-index={numero}
+              data-item-index={index}
+              id={`bande-${item.id}`}
+              tabindex="0"
+              role="region"
+              aria-label={`${item.titre} (${item.annee})`}
+            >
+              <!-- Liseré / Tranche verticale repliée -->
+              <div class="bande-v-collapsed" aria-hidden="true">
+                <span class="v-num">{numero}</span>
+                <span class="v-year">{item.annee}</span>
+                <div class="v-title-spine">
+                  <span class="v-title-text">{item.titre}</span>
                 </div>
+                {item.logo ? (
+                  <div class="v-logo-mini">
+                    <img src={item.logo} alt="" loading="lazy" />
+                  </div>
+                ) : (
+                  <span class="v-dot-mini" />
+                )}
+              </div>
 
-                <!-- Logo du projet -->
-                <div class="bande-logo-frame">
-                  {logo ? (
-                    <img src={logo} alt={`Logo ${titre}`} loading="lazy" class="bande-logo-img" />
-                  ) : (
-                    <span class="bande-logo-fallback">{titre.slice(0, 2).toUpperCase()}</span>
-                  )}
-                </div>
-
-                <!-- Corps de la bande -->
-                <div class="bande-body">
-                  <div class="bande-heading">
-                    <h3 class="bande-titre">{titre}</h3>
-                    {meta && <span class="bande-meta">{meta}</span>}
+              <!-- Contenu complet déployé -->
+              <div class="bande-v-expanded">
+                <div class="v-exp-head">
+                  <div class="v-exp-meta-row">
+                    <span class="v-exp-num">ÉTAPE {numero}</span>
+                    <span class="meta-sep">&bull;</span>
+                    <span class="v-exp-year">{item.annee}</span>
+                    {item.statut && (
+                      <>
+                        <span class="meta-sep">&bull;</span>
+                        <span class="etiquette">{item.statut}</span>
+                      </>
+                    )}
                   </div>
 
-                  <p class="bande-resume">{resume}</p>
+                  <div class="v-exp-title-row">
+                    {item.logo && (
+                      <div class="v-exp-logo">
+                        <img src={item.logo} alt={`Logo ${item.titre}`} loading="lazy" />
+                      </div>
+                    )}
+                    <div>
+                      <h3 class="v-exp-titre">{item.titre}</h3>
+                      {item.sousTitre && <p class="v-exp-soustitre">{item.sousTitre}</p>}
+                    </div>
+                  </div>
+                </div>
 
-                  <div class="bande-why">
-                    <span class="bande-why-tag">OBJECTIF //</span>
-                    <span class="bande-why-text">{raison}</span>
+                <div class="v-exp-body">
+                  <!-- Résumé -->
+                  {item.resume && <p class="v-exp-resume">{item.resume}</p>}
+
+                  <!-- TEMPS FORT -->
+                  <div class="v-highlight-box">
+                    <div class="v-box-tag">
+                      <span class="v-star-icon">★</span>
+                      <span>TEMPS FORT // LE PIC DE L'APPLICATION</span>
+                    </div>
+                    <p class="v-box-text">{item.tempsFort}</p>
                   </div>
 
-                  {domaines && domaines.length > 0 && (
-                    <div class="bande-tags-row">
-                      {domaines.map((d: string) => (
+                  <!-- PAUSE & TRANSITION -->
+                  <div class="v-pause-box">
+                    <div class="v-box-tag">
+                      <span class="v-pause-icon">⏸</span>
+                      <span>PAUSE // MATURATION &amp; R&amp;D</span>
+                    </div>
+                    <p class="v-box-text">{item.pause}</p>
+                  </div>
+
+                  <!-- Tags -->
+                  {item.domaines && item.domaines.length > 0 && (
+                    <div class="v-tags-row">
+                      {item.domaines.map((d: string) => (
                         <span class="domaine-pill">{d}</span>
                       ))}
                     </div>
                   )}
                 </div>
 
-                <!-- Action droite : Flèche & Call to action -->
-                <div class="bande-action-col">
-                  <span class="bande-action-label">Explorer</span>
-                  <span class="bande-arrow">↗</span>
+                <div class="v-exp-foot">
+                  {item.lien ? (
+                    <a href={item.lien} class="btn-noir v-exp-btn">
+                      Explorer la fiche détaillée &rarr;
+                    </a>
+                  ) : (
+                    <span class="v-interlude-note">Phase de R&amp;D et transition d'atelier</span>
+                  )}
                 </div>
-              </a>
-            );
-          })
-        }
-      </div>
+              </div>
+            </article>
+          );
+        })
+      }
     </div>
   </section>
 
@@ -664,16 +851,16 @@ const raisonProjet: Record<string, string> = {
   /* ==========================================================================
      CHRONOLOGIE EN BANDES VERTICALES & RÉACTIVES AU SCROLL
      ========================================================================== */
-  .section-chrono-bandes {
+  .section-chrono-verticale {
     padding-top: clamp(48px, 8vh, 80px);
     padding-bottom: clamp(32px, 5vh, 48px);
-    max-width: 900px;
+    max-width: 1040px;
   }
 
   .timeline-header {
     border-bottom: 2px dashed var(--dash);
     padding-bottom: 24px;
-    margin-bottom: 40px;
+    margin-bottom: 32px;
   }
 
   .header-pre {
@@ -703,326 +890,368 @@ const raisonProjet: Record<string, string> = {
     flex-wrap: wrap;
   }
 
-  .scroll-progress-badge {
+  .chrono-nav-controls {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
     padding: 6px 14px;
     border: 2px dashed var(--dash);
-    border-radius: 20px;
+    border-radius: 24px;
     background: #fafafa;
   }
 
-  .progress-label {
+  .btn-bande-nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid #000000;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #000000;
+    font: 700 14px var(--font);
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, transform 0.2s;
+  }
+
+  .btn-bande-nav:hover {
+    background: #000000;
+    color: #ffffff;
+    transform: scale(1.1);
+  }
+
+  .progress-count {
+    font: 700 13px var(--font);
+    letter-spacing: 0.12em;
+    color: #000000;
+    min-width: 64px;
+    text-align: center;
+  }
+
+  /* Scène des bandes verticales */
+  .bandes-v-stage {
+    display: flex;
+    flex-direction: row;
+    height: clamp(540px, 72vh, 660px);
+    width: 100%;
+    border: 2px dashed var(--dash);
+    border-radius: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    background: #ffffff;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Bande verticale individuelle */
+  .bande-v {
+    position: relative;
+    height: 100%;
+    border-right: 2px dashed var(--dash);
+    transition: flex 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.25s,
+                border-color 0.25s;
+    outline: none;
+    user-select: none;
+    overflow: hidden;
+    flex: 0 0 clamp(64px, 6vw, 76px);
+    background: #fafafa;
+    cursor: pointer;
+  }
+
+  .bande-v:last-child {
+    border-right: none;
+  }
+
+  .bande-v.is-pause {
+    background: repeating-linear-gradient(
+      -45deg,
+      #fcfcfc,
+      #fcfcfc 10px,
+      #f5f5f5 10px,
+      #f5f5f5 20px
+    );
+  }
+
+  .bande-v:hover:not(.is-active) {
+    background: #f0f0f0;
+  }
+
+  /* État ACTIF / DÉPLOYÉ */
+  .bande-v.is-active {
+    flex: 0 0 clamp(380px, 50vw, 560px);
+    background: #ffffff;
+    border-right: 2px solid #000000;
+    border-left: 4px solid #000000;
+    cursor: default;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.02);
+  }
+
+  /* --- Vue REPLIÉE (tranche verticale) --- */
+  .bande-v-collapsed {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    padding: 22px 8px;
+    gap: 12px;
+  }
+
+  .bande-v.is-active .bande-v-collapsed {
+    display: none;
+  }
+
+  .v-num {
+    font: 700 16px/1 var(--font);
+    color: #000000;
+  }
+
+  .v-year {
     font: 700 10px var(--font);
-    letter-spacing: 0.16em;
+    letter-spacing: 0.1em;
+    color: rgba(0, 0, 0, 0.45);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+
+  .v-title-spine {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+
+  .v-title-text {
+    font: 700 14px var(--font);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #000000;
+    white-space: nowrap;
+  }
+
+  .v-logo-mini {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+  }
+
+  .v-logo-mini img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.7;
+  }
+
+  .v-dot-mini {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #000000;
+    opacity: 0.6;
+  }
+
+  /* --- Vue DÉPLOYÉE --- */
+  .bande-v-expanded {
+    display: none;
+    flex-direction: column;
+    height: 100%;
+    padding: clamp(20px, 3vw, 28px);
+    gap: 16px;
+    overflow-y: auto;
+  }
+
+  .bande-v.is-active .bande-v-expanded {
+    display: flex;
+  }
+
+  .v-exp-head {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-bottom: 14px;
+    border-bottom: 2px dashed rgba(0, 0, 0, 0.15);
+  }
+
+  .v-exp-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font: 700 10.5px var(--font);
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: rgba(0, 0, 0, 0.55);
   }
 
-  .progress-count {
-    font: 700 12px var(--font);
-    letter-spacing: 0.1em;
+  .v-exp-num {
     color: #000000;
   }
 
-  /* Conteneur avec rail vertical interactif */
-  .bandes-wrapper {
-    position: relative;
-    padding-left: clamp(24px, 4vw, 36px);
-  }
-
-  /* Rail vertical de progression */
-  .bandes-rail {
-    position: absolute;
-    left: 8px;
-    top: 20px;
-    bottom: 20px;
-    width: 2px;
-    background: rgba(0, 0, 0, 0.15);
-    border-radius: 1px;
-    overflow: hidden;
-  }
-
-  .bandes-rail-fill {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 10%;
-    background: #000000;
-    transition: height 0.15s ease-out;
-  }
-
-  /* Pile verticale des bandes */
-  .bandes-stack {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  /* Structure d'une bande de projet individuelle */
-  .projet-bande {
-    position: relative;
-    display: grid;
-    grid-template-columns: 80px 64px 1fr auto;
-    align-items: center;
-    gap: clamp(14px, 2.5vw, 24px);
-    padding: clamp(16px, 2.5vw, 22px) clamp(16px, 3vw, 26px);
-    background: #ffffff;
-    border: 2px dashed var(--dash);
-    border-radius: 10px;
-    text-decoration: none;
-    color: inherit;
-    cursor: pointer;
-    opacity: 0.65;
-    transform: scale(0.985);
-    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-                border 0.25s ease,
-                box-shadow 0.25s ease,
-                background-color 0.25s ease;
-  }
-
-  /* État actif au scroll & au survol */
-  .projet-bande.is-active,
-  .projet-bande:hover {
-    opacity: 1;
-    transform: scale(1) translateX(4px);
-    border: 2px solid #000000;
-    border-left: 6px solid #000000;
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
-    background: #ffffff;
-  }
-
-  /* Colonne Marker / Index & Année */
-  .bande-marker-col {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2px;
-    position: relative;
-  }
-
-  .bande-num {
-    font: 700 22px/1 var(--font);
-    letter-spacing: 0.08em;
+  .v-exp-year {
     color: #000000;
   }
 
-  .bande-year {
-    font: 700 11px var(--font);
-    letter-spacing: 0.14em;
-    color: rgba(0, 0, 0, 0.45);
-  }
-
-  .bande-pin {
-    position: absolute;
-    left: calc(-1 * clamp(24px, 4vw, 36px) - 9px);
-    top: 50%;
-    transform: translateY(-50%);
-    width: 14px;
-    height: 14px;
+  .v-exp-title-row {
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 16px;
   }
 
-  .bande-pin-dot {
-    width: 10px;
-    height: 10px;
-    border: 2px solid #000000;
-    border-radius: 50%;
-    background: #ffffff;
-    transition: background-color 0.25s, transform 0.25s;
-  }
-
-  .projet-bande.is-active .bande-pin-dot,
-  .projet-bande:hover .bande-pin-dot {
-    background: #000000;
-    transform: scale(1.3);
-  }
-
-  /* Cadre logo */
-  .bande-logo-frame {
-    width: 58px;
-    height: 58px;
+  .v-exp-logo {
+    width: 56px;
+    height: 56px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 2px dashed rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
+    border-radius: 10px;
     padding: 6px;
     background: #fafafa;
-    transition: border-color 0.2s, transform 0.2s;
   }
 
-  .bande-logo-img {
+  .v-exp-logo img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
-    display: block;
-    transition: transform 0.2s;
   }
 
-  .bande-logo-fallback {
-    font: 700 16px var(--font);
-    letter-spacing: 0.1em;
-    color: rgba(0, 0, 0, 0.6);
-  }
-
-  .projet-bande.is-active .bande-logo-frame,
-  .projet-bande:hover .bande-logo-frame {
-    border-color: #000000;
-    background: #ffffff;
-  }
-
-  .projet-bande.is-active .bande-logo-img,
-  .projet-bande:hover .bande-logo-img {
-    transform: scale(1.08);
-  }
-
-  /* Corps de texte de la bande */
-  .bande-body {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    min-width: 0;
-  }
-
-  .bande-heading {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-
-  .bande-titre {
+  .v-exp-titre {
     margin: 0;
-    font: 700 clamp(18px, 2.5vw, 24px)/1.15 var(--font);
+    font: 700 clamp(20px, 3vw, 26px)/1.15 var(--font);
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: #000000;
   }
 
-  .bande-meta {
-    font: 700 10px var(--font);
+  .v-exp-soustitre {
+    margin: 2px 0 0;
+    font: 400 12.5px/1.4 var(--font);
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .v-exp-body {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex: 1;
+  }
+
+  .v-exp-resume {
+    margin: 0;
+    font: 400 13px/1.55 var(--font);
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  /* Encadré TEMPS FORT */
+  .v-highlight-box {
+    background: #000000;
+    color: #ffffff;
+    padding: 12px 16px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .v-box-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font: 700 9.5px var(--font);
     letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .v-star-icon {
+    color: #ffffff;
+    font-size: 11px;
+  }
+
+  .v-box-text {
+    margin: 0;
+    font: 400 12.5px/1.55 var(--font);
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  /* Encadré PAUSE & TRANSITION */
+  .v-pause-box {
+    background: #fafafa;
+    border-left: 3px solid #000000;
+    border-radius: 0 6px 6px 0;
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .v-pause-box .v-box-tag {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .v-pause-icon {
+    font-size: 10px;
+    color: #000000;
+  }
+
+  .v-pause-box .v-box-text {
+    margin: 0;
+    font: 400 12.5px/1.55 var(--font);
+    color: #111111;
+  }
+
+  .v-tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 2px;
+  }
+
+  .v-exp-foot {
+    padding-top: 14px;
+    border-top: 2px dashed rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+  }
+
+  .v-exp-btn {
+    padding: 10px 18px;
+    font-size: 12px;
+    text-decoration: none;
+  }
+
+  .v-interlude-note {
+    font: 700 11px var(--font);
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: rgba(0, 0, 0, 0.5);
   }
 
-  .bande-resume {
-    margin: 0;
-    font: 400 13px/1.5 var(--font);
-    color: rgba(0, 0, 0, 0.75);
-    letter-spacing: 0.02em;
-  }
-
-  .bande-why {
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-    font: 400 12px/1.5 var(--font);
-    color: #111111;
-    background: #f8f8f8;
-    padding: 6px 10px;
-    border-left: 2px solid #000000;
-    border-radius: 0 4px 4px 0;
-  }
-
-  .bande-why-tag {
-    font-weight: 700;
-    font-size: 9.5px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.55);
-    flex-shrink: 0;
-  }
-
-  .bande-why-text {
-    color: #000000;
-  }
-
-  .bande-tags-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-
-  /* Action / Flèche droite */
-  .bande-action-col {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding-left: 8px;
-  }
-
-  .bande-action-label {
-    font: 700 11px var(--font);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.45);
-    transition: color 0.2s;
-  }
-
-  .bande-arrow {
-    font-size: 16px;
-    font-weight: 700;
-    color: rgba(0, 0, 0, 0.35);
-    transition: transform 0.2s, color 0.2s;
-  }
-
-  .projet-bande.is-active .bande-action-label,
-  .projet-bande:hover .bande-action-label {
-    color: #000000;
-  }
-
-  .projet-bande.is-active .bande-arrow,
-  .projet-bande:hover .bande-arrow {
-    color: #000000;
-    transform: translate(2px, -2px);
-  }
-
   /* Adaptations mobile */
-  @media (max-width: 680px) {
-    .projet-bande {
-      grid-template-columns: 50px 48px 1fr auto;
-      gap: 12px;
-      padding: 14px 12px;
+  @media (max-width: 768px) {
+    .bandes-v-stage {
+      height: clamp(520px, 78vh, 620px);
     }
 
-    .bande-num {
-      font-size: 18px;
+    .bande-v {
+      flex: 0 0 54px;
     }
 
-    .bande-logo-frame {
-      width: 48px;
-      height: 48px;
+    .bande-v.is-active {
+      flex: 0 0 85vw;
     }
 
-    .bande-action-label {
-      display: none;
-    }
-
-    .bande-why {
-      flex-direction: column;
-      gap: 2px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .bandes-wrapper {
-      padding-left: 18px;
-    }
-
-    .bandes-rail {
-      left: 4px;
-    }
-
-    .bande-pin {
-      left: -23px;
+    .v-title-text {
+      font-size: 12px;
+      letter-spacing: 0.12em;
     }
   }
 
@@ -1038,19 +1267,6 @@ const raisonProjet: Record<string, string> = {
     text-transform: uppercase;
     color: rgba(0, 0, 0, 0.7);
     background: #fafafa;
-  }
-
-  .card-cta {
-    font: 700 11px var(--font);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink);
-    opacity: 0.7;
-    transition: opacity 0.2s;
-  }
-
-  .timeline-card:hover .card-cta {
-    opacity: 1;
   }
 
   /* ==========================================================================
@@ -1193,85 +1409,101 @@ const raisonProjet: Record<string, string> = {
 </style>
 
 <script>
-  // Activation interactive des bandes de projets au défilement
-  function initChronoBandes() {
-    const bandes = Array.from(document.querySelectorAll<HTMLElement>('.projet-bande'));
-    const railFill = document.getElementById('railFill');
-    const chronoCounter = document.getElementById('chronoCounter');
-    const track = document.getElementById('bandesTrack');
+  // Activation interactive des bandes verticales et réactivité au scroll
+  function initChronoBandesVerticales() {
+    const stage = document.getElementById('bandesVStage');
+    const section = document.getElementById('projets-chronologie');
+    const counter = document.getElementById('chronoCounter');
+    const btnPrev = document.getElementById('btnPrevBande');
+    const btnNext = document.getElementById('btnNextBande');
 
-    if (!bandes.length) return;
+    if (!stage || !section) return;
 
+    const bandes = Array.from(stage.querySelectorAll<HTMLElement>('.bande-v'));
     const total = bandes.length;
+    if (!total) return;
 
-    // 1. Observer pour activer avec précision la bande la plus visible
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-active');
-          } else {
-            // Désactiver seulement si ce n'est pas la seule dans la zone
-            entry.target.classList.remove('is-active');
-          }
-        });
-      },
-      {
-        rootMargin: '-18% 0px -25% 0px',
-        threshold: 0.15,
+    let currentIndex = 0;
+
+    function activateBande(index: number, scrollIntoStage = true) {
+      if (index < 0) index = 0;
+      if (index >= total) index = total - 1;
+      currentIndex = index;
+
+      bandes.forEach((b, i) => {
+        if (i === currentIndex) {
+          b.classList.add('is-active');
+          b.setAttribute('aria-expanded', 'true');
+        } else {
+          b.classList.remove('is-active');
+          b.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      const numero = bandes[currentIndex].dataset.index || String(currentIndex + 1).padStart(2, '0');
+      if (counter) {
+        counter.textContent = `${numero} / ${String(total).padStart(2, '0')}`;
       }
-    );
 
-    bandes.forEach((b) => observer.observe(b));
+      if (scrollIntoStage) {
+        const activeBande = bandes[currentIndex];
+        const stageWidth = stage.clientWidth;
+        const targetLeft = activeBande.offsetLeft - stageWidth / 2 + activeBande.offsetWidth / 2;
+        stage.scrollTo({
+          left: Math.max(0, targetLeft),
+          behavior: 'smooth',
+        });
+      }
+    }
 
-    // 2. Progression dynamique du rail vertical et mise à jour du compteur
+    // 1. Clic direct sur une bande pour la déployer
+    bandes.forEach((b, idx) => {
+      b.addEventListener('click', () => {
+        activateBande(idx, true);
+      });
+
+      b.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          activateBande(idx, true);
+        }
+      });
+    });
+
+    // 2. Boutons Précédent / Suivant
+    if (btnPrev) {
+      btnPrev.addEventListener('click', () => {
+        activateBande(currentIndex - 1, true);
+      });
+    }
+
+    if (btnNext) {
+      btnNext.addEventListener('click', () => {
+        activateBande(currentIndex + 1, true);
+      });
+    }
+
+    // 3. Réactivité au défilement vertical de la page
     let ticking = false;
 
     function onScroll() {
       if (!ticking) {
         window.requestAnimationFrame(() => {
           const winH = window.innerHeight;
-          const centerY = winH * 0.45;
+          const rect = section.getBoundingClientRect();
 
-          // Mise à jour de la bande la plus proche du centre de lecture
-          let closestBande: HTMLElement | null = null;
-          let minDistance = Infinity;
+          // La section est-elle dans la zone de lecture active ?
+          const start = rect.top - winH * 0.4;
+          const end = rect.bottom - winH * 0.4;
+          const totalDist = end - start;
 
-          bandes.forEach((bande) => {
-            const rect = bande.getBoundingClientRect();
-            const bandeCenter = rect.top + rect.height / 2;
-            const dist = Math.abs(bandeCenter - centerY);
+          if (rect.top <= winH * 0.55 && rect.bottom >= winH * 0.35) {
+            const travel = (winH * 0.55 - rect.top);
+            const progress = Math.max(0, Math.min(0.99, travel / (rect.height || 1)));
+            const targetIdx = Math.floor(progress * total);
 
-            if (dist < minDistance) {
-              minDistance = dist;
-              closestBande = bande;
-            }
-          });
-
-          if (closestBande) {
-            bandes.forEach((b) => {
-              if (b === closestBande) {
-                b.classList.add('is-active');
-              }
-            });
-
-            const indexVal = (closestBande as HTMLElement).dataset.index || '01';
-            if (chronoCounter) {
-              chronoCounter.textContent = `${indexVal} / ${String(total).padStart(2, '0')}`;
-            }
-          }
-
-          // Remplissage progressif du rail vertical
-          if (track && railFill) {
-            const trackRect = track.getBoundingClientRect();
-            const start = trackRect.top - winH * 0.7;
-            const end = trackRect.bottom - winH * 0.3;
-            const totalTravel = end - start;
-
-            if (totalTravel > 0) {
-              const currentTravel = -start;
-              const ratio = Math.max(0, Math.min(1, currentTravel / totalTravel));
-              railFill.style.height = `${(ratio * 100).toFixed(1)}%`;
+            if (targetIdx !== currentIndex && targetIdx >= 0 && targetIdx < total) {
+              activateBande(targetIdx, true);
             }
           }
 
@@ -1282,10 +1514,12 @@ const raisonProjet: Record<string, string> = {
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll(); // Exécuter une première fois
+
+    // Initialiser la première bande
+    activateBande(0, false);
   }
 
   // Initialisation immédiate et support des navigations Astro
-  initChronoBandes();
-  document.addEventListener('astro:page-load', initChronoBandes);
+  initChronoBandesVerticales();
+  document.addEventListener('astro:page-load', initChronoBandesVerticales);
 </script>
