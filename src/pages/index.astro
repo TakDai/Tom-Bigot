@@ -54,170 +54,362 @@ const logoMap: Record<string, string> = {
   'tours2tours': '/assets/logos/tours2tours.png',
 };
 
-const chronoItems = [
-  {
-    id: 'lestourangeaux',
-    type: 'projet',
-    annee: '2025',
-    titre: 'Les Tourangeaux',
-    sousTitre: 'Portail régional & écosystème local indépendant',
-    tempsFort: 'Mise en ligne du portail et référencement autonome de plus de 150 artisans, tiers-lieux et initiatives tourangelles.',
-    pause: 'Mise en retrait temporaire du web pour se consacrer au prototypage matériel et à l\'outillage d\'atelier.',
-    resume: 'Portail communautaire indépendant valorisant les créateurs, commerces et événements de Tours et du Val de Loire.',
-    statut: 'En production',
-    domaines: ['Web', 'Communauté', 'Région'],
-    logo: '/assets/logos/lestourangeaux.svg',
-    lien: '/projets/lestourangeaux',
-  },
-  {
-    id: 'pause-2025-2026',
-    type: 'pause',
-    annee: 'Hiver 2025-2026',
-    titre: 'Pause & Installation Atelier',
-    sousTitre: 'Transition Hardware & R&D physique',
-    tempsFort: 'Étalonnage des fers à souder, acquisition d\'imprimantes 3D et aménagement d\'un laboratoire électronique dédié en Touraine.',
-    pause: '3 mois de recherche fondamentale sans publication de code, concentrés sur la micro-électronique et les STM32.',
-    resume: 'Intermède indispensable : passage d\'un environnement 100% logiciel à un véritable atelier physique de prototypage.',
-    statut: 'Jalon clé',
-    domaines: ['Atelier', 'R&D', 'Électronique'],
-  },
+const bandeauxProjets = [
   {
     id: 'multi-motors',
-    type: 'projet',
-    annee: '2026',
-    titre: 'Multi-Motors',
-    sousTitre: 'Bancs d\'essai & télémétrie moteur dynamique',
-    tempsFort: 'Conception d\'un banc de traction dynamique couplé à une lecture télémétrique à 32 kHz pour mesurer le rendement moteur au gramme près.',
-    pause: 'Validation thermique des ESC et tests de contraintes mécaniques avant essais en vol réel.',
-    resume: 'Plateforme et expérimentations autour du banc d\'essai et de l\'optimisation de moteurs brushless pour multirotors.',
-    statut: 'En cours',
-    domaines: ['Embarqué', 'Moteurs', 'Électronique'],
+    numero: '01',
+    titre: 'MULTI-MOTORS',
+    sousTitre: 'Bancs d\'essai & télémétrie moteur',
+    domaine: 'Électronique & Embarqué',
     logo: '/assets/logos/multi-motors.png',
     lien: '/projets/multi-motors',
+    etapes: [
+      {
+        type: 'phase',
+        date: 'Début 2026',
+        titre: 'Conception mécanique',
+        desc: 'Dessin 3D du support de poussée et calibration des capteurs dynamométriques.',
+      },
+      {
+        type: 'temps_fort',
+        date: 'Fév. 2026',
+        titre: 'Mesure télémétrique 32 kHz',
+        desc: 'Couplage direct à 32 kHz pour mesurer le rendement poussée/ampérage au gramme près.',
+      },
+      {
+        type: 'pause',
+        date: 'Mars 2026',
+        titre: 'Validation thermique ESC',
+        desc: 'Interruption des tests pour mesurer l\'échauffement des MOSFETs sous 80A continus.',
+      },
+      {
+        type: 'phase',
+        date: 'Avril 2026',
+        titre: 'Optimisation timing & PID',
+        desc: 'Ajustement des timings d\'injection brushless selon le pas d\'hélice.',
+      },
+      {
+        type: 'statut',
+        date: 'Aujourd\'hui',
+        titre: 'Essais en vol & Validation',
+        desc: 'Intégration sur châssis de vol réel.',
+      },
+    ],
   },
   {
     id: 'fix-my-drone',
-    type: 'projet',
-    annee: '2026',
-    titre: 'Fix-My-Drone',
-    sousTitre: 'Diagnostic & sauvetage FPV haute cadence',
-    tempsFort: 'Mise au point de protocoles de diagnostic de contrôleurs de vol STM32 et de filtres notch dynamiques en vol.',
-    pause: 'Pause opérationnelle pour formaliser les fiches de maintenance et cartographier les pannes récurrentes.',
-    resume: 'Outils et guides techniques pour diagnostiquer, régler et réparer les drones FPV et multirotors.',
-    statut: 'En cours',
-    domaines: ['Drones', 'Hardware', 'Diagnostic'],
+    numero: '02',
+    titre: 'FIX-MY-DRONE',
+    sousTitre: 'Diagnostic & réparation FPV',
+    domaine: 'Drones & Hardware',
     logo: '/assets/logos/fix-my-drone.svg',
     lien: '/projets/fix-my-drone',
+    etapes: [
+      {
+        type: 'phase',
+        date: 'Début 2026',
+        titre: 'Cartographie des pannes',
+        desc: 'Dépouillement des logs blackbox et identification des causes d\'avarie récurrentes.',
+      },
+      {
+        type: 'temps_fort',
+        date: 'Mars 2026',
+        titre: 'Sauvetage STM32 & Filtres Notch',
+        desc: 'Mise au point d\'un protocole pour ressusciter les processeurs de vol brickés et régler les filtres gyroscopiques.',
+      },
+      {
+        type: 'pause',
+        date: 'Avril 2026',
+        titre: 'Rédaction des protocoles',
+        desc: 'Pause des soudures pour documenter méthodiquement chaque étape de diagnostic.',
+      },
+      {
+        type: 'statut',
+        date: 'Aujourd\'hui',
+        titre: 'Plateforme en développement',
+        desc: 'Outil de diagnostic interactif en cours d\'assemblage.',
+      },
+    ],
   },
   {
     id: 'openbots',
-    type: 'projet',
-    annee: '2026',
-    titre: 'OpenBots',
-    sousTitre: 'Robotique modulaire & open hardware',
-    tempsFort: 'Premier châssis modulaire entièrement fonctionnel, imprimé en PETG avec microcontrôleur embarqué open-source.',
-    pause: 'Itérations sur la résistance mécanique des engrenages imprimés et réduction du jeu fonctionnel.',
-    resume: 'Initiative pour concevoir des robots accessibles et modulaires alliant impression 3D et logiciels ouverts.',
-    statut: 'En cours',
-    domaines: ['Robotique', 'Open Source', 'Hardware'],
+    numero: '03',
+    titre: 'OPENBOTS',
+    sousTitre: 'Robotique modulaire 3D',
+    domaine: 'Robotique & Open Source',
     logo: '/assets/logos/openbots.png',
     lien: '/projets/openbots',
+    etapes: [
+      {
+        type: 'phase',
+        date: 'Début 2026',
+        titre: 'Modélisation CAD modulaire',
+        desc: 'Conception d\'un châssis polyvalent imprimable en 3D avec microcontrôleur ouvert.',
+      },
+      {
+        type: 'pause',
+        date: 'Fév. 2026',
+        titre: 'Tests de rupture PETG',
+        desc: 'Arrêt de l\'assemblage après casse de pignons, passage au filament renforcé carbone.',
+      },
+      {
+        type: 'temps_fort',
+        date: 'Mars 2026',
+        titre: 'Premier roulage autonome',
+        desc: 'Validation physique du cycle évitement d\'obstacles et navigation autonome en intérieur.',
+      },
+      {
+        type: 'statut',
+        date: 'Aujourd\'hui',
+        titre: 'Documentation & STL ouverts',
+        desc: 'Préparation du dépôt public et des plans d\'assemblage.',
+      },
+    ],
   },
   {
     id: 'superviseur',
-    type: 'projet',
-    annee: '2026',
-    titre: 'Superviseur',
-    sousTitre: 'Monitoring autonome & homelab bare-metal',
-    tempsFort: 'Bascule complète de l\'ensemble de l\'infrastructure sous supervision temps réel sans tiers cloud.',
-    pause: 'Stabilisation des seuils d\'alerte et durcissement des règles de pare-feu et certificats SSL.',
-    resume: 'Solution de supervision légère et autonome pour suivre en continu la santé des serveurs auto-hébergés.',
-    statut: 'En production',
-    domaines: ['DevOps', 'Système', 'Sécurité'],
+    numero: '04',
+    titre: 'SUPERVISEUR',
+    sousTitre: 'Monitoring bare-metal autonome',
+    domaine: 'DevOps & Sécurité',
     logo: '/assets/logos/superviseur.svg',
     lien: '/projets/superviseur',
+    etapes: [
+      {
+        type: 'phase',
+        date: 'Début 2026',
+        titre: 'Conception agents légers',
+        desc: 'Développement de micro-sondes système en C/Node sans surcharge CPU.',
+      },
+      {
+        type: 'temps_fort',
+        date: 'Fév. 2026',
+        titre: 'Bascule bare-metal 100%',
+        desc: 'Migration réussie de l\'ensemble des serveurs physiques sous surveillance temps réel sans tiers cloud.',
+      },
+      {
+        type: 'pause',
+        date: 'Mars 2026',
+        titre: 'Durcissement réseau & TLS',
+        desc: 'Pause des nouvelles features pour blinder la cryptographie, pare-feu et clés SSH.',
+      },
+      {
+        type: 'statut',
+        date: 'Aujourd\'hui',
+        titre: 'En production 24/7',
+        desc: 'Supervision continue du homelab et des services distants.',
+      },
+    ],
   },
   {
     id: '127il',
-    type: 'projet',
-    annee: '2026',
+    numero: '05',
     titre: '127IL',
-    sousTitre: 'Live streaming technique & fabrication',
-    tempsFort: 'Première session marathon de 6h en direct : conception de circuit imprimé, soudure CMS et code en live sans coupure.',
-    pause: 'Pause de diffusion pour repenser la régie vidéo locale et l\'éclairage macroscopique de l\'établi.',
-    resume: 'Sessions en direct sur Twitch consacrées à la programmation, à l\'électronique et aux retours d\'expérience.',
-    statut: 'En cours',
-    domaines: ['Streaming', 'Live', 'Partage'],
+    sousTitre: 'Live streaming fabrication & code',
+    domaine: 'Live & Partage technique',
     logo: '/assets/logos/127il.svg',
     lien: '/projets/127il',
+    etapes: [
+      {
+        type: 'phase',
+        date: 'Début 2026',
+        titre: 'Installation régie atelier',
+        desc: 'Mise en place des caméras zénithales et microscopes sur l\'établi de soudure.',
+      },
+      {
+        type: 'temps_fort',
+        date: 'Fév. 2026',
+        titre: 'Marathon live 6h sans coupure',
+        desc: 'Session continue de soudure CMS, programmation STM32 et questions/réponses en direct.',
+      },
+      {
+        type: 'pause',
+        date: 'Avril 2026',
+        titre: 'Refonte éclairage & ergonomie',
+        desc: 'Suspension des lives pour refaire l\'éclairage de travail et l\'extraction des fumées.',
+      },
+      {
+        type: 'statut',
+        date: 'Aujourd\'hui',
+        titre: 'Sessions régulières',
+        desc: 'Diffusions techniques périodiques sur Twitch.',
+      },
+    ],
   },
   {
-    id: 'pause-printemps-2026',
-    type: 'pause',
-    annee: 'Printemps 2026',
-    titre: 'Pause & Prise de Hauteur',
-    sousTitre: 'Maturation critique & essais',
-    tempsFort: 'Rédaction d\'une série de manifestes techniques sur l\'autonomie numérique et le refus des technologies propriétaires opaques.',
-    pause: 'Période sans développement de code, dédiée à la lecture d\'architectures décentralisées.',
-    resume: 'Prise de recul indispensable sur l\'impact de nos choix technologiques et nos dépendances.',
-    statut: 'Jalon clé',
-    domaines: ['Éditorial', 'Réflexion', 'Souveraineté'],
+    id: 'lestourangeaux',
+    numero: '06',
+    titre: 'LES TOURANGEAUX',
+    sousTitre: 'Portail régional indépendant',
+    domaine: 'Web & Communauté',
+    logo: '/assets/logos/lestourangeaux.svg',
+    lien: '/projets/lestourangeaux',
+    etapes: [
+      {
+        type: 'phase',
+        date: '2025',
+        titre: 'Architecture & collecte locale',
+        desc: 'Conception de la plateforme web pour valoriser les artisans et créateurs de Tours.',
+      },
+      {
+        type: 'temps_fort',
+        date: 'Fin 2025',
+        titre: '150+ initiatives référencées',
+        desc: 'Mise en ligne et adoption rapide par le tissu local sans publicité payante.',
+      },
+      {
+        type: 'pause',
+        date: 'Hiver 2025',
+        titre: 'Transition vers le hardware',
+        desc: 'Site stabilisé, mise en veilleuse du dev web pour consacrer l\'hiver à l\'atelier physique.',
+      },
+      {
+        type: 'statut',
+        date: 'Aujourd\'hui',
+        titre: 'En ligne & autonome',
+        desc: 'Accessible en continu sur lestourangeaux.fr.',
+      },
+    ],
   },
   {
     id: 'pensee-nocturne',
-    type: 'projet',
-    annee: '2026',
-    titre: 'Pensée Nocturne',
-    sousTitre: 'Essais & questionnements technologiques',
-    tempsFort: 'Publication d\'articles critiques sur le droit à la réparation et la souveraineté numérique individuelle.',
-    pause: 'Période d\'incubation pour laisser mûrir les sujets avant chaque nouvelle publication.',
-    resume: 'Recueil d\'articles et de réflexions nocturnes autour du monde numérique et des choix d\'ingénierie.',
-    statut: 'En cours',
-    domaines: ['Éditorial', 'Écriture', 'Web'],
+    numero: '07',
+    titre: 'PENSÉE NOCTURNE',
+    sousTitre: 'Essais sur la technique & liberté',
+    domaine: 'Éditorial & Essais',
     logo: '/assets/logos/pensee-nocturne.svg',
     lien: '/projets/pensee-nocturne',
+    etapes: [
+      {
+        type: 'phase',
+        date: 'Début 2026',
+        titre: 'Genèse des écrits',
+        desc: 'Prise de notes nocturnes sur la dépendance technologique et l\'enfermement propriétaire.',
+      },
+      {
+        type: 'pause',
+        date: 'Fév. 2026',
+        titre: 'Maturation des concepts',
+        desc: 'Recul volontaire pour confronter la réflexion philosophique à la réalité de l\'atelier.',
+      },
+      {
+        type: 'temps_fort',
+        date: 'Printemps 2026',
+        titre: 'Manifestes sur l\'autonomie',
+        desc: 'Publication des premiers essais critiques sur le droit de réparer et la liberté d\'ingénierie.',
+      },
+      {
+        type: 'statut',
+        date: 'Aujourd\'hui',
+        titre: 'Publications au fil de l\'eau',
+        desc: 'Articles rédigés à tête reposée.',
+      },
+    ],
   },
   {
     id: 'komeon',
-    type: 'projet',
-    annee: '2026',
-    titre: 'Komeon',
-    sousTitre: 'Messagerie collaborative basse latence',
-    tempsFort: 'Validation d\'un protocole d\'échange temps réel ultra-léger avec latence mesurée inférieure à 12 ms.',
-    pause: 'Nettoyage d\'architecture pour supprimer 40% de dépendances superflues.',
-    resume: 'Plateforme collaborative temps réel développée pour centraliser les échanges techniques sans fioritures.',
-    statut: 'En cours',
-    domaines: ['Web', 'Plateforme', 'Temps réel'],
+    numero: '08',
+    titre: 'KOMEON',
+    sousTitre: 'Messagerie temps réel épurée',
+    domaine: 'Web & Temps Réel',
     logo: '/assets/logos/komeon.png',
     lien: '/projets/komeon',
+    etapes: [
+      {
+        type: 'phase',
+        date: 'Début 2026',
+        titre: 'Protocole websocket léger',
+        desc: 'Spécification d\'un format binaire pour les échanges de données temps réel.',
+      },
+      {
+        type: 'temps_fort',
+        date: 'Mars 2026',
+        titre: 'Latence mesurée < 12 ms',
+        desc: 'Validation des tests de charge sous fort trafic avec une latence quasi imperceptible.',
+      },
+      {
+        type: 'pause',
+        date: 'Avril 2026',
+        titre: 'Nettoyage des dépendances',
+        desc: 'Chantier de refactorisation pour supprimer les bibliothèques superflues.',
+      },
+      {
+        type: 'statut',
+        date: 'Aujourd\'hui',
+        titre: 'Prototype fonctionnel',
+        desc: 'Architecture prête pour intégration modulaire.',
+      },
+    ],
   },
   {
     id: 'inskin',
-    type: 'projet',
-    annee: '2026',
-    titre: 'Inskin',
-    sousTitre: 'Laboratoire d\'interfaces tactiles',
-    tempsFort: 'Expérimentation d\'un système de composants UI ultra-contrastés réagissant aux micro-gestes.',
-    pause: 'Transition vers la synthèse graphique avec le projet Tête de Piaf.',
-    resume: 'Recherches et expérimentations sur de nouvelles approches d\'interfaces utilisateurs.',
-    statut: 'En cours',
-    domaines: ['Design', 'Interface', 'Web'],
+    numero: '09',
+    titre: 'INSKIN',
+    sousTitre: 'Design d\'interfaces & ergonomie',
+    domaine: 'Design & Interface',
     logo: '/assets/logos/inskin.png',
     lien: '/projets/inskin',
+    etapes: [
+      {
+        type: 'phase',
+        date: 'Début 2026',
+        titre: 'Recherches micro-interactions',
+        desc: 'Exploration d\'animations légères au CSS natif sans framework JavaScript lourd.',
+      },
+      {
+        type: 'temps_fort',
+        date: 'Mars 2026',
+        titre: 'Système tactile haute réactivité',
+        desc: 'Mise au point de composants d\'interface répondant instantanément aux micro-gestes.',
+      },
+      {
+        type: 'pause',
+        date: 'Avril 2026',
+        titre: 'Fusion avec Tête de Piaf',
+        desc: 'Mise en pause des tests d\'interface pour converger avec l\'identité visuelle générale.',
+      },
+      {
+        type: 'statut',
+        date: 'Aujourd\'hui',
+        titre: 'En intégration',
+        desc: 'Composants réutilisables sur les futures plateformes.',
+      },
+    ],
   },
   {
     id: 'tete-de-piaf',
-    type: 'projet',
-    annee: '2026',
-    titre: 'Tête de Piaf',
+    numero: '10',
+    titre: 'TÊTE DE PIAF',
     sousTitre: 'Laboratoire visuel & expérimental',
-    tempsFort: 'Création du design system contrasté noir sur blanc, typographie Glacial Indifference et identités vectorielles.',
-    pause: 'Finalisation des déclinaisons SVG et intégration sur l\'ensemble des projets actifs.',
-    resume: 'Laboratoire d\'idées, d\'illustrations et d\'expérimentations graphiques et interactives.',
-    statut: 'En cours',
-    domaines: ['Création', 'Illustration', 'Expérimental'],
+    domaine: 'Création & Graphisme',
     logo: '/assets/logos/tdp.png',
     lien: '/projets/tete-de-piaf',
+    etapes: [
+      {
+        type: 'phase',
+        date: 'Début 2026',
+        titre: 'Esquisses brutes noir & blanc',
+        desc: 'Recherche de symboles visuels minimalistes et tranchés pour chaque application.',
+      },
+      {
+        type: 'temps_fort',
+        date: 'Fév. 2026',
+        titre: 'Charte vectorielle complète',
+        desc: 'Finalisation des 10 logos vectoriels signature et harmonisation typographique.',
+      },
+      {
+        type: 'pause',
+        date: 'Mars 2026',
+        titre: 'Optimisation SVG & chargement',
+        desc: 'Nettoyage des nœuds vectoriels pour minimiser le poids au kilo-octet près.',
+      },
+      {
+        type: 'statut',
+        date: 'Aujourd\'hui',
+        titre: 'Identité déployée',
+        desc: 'Actif sur l\'ensemble des projets du site.',
+      },
+    ],
   },
 ];
 ---
@@ -350,136 +542,97 @@ const chronoItems = [
     </div>
   </section>
 
-  <!-- ================= 03. CHRONOLOGIE EN BANDES VERTICALES ================= -->
-  <section id="projets-chronologie" class="conteneur section-chrono-verticale">
+  <!-- ================= 03. BANDEAUX VERTICAUX PAR PROJET (DE HAUT EN BAS) ================= -->
+  <section id="projets-chronologie" class="conteneur section-bandeaux-verticaux">
     <header class="timeline-header">
       <div class="header-pre">
-        <span class="etiquette">02 &bull; CHRONOLOGIE EN BANDES VERTICALES</span>
+        <span class="etiquette">02 &bull; PARCOURS PAR PROJET ({bandeauxProjets.length} BANDEAUX)</span>
       </div>
       <div class="chrono-head-flex">
         <div>
-          <h2 class="timeline-main-title">CHRONOLOGIE : PROJETS, TEMPS FORTS &amp; PAUSES</h2>
+          <h2 class="timeline-main-title">CHRONOLOGIE DU TRAVAIL SUR CHAQUE PROJET</h2>
           <p class="timeline-main-desc">
-            Chaque bande verticale représente une étape de mon parcours. Défilez pour parcourir la chronologie ou cliquez sur une bande pour la déployer.
+            Chaque bandeau vertical retrace l'histoire d'un projet, de haut en bas : genèse, phases de développement, pauses d'atelier et temps forts d'application.
           </p>
         </div>
-        <!-- Contrôles interactifs et compteur de jalon -->
-        <div class="chrono-nav-controls">
-          <button type="button" class="btn-bande-nav" id="btnPrevBande" aria-label="Bande précédente">&larr;</button>
-          <span class="progress-count" id="chronoCounter">01 / {String(chronoItems.length).padStart(2, '0')}</span>
-          <button type="button" class="btn-bande-nav" id="btnNextBande" aria-label="Bande suivante">&rarr;</button>
+        <!-- Légende des types de blocs -->
+        <div class="bandeaux-legende" aria-label="Légende des étapes">
+          <span class="legende-pill"><span class="leg-dot phase-dot">&#9632;</span> Phase</span>
+          <span class="legende-pill"><span class="leg-dot tf-dot">&#9733;</span> Temps Fort</span>
+          <span class="legende-pill"><span class="leg-dot pause-dot">&#9208;</span> Pause</span>
         </div>
       </div>
     </header>
 
-    <!-- La scène des bandes verticales -->
-    <div class="bandes-v-stage" id="bandesVStage">
-      {
-        chronoItems.map((item, index) => {
-          const numero = String(index + 1).padStart(2, '0');
-          const isPause = item.type === 'pause';
-          const isActive = index === 0;
-
-          return (
-            <article
-              class={`bande-v ${isActive ? 'is-active' : ''} ${isPause ? 'is-pause' : ''}`}
-              data-index={numero}
-              data-item-index={index}
-              id={`bande-${item.id}`}
-              tabindex="0"
-              role="region"
-              aria-label={`${item.titre} (${item.annee})`}
-            >
-              <!-- Liseré / Tranche verticale repliée -->
-              <div class="bande-v-collapsed" aria-hidden="true">
-                <span class="v-num">{numero}</span>
-                <span class="v-year">{item.annee}</span>
-                <div class="v-title-spine">
-                  <span class="v-title-text">{item.titre}</span>
+    <!-- Défilement latéral des bandeaux verticaux -->
+    <div class="bandeaux-scroll-wrapper">
+      <div class="bandeaux-v-grid" id="bandeauxGrid">
+        {
+          bandeauxProjets.map((projet) => (
+            <article class="bandeau-col-v" id={`projet-${projet.id}`}>
+              <!-- En-tête du bandeau (haut) -->
+              <div class="bandeau-v-head">
+                <div class="bandeau-v-topline">
+                  <span class="bandeau-v-num">{projet.numero}</span>
+                  <span class="domaine-pill">{projet.domaine}</span>
                 </div>
-                {item.logo ? (
-                  <div class="v-logo-mini">
-                    <img src={item.logo} alt="" loading="lazy" />
+                <div class="bandeau-v-brand">
+                  <div class="bandeau-v-logo">
+                    <img src={projet.logo} alt={`Logo ${projet.titre}`} loading="lazy" />
                   </div>
-                ) : (
-                  <span class="v-dot-mini" />
-                )}
+                  <div>
+                    <h3 class="bandeau-v-title">{projet.titre}</h3>
+                    <p class="bandeau-v-sub">{projet.sousTitre}</p>
+                  </div>
+                </div>
               </div>
 
-              <!-- Contenu complet déployé -->
-              <div class="bande-v-expanded">
-                <div class="v-exp-head">
-                  <div class="v-exp-meta-row">
-                    <span class="v-exp-num">ÉTAPE {numero}</span>
-                    <span class="meta-sep">&bull;</span>
-                    <span class="v-exp-year">{item.annee}</span>
-                    {item.statut && (
-                      <>
-                        <span class="meta-sep">&bull;</span>
-                        <span class="etiquette">{item.statut}</span>
-                      </>
-                    )}
-                  </div>
+              <!-- Ligne de temps verticale de haut en bas -->
+              <div class="bandeau-v-track">
+                <!-- Rail vertical -->
+                <div class="v-track-line">
+                  <div class="v-track-fill" />
+                </div>
 
-                  <div class="v-exp-title-row">
-                    {item.logo && (
-                      <div class="v-exp-logo">
-                        <img src={item.logo} alt={`Logo ${item.titre}`} loading="lazy" />
+                <!-- Étapes chronologiques de haut en bas -->
+                <div class="v-track-steps">
+                  {projet.etapes.map((etape) => {
+                    const isTempsFort = etape.type === 'temps_fort';
+                    const isPause = etape.type === 'pause';
+                    const isStatut = etape.type === 'statut';
+
+                    return (
+                      <div
+                        class={`v-step-node ${isTempsFort ? 'is-temps-fort' : ''} ${isPause ? 'is-pause' : ''} ${isStatut ? 'is-statut' : ''}`}
+                      >
+                        <div class="v-step-bullet" aria-hidden="true">
+                          {isTempsFort ? '★' : isPause ? '⏸' : isStatut ? '●' : '■'}
+                        </div>
+                        <div class="v-step-card">
+                          <div class="v-step-head">
+                            <span class="v-step-date">{etape.date}</span>
+                            {isTempsFort && <span class="v-tf-badge">TEMPS FORT</span>}
+                            {isPause && <span class="v-pause-badge">PAUSE R&D</span>}
+                          </div>
+                          <h4 class="v-step-title">{etape.titre}</h4>
+                          <p class="v-step-desc">{etape.desc}</p>
+                        </div>
                       </div>
-                    )}
-                    <div>
-                      <h3 class="v-exp-titre">{item.titre}</h3>
-                      {item.sousTitre && <p class="v-exp-soustitre">{item.sousTitre}</p>}
-                    </div>
-                  </div>
+                    );
+                  })}
                 </div>
+              </div>
 
-                <div class="v-exp-body">
-                  <!-- Résumé -->
-                  {item.resume && <p class="v-exp-resume">{item.resume}</p>}
-
-                  <!-- TEMPS FORT -->
-                  <div class="v-highlight-box">
-                    <div class="v-box-tag">
-                      <span class="v-star-icon">★</span>
-                      <span>TEMPS FORT // LE PIC DE L'APPLICATION</span>
-                    </div>
-                    <p class="v-box-text">{item.tempsFort}</p>
-                  </div>
-
-                  <!-- PAUSE & TRANSITION -->
-                  <div class="v-pause-box">
-                    <div class="v-box-tag">
-                      <span class="v-pause-icon">⏸</span>
-                      <span>PAUSE // MATURATION &amp; R&amp;D</span>
-                    </div>
-                    <p class="v-box-text">{item.pause}</p>
-                  </div>
-
-                  <!-- Tags -->
-                  {item.domaines && item.domaines.length > 0 && (
-                    <div class="v-tags-row">
-                      {item.domaines.map((d: string) => (
-                        <span class="domaine-pill">{d}</span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                <div class="v-exp-foot">
-                  {item.lien ? (
-                    <a href={item.lien} class="btn-noir v-exp-btn">
-                      Explorer la fiche détaillée &rarr;
-                    </a>
-                  ) : (
-                    <span class="v-interlude-note">Phase de R&amp;D et transition d'atelier</span>
-                  )}
-                </div>
+              <!-- Pied de bandeau : Lien vers la fiche -->
+              <div class="bandeau-v-foot">
+                <a href={projet.lien} class="btn-noir bandeau-v-btn">
+                  Fiche complète &rarr;
+                </a>
               </div>
             </article>
-          );
-        })
-      }
+          ))
+        }
+      </div>
     </div>
   </section>
 
@@ -849,230 +1002,93 @@ const chronoItems = [
   }
 
   /* ==========================================================================
-     CHRONOLOGIE EN BANDES VERTICALES & RÉACTIVES AU SCROLL
+     BANDEAUX VERTICAUX PAR PROJET (DE HAUT EN BAS)
      ========================================================================== */
-  .section-chrono-verticale {
+  .section-bandeaux-verticaux {
     padding-top: clamp(48px, 8vh, 80px);
     padding-bottom: clamp(32px, 5vh, 48px);
-    max-width: 1040px;
+    max-width: 1100px;
   }
 
-  .timeline-header {
-    border-bottom: 2px dashed var(--dash);
-    padding-bottom: 24px;
-    margin-bottom: 32px;
-  }
-
-  .header-pre {
-    margin-bottom: 6px;
-  }
-
-  .timeline-main-title {
-    margin: 4px 0 10px;
-    font: 700 clamp(24px, 4.5vw, 36px)/1.15 var(--font);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-
-  .timeline-main-desc {
-    margin: 0;
-    font: 400 14px/1.6 var(--font);
-    letter-spacing: 0.03em;
-    color: rgba(0, 0, 0, 0.7);
-    max-width: 640px;
-  }
-
-  .chrono-head-flex {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 24px;
-    flex-wrap: wrap;
-  }
-
-  .chrono-nav-controls {
+  .bandeaux-legende {
     display: inline-flex;
     align-items: center;
     gap: 12px;
     padding: 6px 14px;
     border: 2px dashed var(--dash);
-    border-radius: 24px;
+    border-radius: 20px;
     background: #fafafa;
+    flex-wrap: wrap;
   }
 
-  .btn-bande-nav {
+  .legende-pill {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    border: 1px solid #000000;
-    border-radius: 50%;
-    background: #ffffff;
-    color: #000000;
-    font: 700 14px var(--font);
-    cursor: pointer;
-    transition: background-color 0.2s, color 0.2s, transform 0.2s;
-  }
-
-  .btn-bande-nav:hover {
-    background: #000000;
-    color: #ffffff;
-    transform: scale(1.1);
-  }
-
-  .progress-count {
-    font: 700 13px var(--font);
+    gap: 6px;
+    font: 700 10.5px var(--font);
     letter-spacing: 0.12em;
-    color: #000000;
-    min-width: 64px;
-    text-align: center;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.75);
   }
 
-  /* Scène des bandes verticales */
-  .bandes-v-stage {
-    display: flex;
-    flex-direction: row;
-    height: clamp(540px, 72vh, 660px);
+  .leg-dot {
+    font-size: 11px;
+    line-height: 1;
+  }
+
+  .phase-dot {
+    color: #000000;
+  }
+
+  .tf-dot {
+    color: #000000;
+  }
+
+  .pause-dot {
+    color: #000000;
+  }
+
+  /* Défilement horizontal des bandeaux verticaux */
+  .bandeaux-scroll-wrapper {
+    position: relative;
     width: 100%;
-    border: 2px dashed var(--dash);
-    border-radius: 12px;
     overflow-x: auto;
     overflow-y: hidden;
-    scroll-behavior: smooth;
-    background: #ffffff;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+    padding-bottom: 20px;
+    -webkit-overflow-scrolling: touch;
   }
 
-  /* Bande verticale individuelle */
-  .bande-v {
-    position: relative;
-    height: 100%;
-    border-right: 2px dashed var(--dash);
-    transition: flex 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-                background-color 0.25s,
-                border-color 0.25s;
-    outline: none;
-    user-select: none;
-    overflow: hidden;
-    flex: 0 0 clamp(64px, 6vw, 76px);
-    background: #fafafa;
-    cursor: pointer;
+  .bandeaux-v-grid {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+    padding: 8px 4px;
   }
 
-  .bande-v:last-child {
-    border-right: none;
-  }
-
-  .bande-v.is-pause {
-    background: repeating-linear-gradient(
-      -45deg,
-      #fcfcfc,
-      #fcfcfc 10px,
-      #f5f5f5 10px,
-      #f5f5f5 20px
-    );
-  }
-
-  .bande-v:hover:not(.is-active) {
-    background: #f0f0f0;
-  }
-
-  /* État ACTIF / DÉPLOYÉ */
-  .bande-v.is-active {
-    flex: 0 0 clamp(380px, 50vw, 560px);
-    background: #ffffff;
-    border-right: 2px solid #000000;
-    border-left: 4px solid #000000;
-    cursor: default;
-    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.02);
-  }
-
-  /* --- Vue REPLIÉE (tranche verticale) --- */
-  .bande-v-collapsed {
+  /* Chaque bandeau vertical de projet (qui va de haut en bas) */
+  .bandeau-col-v {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    height: 100%;
-    padding: 22px 8px;
-    gap: 12px;
+    width: clamp(280px, 28vw, 320px);
+    background: #ffffff;
+    border: 2px dashed var(--dash);
+    border-radius: 12px;
+    padding: 20px 18px;
+    gap: 18px;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.25s ease,
+                box-shadow 0.25s ease;
   }
 
-  .bande-v.is-active .bande-v-collapsed {
-    display: none;
+  .bandeau-col-v:hover {
+    border-color: #000000;
+    border-style: solid;
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
   }
 
-  .v-num {
-    font: 700 16px/1 var(--font);
-    color: #000000;
-  }
-
-  .v-year {
-    font: 700 10px var(--font);
-    letter-spacing: 0.1em;
-    color: rgba(0, 0, 0, 0.45);
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-  }
-
-  .v-title-spine {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-  }
-
-  .v-title-text {
-    font: 700 14px var(--font);
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: #000000;
-    white-space: nowrap;
-  }
-
-  .v-logo-mini {
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2px;
-  }
-
-  .v-logo-mini img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    filter: grayscale(100%);
-    opacity: 0.7;
-  }
-
-  .v-dot-mini {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #000000;
-    opacity: 0.6;
-  }
-
-  /* --- Vue DÉPLOYÉE --- */
-  .bande-v-expanded {
-    display: none;
-    flex-direction: column;
-    height: 100%;
-    padding: clamp(20px, 3vw, 28px);
-    gap: 16px;
-    overflow-y: auto;
-  }
-
-  .bande-v.is-active .bande-v-expanded {
-    display: flex;
-  }
-
-  .v-exp-head {
+  /* En-tête du bandeau */
+  .bandeau-v-head {
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -1080,179 +1096,243 @@ const chronoItems = [
     border-bottom: 2px dashed rgba(0, 0, 0, 0.15);
   }
 
-  .v-exp-meta-row {
+  .bandeau-v-topline {
     display: flex;
     align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    font: 700 10.5px var(--font);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.55);
+    justify-content: space-between;
   }
 
-  .v-exp-num {
+  .bandeau-v-num {
+    font: 700 16px var(--font);
     color: #000000;
   }
 
-  .v-exp-year {
-    color: #000000;
-  }
-
-  .v-exp-title-row {
+  .bandeau-v-brand {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
   }
 
-  .v-exp-logo {
-    width: 56px;
-    height: 56px;
+  .bandeau-v-logo {
+    width: 48px;
+    height: 48px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 2px dashed rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 6px;
     background: #fafafa;
   }
 
-  .v-exp-logo img {
+  .bandeau-v-logo img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
   }
 
-  .v-exp-titre {
+  .bandeau-v-title {
     margin: 0;
-    font: 700 clamp(20px, 3vw, 26px)/1.15 var(--font);
+    font: 700 18px/1.2 var(--font);
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: #000000;
   }
 
-  .v-exp-soustitre {
+  .bandeau-v-sub {
     margin: 2px 0 0;
-    font: 400 12.5px/1.4 var(--font);
+    font: 400 11.5px/1.4 var(--font);
     color: rgba(0, 0, 0, 0.6);
   }
 
-  .v-exp-body {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
+  /* Ligne de temps verticale du bandeau (de haut en bas) */
+  .bandeau-v-track {
+    position: relative;
     flex: 1;
+    padding-left: 24px;
+    display: flex;
+    flex-direction: column;
   }
 
-  .v-exp-resume {
-    margin: 0;
-    font: 400 13px/1.55 var(--font);
-    color: rgba(0, 0, 0, 0.8);
+  .v-track-line {
+    position: absolute;
+    left: 7px;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    background: rgba(0, 0, 0, 0.15);
   }
 
-  /* Encadré TEMPS FORT */
-  .v-highlight-box {
+  .v-track-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
     background: #000000;
-    color: #ffffff;
-    padding: 12px 16px;
-    border-radius: 6px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+    transition: height 0.15s ease-out;
   }
 
-  .v-box-tag {
-    display: inline-flex;
+  .v-track-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  /* Étape / Nœud individuel sur la ligne verticale */
+  .v-step-node {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .v-step-bullet {
+    position: absolute;
+    left: -24px;
+    top: 8px;
+    width: 16px;
+    height: 16px;
+    display: flex;
     align-items: center;
-    gap: 6px;
-    font: 700 9.5px var(--font);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
-
-  .v-star-icon {
-    color: #ffffff;
-    font-size: 11px;
-  }
-
-  .v-box-text {
-    margin: 0;
-    font: 400 12.5px/1.55 var(--font);
-    color: rgba(255, 255, 255, 0.92);
-  }
-
-  /* Encadré PAUSE & TRANSITION */
-  .v-pause-box {
-    background: #fafafa;
-    border-left: 3px solid #000000;
-    border-radius: 0 6px 6px 0;
-    padding: 12px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  .v-pause-box .v-box-tag {
-    color: rgba(0, 0, 0, 0.6);
-  }
-
-  .v-pause-icon {
+    justify-content: center;
     font-size: 10px;
     color: #000000;
+    background: #ffffff;
+    border-radius: 50%;
+    z-index: 2;
+    transition: transform 0.2s, background-color 0.2s, color 0.2s;
   }
 
-  .v-pause-box .v-box-text {
-    margin: 0;
-    font: 400 12.5px/1.55 var(--font);
-    color: #111111;
-  }
-
-  .v-tags-row {
+  .v-step-card {
+    padding: 10px 12px;
+    border: 1px dashed rgba(0, 0, 0, 0.25);
+    border-radius: 6px;
+    background: #fafafa;
     display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 2px;
+    flex-direction: column;
+    gap: 4px;
+    transition: border-color 0.2s, background-color 0.2s, transform 0.2s;
   }
 
-  .v-exp-foot {
-    padding-top: 14px;
-    border-top: 2px dashed rgba(0, 0, 0, 0.15);
+  .v-step-head {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: 6px;
   }
 
-  .v-exp-btn {
-    padding: 10px 18px;
-    font-size: 12px;
-    text-decoration: none;
-  }
-
-  .v-interlude-note {
-    font: 700 11px var(--font);
+  .v-step-date {
+    font: 700 10px var(--font);
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: rgba(0, 0, 0, 0.5);
   }
 
-  /* Adaptations mobile */
-  @media (max-width: 768px) {
-    .bandes-v-stage {
-      height: clamp(520px, 78vh, 620px);
-    }
+  .v-step-title {
+    margin: 0;
+    font: 700 13px/1.3 var(--font);
+    letter-spacing: 0.04em;
+    color: #000000;
+  }
 
-    .bande-v {
-      flex: 0 0 54px;
-    }
+  .v-step-desc {
+    margin: 0;
+    font: 400 12px/1.5 var(--font);
+    color: rgba(0, 0, 0, 0.75);
+  }
 
-    .bande-v.is-active {
-      flex: 0 0 85vw;
-    }
+  /* Style TEMPS FORT (★) */
+  .v-step-node.is-temps-fort .v-step-card {
+    background: #000000;
+    border: 1px solid #000000;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  }
 
-    .v-title-text {
-      font-size: 12px;
-      letter-spacing: 0.12em;
-    }
+  .v-step-node.is-temps-fort .v-step-date {
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  .v-step-node.is-temps-fort .v-step-title {
+    color: #ffffff;
+  }
+
+  .v-step-node.is-temps-fort .v-step-desc {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .v-tf-badge {
+    font: 700 8.5px var(--font);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #000000;
+    background: #ffffff;
+    padding: 2px 6px;
+    border-radius: 10px;
+  }
+
+  .v-step-node.is-temps-fort .v-step-bullet {
+    background: #000000;
+    color: #ffffff;
+    transform: scale(1.2);
+  }
+
+  /* Style PAUSE R&D (⏸) */
+  .v-step-node.is-pause .v-step-card {
+    background: repeating-linear-gradient(
+      -45deg,
+      #fbfbfb,
+      #fbfbfb 8px,
+      #f2f2f2 8px,
+      #f2f2f2 16px
+    );
+    border: 1px dashed rgba(0, 0, 0, 0.35);
+    border-left: 3px solid #000000;
+  }
+
+  .v-pause-badge {
+    font: 700 8.5px var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: #000000;
+    padding: 2px 6px;
+    border-radius: 10px;
+  }
+
+  /* Style STATUT ACTUEL (●) */
+  .v-step-node.is-statut .v-step-card {
+    border-color: #000000;
+    background: #ffffff;
+  }
+
+  /* Pied de bandeau */
+  .bandeau-v-foot {
+    padding-top: 10px;
+    border-top: 2px dashed rgba(0, 0, 0, 0.15);
+  }
+
+  .bandeau-v-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 11.5px;
+    text-decoration: none;
+    letter-spacing: 0.12em;
+  }
+
+  /* Réaction au scroll vertical */
+  .v-step-node.is-passed .v-step-bullet {
+    border: 2px solid #000000;
+  }
+
+  .v-step-node.is-active-scroll .v-step-card {
+    border-color: #000000;
+    transform: translateX(3px);
   }
 
   .domaine-pill {
@@ -1409,81 +1489,14 @@ const chronoItems = [
 </style>
 
 <script>
-  // Activation interactive des bandes verticales et réactivité au scroll
-  function initChronoBandesVerticales() {
-    const stage = document.getElementById('bandesVStage');
+  // Progression au scroll vertical pour les bandeaux de chaque projet
+  function initBandeauxScroll() {
     const section = document.getElementById('projets-chronologie');
-    const counter = document.getElementById('chronoCounter');
-    const btnPrev = document.getElementById('btnPrevBande');
-    const btnNext = document.getElementById('btnNextBande');
+    const fills = Array.from(document.querySelectorAll<HTMLElement>('.v-track-fill'));
+    const nodes = Array.from(document.querySelectorAll<HTMLElement>('.v-step-node'));
 
-    if (!stage || !section) return;
+    if (!section || !fills.length) return;
 
-    const bandes = Array.from(stage.querySelectorAll<HTMLElement>('.bande-v'));
-    const total = bandes.length;
-    if (!total) return;
-
-    let currentIndex = 0;
-
-    function activateBande(index: number, scrollIntoStage = true) {
-      if (index < 0) index = 0;
-      if (index >= total) index = total - 1;
-      currentIndex = index;
-
-      bandes.forEach((b, i) => {
-        if (i === currentIndex) {
-          b.classList.add('is-active');
-          b.setAttribute('aria-expanded', 'true');
-        } else {
-          b.classList.remove('is-active');
-          b.setAttribute('aria-expanded', 'false');
-        }
-      });
-
-      const numero = bandes[currentIndex].dataset.index || String(currentIndex + 1).padStart(2, '0');
-      if (counter) {
-        counter.textContent = `${numero} / ${String(total).padStart(2, '0')}`;
-      }
-
-      if (scrollIntoStage) {
-        const activeBande = bandes[currentIndex];
-        const stageWidth = stage.clientWidth;
-        const targetLeft = activeBande.offsetLeft - stageWidth / 2 + activeBande.offsetWidth / 2;
-        stage.scrollTo({
-          left: Math.max(0, targetLeft),
-          behavior: 'smooth',
-        });
-      }
-    }
-
-    // 1. Clic direct sur une bande pour la déployer
-    bandes.forEach((b, idx) => {
-      b.addEventListener('click', () => {
-        activateBande(idx, true);
-      });
-
-      b.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          activateBande(idx, true);
-        }
-      });
-    });
-
-    // 2. Boutons Précédent / Suivant
-    if (btnPrev) {
-      btnPrev.addEventListener('click', () => {
-        activateBande(currentIndex - 1, true);
-      });
-    }
-
-    if (btnNext) {
-      btnNext.addEventListener('click', () => {
-        activateBande(currentIndex + 1, true);
-      });
-    }
-
-    // 3. Réactivité au défilement vertical de la page
     let ticking = false;
 
     function onScroll() {
@@ -1492,20 +1505,32 @@ const chronoItems = [
           const winH = window.innerHeight;
           const rect = section.getBoundingClientRect();
 
-          // La section est-elle dans la zone de lecture active ?
-          const start = rect.top - winH * 0.4;
-          const end = rect.bottom - winH * 0.4;
-          const totalDist = end - start;
+          // Calcul de la progression du scroll dans la section
+          const start = rect.top - winH * 0.7;
+          const totalDist = rect.height - winH * 0.2;
+          const currentTravel = -start;
+          const ratio = Math.max(0, Math.min(1, currentTravel / (totalDist || 1)));
+          const pct = (ratio * 100).toFixed(1) + '%';
 
-          if (rect.top <= winH * 0.55 && rect.bottom >= winH * 0.35) {
-            const travel = (winH * 0.55 - rect.top);
-            const progress = Math.max(0, Math.min(0.99, travel / (rect.height || 1)));
-            const targetIdx = Math.floor(progress * total);
+          fills.forEach((fill) => {
+            fill.style.height = pct;
+          });
 
-            if (targetIdx !== currentIndex && targetIdx >= 0 && targetIdx < total) {
-              activateBande(targetIdx, true);
+          // Activation des étapes franchies par le scroll
+          nodes.forEach((node) => {
+            const nodeRect = node.getBoundingClientRect();
+            if (nodeRect.top < winH * 0.6) {
+              node.classList.add('is-passed');
+            } else {
+              node.classList.remove('is-passed');
             }
-          }
+
+            if (nodeRect.top >= winH * 0.35 && nodeRect.top <= winH * 0.6) {
+              node.classList.add('is-active-scroll');
+            } else {
+              node.classList.remove('is-active-scroll');
+            }
+          });
 
           ticking = false;
         });
@@ -1514,12 +1539,9 @@ const chronoItems = [
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
-
-    // Initialiser la première bande
-    activateBande(0, false);
+    onScroll();
   }
 
-  // Initialisation immédiate et support des navigations Astro
-  initChronoBandesVerticales();
-  document.addEventListener('astro:page-load', initChronoBandesVerticales);
+  initBandeauxScroll();
+  document.addEventListener('astro:page-load', initBandeauxScroll);
 </script>
