@@ -1,22 +1,98 @@
-ErrorDocument 404 /404.html
+# ==============================================================================
+# SÉCURITÉ ET CONFORMITÉ OWASP — TOM-BIGOT.FR
+# ==============================================================================
 
+# 1. Gestion des erreurs HTTP personnalisées (A05:2021 Security Misconfiguration)
+ErrorDocument 400 /404.html
+ErrorDocument 401 /404.html
+ErrorDocument 403 /404.html
+ErrorDocument 404 /404.html
+ErrorDocument 500 /404.html
+
+# 2. Durcissement du serveur (A01:2021 & A05:2021)
+ServerSignature Off
+Options -Indexes -MultiViews -ExecCGI
+AddDefaultCharset UTF-8
+
+# 3. Restriction stricte des méthodes HTTP (Interdiction de TRACE, TRACK, DEBUG)
+<LimitExcept GET POST HEAD>
+  Require all denied
+</LimitExcept>
+
+# 4. Protection des fichiers cachés et sensibles (A01:2021 Broken Access Control)
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+
+# Interdiction d'accès aux fichiers sources, logs, sauvegardes et configurations
+<FilesMatch "(^#.*#|\.(bak|config|dist|fla|inc|ini|log|psd|sh|sql|sw[op]|env|yaml|yml|jsonl|md|lock|ts|tsx))$">
+  Require all denied
+</FilesMatch>
+
+# Exception explicite pour le fichier security.txt (RFC 9116)
+<Files "security.txt">
+  Require all granted
+</Files>
+
+# 5. En-têtes HTTP de Sécurité (OWASP Top 10 / ASVS Level 1 & 2)
+<IfModule mod_headers.c>
+  # HSTS : Forcer HTTPS pendant 1 an avec sous-domaines (A02:2021 Cryptographic Failures)
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+  # Protection Anti-Clickjacking (A04:2021 Insecure Design)
+  Header always set X-Frame-Options "DENY"
+
+  # Protection contre le MIME Sniffing (A05:2021 Security Misconfiguration)
+  Header always set X-Content-Type-Options "nosniff"
+
+  # Politique de Referrer stricte (Confidentialité des URL)
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # Content Security Policy (A03:2021 Injection / XSS)
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; media-src 'self'; connect-src 'self'; frame-ancestors 'none'; form-action 'self' mailto:; base-uri 'self'; object-src 'none';"
+
+  # Permissions-Policy : Désactivation des API matérielles intrusives
+  Header always set Permissions-Policy "accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), usb=()"
+
+  # Isolation d'origine (Spectre / Cross-Origin Attacks)
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+  Header always set Cross-Origin-Resource-Policy "same-origin"
+
+  # Masquer les informations logicielles serveur
+  Header unset X-Powered-By
+  Header unset Server
+</IfModule>
+
+# 6. Règles de Réécriture, Redirections Sécurisées et Sous-domaines
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
 
-  # 1. Sous-domaines Cabine Cinéma (cine.tom-bigot.fr & cinema.tom-bigot.fr)
+  # 6.1 Filtrage WAF contre attaques courantes (Path Traversal, Injection XSS basique, Null byte)
+  RewriteCond %{QUERY_STRING} (?:[<>]|%3C|%3E) [NC,OR]
+  RewriteCond %{QUERY_STRING} (?:script|javascript:) [NC,OR]
+  RewriteCond %{QUERY_STRING} (%00|%08|%09) [NC,OR]
+  RewriteCond %{QUERY_STRING} (\.\./|\.\.\\) [NC]
+  RewriteRule .* - [F,L]
+
+  # 6.2 Forcer HTTPS pour toute requête non sécurisée
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+  # 6.3 Sous-domaines Cabine Cinéma (cine.tom-bigot.fr & cinema.tom-bigot.fr)
   RewriteCond %{HTTP_HOST} ^(cine|cinema)\.tom-bigot\.fr$ [NC]
   RewriteRule ^$ /agenda#agenda-cinema [R=302,NE,L]
 
-  # 2. Sous-domaines Drone FPV & Devis (fpv.tom-bigot.fr & drone.tom-bigot.fr)
+  # 6.4 Sous-domaines Drone FPV & Devis (fpv.tom-bigot.fr & drone.tom-bigot.fr)
   RewriteCond %{HTTP_HOST} ^(fpv|drone)\.tom-bigot\.fr$ [NC]
   RewriteRule ^$ /agenda#agenda-fpv [R=302,NE,L]
 
-  # 3. Sous-domaine Développement (dev.tom-bigot.fr)
+  # 6.5 Sous-domaine Développement (dev.tom-bigot.fr)
   RewriteCond %{HTTP_HOST} ^dev\.tom-bigot\.fr$ [NC]
   RewriteRule ^$ /developpement/ [R=302,L]
 
-  # 4. Sous-domaine Agenda général (agenda.tom-bigot.fr)
+  # 6.6 Sous-domaine Agenda général (agenda.tom-bigot.fr)
   RewriteCond %{HTTP_HOST} ^agenda\.tom-bigot\.fr$ [NC]
   RewriteRule ^$ /agenda/ [R=302,L]
 </IfModule>
