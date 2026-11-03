@@ -428,25 +428,40 @@ const bandeauxProjets = [
     </a>
   </section>
 
-  <!-- ================= SECTION BANDEAU FLUIDE AU SCROLL ================= -->
+  <!-- ================= SECTION BANDEAUX TISSU & FENTES AU SCROLL ================= -->
   <section class="chrono-fluid-section" id="chronologie-section">
     <div class="chrono-sticky-viewport">
-      <!-- En-tête du bandeau avec jauge continue de progression -->
+      <!-- En-tête de la chronologie -->
       <header class="chrono-fluid-header">
         <div class="header-main-row">
           <div class="header-brand-block">
-            <span class="etiquette">CHRONOLOGIE DU TRAVAIL &bull; 10 PROJETS</span>
-            <h2 class="chrono-main-title">BANDEAU TECHNIQUE &amp; POINTS FORTS</h2>
+            <span class="etiquette">CHRONOLOGIE DU TRAVAIL &bull; 10 BANDEAUX TISSU</span>
+            <h2 class="chrono-main-title">BANDEAUX TECHNIQUES &bull; POINTS FORTS &bull; FENTES R&amp;D</h2>
           </div>
 
-          <!-- Légende monochrome -->
-          <div class="bandeaux-legende" aria-label="Légende des étapes">
-            <span class="legende-pill"><span class="leg-dot tf-dot">&#9733;</span> Temps Fort</span>
-            <span class="legende-pill"><span class="leg-dot phase-dot">&#9632;</span> Phase</span>
-            <span class="legende-pill"><span class="leg-dot pause-dot">&#9208;</span> Pause R&amp;D</span>
+          <!-- Légende monochrome explicite -->
+          <div class="bandeaux-legende" aria-label="Légende des rubans">
+            <span class="legende-pill"><span class="leg-patch-icon">&#9733;</span> Écusson Temps Fort</span>
+            <span class="legende-pill"><span class="leg-tissu-icon"></span> Ruban Tissu</span>
+            <span class="legende-pill"><span class="leg-fente-icon"></span> Fente (Entrée / Sortie)</span>
             <span class="legende-pill"><span class="leg-dot statut-dot">&#9679;</span> Statut Actuel</span>
           </div>
         </div>
+
+        <!-- Sélecteur rapide des 10 bandeaux de projet -->
+        <nav class="ribbon-selector-nav" aria-label="Sélectionner un bandeau de projet">
+          {bandeauxProjets.map((p, idx) => (
+            <button
+              type="button"
+              class={`ribbon-tab-btn ${idx === 0 ? 'is-active' : ''}`}
+              data-target={`ruban-${p.id}`}
+              id={`tab-btn-${p.id}`}
+            >
+              <span class="tab-num">{p.numero}</span>
+              <span class="tab-titre">{p.titre}</span>
+            </button>
+          ))}
+        </nav>
 
         <!-- Jauge continue de défilement horizontal (0% -> 100%) -->
         <div class="chrono-progress-bar-wrap" aria-hidden="true">
@@ -454,78 +469,178 @@ const bandeauxProjets = [
         </div>
       </header>
 
-      <!-- Fenêtre de défilement du bandeau horizontal continu -->
+      <!-- Fenêtre de défilement des bandeaux de tissu verticaux -->
       <div class="chrono-track-window" id="chronoTrackWindow">
         <div class="chrono-continuous-track" id="chronoContinuousTrack">
           {
             bandeauxProjets.map((projet) => (
-              <article class="chrono-card-col" id={`projet-${projet.id}`}>
-                <!-- En-tête de la colonne de projet -->
-                <div class="col-head">
-                  <div class="col-topline">
-                    <span class="col-num">{projet.numero}</span>
-                    <span class="domaine-pill">{projet.domaine}</span>
+              <article class="ruban-col-wrap" id={`ruban-${projet.id}`}>
+                <!-- Suspension supérieure : barre métallique et œillets d'attache -->
+                <div class="ruban-suspension">
+                  <div class="ruban-attaches" aria-hidden="true">
+                    <span class="oeillet-rivet"></span>
+                    <div class="tringle-support"></div>
+                    <span class="oeillet-rivet"></span>
                   </div>
 
-                  <div class="col-brand">
-                    <div class="col-logo">
-                      <img src={projet.logo} alt={`Logo ${projet.titre}`} loading="lazy" />
+                  <div class="ruban-top-header">
+                    <div class="top-meta">
+                      <span class="ruban-numero">{projet.numero}</span>
+                      <span class="domaine-pill">{projet.domaine}</span>
                     </div>
-                    <div>
-                      <h3 class="col-title">{projet.titre}</h3>
-                      <p class="col-sub">{projet.sousTitre}</p>
+
+                    <div class="ruban-brand">
+                      <div class="ruban-logo">
+                        <img src={projet.logo} alt={`Logo ${projet.titre}`} loading="lazy" />
+                      </div>
+                      <div class="ruban-brand-info">
+                        <h3 class="ruban-title">{projet.titre}</h3>
+                        <p class="ruban-sub">{projet.sousTitre}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                <!-- Parcours chronologique vertical du projet avec ses points forts -->
-                <div class="col-track">
-                  <div class="col-track-spine" aria-hidden="true"></div>
-                  <div class="col-steps-list">
-                    {projet.etapes.map((etape) => {
-                      const isTempsFort = etape.type === 'temps_fort';
-                      const isPause = etape.type === 'pause';
-                      const isStatut = etape.type === 'statut';
+                <!-- CORPS DU RUBAN VERTICAL EN TISSU -->
+                <div class="ruban-tissu-corps">
+                  {projet.etapes.map((etape) => {
+                    const isTempsFort = etape.type === 'temps_fort';
+                    const isPause = etape.type === 'pause';
+                    const isStatut = etape.type === 'statut';
 
+                    if (isPause) {
                       return (
-                        <div
-                          class={`v-step-node ${isTempsFort ? 'is-temps-fort' : ''} ${isPause ? 'is-pause' : ''} ${isStatut ? 'is-statut' : ''}`}
-                        >
-                          <div class="v-step-bullet" aria-hidden="true">
-                            {isTempsFort ? '★' : isPause ? '⏸' : isStatut ? '●' : '■'}
-                          </div>
-                          <div class="v-step-card">
-                            <div class="v-step-head">
-                              <span class="v-step-date">{etape.date}</span>
-                              {isTempsFort && <span class="v-tf-badge">TEMPS FORT</span>}
-                              {isPause && <span class="v-pause-badge">PAUSE R&amp;D</span>}
-                              {isStatut && <span class="v-statut-badge">STATUT ACTUEL</span>}
+                        <div class="fente-sequence-container">
+                          {/* FENTE D'ENTRÉE : Le ruban de tissu plonge dans la fente */}
+                          <div class="fente-zone fente-entree">
+                            <div class="ruban-plongeon-slot" aria-hidden="true">
+                              <div class="point-couture-g"></div>
+                              <div class="point-couture-d"></div>
                             </div>
-                            <h4 class="v-step-title">{etape.titre}</h4>
-                            <p class="v-step-desc">{etape.desc}</p>
+                            <div class="fente-fissure-barre" title="Le ruban plonge dans la fente">
+                              <div class="fente-levre-top"></div>
+                              <div class="fente-cavite-ombre">
+                                <span class="fente-slot-texte">&darr; RENTRE DANS LA FENTE &darr;</span>
+                              </div>
+                              <div class="fente-levre-bot"></div>
+                            </div>
+                          </div>
+
+                          {/* ZONE EN RETRAIT SOUS LA PAROI (pendant la pause) */}
+                          <div class="zone-sous-paroi">
+                            <div class="trace-sous-paroi" aria-hidden="true"></div>
+                            <div class="pause-card-interne">
+                              <div class="pause-topline">
+                                <span class="badge-pause-fente">PAUSE R&amp;D</span>
+                                <span class="pause-date">{etape.date}</span>
+                              </div>
+                              <h4 class="pause-titre">{etape.titre}</h4>
+                              <p class="pause-desc">{etape.desc}</p>
+                              <div class="pause-fente-info">
+                                <span class="pause-pulse-indicator"></span>
+                                Ruban rétracté dans la fente
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* FENTE DE SORTIE : Le ruban de tissu ressort de la fente */}
+                          <div class="fente-zone fente-sortie">
+                            <div class="fente-fissure-barre" title="Le ruban ressort de la fente">
+                              <div class="fente-levre-top"></div>
+                              <div class="fente-cavite-ombre">
+                                <span class="fente-slot-texte">&uarr; RESSORT DE LA FENTE &uarr;</span>
+                              </div>
+                              <div class="fente-levre-bot"></div>
+                            </div>
+                            <div class="ruban-emergence-slot" aria-hidden="true">
+                              <div class="point-couture-g"></div>
+                              <div class="point-couture-d"></div>
+                            </div>
                           </div>
                         </div>
                       );
-                    })}
-                  </div>
-                </div>
+                    }
 
-                <!-- Pied de colonne : liens fiche & dépôt -->
-                <div class="col-foot">
-                  <a href={projet.lien} class="btn-noir col-btn-fiche">
-                    Fiche projet &rarr;
-                  </a>
-                  {projet.github && (
-                    <a
-                      href={projet.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="btn-outline col-btn-gh"
-                      title={`Dépôt GitHub de ${projet.titre}`}
-                    >
-                      GitHub ↗
-                    </a>
-                  )}
+                    if (isTempsFort) {
+                      return (
+                        <div class="ruban-section section-temps-fort">
+                          <div class="fil-couture-ruban-g" aria-hidden="true"></div>
+                          <div class="fil-couture-ruban-d" aria-hidden="true"></div>
+
+                          {/* Écusson noir brodé cousu sur le tissu */}
+                          <div class="ecusson-brode-noir">
+                            <div class="ecusson-stitch-cadre">
+                              <div class="ecusson-head">
+                                <span class="ecusson-star">&#9733;</span>
+                                <span class="ecusson-tag">POINT FORT</span>
+                                <span class="ecusson-date">{etape.date}</span>
+                              </div>
+                              <h4 class="ecusson-titre">{etape.titre}</h4>
+                              <p class="ecusson-desc">{etape.desc}</p>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    }
+
+                    if (isStatut) {
+                      return (
+                        <div class="ruban-section section-statut-final">
+                          <div class="fil-couture-ruban-g" aria-hidden="true"></div>
+                          <div class="fil-couture-ruban-d" aria-hidden="true"></div>
+
+                          <div class="etiquette-statut-tissu">
+                            <div class="statut-topline">
+                              <span class="statut-pulse-dot"></span>
+                              <span class="statut-tag">STATUT ACTUEL</span>
+                              <span class="statut-date">{etape.date}</span>
+                            </div>
+                            <h4 class="statut-titre">{etape.titre}</h4>
+                            <p class="statut-desc">{etape.desc}</p>
+                          </div>
+                        </div>
+                      );
+                    }
+
+                    // Phase active ordinaire
+                    return (
+                      <div class="ruban-section section-phase-active">
+                        <div class="fil-couture-ruban-g" aria-hidden="true"></div>
+                        <div class="fil-couture-ruban-d" aria-hidden="true"></div>
+
+                        <div class="etiquette-phase-tissu">
+                          <div class="phase-topline">
+                            <span class="phase-carre">&#9632;</span>
+                            <span class="phase-tag">PHASE ACTIVE</span>
+                            <span class="phase-date">{etape.date}</span>
+                          </div>
+                          <h4 class="phase-titre">{etape.titre}</h4>
+                          <p class="phase-desc">{etape.desc}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+
+                  <!-- Extrémité inférieure du ruban : pointe biseautée (queue d'aronde) et actions -->
+                  <div class="ruban-terminaison">
+                    <div class="ruban-queue-aronde" aria-hidden="true"></div>
+                    <div class="ruban-actions-seam">
+                      <a href={projet.lien} class="btn-noir ruban-btn-action">
+                        Fiche projet &rarr;
+                      </a>
+                      {projet.github && (
+                        <a
+                          href={projet.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="btn-outline ruban-btn-action"
+                          title={`Dépôt GitHub de ${projet.titre}`}
+                        >
+                          GitHub ↗
+                        </a>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </article>
             ))
@@ -537,48 +652,63 @@ const bandeauxProjets = [
 </Base>
 
 <script>
-  // Défilement 1:1 ultra-fluide et continu du bandeau au scroll
+  // Défilement 1:1 continu des bandeaux au scroll + navigation par onglets
   document.addEventListener('DOMContentLoaded', () => {
     const section = document.getElementById('chronologie-section');
     const track = document.getElementById('chronoContinuousTrack');
     const fill = document.getElementById('chronoProgressFill');
     const windowEl = document.getElementById('chronoTrackWindow');
+    const tabButtons = document.querySelectorAll<HTMLButtonElement>('.ribbon-tab-btn');
 
     if (!section || !track) return;
 
+    function getTrackLimits() {
+      const trackWidth = track.scrollWidth;
+      const viewportWidth = window.innerWidth;
+      const totalDistance = Math.max(0, trackWidth - viewportWidth + 80);
+      return { trackWidth, viewportWidth, totalDistance };
+    }
+
     function updateLayoutHeight() {
-      // Sur mobile (< 900px), on laisse le scroll horizontal natif fluide
       if (window.innerWidth < 900) {
         section.style.height = 'auto';
         track.style.transform = 'none';
         return;
       }
-
-      // Sur desktop, on calibre exactement la hauteur de scroll pour parcourir 100% du bandeau
-      const trackWidth = track.scrollWidth;
-      const viewportWidth = window.innerWidth;
-      const totalDistance = Math.max(0, trackWidth - viewportWidth + 120);
-
+      const { totalDistance } = getTrackLimits();
       section.style.height = `${window.innerHeight + totalDistance}px`;
     }
 
     let isTicking = false;
 
+    function updateActiveTab(progress: number) {
+      if (tabButtons.length === 0) return;
+      const index = Math.min(
+        tabButtons.length - 1,
+        Math.floor(progress * tabButtons.length)
+      );
+      tabButtons.forEach((btn, idx) => {
+        if (idx === index) {
+          btn.classList.add('is-active');
+        } else {
+          btn.classList.remove('is-active');
+        }
+      });
+    }
+
     function onScroll() {
       if (window.innerWidth < 900) {
-        // Sur mobile, mise à jour de la jauge via le scroll natif du container
         if (windowEl && fill) {
           const maxLeft = windowEl.scrollWidth - windowEl.clientWidth;
           const pct = maxLeft > 0 ? (windowEl.scrollLeft / maxLeft) * 100 : 0;
           fill.style.width = `${pct.toFixed(1)}%`;
+          updateActiveTab(pct / 100);
         }
         return;
       }
 
       const rect = section.getBoundingClientRect();
-      const trackWidth = track.scrollWidth;
-      const viewportWidth = window.innerWidth;
-      const totalDistance = Math.max(0, trackWidth - viewportWidth + 120);
+      const { totalDistance } = getTrackLimits();
 
       if (totalDistance <= 0) return;
 
@@ -586,12 +716,12 @@ const bandeauxProjets = [
       const progress = Math.max(0, Math.min(1, scrolled / totalDistance));
       const translateX = progress * totalDistance;
 
-      // Déplacement matériel direct sans à-coups
       track.style.transform = `translate3d(-${translateX.toFixed(1)}px, 0, 0)`;
 
       if (fill) {
         fill.style.width = `${(progress * 100).toFixed(1)}%`;
       }
+      updateActiveTab(progress);
 
       isTicking = false;
     }
@@ -607,6 +737,32 @@ const bandeauxProjets = [
       { passive: true }
     );
 
+    // Clic sur un bouton d'onglet ruban pour glisser directement vers le projet
+    tabButtons.forEach((btn, btnIdx) => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-target');
+        if (!targetId) return;
+
+        if (window.innerWidth < 900 && windowEl) {
+          const targetEl = document.getElementById(targetId);
+          if (targetEl) {
+            targetEl.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+          }
+          return;
+        }
+
+        const { totalDistance } = getTrackLimits();
+        const targetProgress = btnIdx / Math.max(1, tabButtons.length - 1);
+        const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+        const targetScrollY = sectionTop + targetProgress * totalDistance;
+
+        window.scrollTo({
+          top: targetScrollY,
+          behavior: 'smooth',
+        });
+      });
+    });
+
     if (windowEl) {
       windowEl.addEventListener(
         'scroll',
@@ -615,6 +771,7 @@ const bandeauxProjets = [
             const maxLeft = windowEl.scrollWidth - windowEl.clientWidth;
             const pct = maxLeft > 0 ? (windowEl.scrollLeft / maxLeft) * 100 : 0;
             fill.style.width = `${pct.toFixed(1)}%`;
+            updateActiveTab(pct / 100);
           }
         },
         { passive: true }
@@ -781,11 +938,11 @@ const bandeauxProjets = [
   }
 
   /* ==========================================================================
-     SECTION DU BANDEAU FLUIDE (HORIZONTALE AU DÉFILEMENT VERTICAL)
+     SECTION DU BANDEAU TISSU AU DÉFILEMENT FLUIDE
      ========================================================================== */
   .chrono-fluid-section {
     position: relative;
-    background: #ffffff;
+    background: #f4f4f3;
   }
 
   .chrono-sticky-viewport {
@@ -794,19 +951,19 @@ const bandeauxProjets = [
     height: 100svh;
     display: flex;
     flex-direction: column;
-    background: #ffffff;
+    background: #f4f4f3;
     overflow: hidden;
     border-bottom: 2px dashed var(--dash);
     box-sizing: border-box;
-    padding: clamp(16px, 2.5vh, 28px) 0 20px;
+    padding: clamp(14px, 2.2vh, 24px) 0 16px;
   }
 
   /* En-tête */
   .chrono-fluid-header {
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    padding: 0 clamp(16px, 3vw, 40px) 14px;
+    gap: 10px;
+    padding: 0 clamp(16px, 3vw, 40px) 10px;
     border-bottom: 2px dashed rgba(0, 0, 0, 0.12);
     flex-shrink: 0;
   }
@@ -822,12 +979,12 @@ const bandeauxProjets = [
   .header-brand-block {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 3px;
   }
 
   .chrono-main-title {
     margin: 0;
-    font: 700 clamp(18px, 2.2vw, 26px)/1.1 var(--font);
+    font: 700 clamp(17px, 2vw, 24px)/1.1 var(--font);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: #000000;
@@ -837,22 +994,52 @@ const bandeauxProjets = [
   .bandeaux-legende {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
-    padding: 5px 14px;
+    gap: 10px;
+    padding: 5px 12px;
     border: 1px dashed var(--dash);
     border-radius: 20px;
-    background: #fafafa;
+    background: #ffffff;
     flex-wrap: wrap;
   }
 
   .legende-pill {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-    font: 700 10.5px var(--font);
-    letter-spacing: 0.1em;
+    gap: 6px;
+    font: 700 10px var(--font);
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.7);
+    color: rgba(0, 0, 0, 0.75);
+  }
+
+  .leg-patch-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 15px;
+    background: #000000;
+    color: #ffffff;
+    border-radius: 3px;
+    font-size: 9px;
+  }
+
+  .leg-tissu-icon {
+    display: inline-block;
+    width: 14px;
+    height: 12px;
+    background: #ffffff;
+    border-left: 2px dashed #000000;
+    border-right: 2px dashed #000000;
+  }
+
+  .leg-fente-icon {
+    display: inline-block;
+    width: 16px;
+    height: 6px;
+    background: #000000;
+    border-radius: 2px;
+    box-shadow: inset 0 2px 2px #333333;
   }
 
   .leg-dot {
@@ -861,12 +1048,67 @@ const bandeauxProjets = [
     color: #000000;
   }
 
+  /* Sélecteur d'onglets ruban */
+  .ribbon-selector-nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 2px 0 4px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ribbon-selector-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ribbon-tab-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: #ffffff;
+    border: 1px dashed rgba(0, 0, 0, 0.2);
+    border-radius: 14px;
+    font: 700 10px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+  }
+
+  .ribbon-tab-btn:hover {
+    border-color: #000000;
+    color: #000000;
+    background: #fafafa;
+  }
+
+  .ribbon-tab-btn.is-active {
+    background: #000000;
+    color: #ffffff;
+    border-style: solid;
+    border-color: #000000;
+  }
+
+  .ribbon-tab-btn .tab-num {
+    opacity: 0.6;
+    font-size: 9px;
+  }
+
+  .ribbon-tab-btn.is-active .tab-num {
+    opacity: 0.9;
+    color: #ffffff;
+  }
+
   /* Jauge continue de défilement */
   .chrono-progress-bar-wrap {
     position: relative;
     width: 100%;
     height: 3px;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.08);
     border-radius: 2px;
     overflow: hidden;
   }
@@ -881,309 +1123,570 @@ const bandeauxProjets = [
     transition: width 0.05s linear;
   }
 
-  /* Fenêtre d'affichage du bandeau */
+  /* Fenêtre d'affichage des rubans */
   .chrono-track-window {
     flex: 1;
     position: relative;
     width: 100%;
     display: flex;
     align-items: stretch;
-    padding: 16px clamp(16px, 3vw, 40px) 0;
+    padding: 14px clamp(16px, 3vw, 40px) 0;
     overflow: hidden;
     box-sizing: border-box;
   }
 
-  /* Le bandeau continu qui glisse de gauche à droite */
+  /* Conteneur continu glissant de gauche à droite */
   .chrono-continuous-track {
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    gap: 24px;
     width: max-content;
     height: 100%;
     align-items: stretch;
     will-change: transform;
   }
 
-  /* Colonne individuelle de chaque projet */
-  .chrono-card-col {
+  /* ==========================================================================
+     STRUCTURE DU BANDEAU EN TISSU VERTICAL
+     ========================================================================== */
+  .ruban-col-wrap {
     width: clamp(310px, 26vw, 360px);
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+
+  /* Suspension supérieure (potence / attache) */
+  .ruban-suspension {
+    display: flex;
+    flex-direction: column;
     background: #ffffff;
     border: 2px dashed var(--dash);
-    border-radius: 12px;
-    padding: 20px 18px 16px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 14px;
-    box-sizing: border-box;
-    transition: border-color 0.25s ease, box-shadow 0.25s ease;
-  }
-
-  .chrono-card-col:hover {
-    border-color: #000000;
-    border-style: solid;
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
-  }
-
-  /* En-tête de colonne */
-  .col-head {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding-bottom: 12px;
-    border-bottom: 2px dashed rgba(0, 0, 0, 0.12);
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    padding: 12px 16px 10px;
     flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
   }
 
-  .col-topline {
+  .ruban-attaches {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 10px;
   }
 
-  .col-num {
-    font: 700 16px var(--font);
+  .oeillet-rivet {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #000000;
+    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.4), 0 1px 2px rgba(0, 0, 0, 0.2);
+    display: inline-block;
+  }
+
+  .tringle-support {
+    flex: 1;
+    height: 3px;
+    background: repeating-linear-gradient(
+      90deg,
+      #000000,
+      #000000 6px,
+      rgba(0, 0, 0, 0.2) 6px,
+      rgba(0, 0, 0, 0.2) 10px
+    );
+    border-radius: 2px;
+  }
+
+  .top-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .ruban-numero {
+    font: 700 15px var(--font);
     color: #000000;
   }
 
   .domaine-pill {
     display: inline-flex;
     align-items: center;
-    height: 22px;
+    height: 20px;
     padding: 0 8px;
     border: 1px dashed var(--dash);
-    border-radius: 11px;
-    font: 700 9px var(--font);
+    border-radius: 10px;
+    font: 700 8.5px var(--font);
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: rgba(0, 0, 0, 0.7);
     background: #fafafa;
   }
 
-  .col-brand {
+  .ruban-brand {
     display: flex;
     align-items: center;
     gap: 12px;
   }
 
-  .col-logo {
-    width: 44px;
-    height: 44px;
+  .ruban-logo {
+    width: 40px;
+    height: 40px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 1px dashed rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
+    border-radius: 6px;
     background: #fafafa;
     padding: 4px;
   }
 
-  .col-logo img {
+  .ruban-logo img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
   }
 
-  .col-title {
+  .ruban-title {
     margin: 0;
-    font: 700 18px/1.2 var(--font);
-    letter-spacing: 0.08em;
+    font: 700 17px/1.15 var(--font);
+    letter-spacing: 0.07em;
     text-transform: uppercase;
     color: #000000;
   }
 
-  .col-sub {
+  .ruban-sub {
     margin: 2px 0 0;
-    font: 400 11.5px/1.35 var(--font);
+    font: 400 11px/1.3 var(--font);
     color: rgba(0, 0, 0, 0.6);
   }
 
-  /* Parcours vertical des étapes */
-  .col-track {
+  /* Corps en tissu du ruban vertical */
+  .ruban-tissu-corps {
     position: relative;
     flex: 1;
-    padding-left: 22px;
     overflow-y: auto;
+    background: #fbfbfb;
+    border-left: 2px dashed rgba(0, 0, 0, 0.25);
+    border-right: 2px dashed rgba(0, 0, 0, 0.25);
+    box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.08), inset 0 2px 8px rgba(0, 0, 0, 0.02);
     display: flex;
     flex-direction: column;
+    gap: 0;
   }
 
-  .col-track-spine {
+  /* Liserés de couture brodés sur les côtés du tissu */
+  .fil-couture-ruban-g,
+  .fil-couture-ruban-d,
+  .point-couture-g,
+  .point-couture-d {
     position: absolute;
-    left: 7px;
-    top: 8px;
-    bottom: 8px;
+    top: 0;
+    bottom: 0;
     width: 2px;
-    background: rgba(0, 0, 0, 0.12);
-  }
-
-  .col-steps-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .v-step-node {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .v-step-bullet {
-    position: absolute;
-    left: -22px;
-    top: 6px;
-    width: 16px;
-    height: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    color: #000000;
-    background: #ffffff;
-    border-radius: 50%;
+    pointer-events: none;
     z-index: 2;
   }
 
-  .v-step-card {
-    padding: 10px 12px;
-    border: 1px dashed rgba(0, 0, 0, 0.18);
-    border-radius: 6px;
-    background: #fafafa;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
+  .fil-couture-ruban-g,
+  .point-couture-g {
+    left: 4px;
+    border-left: 1px dashed rgba(0, 0, 0, 0.2);
   }
 
-  .v-step-head {
+  .fil-couture-ruban-d,
+  .point-couture-d {
+    right: 4px;
+    border-right: 1px dashed rgba(0, 0, 0, 0.2);
+  }
+
+  /* Sections régulières sur le ruban */
+  .ruban-section {
+    position: relative;
+    padding: 12px 18px;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+  }
+
+  /* Écusson brodé TEMPS FORT (★) */
+  .section-temps-fort {
+    background: #111111;
+    color: #ffffff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  .ecusson-brode-noir {
+    position: relative;
+  }
+
+  .ecusson-stitch-cadre {
+    border: 1.5px dashed rgba(255, 255, 255, 0.6);
+    border-radius: 4px;
+    padding: 10px 12px;
+    background: #000000;
+  }
+
+  .ecusson-head {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: 6px;
+    margin-bottom: 6px;
   }
 
-  .v-step-date {
+  .ecusson-star {
+    font-size: 13px;
+    color: #ffffff;
+    line-height: 1;
+  }
+
+  .ecusson-tag {
+    font: 700 9px var(--font);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.18);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  .ecusson-date {
+    margin-left: auto;
     font: 700 9.5px var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .ecusson-titre {
+    margin: 0 0 4px;
+    font: 700 13px/1.25 var(--font);
+    letter-spacing: 0.04em;
+    color: #ffffff;
+  }
+
+  .ecusson-desc {
+    margin: 0;
+    font: 400 11px/1.45 var(--font);
+    color: rgba(255, 255, 255, 0.88);
+  }
+
+  /* Phase Active ordinaire */
+  .section-phase-active {
+    background: #fafafa;
+  }
+
+  .etiquette-phase-tissu {
+    padding: 6px 4px;
+  }
+
+  .phase-topline {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+
+  .phase-carre {
+    font-size: 8px;
+    color: #000000;
+  }
+
+  .phase-tag {
+    font: 700 8.5px var(--font);
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.5);
+    color: rgba(0, 0, 0, 0.55);
   }
 
-  .v-step-title {
-    margin: 0;
+  .phase-date {
+    margin-left: auto;
+    font: 700 9px var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.45);
+  }
+
+  .phase-titre {
+    margin: 0 0 3px;
     font: 700 12.5px/1.3 var(--font);
     letter-spacing: 0.04em;
     color: #000000;
   }
 
-  .v-step-desc {
+  .phase-desc {
     margin: 0;
-    font: 400 11.5px/1.45 var(--font);
+    font: 400 11px/1.45 var(--font);
+    color: rgba(0, 0, 0, 0.72);
+  }
+
+  /* ==========================================================================
+     FISSURES ET FENTES (LE RUBAN RENTRE DANS LA FENTE)
+     ========================================================================== */
+  .fente-sequence-container {
+    position: relative;
+    background: #eaeae9;
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  }
+
+  /* Fente d'entrée */
+  .fente-zone {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .fente-entree {
+    padding-top: 0;
+  }
+
+  /* Tissu qui plonge vers la fente avec ombre */
+  .ruban-plongeon-slot {
+    position: relative;
+    width: 100%;
+    height: 18px;
+    background: linear-gradient(to bottom, #fafafa 0%, #dfdfde 65%, #666666 100%);
+  }
+
+  /* Barre architecturale de la fente */
+  .fente-fissure-barre {
+    position: relative;
+    width: 100%;
+    height: 24px;
+    background: #000000;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+  }
+
+  .fente-levre-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  }
+
+  .fente-cavite-ombre {
+    position: absolute;
+    inset: 3px 0;
+    background: #050505;
+    box-shadow: inset 0 8px 10px #000000, inset 0 -4px 6px #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .fente-slot-texte {
+    font: 700 8px var(--font);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .fente-levre-bot {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #222222;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Zone sous la paroi : le ruban est à l'intérieur */
+  .zone-sous-paroi {
+    position: relative;
+    padding: 14px 18px;
+    background: repeating-linear-gradient(
+      -45deg,
+      #ececec,
+      #ececec 8px,
+      #e3e3e2 8px,
+      #e3e3e2 16px
+    );
+  }
+
+  .trace-sous-paroi {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 80%;
+    transform: translateX(-50%);
+    border-left: 2px dashed rgba(0, 0, 0, 0.25);
+    border-right: 2px dashed rgba(0, 0, 0, 0.25);
+    pointer-events: none;
+  }
+
+  .pause-card-interne {
+    position: relative;
+    z-index: 2;
+    background: #ffffff;
+    border: 1px dashed rgba(0, 0, 0, 0.4);
+    border-left: 3px solid #000000;
+    border-radius: 4px;
+    padding: 10px 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .pause-topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+
+  .badge-pause-fente {
+    font: 700 8.5px var(--font);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: #000000;
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  .pause-date {
+    font: 700 9px var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.5);
+  }
+
+  .pause-titre {
+    margin: 0 0 3px;
+    font: 700 12.5px/1.3 var(--font);
+    letter-spacing: 0.03em;
+    color: #000000;
+  }
+
+  .pause-desc {
+    margin: 0 0 6px;
+    font: 400 11px/1.45 var(--font);
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  .pause-fente-info {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font: 700 8.5px var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .pause-pulse-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #000000;
+    opacity: 0.5;
+  }
+
+  /* Fente de sortie */
+  .ruban-emergence-slot {
+    position: relative;
+    width: 100%;
+    height: 18px;
+    background: linear-gradient(to bottom, #444444 0%, #dfdfde 40%, #fafafa 100%);
+  }
+
+  /* Statut Final */
+  .section-statut-final {
+    background: #ffffff;
+    border-bottom: none;
+  }
+
+  .etiquette-statut-tissu {
+    padding: 6px 4px;
+  }
+
+  .statut-topline {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+
+  .statut-pulse-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #000000;
+    animation: pulseDot 2s infinite ease-in-out;
+  }
+
+  @keyframes pulseDot {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.6; }
+  }
+
+  .statut-tag {
+    font: 700 8.5px var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: #000000;
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  .statut-date {
+    margin-left: auto;
+    font: 700 9px var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .statut-titre {
+    margin: 0 0 3px;
+    font: 700 12.5px/1.3 var(--font);
+    letter-spacing: 0.04em;
+    color: #000000;
+  }
+
+  .statut-desc {
+    margin: 0;
+    font: 400 11px/1.45 var(--font);
     color: rgba(0, 0, 0, 0.75);
   }
 
-  /* Style TEMPS FORT (★) */
-  .v-step-node.is-temps-fort .v-step-card {
-    background: #000000;
-    border: 1px solid #000000;
-    color: #ffffff;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  /* Terminaison du ruban (ourlet en biseau / queue d'aronde) */
+  .ruban-terminaison {
+    position: relative;
+    background: #fbfbfb;
+    padding: 10px 14px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top: 1px dashed rgba(0, 0, 0, 0.15);
   }
 
-  .v-step-node.is-temps-fort .v-step-date {
-    color: rgba(255, 255, 255, 0.65);
-  }
-
-  .v-step-node.is-temps-fort .v-step-title {
-    color: #ffffff;
-  }
-
-  .v-step-node.is-temps-fort .v-step-desc {
-    color: rgba(255, 255, 255, 0.9);
-  }
-
-  .v-tf-badge {
-    font: 700 8.5px var(--font);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #000000;
-    background: #ffffff;
-    padding: 2px 6px;
-    border-radius: 10px;
-  }
-
-  .v-step-node.is-temps-fort .v-step-bullet {
-    background: #000000;
-    color: #ffffff;
-    transform: scale(1.15);
-  }
-
-  /* Style PAUSE R&D (⏸) */
-  .v-step-node.is-pause .v-step-card {
-    background: repeating-linear-gradient(
-      -45deg,
-      #fbfbfb,
-      #fbfbfb 8px,
-      #f2f2f2 8px,
-      #f2f2f2 16px
-    );
-    border: 1px dashed rgba(0, 0, 0, 0.35);
-    border-left: 3px solid #000000;
-  }
-
-  .v-pause-badge {
-    font: 700 8.5px var(--font);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #ffffff;
-    background: #000000;
-    padding: 2px 6px;
-    border-radius: 10px;
-  }
-
-  /* Style STATUT ACTUEL (●) */
-  .v-step-node.is-statut .v-step-card {
-    border-color: #000000;
-    background: #ffffff;
-  }
-
-  .v-statut-badge {
-    font: 700 8.5px var(--font);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #ffffff;
-    background: #000000;
-    padding: 2px 6px;
-    border-radius: 10px;
-  }
-
-  /* Pied de colonne */
-  .col-foot {
+  .ruban-actions-seam {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding-top: 10px;
-    border-top: 2px dashed rgba(0, 0, 0, 0.12);
-    flex-shrink: 0;
+    width: 100%;
   }
 
-  .col-btn-fiche {
-    flex: 1.2;
-    text-align: center;
-    padding: 8px 10px;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-  }
-
-  .col-btn-gh {
+  .ruban-btn-action {
     flex: 1;
     text-align: center;
-    padding: 8px 8px;
-    font-size: 11px;
-    letter-spacing: 0.06em;
+    padding: 7px 8px;
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
     white-space: nowrap;
   }
 
@@ -1195,26 +1698,26 @@ const bandeauxProjets = [
       position: relative;
       height: auto;
       min-height: auto;
-      padding: 20px 0;
+      padding: 16px 0;
     }
 
     .chrono-fluid-header {
-      padding: 0 16px 12px;
+      padding: 0 16px 10px;
     }
 
     .chrono-track-window {
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
-      padding: 12px 16px;
+      padding: 10px 16px;
     }
 
     .chrono-continuous-track {
-      gap: 14px;
+      gap: 16px;
     }
 
-    .chrono-card-col {
-      width: 290px;
-      height: 520px;
+    .ruban-col-wrap {
+      width: 295px;
+      height: 560px;
     }
   }
 </style>
