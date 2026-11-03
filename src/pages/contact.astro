@@ -8,14 +8,14 @@ import Base from '../layouts/Base.astro';
       <span class="etiquette">COMMUNICATION &bull; COLLABORATION</span>
       <h1 class="page-title">PARLONS-EN</h1>
       <p class="page-subtitle">
-        Un projet à développer, un défi technique à relever, ou simplement l’envie d’échanger autour du code, de l’embarqué
+        Un projet à concevoir, un défi technique à relever, ou simplement l’envie d’échanger autour du code, de l’embarqué
         ou des infrastructures autonomes ?
       </p>
     </header>
 
     <div class="grille-contacts">
       <!-- Email -->
-      <a class="carte-seeworld-contact" href="mailto:contact@tom-bigot.fr">
+      <a class="carte-contact-item" href="mailto:contact@tom-bigot.fr">
         <span class="carte-ext">↗</span>
         <span class="etiquette">Email Direct</span>
         <h2 class="contact-titre">contact@tom-bigot.fr</h2>
@@ -23,33 +23,33 @@ import Base from '../layouts/Base.astro';
       </a>
 
       <!-- GitHub -->
-      <a class="carte-seeworld-contact" href="https://github.com/TakDai" target="_blank" rel="noopener noreferrer">
+      <a class="carte-contact-item" href="https://github.com/TakDai" target="_blank" rel="noopener noreferrer">
         <span class="carte-ext">↗</span>
-        <span class="etiquette">Open Source</span>
+        <span class="etiquette">Code Source</span>
         <h2 class="contact-titre">GitHub &bull; @TakDai</h2>
-        <p class="contact-desc">Retrouvez l’ensemble des dépôts, contributions publiques et projets en cours de l’écosystème.</p>
+        <p class="contact-desc">Retrouvez l’ensemble de mes dépôts, bibliothèques et contributions publiques.</p>
       </a>
 
-      <!-- seeworld -->
-      <a class="carte-seeworld-contact" href="https://seeworld.fr" target="_blank" rel="noopener">
+      <!-- Projets -->
+      <a class="carte-contact-item" href="/#projets-chronologie">
         <span class="carte-ext">↗</span>
-        <span class="etiquette">Collectif</span>
-        <h2 class="contact-titre">SEEWORLD.FR</h2>
-        <p class="contact-desc">Portail central et vitrine des initiatives, projets web, drones et plateformes communautaires.</p>
+        <span class="etiquette">Portfolio</span>
+        <h2 class="contact-titre">Chronologie des projets</h2>
+        <p class="contact-desc">Découvrez l'ensemble de mes réalisations logicielles, matérielles et drones.</p>
       </a>
     </div>
 
     <!-- Disponibilité -->
     <article class="prose-card">
-      <h2>DISPONIBILITÉ & ENGAGEMENT</h2>
+      <h2>DISPONIBILITÉ & ÉCHANGES</h2>
       <p>
-        Je suis réactif par courrier électronique. Je réponds à toutes les sollicitations sérieuses concernant le développement
-        sur-mesure, l’ingénierie technique, les partenariats open-source et les défis matériels/embarqués.
+        Je suis réactif par courrier électronique. Je réponds volontiers aux propositions de développement sur-mesure,
+        à l’ingénierie technique, aux collaborations open-source et aux projets matériels ou embarqués.
       </p>
     </article>
 
     <div class="actions-row">
-      <a href="mailto:contact@tom-bigot.fr" class="btn-noir">Écrire un email</a>
+      <a href="mailto:contact@tom-bigot.fr" class="btn-noir">Envoyer un email</a>
       <a href="/" class="nav-pill">&larr; Retour à l'accueil</a>
     </div>
   </main>
@@ -88,11 +88,11 @@ import Base from '../layouts/Base.astro';
 
   .grille-contacts {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
     gap: 16px;
   }
 
-  .carte-seeworld-contact {
+  .carte-contact-item {
     display: flex;
     flex-direction: column;
     padding: 22px 20px 18px;
@@ -108,7 +108,7 @@ import Base from '../layouts/Base.astro';
                 box-shadow 0.2s ease;
   }
 
-  .carte-seeworld-contact:hover {
+  .carte-contact-item:hover {
     transform: translateY(-4px);
     border-style: solid;
     border-color: var(--ink);
@@ -125,7 +125,7 @@ import Base from '../layouts/Base.astro';
     transition: color 0.2s, transform 0.2s;
   }
 
-  .carte-seeworld-contact:hover .carte-ext {
+  .carte-contact-item:hover .carte-ext {
     color: var(--ink);
     transform: translate(1px, -1px);
   }

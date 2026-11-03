@@ -54,7 +54,7 @@ const logoMap: Record<string, string> = {
         muted
         playsinline
         preload="auto"
-        poster="/assets/logo-seeworld.svg"
+        poster="/favicon.svg"
       >
         <source src="/assets/hero.mp4" type="video/mp4" />
       </video>
@@ -63,8 +63,8 @@ const logoMap: Record<string, string> = {
 
     <div class="hero-content">
       <div class="hero-badge">
-        <img src="/assets/logo-seeworld.svg" alt="SEEWORLD" width="22" height="22" />
-        <span class="etiquette-hero">SEEWORLD &bull; TOM BIGOT</span>
+        <span class="hero-dot"></span>
+        <span class="etiquette-hero">PORTFOLIO &bull; TOM BIGOT</span>
       </div>
       <h1 class="hero-title">CONCEVOIR,<br />CONSTRUIRE,<br />REGARDER LE MONDE.</h1>
       <p class="hero-subtitle">
@@ -96,7 +96,7 @@ const logoMap: Record<string, string> = {
       </div>
       <h2 class="timeline-main-title">CHRONOLOGIE DES PROJETS</h2>
       <p class="timeline-main-desc">
-        Parcours vertical et chronologique des développements logiciels, expérimentations matérielles et plateformes numériques.
+        Parcours vertical et chronologique de mes réalisations logicielles, expérimentations matérielles et plateformes numériques.
       </p>
     </header>
 
@@ -124,7 +124,7 @@ const logoMap: Record<string, string> = {
                       <span class="pin-dot" />
                     </div>
 
-                    <!-- Carte de projet seeworld -->
+                    <!-- Carte de projet -->
                     <a class="timeline-card" href={`/projets/${projet.id}`}>
                       <span class="card-ext">↗</span>
 
@@ -162,13 +162,13 @@ const logoMap: Record<string, string> = {
       }
     </div>
 
-    <!-- Encart philosophie de fin de timeline -->
+    <!-- Encart de fin de timeline -->
     <div class="timeline-end">
       <article class="prose-card end-card">
-        <span class="etiquette">03 / ÉCHANGE TECHNIQUE</span>
+        <span class="etiquette">ÉCHANGE TECHNIQUE</span>
         <h3 class="end-title">UN PROJET EN TÊTE ?</h3>
         <p class="end-desc">
-          Disponible pour imaginer, concevoir ou déployer des projets informatiques et électroniques durables.
+          Disponible pour concevoir, prototyper ou déployer des projets informatiques et électroniques durables.
         </p>
         <div class="end-actions">
           <a href="mailto:contact@tom-bigot.fr" class="btn-noir">contact@tom-bigot.fr</a>
@@ -241,7 +241,7 @@ const logoMap: Record<string, string> = {
   .hero-badge {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     padding: 6px 16px;
     border: 2px dashed rgba(255, 255, 255, 0.45);
     border-radius: 20px;
@@ -250,8 +250,12 @@ const logoMap: Record<string, string> = {
     margin-bottom: 24px;
   }
 
-  .hero-badge img {
-    filter: invert(1);
+  .hero-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ffffff;
+    display: inline-block;
   }
 
   .etiquette-hero {
@@ -444,7 +448,7 @@ const logoMap: Record<string, string> = {
     transform: scale(1.25);
   }
 
-  /* Carte de projet le long de la chronologie */
+  /* Carte de projet */
   .timeline-card {
     display: flex;
     flex-direction: column;

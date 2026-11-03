@@ -1,6 +1,6 @@
 ---
 titre: "tête-de-piaf"
-resume: "Projet créatif et expérimental de l'écosystème seeworld."
+resume: "Projet créatif et expérimental autour du design et de l'illustration."
 nature: création
 statut: en cours
 annee: 2026

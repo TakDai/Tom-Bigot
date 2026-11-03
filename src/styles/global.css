@@ -1,6 +1,6 @@
 /* ==========================================================================
-   Charte Graphique Officielle SEEWORLD pour tom-bigot.fr
-   Inspirée du binarisme strict de seeworld.fr et multi-motors.fr :
+   Design System Officiel pour tom-bigot.fr
+   Minimalisme direct :
    - Blanc Papier (#FFFFFF) et Noir Encre (#000000)
    - Typographie officielle : Glacial Indifference
    - Contour pointillé signature : 2px dashed rgba(0, 0, 0, 0.45)
@@ -134,7 +134,7 @@ p {
   transform: translateY(-1px);
 }
 
-/* Bouton principal plein (style seeworld / multi-motors) */
+/* Bouton principal plein */
 .btn-noir {
   display: inline-flex;
   align-items: center;
@@ -184,7 +184,7 @@ p {
 }
 
 /* Cartes signatures avec pointillés 2px dashed */
-.seeworld-card {
+.card-dashed {
   border: 2px dashed var(--dash);
   border-radius: 12px;
   padding: 24px;
@@ -195,7 +195,7 @@ p {
               box-shadow 0.2s ease;
 }
 
-.seeworld-card:hover {
+.card-dashed:hover {
   transform: translateY(-4px);
   border-style: solid;
   border-color: var(--ink);

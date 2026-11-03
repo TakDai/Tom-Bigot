@@ -26,7 +26,7 @@ const logoMap: Record<string, string> = {
 const logoUrl = logoMap[projet.id];
 ---
 
-<a class="carte-seeworld" href={`/projets/${projet.id}`}>
+<a class="carte-projet" href={`/projets/${projet.id}`}>
   <span class="carte-ext">↗</span>
 
   <div class="carte-haut">
@@ -53,7 +53,7 @@ const logoUrl = logoMap[projet.id];
 </a>
 
 <style>
-  .carte-seeworld {
+  .carte-projet {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -70,7 +70,7 @@ const logoUrl = logoMap[projet.id];
                 box-shadow 0.2s ease;
   }
 
-  .carte-seeworld:hover {
+  .carte-projet:hover {
     transform: translateY(-4px);
     border-style: solid;
     border-color: var(--ink);
@@ -87,7 +87,7 @@ const logoUrl = logoMap[projet.id];
     transition: color 0.2s, transform 0.2s;
   }
 
-  .carte-seeworld:hover .carte-ext {
+  .carte-projet:hover .carte-ext {
     color: var(--ink);
     transform: translate(1px, -1px);
   }
@@ -120,7 +120,7 @@ const logoUrl = logoMap[projet.id];
     transition: transform 0.2s ease;
   }
 
-  .carte-seeworld:hover .carte-logo img {
+  .carte-projet:hover .carte-logo img {
     transform: scale(1.1);
   }
 
