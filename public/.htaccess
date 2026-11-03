@@ -48,8 +48,8 @@ AddDefaultCharset UTF-8
   # Politique de Referrer stricte (Confidentialité des URL)
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
 
-  # Content Security Policy (A03:2021 Injection / XSS)
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; media-src 'self'; connect-src 'self'; frame-ancestors 'none'; form-action 'self' mailto:; base-uri 'self'; object-src 'none';"
+  # Content Security Policy (A03:2021 Injection / XSS — Aucun domaine externe autorisé)
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; frame-ancestors 'none'; form-action 'self' mailto: sms:; base-uri 'self'; object-src 'none';"
 
   # Permissions-Policy : Désactivation des API matérielles intrusives
   Header always set Permissions-Policy "accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), usb=()"
@@ -76,7 +76,7 @@ AddDefaultCharset UTF-8
   RewriteBase /
 
   # 6.1 Filtrage WAF : Blocage des scanners de vulnérabilités et robots malveillants connus (OAT-014)
-  RewriteCond %{HTTP_USER_AGENT} (sqlmap|nikto|dirbuster|acunetix|masscan|havij|nmap|zgrab|morfeus|nessus) [NC]
+  RewriteCond %{HTTP_USER_AGENT} (sqlmap|nikto|dirbuster|acunetix|masscan|havij|nmap|zgrab|morfeus|nessus|nuclei|gobuster|ffuf|wpscan|whatweb|openvas|arachni|skipfish|censys|shodan|projectdiscovery|qualys) [NC]
   RewriteRule .* - [F,L]
 
   # 6.2 Filtrage WAF : Injection de commandes, Path Traversal, Null byte et RFI (A03:2021)
@@ -88,7 +88,19 @@ AddDefaultCharset UTF-8
   RewriteCond %{QUERY_STRING} (boot\.ini|etc/passwd|windows/win\.ini) [NC]
   RewriteRule .* - [F,L]
 
-  # 6.3 Forcer HTTPS pour toute requête non sécurisée (A02:2021)
+  # 6.3 Blocage des sondes de reconnaissance (fichiers cachés, dépôts git, CMS, admin panels)
+  RewriteCond %{REQUEST_URI} ^/(?:\.git|\.env|\.svn|\.hg|\.bzr|wp-admin|wp-login\.php|phpmyadmin|pma|actuator|swagger|api-docs|cgi-bin|autodiscover|\.vscode|\.idea|docker-compose\.ya?ml) [NC]
+  RewriteRule .* - [F,L]
+
+  # 6.4 Protection contre le Request Smuggling et en-têtes malformés
+  RewriteCond %{HTTP:Transfer-Encoding} !^$
+  RewriteRule .* - [F,L]
+
+  # 6.5 Protection contre l'usurpation d'en-tête Host (Anti-Host Header Poisoning)
+  RewriteCond %{HTTP_HOST} !^([a-z0-9-]+\.)*tom-bigot\.fr$ [NC]
+  RewriteRule .* - [F,L]
+
+  # 6.6 Forcer HTTPS pour toute requête non sécurisée (A02:2021)
   RewriteCond %{HTTPS} !=on
   RewriteCond %{HTTP:X-Forwarded-Proto} !https
   RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
