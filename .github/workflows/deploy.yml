@@ -45,7 +45,7 @@ jobs:
           publish_branch: ovh
           publish_dir: ./dist
           keep_files: false
-          force_orphan: true
+          force_orphan: false
 
       - name: Ping OVH Webhook
         if: env.OVH_WEBHOOK_URL != ''
