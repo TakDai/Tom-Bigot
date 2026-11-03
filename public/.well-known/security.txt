@@ -1,0 +1,6 @@
+Contact: mailto:contact@tom-bigot.fr
+Expires: 2027-12-31T23:59:59.000Z
+Preferred-Languages: fr, en
+Canonical: https://tom-bigot.fr/.well-known/security.txt
+Policy: https://tom-bigot.fr/mentions-legales
+Hiring: https://tom-bigot.fr/contact

@@ -1000,7 +1000,19 @@ const planningFpvMois: MoisFpv[] = [
     icon: string;
     defaultEmail: string;
     defaultStructure: string;
-    codes: string[];
+    passwordHashes: string[];
+  }
+
+  // Salt cryptographique pour sécurisation locale OWASP A07
+  const PASS_SALT = 'TOM_BIGOT_CABINE_SECURE_SALT_2026';
+
+  // Calcul du hachage SHA-256 via Web Crypto API standard (OWASP A02 & A07)
+  async function hashPasscode(pass: string): Promise<string> {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(pass.trim().toUpperCase() + ':' + PASS_SALT);
+    const hashBuffer = await window.crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
   }
 
   const CINEMA_ACCOUNTS: Record<string, CinemaAccountConfig> = {
@@ -1012,7 +1024,13 @@ const planningFpvMois: MoisFpv[] = [
       icon: '🏛️',
       defaultEmail: 'cabine@cinemas-lesstudios.fr',
       defaultStructure: 'Cinémas Les Studios (Tours)',
-      codes: ['STUDIOS', 'STUDIOS-TOURS', 'STUDIOS2026', 'LESSTUDIOS', 'CINE1']
+      passwordHashes: [
+        '71dcac5fc68cf19e3e55263e65d0da7d4e0bead25468a6d0a6de4c1872b76023', // STUDIOS
+        '39a0708cb568c328504d1420bc90735e7e06cd51cc5eabacdef56ab4989a670a', // STUDIOS-TOURS
+        'f3a656bbb7f5a99e6f670d8fc2e33c5a7567cb77d2baf0bb6df7a3b63d092e0a', // STUDIOS2026
+        '2cdc06aac3c34a14671b8b28269bd08648a24db9ca24ce85e1d0876e407eb9ce', // LESSTUDIOS
+        'c360eb6c1eb6dfaa21905cfd09e9581da8c73fa5db1423832568481809a6a084'  // CINE1
+      ]
     },
     cineoff: {
       id: 'cineoff',
@@ -1022,7 +1040,13 @@ const planningFpvMois: MoisFpv[] = [
       icon: '🎞️',
       defaultEmail: 'contact@cine-off.fr',
       defaultStructure: 'Ciné-Off (Circuit itinérant)',
-      codes: ['CINEOFF', 'CINEOFF-37', 'CINEOFF2026', 'CINE-OFF', 'CINE2']
+      passwordHashes: [
+        '6cdb202dec49fca32acfc398b241bdaf3527ef2ce7b7bdde5767a648ebe844ba', // CINEOFF
+        'f7fe2d2de10134dff11186bedbf99e287587bd234f4841dafcb44b576bcf9aa7', // CINEOFF-37
+        '5915b24f372d999f3df327af4dedd158304c92b8c73d3b340d6cfa3dfbbf2311', // CINEOFF2026
+        '80aa5461ba670e6416aebc38614fde1cd0a775b0921a10e2be036c67b72cf980', // CINE-OFF
+        '8709e278a9adee0790e951ffd0c867497008c374e7e4fffaa5b83bc981be96ff'  // CINE2
+      ]
     },
     admin: {
       id: 'admin',
@@ -1032,11 +1056,19 @@ const planningFpvMois: MoisFpv[] = [
       icon: '⚡',
       defaultEmail: 'contact@tom-bigot.fr',
       defaultStructure: 'Direction Technique Tom Bigot',
-      codes: ['TOM-2026', 'TOM2026', 'ADMIN', 'CABINE', 'CABINEDCI']
+      passwordHashes: [
+        '707d7d71300e0c25336fea1eaf69bee99a89db9684bcdf97da641d8ffff2fde2', // TOM-2026
+        'ea4769ee2570df7cc98d3cc28ca7474ee8479146e0d9145d8fdd86994bf617a8', // TOM2026
+        '2379e190db25203d49d82ac7f8442e4dd3d1413b8f85ab14b967eec551945af4', // ADMIN
+        'e8f601aae3576fc6e633d6456e4ad29428a90de037ec1d06a2dcd9f73bdc01a1', // CABINE
+        '9df67aacbda55410dc4504f840d0ce2abba033cb4c60374631fe204855b82110'  // CABINEDCI
+      ]
     }
   };
 
   let connectedCinemaAccount: CinemaAccountConfig | null = null;
+  let failedLoginAttempts = 0;
+  let lockoutTimestamp = 0;
 
   const accountLoggedOutView = document.getElementById('accountLoggedOutView');
   const accountLoggedInView = document.getElementById('accountLoggedInView');
@@ -1076,13 +1108,14 @@ const planningFpvMois: MoisFpv[] = [
     if (selectedAccountIdInput) selectedAccountIdInput.value = accId;
 
     if (labelAccountPasscode) {
-      if (accId === 'studios') {
-        labelAccountPasscode.innerHTML = "Code d'accès pour <strong>Cinémas Les Studios</strong> :";
-      } else if (accId === 'cineoff') {
-        labelAccountPasscode.innerHTML = "Code d'accès pour <strong>Ciné-Off (Circuit itinérant)</strong> :";
-      } else {
-        labelAccountPasscode.innerHTML = "Code administrateur pour <strong>Tom Bigot</strong> :";
-      }
+      labelAccountPasscode.replaceChildren();
+      const txtBefore = document.createTextNode(accId === 'admin' ? 'Code administrateur pour ' : "Code d'accès pour ");
+      const strong = document.createElement('strong');
+      strong.textContent = accId === 'studios' ? 'Cinémas Les Studios' : (accId === 'cineoff' ? 'Ciné-Off (Circuit itinérant)' : 'Tom Bigot');
+      const txtAfter = document.createTextNode(' :');
+      labelAccountPasscode.appendChild(txtBefore);
+      labelAccountPasscode.appendChild(strong);
+      labelAccountPasscode.appendChild(txtAfter);
     }
 
     if (inputAccountPasscode) {
@@ -1198,13 +1231,21 @@ const planningFpvMois: MoisFpv[] = [
     if (connectedSub) connectedSub.textContent = account.sub;
 
     if (connectedPrivacyNotice) {
+      connectedPrivacyNotice.replaceChildren();
+      const span = document.createElement('span');
+      const iconLock = accId === 'admin' ? '🔓 ' : '🔒 ';
+      const strong = document.createElement('strong');
       if (accId === 'studios') {
-        connectedPrivacyNotice.innerHTML = `<span>🔒 <strong>Compte Cinémas Les Studios actif :</strong> Vos réservations 7 écrans et le suivi CFA sont affichés en clair. Les créneaux réservés par Ciné-Off sont masqués et protégés.</span>`;
+        strong.textContent = 'Compte Cinémas Les Studios actif : ';
+        span.append(iconLock, strong, "Vos réservations 7 écrans et le suivi CFA sont affichés en clair. Les créneaux réservés par Ciné-Off sont masqués et protégés.");
       } else if (accId === 'cineoff') {
-        connectedPrivacyNotice.innerHTML = `<span>🔒 <strong>Compte Ciné-Off actif :</strong> Vos vacations du circuit itinérant sont affichées en clair. Les séances en salle fixe des Studios sont masquées par confidentialité.</span>`;
+        strong.textContent = 'Compte Ciné-Off actif : ';
+        span.append(iconLock, strong, "Vos vacations du circuit itinérant sont affichées en clair. Les séances en salle fixe des Studios sont masquées par confidentialité.");
       } else {
-        connectedPrivacyNotice.innerHTML = `<span>🔓 <strong>Compte Superviseur Tom Bigot :</strong> Vue globale déverrouillée. L'ensemble des cabines, sessions CFA et options sont affichées en clair.</span>`;
+        strong.textContent = 'Compte Superviseur Tom Bigot : ';
+        span.append(iconLock, strong, "Vue globale déverrouillée. L'ensemble des cabines, sessions CFA et options sont affichées en clair.");
       }
+      connectedPrivacyNotice.appendChild(span);
     }
 
     // Préremplissage automatique du formulaire exploitant
@@ -1243,25 +1284,59 @@ const planningFpvMois: MoisFpv[] = [
 
   btnLogoutAccount?.addEventListener('click', deconnecterCompte);
 
-  // Soumission du formulaire de connexion
-  accountLoginForm?.addEventListener('submit', (e) => {
+  // Soumission sécurisée avec hachage SHA-256 et limitation brute-force (OWASP A07)
+  accountLoginForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const accId = (selectedAccountIdInput?.value || 'studios') as 'studios' | 'cineoff' | 'admin';
-    const pass = (inputAccountPasscode?.value || '').trim().toUpperCase();
-    const config = CINEMA_ACCOUNTS[accId];
-
-    if (config && config.codes.includes(pass)) {
-      connecterCompte(accId);
-    } else {
+    const now = Date.now();
+    if (now < lockoutTimestamp) {
+      const waitSec = Math.ceil((lockoutTimestamp - now) / 1000);
       if (accountLoginFeedback) {
         accountLoginFeedback.style.display = 'block';
-        accountLoginFeedback.textContent = `Code incorrect pour le compte ${config?.name || ''}.`;
+        accountLoginFeedback.textContent = `Accès temporairement verrouillé par mesure de sécurité anti-brute-force. Veuillez patienter ${waitSec}s.`;
+      }
+      return;
+    }
+
+    const rawAccId = selectedAccountIdInput?.value || 'studios';
+    const accId = (['studios', 'cineoff', 'admin'].includes(rawAccId) ? rawAccId : 'studios') as 'studios' | 'cineoff' | 'admin';
+    const pass = (inputAccountPasscode?.value || '').trim();
+    const config = CINEMA_ACCOUNTS[accId];
+
+    if (!pass) {
+      if (accountLoginFeedback) {
+        accountLoginFeedback.style.display = 'block';
+        accountLoginFeedback.textContent = 'Veuillez saisir votre code d\'accès.';
+      }
+      return;
+    }
+
+    const hashedInput = await hashPasscode(pass);
+
+    if (config && config.passwordHashes.includes(hashedInput)) {
+      failedLoginAttempts = 0;
+      connecterCompte(accId);
+    } else {
+      failedLoginAttempts++;
+      if (failedLoginAttempts >= 5) {
+        lockoutTimestamp = Date.now() + 30000;
+        if (accountLoginFeedback) {
+          accountLoginFeedback.style.display = 'block';
+          accountLoginFeedback.textContent = 'Trop d\'essais infructueux. Accès temporairement suspendu pendant 30 secondes.';
+        }
+      } else {
+        if (accountLoginFeedback) {
+          accountLoginFeedback.style.display = 'block';
+          accountLoginFeedback.textContent = `Code incorrect pour le compte ${config?.name || ''} (${5 - failedLoginAttempts} tentative(s) restante(s)).`;
+        }
       }
     }
   });
 
-  // Restauration de session ou détection par URL
-  const savedAcc = sessionStorage.getItem('tom_active_cinema_account') as 'studios' | 'cineoff' | 'admin' | null;
+  // Restauration de session sécurisée ou détection par URL
+  const rawSavedAcc = sessionStorage.getItem('tom_active_cinema_account');
+  const validAccounts: ('studios' | 'cineoff' | 'admin')[] = ['studios', 'cineoff', 'admin'];
+  const savedAcc = validAccounts.includes(rawSavedAcc as any) ? (rawSavedAcc as 'studios' | 'cineoff' | 'admin') : null;
+
   const urlParams = new URLSearchParams(window.location.search);
   const paramCompte = urlParams.get('compte')?.toLowerCase();
 
@@ -1340,13 +1415,19 @@ const planningFpvMois: MoisFpv[] = [
     tri.forEach((date) => {
       const pill = document.createElement('span');
       pill.className = 'date-pill-selected';
-      pill.innerHTML = `<strong>${date}</strong> <button type="button">&times;</button>`;
-      pill.querySelector('button')?.addEventListener('click', (ev) => {
+      const strong = document.createElement('strong');
+      strong.textContent = date;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = '×';
+      btn.setAttribute('aria-label', `Retirer la date ${date}`);
+      btn.addEventListener('click', (ev) => {
         ev.stopPropagation();
         cinemaDatesSelectionnees.delete(date);
         document.querySelectorAll(`.day-cine-selectable[data-date="${date}"]`).forEach((c) => c.classList.remove('day-selected'));
         majSelectionCinema();
       });
+      pill.append(strong, btn);
       selectedCinemaDatesList.appendChild(pill);
     });
   }
@@ -1417,6 +1498,14 @@ const planningFpvMois: MoisFpv[] = [
     });
   });
 
+  // Fonctions de nettoyage et de sécurisation OWASP A03 (Anti-Injection d'en-têtes & XSS)
+  function cleanSingleLine(val: string, maxLen = 120): string {
+    return (val || '').replace(/[\r\n\t]+/g, ' ').trim().slice(0, maxLen);
+  }
+  function cleanMultiLine(val: string, maxLen = 1500): string {
+    return (val || '').replace(/[\r]+/g, '').trim().slice(0, maxLen);
+  }
+
   // Soumission formulaire Cinéma
   const formCinema = document.getElementById('agendaFormCinema') as HTMLFormElement | null;
   const confCinema = document.getElementById('confirmationBannerCinema');
@@ -1426,14 +1515,14 @@ const planningFpvMois: MoisFpv[] = [
   formCinema?.addEventListener('submit', (e) => {
     e.preventDefault();
     const data = new FormData(formCinema);
-    const struct = (data.get('structureCine') as string) || 'Cinéma';
-    const contact = (data.get('contactCine') as string) || '';
-    const email = (data.get('emailCine') as string) || '';
-    const tel = (data.get('telCine') as string) || 'Non renseigné';
-    const dates = (data.get('datesCinemaInput') as string) || 'Non spécifiées';
-    const vacation = (data.get('typeVacation') as string) || '';
-    const techno = (data.get('technoCabine') as string) || '';
-    const notes = (data.get('notesCabine') as string) || 'Aucune';
+    const struct = cleanSingleLine((data.get('structureCine') as string) || 'Cinéma');
+    const contact = cleanSingleLine((data.get('contactCine') as string) || '');
+    const email = cleanSingleLine((data.get('emailCine') as string) || '');
+    const tel = cleanSingleLine((data.get('telCine') as string) || 'Non renseigné', 30);
+    const dates = cleanSingleLine((data.get('datesCinemaInput') as string) || 'Non spécifiées', 300);
+    const vacation = cleanSingleLine((data.get('typeVacation') as string) || '', 80);
+    const techno = cleanSingleLine((data.get('technoCabine') as string) || '', 80);
+    const notes = cleanMultiLine((data.get('notesCabine') as string) || 'Aucune');
 
     const sujet = encodeURIComponent(`[CABINE CINÉMA] Proposition de dates — ${struct} (${dates})`);
     const corps = encodeURIComponent(
@@ -1526,13 +1615,19 @@ const planningFpvMois: MoisFpv[] = [
     tri.forEach((date) => {
       const pill = document.createElement('span');
       pill.className = 'date-pill-selected';
-      pill.innerHTML = `<strong>${date}</strong> <button type="button">&times;</button>`;
-      pill.querySelector('button')?.addEventListener('click', (ev) => {
+      const strong = document.createElement('strong');
+      strong.textContent = date;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = '×';
+      btn.setAttribute('aria-label', `Retirer la date ${date}`);
+      btn.addEventListener('click', (ev) => {
         ev.stopPropagation();
         fpvDatesSelectionnees.delete(date);
         document.querySelectorAll(`.day-fpv-selectable[data-date="${date}"]`).forEach((c) => c.classList.remove('day-selected'));
         majSelectionFpv();
       });
+      pill.append(strong, btn);
       selectedFpvDatesList.appendChild(pill);
     });
   }
@@ -1589,16 +1684,16 @@ const planningFpvMois: MoisFpv[] = [
   formFpv?.addEventListener('submit', (e) => {
     e.preventDefault();
     const data = new FormData(formFpv);
-    const societe = (data.get('fpvSociete') as string) || 'Client FPV';
-    const contact = (data.get('fpvContactNom') as string) || '';
-    const email = (data.get('fpvEmail') as string) || '';
-    const tel = (data.get('fpvTelephone') as string) || '';
-    const typeDemande = (data.get('fpvTypeDemande') as string) || '';
-    const dates = (data.get('fpvDatesInput') as string) || 'Non spécifiées';
-    const lieu = (data.get('fpvLieu') as string) || '';
-    const env = (data.get('fpvEnvironnement') as string) || '';
-    const livrables = (data.get('fpvLivrables') as string) || '';
-    const brief = (data.get('fpvBrief') as string) || '';
+    const societe = cleanSingleLine((data.get('fpvSociete') as string) || 'Client FPV');
+    const contact = cleanSingleLine((data.get('fpvContactNom') as string) || '');
+    const email = cleanSingleLine((data.get('fpvEmail') as string) || '');
+    const tel = cleanSingleLine((data.get('fpvTelephone') as string) || '', 30);
+    const typeDemande = cleanSingleLine((data.get('fpvTypeDemande') as string) || '', 60);
+    const dates = cleanSingleLine((data.get('fpvDatesInput') as string) || 'Non spécifiées', 300);
+    const lieu = cleanSingleLine((data.get('fpvLieu') as string) || '', 100);
+    const env = cleanSingleLine((data.get('fpvEnvironnement') as string) || '', 80);
+    const livrables = cleanSingleLine((data.get('fpvLivrables') as string) || '', 100);
+    const brief = cleanMultiLine((data.get('fpvBrief') as string) || '');
 
     const sujet = encodeURIComponent(`[DRONE FPV - ${typeDemande.toUpperCase()}] ${societe} (${dates})`);
     const corps = encodeURIComponent(
