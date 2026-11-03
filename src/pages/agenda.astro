@@ -1,358 +1,414 @@
 ---
 import Base from '../layouts/Base.astro';
 
-// Typage des créneaux
-export interface JourPlanning {
+// ============================================================================
+// 1. DATA PLANNING CABINE CINÉMA (Totalement indépendant)
+// ============================================================================
+export interface JourPlanningCinema {
   jour: number;
-  dateStr: string; // YYYY-MM-DD
+  dateStr: string;
   statut: 'libre' | 'formation' | 'reserve_cine1' | 'reserve_cine2' | 'option';
-  label?: string;
+  label: string;
   detail?: string;
 }
 
-export interface MoisPlanning {
+export interface MoisCinema {
   nom: string;
   annee: number;
-  decalageLundi: number; // 0=Lundi, 1=Mardi... 6=Dimanche
-  jours: JourPlanning[];
+  decalageLundi: number;
+  jours: JourPlanningCinema[];
 }
 
-// 1. Novembre 2026 (1er Nov = Dimanche => décalage 6)
-const joursNovembre2026: JourPlanning[] = [
+const joursCinemaNovembre2026: JourPlanningCinema[] = [
   { jour: 1, dateStr: '2026-11-01', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Cabine Soir (Sortie nationale)' },
-  { jour: 2, dateStr: '2026-11-02', statut: 'formation', label: 'CFA / Formation', detail: 'Cours théoriques DCI & Acoustique' },
+  { jour: 2, dateStr: '2026-11-02', statut: 'formation', label: 'CFA / Formation', detail: 'Théorie DCI & Acoustique' },
   { jour: 3, dateStr: '2026-11-03', statut: 'formation', label: 'CFA / Formation', detail: 'Atelier Optique & Électronique' },
   { jour: 4, dateStr: '2026-11-04', statut: 'formation', label: 'CFA / Formation', detail: 'Cryptographie & KDM' },
-  { jour: 5, dateStr: '2026-11-05', statut: 'formation', label: 'CFA / Formation', detail: 'Atelier Pratique 35mm' },
+  { jour: 5, dateStr: '2026-11-05', statut: 'formation', label: 'CFA / Formation', detail: 'Pratique 35mm Argentique' },
   { jour: 6, dateStr: '2026-11-06', statut: 'formation', label: 'CFA / Formation', detail: 'Normes de sécurité ERP' },
   { jour: 7, dateStr: '2026-11-07', statut: 'reserve_cine2', label: 'Cinéma 2', detail: 'Cabine Après-midi + Soir' },
-  { jour: 8, dateStr: '2026-11-08', statut: 'libre', label: 'Disponible' },
-  { jour: 9, dateStr: '2026-11-09', statut: 'libre', label: 'Disponible' },
-  { jour: 10, dateStr: '2026-11-10', statut: 'libre', label: 'Disponible' },
+  { jour: 8, dateStr: '2026-11-08', statut: 'libre', label: 'Disponible Cabine' },
+  { jour: 9, dateStr: '2026-11-09', statut: 'libre', label: 'Disponible Cabine' },
+  { jour: 10, dateStr: '2026-11-10', statut: 'libre', label: 'Disponible Cabine' },
   { jour: 11, dateStr: '2026-11-11', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Férié — Séances continues' },
-  { jour: 12, dateStr: '2026-11-12', statut: 'libre', label: 'Disponible' },
-  { jour: 13, dateStr: '2026-11-13', statut: 'option', label: 'Option en cours', detail: 'En attente confirmation' },
+  { jour: 12, dateStr: '2026-11-12', statut: 'libre', label: 'Disponible Cabine' },
+  { jour: 13, dateStr: '2026-11-13', statut: 'option', label: 'Option en cours', detail: 'Confirmation cinéma en attente' },
   { jour: 14, dateStr: '2026-11-14', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Séance 35mm Spéciale' },
-  { jour: 15, dateStr: '2026-11-15', statut: 'libre', label: 'Disponible' },
-  { jour: 16, dateStr: '2026-11-16', statut: 'formation', label: 'CFA / Formation', detail: 'Sonorisation Dolby & Processeurs' },
-  { jour: 17, dateStr: '2026-11-17', statut: 'formation', label: 'CFA / Formation', detail: 'Réseaux TMS & Ingest haut débit' },
+  { jour: 15, dateStr: '2026-11-15', statut: 'libre', label: 'Disponible Cabine' },
+  { jour: 16, dateStr: '2026-11-16', statut: 'formation', label: 'CFA / Formation', detail: 'Sonorisation Dolby CP' },
+  { jour: 17, dateStr: '2026-11-17', statut: 'formation', label: 'CFA / Formation', detail: 'Réseaux TMS & Ingest' },
   { jour: 18, dateStr: '2026-11-18', statut: 'formation', label: 'CFA / Formation', detail: 'Calibration laser & xénon' },
-  { jour: 19, dateStr: '2026-11-19', statut: 'formation', label: 'CFA / Formation', detail: 'Maintenance préventive cabine' },
+  { jour: 19, dateStr: '2026-11-19', statut: 'formation', label: 'CFA / Formation', detail: 'Maintenance préventive' },
   { jour: 20, dateStr: '2026-11-20', statut: 'formation', label: 'CFA / Formation', detail: 'Contrôles réglementaires' },
   { jour: 21, dateStr: '2026-11-21', statut: 'reserve_cine2', label: 'Cinéma 2', detail: 'Week-end cabine DCI' },
   { jour: 22, dateStr: '2026-11-22', statut: 'reserve_cine2', label: 'Cinéma 2', detail: 'Week-end cabine DCI' },
-  { jour: 23, dateStr: '2026-11-23', statut: 'libre', label: 'Disponible' },
-  { jour: 24, dateStr: '2026-11-24', statut: 'libre', label: 'Disponible' },
-  { jour: 25, dateStr: '2026-11-25', statut: 'libre', label: 'Disponible' },
-  { jour: 26, dateStr: '2026-11-26', statut: 'libre', label: 'Disponible' },
-  { jour: 27, dateStr: '2026-11-27', statut: 'libre', label: 'Disponible' },
+  { jour: 23, dateStr: '2026-11-23', statut: 'libre', label: 'Disponible Cabine' },
+  { jour: 24, dateStr: '2026-11-24', statut: 'libre', label: 'Disponible Cabine' },
+  { jour: 25, dateStr: '2026-11-25', statut: 'libre', label: 'Disponible Cabine' },
+  { jour: 26, dateStr: '2026-11-26', statut: 'libre', label: 'Disponible Cabine' },
+  { jour: 27, dateStr: '2026-11-27', statut: 'libre', label: 'Disponible Cabine' },
   { jour: 28, dateStr: '2026-11-28', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Soirée ciné-débat régie' },
-  { jour: 29, dateStr: '2026-11-29', statut: 'libre', label: 'Disponible' },
-  { jour: 30, dateStr: '2026-11-30', statut: 'libre', label: 'Disponible' },
+  { jour: 29, dateStr: '2026-11-29', statut: 'libre', label: 'Disponible Cabine' },
+  { jour: 30, dateStr: '2026-11-30', statut: 'libre', label: 'Disponible Cabine' },
 ];
 
-// 2. Décembre 2026 (1er Dec = Mardi => décalage 1)
-const joursDecembre2026: JourPlanning[] = [
-  { jour: 1, dateStr: '2026-12-01', statut: 'libre', label: 'Disponible' },
-  { jour: 2, dateStr: '2026-12-02', statut: 'libre', label: 'Disponible' },
-  { jour: 3, dateStr: '2026-12-03', statut: 'libre', label: 'Disponible' },
-  { jour: 4, dateStr: '2026-12-04', statut: 'libre', label: 'Disponible' },
+const joursCinemaDecembre2026: JourPlanningCinema[] = [
+  { jour: 1, dateStr: '2026-12-01', statut: 'libre', label: 'Disponible Cabine' },
+  { jour: 2, dateStr: '2026-12-02', statut: 'libre', label: 'Disponible Cabine' },
+  { jour: 3, dateStr: '2026-12-03', statut: 'libre', label: 'Disponible Cabine' },
+  { jour: 4, dateStr: '2026-12-04', statut: 'libre', label: 'Disponible Cabine' },
   { jour: 5, dateStr: '2026-12-05', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Cabine Week-end' },
   { jour: 6, dateStr: '2026-12-06', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Cabine Week-end' },
-  { jour: 7, dateStr: '2026-12-07', statut: 'formation', label: 'CFA / Formation', detail: 'Pratique exploitation multi-salles' },
-  { jour: 8, dateStr: '2026-12-08', statut: 'formation', label: 'CFA / Formation', detail: 'Processeurs IMS et automatisations' },
-  { jour: 9, dateStr: '2026-12-09', statut: 'formation', label: 'CFA / Formation', detail: 'Diagnostic pannes de projection' },
+  { jour: 7, dateStr: '2026-12-07', statut: 'formation', label: 'CFA / Formation', detail: 'Exploitation multi-écrans' },
+  { jour: 8, dateStr: '2026-12-08', statut: 'formation', label: 'CFA / Formation', detail: 'Processeurs IMS automatisés' },
+  { jour: 9, dateStr: '2026-12-09', statut: 'formation', label: 'CFA / Formation', detail: 'Dépannage optique d\'urgence' },
   { jour: 10, dateStr: '2026-12-10', statut: 'formation', label: 'CFA / Formation', detail: 'Normes SMPTE & DCI' },
-  { jour: 11, dateStr: '2026-12-11', statut: 'formation', label: 'CFA / Formation', detail: 'Bilan intermédiaire de compétences' },
-  { jour: 12, dateStr: '2026-12-12', statut: 'libre', label: 'Disponible' },
-  { jour: 13, dateStr: '2026-12-13', statut: 'libre', label: 'Disponible' },
-  { jour: 14, dateStr: '2026-12-14', statut: 'libre', label: 'Disponible' },
-  { jour: 15, dateStr: '2026-12-15', statut: 'libre', label: 'Disponible' },
+  { jour: 11, dateStr: '2026-12-11', statut: 'formation', label: 'CFA / Formation', detail: 'Évaluation des acquis' },
+  { jour: 12, dateStr: '2026-12-12', statut: 'libre', label: 'Disponible Cabine' },
+  { jour: 13, dateStr: '2026-12-13', statut: 'libre', label: 'Disponible Cabine' },
+  { jour: 14, dateStr: '2026-12-14', statut: 'libre', label: 'Disponible Cabine' },
+  { jour: 15, dateStr: '2026-12-15', statut: 'libre', label: 'Disponible Cabine' },
   { jour: 16, dateStr: '2026-12-16', statut: 'reserve_cine2', label: 'Cinéma 2', detail: 'Sortie événementielle' },
-  { jour: 17, dateStr: '2026-12-17', statut: 'libre', label: 'Disponible' },
-  { jour: 18, dateStr: '2026-12-18', statut: 'libre', label: 'Disponible' },
+  { jour: 17, dateStr: '2026-12-17', statut: 'libre', label: 'Disponible Cabine' },
+  { jour: 18, dateStr: '2026-12-18', statut: 'libre', label: 'Disponible Cabine' },
   { jour: 19, dateStr: '2026-12-19', statut: 'reserve_cine2', label: 'Cinéma 2', detail: 'Vacances de Noël - Affluence' },
   { jour: 20, dateStr: '2026-12-20', statut: 'reserve_cine2', label: 'Cinéma 2', detail: 'Vacances de Noël - Affluence' },
-  { jour: 21, dateStr: '2026-12-21', statut: 'libre', label: 'Disponible' },
-  { jour: 22, dateStr: '2026-12-22', statut: 'libre', label: 'Disponible' },
+  { jour: 21, dateStr: '2026-12-21', statut: 'libre', label: 'Disponible Cabine' },
+  { jour: 22, dateStr: '2026-12-22', statut: 'libre', label: 'Disponible Cabine' },
   { jour: 23, dateStr: '2026-12-23', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Séances jeunesse' },
-  { jour: 24, dateStr: '2026-12-24', statut: 'libre', label: 'Disponible' },
+  { jour: 24, dateStr: '2026-12-24', statut: 'libre', label: 'Disponible Cabine' },
   { jour: 25, dateStr: '2026-12-25', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Séances de Noël' },
   { jour: 26, dateStr: '2026-12-26', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Séances de Noël' },
-  { jour: 27, dateStr: '2026-12-27', statut: 'libre', label: 'Disponible' },
-  { jour: 28, dateStr: '2026-12-28', statut: 'libre', label: 'Disponible' },
-  { jour: 29, dateStr: '2026-12-29', statut: 'libre', label: 'Disponible' },
-  { jour: 30, dateStr: '2026-12-30', statut: 'libre', label: 'Disponible' },
+  { jour: 27, dateStr: '2026-12-27', statut: 'libre', label: 'Disponible Cabine' },
+  { jour: 28, dateStr: '2026-12-28', statut: 'libre', label: 'Disponible Cabine' },
+  { jour: 29, dateStr: '2026-12-29', statut: 'libre', label: 'Disponible Cabine' },
+  { jour: 30, dateStr: '2026-12-30', statut: 'libre', label: 'Disponible Cabine' },
   { jour: 31, dateStr: '2026-12-31', statut: 'reserve_cine2', label: 'Cinéma 2', detail: 'Séances Réveillon' },
 ];
 
-const planningMois: MoisPlanning[] = [
-  { nom: 'Novembre', annee: 2026, decalageLundi: 6, jours: joursNovembre2026 },
-  { nom: 'Décembre', annee: 2026, decalageLundi: 1, jours: joursDecembre2026 },
+const planningCinemaMois: MoisCinema[] = [
+  { nom: 'Novembre', annee: 2026, decalageLundi: 6, jours: joursCinemaNovembre2026 },
+  { nom: 'Décembre', annee: 2026, decalageLundi: 1, jours: joursCinemaDecembre2026 },
+];
+
+// ============================================================================
+// 2. DATA PLANNING DRONE FPV (Totalement indépendant)
+// ============================================================================
+export interface JourPlanningFpv {
+  jour: number;
+  dateStr: string;
+  statut: 'libre' | 'reserve_tournage' | 'reserve_reperage' | 'option_meteo' | 'indisponible';
+  label: string;
+  detail?: string;
+}
+
+export interface MoisFpv {
+  nom: string;
+  annee: number;
+  decalageLundi: number;
+  jours: JourPlanningFpv[];
+}
+
+const joursFpvNovembre2026: JourPlanningFpv[] = [
+  { jour: 1, dateStr: '2026-11-01', statut: 'indisponible', label: 'Indisponible', detail: 'Engagement en cabine' },
+  { jour: 2, dateStr: '2026-11-02', statut: 'indisponible', label: 'Indisponible', detail: 'Formation' },
+  { jour: 3, dateStr: '2026-11-03', statut: 'indisponible', label: 'Indisponible', detail: 'Formation' },
+  { jour: 4, dateStr: '2026-11-04', statut: 'indisponible', label: 'Indisponible', detail: 'Formation' },
+  { jour: 5, dateStr: '2026-11-05', statut: 'option_meteo', label: 'Option Tournage FPV', detail: 'Tournage extérieur sous réserve météo' },
+  { jour: 6, dateStr: '2026-11-06', statut: 'indisponible', label: 'Indisponible', detail: 'Formation' },
+  { jour: 7, dateStr: '2026-11-07', statut: 'indisponible', label: 'Indisponible', detail: 'Autre engagement' },
+  { jour: 8, dateStr: '2026-11-08', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Journée complète ouverte' },
+  { jour: 9, dateStr: '2026-11-09', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Tournage ou repérage' },
+  { jour: 10, dateStr: '2026-11-10', statut: 'reserve_reperage', label: 'Repérage Site', detail: 'Visite technique site industriel' },
+  { jour: 11, dateStr: '2026-11-11', statut: 'indisponible', label: 'Indisponible', detail: 'Férié cabine' },
+  { jour: 12, dateStr: '2026-11-12', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Créneau vol extérieur ou intérieur' },
+  { jour: 13, dateStr: '2026-11-13', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Créneau vol ouvert' },
+  { jour: 14, dateStr: '2026-11-14', statut: 'indisponible', label: 'Indisponible', detail: 'Non disponible' },
+  { jour: 15, dateStr: '2026-11-15', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Week-end disponible tournage' },
+  { jour: 16, dateStr: '2026-11-16', statut: 'indisponible', label: 'Indisponible', detail: 'Formation' },
+  { jour: 17, dateStr: '2026-11-17', statut: 'indisponible', label: 'Indisponible', detail: 'Formation' },
+  { jour: 18, dateStr: '2026-11-18', statut: 'indisponible', label: 'Indisponible', detail: 'Formation' },
+  { jour: 19, dateStr: '2026-11-19', statut: 'indisponible', label: 'Indisponible', detail: 'Formation' },
+  { jour: 20, dateStr: '2026-11-20', statut: 'reserve_tournage', label: 'Tournage Confirmé', detail: 'Prise de vue cinématique 5"' },
+  { jour: 21, dateStr: '2026-11-21', statut: 'indisponible', label: 'Indisponible', detail: 'Non disponible' },
+  { jour: 22, dateStr: '2026-11-22', statut: 'indisponible', label: 'Indisponible', detail: 'Non disponible' },
+  { jour: 23, dateStr: '2026-11-23', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Disponibilité tournage' },
+  { jour: 24, dateStr: '2026-11-24', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Disponibilité tournage' },
+  { jour: 25, dateStr: '2026-11-25', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Disponibilité tournage' },
+  { jour: 26, dateStr: '2026-11-26', statut: 'option_meteo', label: 'Option Production', detail: 'Option posée par agence' },
+  { jour: 27, dateStr: '2026-11-27', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Disponibilité tournage' },
+  { jour: 28, dateStr: '2026-11-28', statut: 'indisponible', label: 'Indisponible', detail: 'Non disponible' },
+  { jour: 29, dateStr: '2026-11-29', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Disponibilité tournage' },
+  { jour: 30, dateStr: '2026-11-30', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Disponibilité tournage' },
+];
+
+const joursFpvDecembre2026: JourPlanningFpv[] = [
+  { jour: 1, dateStr: '2026-12-01', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Tournage ou repérage' },
+  { jour: 2, dateStr: '2026-12-02', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Tournage ou repérage' },
+  { jour: 3, dateStr: '2026-12-03', statut: 'reserve_tournage', label: 'Tournage Intérieur', detail: 'Cinewhoop bureaux & show-room' },
+  { jour: 4, dateStr: '2026-12-04', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Disponibilité tournage' },
+  { jour: 5, dateStr: '2026-12-05', statut: 'indisponible', label: 'Indisponible', detail: 'Non disponible' },
+  { jour: 6, dateStr: '2026-12-06', statut: 'indisponible', label: 'Indisponible', detail: 'Non disponible' },
+  { jour: 7, dateStr: '2026-12-07', statut: 'indisponible', label: 'Indisponible', detail: 'Formation' },
+  { jour: 8, dateStr: '2026-12-08', statut: 'indisponible', label: 'Indisponible', detail: 'Formation' },
+  { jour: 9, dateStr: '2026-12-09', statut: 'indisponible', label: 'Indisponible', detail: 'Formation' },
+  { jour: 10, dateStr: '2026-12-10', statut: 'indisponible', label: 'Indisponible', detail: 'Formation' },
+  { jour: 11, dateStr: '2026-12-11', statut: 'indisponible', label: 'Indisponible', detail: 'Formation' },
+  { jour: 12, dateStr: '2026-12-12', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Week-end ouvert' },
+  { jour: 13, dateStr: '2026-12-13', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Week-end ouvert' },
+  { jour: 14, dateStr: '2026-12-14', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Disponibilité tournage' },
+  { jour: 15, dateStr: '2026-12-15', statut: 'reserve_reperage', label: 'Repérage Site', detail: 'Validation espace aérien' },
+  { jour: 16, dateStr: '2026-12-16', statut: 'indisponible', label: 'Indisponible', detail: 'Non disponible' },
+  { jour: 17, dateStr: '2026-12-17', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Tournage possible' },
+  { jour: 18, dateStr: '2026-12-18', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Tournage possible' },
+  { jour: 19, dateStr: '2026-12-19', statut: 'indisponible', label: 'Indisponible', detail: 'Non disponible' },
+  { jour: 20, dateStr: '2026-12-20', statut: 'indisponible', label: 'Indisponible', detail: 'Non disponible' },
+  { jour: 21, dateStr: '2026-12-21', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Disponibilité tournage' },
+  { jour: 22, dateStr: '2026-12-22', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Disponibilité tournage' },
+  { jour: 23, dateStr: '2026-12-23', statut: 'indisponible', label: 'Indisponible', detail: 'Non disponible' },
+  { jour: 24, dateStr: '2026-12-24', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Matinée disponible' },
+  { jour: 25, dateStr: '2026-12-25', statut: 'indisponible', label: 'Indisponible', detail: 'Férié Noël' },
+  { jour: 26, dateStr: '2026-12-26', statut: 'indisponible', label: 'Indisponible', detail: 'Non disponible' },
+  { jour: 27, dateStr: '2026-12-27', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Disponibilité tournage' },
+  { jour: 28, dateStr: '2026-12-28', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Disponibilité tournage' },
+  { jour: 29, dateStr: '2026-12-29', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Disponibilité tournage' },
+  { jour: 30, dateStr: '2026-12-30', statut: 'libre', label: 'Vol FPV Disponible', detail: 'Disponibilité tournage' },
+  { jour: 31, dateStr: '2026-12-31', statut: 'indisponible', label: 'Indisponible', detail: 'Non disponible' },
+];
+
+const planningFpvMois: MoisFpv[] = [
+  { nom: 'Novembre', annee: 2026, decalageLundi: 6, jours: joursFpvNovembre2026 },
+  { nom: 'Décembre', annee: 2026, decalageLundi: 1, jours: joursFpvDecembre2026 },
 ];
 ---
 
 <Base
-  titre="Agenda & Réservations (Cabine & Drone FPV)"
-  description="Planning des disponibilités de Tom Bigot. Réservation de vacations pour les 2 cinémas partenaires (avec suivi CFA) et calendrier de tournage / demandes de devis pour les clients drone FPV."
+  titre="Agendas Indépendants : Cabine Cinéma & Drone FPV"
+  description="Consultez les agendas dédiés et indépendants de Tom Bigot : planning cabines pour cinémas partenaires (avec suivi CFA) et calendrier tournage / devis pour clients drone FPV."
 >
   <main class="prose-screen agenda-page">
     <header class="page-head agenda-header">
       <div class="head-topline">
-        <span class="etiquette">PLANIFICATION &bull; EN DIRECT</span>
-        <a href="#zone-formulaires" class="nav-pill pill-accent">Accéder aux formulaires de réservation &darr;</a>
+        <span class="etiquette">PLANIFICATION &bull; AGENDAS INDÉPENDANTS</span>
+        <div class="agenda-switch-pills">
+          <a href="#agenda-cinema" id="quickLinkCinema" class="nav-pill active-nav-pill">Agenda Cinéma</a>
+          <a href="#agenda-fpv" id="quickLinkFpv" class="nav-pill">Agenda Drone FPV</a>
+        </div>
       </div>
-      <h1 class="page-title">AGENDA &amp; RÉSERVATIONS</h1>
+      <h1 class="page-title">AGENDAS INDÉPENDANTS</h1>
       <p class="page-subtitle">
-        Planning centralisé pour mes <strong>deux cinémas partenaires</strong> (coordination avec mes dates de formation CFA) et pour mes <strong>clients de production audiovisuelle en drone FPV</strong> (pose de dates de tournage, repérage ou demande de devis).
+        Deux espaces de planification totalement distincts pour garantir la confidentialité et la précision de chaque métier : l'agenda <strong>Cabines Cinéma</strong> pour mes 2 cinémas partenaires et l'agenda <strong>Drone FPV</strong> pour les productions audiovisuelles.
       </p>
     </header>
 
-    <!-- Commutateur de profil : Cinéma vs Drone FPV -->
-    <div class="domain-tabs-container">
-      <div class="domain-tabs" role="tablist">
-        <button
-          type="button"
-          id="tabBtnCinema"
-          class="domain-tab active"
-          role="tab"
-          aria-selected="true"
-          aria-controls="panelCinema"
-        >
-          <span class="tab-icon">🏛️</span>
-          <span class="tab-label">
-            <strong>CABINES CINÉMA</strong>
-            <span>Mes 2 cinémas partenaires &amp; formations CFA</span>
-          </span>
-        </button>
-        <button
-          type="button"
-          id="tabBtnFpv"
-          class="domain-tab"
-          role="tab"
-          aria-selected="false"
-          aria-controls="panelFpv"
-        >
-          <span class="tab-icon">🚁</span>
-          <span class="tab-label">
-            <strong>DRONE FPV &bull; DEVIS &amp; RDV</strong>
-            <span>Tournages, repérages et chiffrage devis</span>
-          </span>
-        </button>
-      </div>
-    </div>
-
-    <!-- CONSOLE CINÉMA : Raccourcis 2 cinémas partenaires -->
-    <section id="bannerCinema" class="partner-quick-access domain-panel active-panel" aria-label="Sélection rapide cinéma partenaire">
-      <div class="partner-banner-label">
-        <span class="etiquette">ACCÈS EXPLOITANTS</span>
-        <strong>Vous êtes l'un de mes cinémas partenaires ?</strong>
-      </div>
-      <div class="partner-buttons">
-        <button type="button" class="btn-partner" data-preset-cine="cine1">
-          <span class="partner-icon">🏛️</span>
-          <span class="partner-info">
-            <strong class="partner-name">CINÉMA PARTENAIRE 1</strong>
-            <span class="partner-code">Sélectionner pour poser des vacations &rarr;</span>
-          </span>
-        </button>
-        <button type="button" class="btn-partner" data-preset-cine="cine2">
-          <span class="partner-icon">🎥</span>
-          <span class="partner-info">
-            <strong class="partner-name">CINÉMA PARTENAIRE 2</strong>
-            <span class="partner-code">Sélectionner pour poser des vacations &rarr;</span>
-          </span>
-        </button>
-      </div>
-    </section>
-
-    <!-- CONSOLE FPV : Raccourcis prestations FPV -->
-    <section id="bannerFpv" class="fpv-quick-access domain-panel" style="display: none;" aria-label="Services drone FPV">
-      <div class="partner-banner-label">
-        <span class="etiquette">PRODUCTIONS &bull; MARQUES &bull; ÉVÉNEMENTS</span>
-        <strong>Besoin d'un tournage FPV ou d'un devis chiffré ?</strong>
-      </div>
-      <div class="fpv-preset-grid">
-        <button type="button" class="btn-fpv-preset" data-fpv-type="Tournage Cinématique FPV (Journée)">
-          <span class="fpv-tag">TOURNAGE EXTÉRIEUR</span>
-          <strong>Poursuite &amp; Action 5"</strong>
-          <span>Pointes &gt;150 km/h &bull; Stabilisation Gyroflow</span>
-        </button>
-        <button type="button" class="btn-fpv-preset" data-fpv-type="Plan-séquence intérieur Cinewhoop">
-          <span class="fpv-tag">INTÉRIEUR SÉCURISÉ</span>
-          <strong>Cinewhoop Caréné</strong>
-          <span>Bureaux, usines, musées &bull; Hélices protégées</span>
-        </button>
-        <button type="button" class="btn-fpv-preset" data-fpv-type="Rendez-vous préparatoire / Repérage">
-          <span class="fpv-tag">PRÉPARATION</span>
-          <strong>Repérage &amp; Briefing</strong>
-          <span>Visite technique sur site &bull; Validation sécurité</span>
-        </button>
-        <button type="button" class="btn-fpv-preset" data-fpv-type="Demande de devis estimatif">
-          <span class="fpv-tag">CHIFFRAGE</span>
-          <strong>Devis sous 24h</strong>
-          <span>Estimation détaillée selon votre cahier des charges</span>
-        </button>
-      </div>
-    </section>
-
-    <!-- Légende officielle des créneaux -->
-    <div class="agenda-toolbar">
-      <div class="legend-grid">
-        <div class="legend-badge badge-libre">
-          <span class="legend-box box-libre"></span>
-          <div class="legend-txt">
-            <strong>DISPONIBLE (LIBRE)</strong>
-            <span>Créneau ouvert aux séances ou tournages FPV</span>
-          </div>
-        </div>
-        <div class="legend-badge badge-formation">
-          <span class="legend-box box-formation"></span>
-          <div class="legend-txt">
-            <strong>CFA / FORMATION</strong>
-            <span>Période en apprentissage (non mobilisable)</span>
-          </div>
-        </div>
-        <div class="legend-badge badge-cine1">
-          <span class="legend-box box-cine1"></span>
-          <div class="legend-txt">
-            <strong>CINÉMA 1 (RÉSERVÉ)</strong>
-            <span>Vacation ou remplacement planifié</span>
-          </div>
-        </div>
-        <div class="legend-badge badge-cine2">
-          <span class="legend-box box-cine2"></span>
-          <div class="legend-txt">
-            <strong>CINÉMA 2 (RÉSERVÉ)</strong>
-            <span>Vacation ou remplacement planifié</span>
-          </div>
-        </div>
-        <div class="legend-badge badge-option">
-          <span class="legend-box box-option"></span>
-          <div class="legend-txt">
-            <strong>OPTION EN COURS</strong>
-            <span>Date en cours de confirmation</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Contrôleur de mois -->
-      <div class="month-selector-bar">
-        <button type="button" id="btnPrevMonth" class="btn-outline btn-month" aria-label="Mois précédent">&larr; Mois précédent</button>
-        <div class="current-month-display">
-          <span class="etiquette">CALENDRIER SYNCHRONISÉ</span>
-          <h2 id="activeMonthTitle" class="month-heading">NOVEMBRE 2026</h2>
-        </div>
-        <button type="button" id="btnNextMonth" class="btn-outline btn-month" aria-label="Mois suivant">Mois suivant &rarr;</button>
-      </div>
-    </div>
-
-    <!-- Calendriers pour chaque mois -->
-    {planningMois.map((mois, indexMois) => (
-      <section
-        id={`calendar-view-${indexMois}`}
-        class={`calendar-card month-view ${indexMois === 0 ? 'is-active-month' : 'is-hidden-month'}`}
-        aria-label={`Calendrier ${mois.nom} ${mois.annee}`}
-        data-month-index={indexMois}
-        data-month-name={`${mois.nom.toUpperCase()} ${mois.annee}`}
+    <!-- GRAND SÉLECTEUR D'AGENDA INDÉPENDANT -->
+    <nav class="agenda-master-selector" aria-label="Sélection de l'agenda">
+      <button
+        type="button"
+        id="btnSelectCinema"
+        class="agenda-master-tab active"
+        aria-controls="agenda-cinema-wrapper"
+        aria-selected="true"
       >
-        <div class="calendar-grid">
-          <div class="weekday-col">LUN</div>
-          <div class="weekday-col">MAR</div>
-          <div class="weekday-col">MER</div>
-          <div class="weekday-col">JEU</div>
-          <div class="weekday-col">VEN</div>
-          <div class="weekday-col">SAM</div>
-          <div class="weekday-col">DIM</div>
+        <span class="master-tab-icon">🏛️</span>
+        <div class="master-tab-text">
+          <strong>1. AGENDA CABINES CINÉMA</strong>
+          <span>Mes 2 cinémas partenaires &bull; Suivi des semaines CFA</span>
+        </div>
+        <span class="master-tab-arrow">&rarr;</span>
+      </button>
 
-          <!-- Cases vides de début de mois -->
-          {Array.from({ length: mois.decalageLundi }).map((_, i) => (
-            <div class="day-cell day-empty" aria-hidden="true"></div>
-          ))}
+      <button
+        type="button"
+        id="btnSelectFpv"
+        class="agenda-master-tab"
+        aria-controls="agenda-fpv-wrapper"
+        aria-selected="false"
+      >
+        <span class="master-tab-icon">🚁</span>
+        <div class="master-tab-text">
+          <strong>2. AGENDA DRONE FPV &amp; DEVIS</strong>
+          <span>Tournages cinématiques, repérages &bull; Devis sous 24h</span>
+        </div>
+        <span class="master-tab-arrow">&rarr;</span>
+      </button>
+    </nav>
 
-          <!-- Jours du mois -->
-          {mois.jours.map((item) => {
-            const isLibre = item.statut === 'libre';
-            const isFormation = item.statut === 'formation';
-            const isCine1 = item.statut === 'reserve_cine1';
-            const isCine2 = item.statut === 'reserve_cine2';
-            const isOption = item.statut === 'option';
 
-            return (
-              <div
-                class={`day-cell day-${item.statut} ${isLibre ? 'day-selectable' : 'day-locked'}`}
-                data-date={item.dateStr}
-                data-statut={item.statut}
-                data-label={item.label}
-                data-detail={item.detail || ''}
-                role={isLibre ? 'button' : 'region'}
-                tabindex={isLibre ? '0' : '-1'}
-                title={item.detail ? `${item.dateStr} : ${item.label} (${item.detail})` : `${item.dateStr} : ${item.label}`}
-              >
-                <div class="day-topline">
-                  <span class="day-number">{item.jour}</span>
-                  {isLibre && <span class="tag-libre">+ Choisir</span>}
-                  {isFormation && <span class="tag-formation">CFA</span>}
-                  {isCine1 && <span class="tag-cine1">Ciné 1</span>}
-                  {isCine2 && <span class="tag-cine2">Ciné 2</span>}
-                  {isOption && <span class="tag-option">Option</span>}
-                </div>
-
-                <div class="day-body">
-                  <div class="day-label-main">{item.label}</div>
-                  {item.detail && <div class="day-detail-txt">{item.detail}</div>}
-                </div>
-
-                {isLibre && (
-                  <div class="day-action-hint">
-                    <span>Cliquez pour ajouter</span>
-                  </div>
-                )}
-              </div>
-            );
-          })}
+    <!-- ======================================================================
+         SECTION 1 : AGENDA CABINE CINÉMA (Totalement autonome)
+         ====================================================================== -->
+    <div id="agenda-cinema-wrapper" class="agenda-view-wrapper active-agenda-view">
+      <!-- Console 2 cinémas partenaires -->
+      <section class="partner-quick-access" aria-label="Sélection rapide cinéma partenaire">
+        <div class="partner-banner-label">
+          <span class="etiquette">CABINE &bull; ACCÈS DIRECT</span>
+          <strong>Vous êtes l'un de mes cinémas partenaires ?</strong>
+        </div>
+        <div class="partner-buttons">
+          <button type="button" class="btn-partner" data-preset-cine="cine1">
+            <span class="partner-icon">🏛️</span>
+            <span class="partner-info">
+              <strong class="partner-name">CINÉMA PARTENAIRE 1</strong>
+              <span class="partner-code">Sélectionner pour poser des vacations &rarr;</span>
+            </span>
+          </button>
+          <button type="button" class="btn-partner" data-preset-cine="cine2">
+            <span class="partner-icon">🎥</span>
+            <span class="partner-info">
+              <strong class="partner-name">CINÉMA PARTENAIRE 2</strong>
+              <span class="partner-code">Sélectionner pour poser des vacations &rarr;</span>
+            </span>
+          </button>
         </div>
       </section>
-    ))}
 
-    <!-- Panier de dates sélectionnées en direct -->
-    <div id="selectionBar" class="selection-summary-bar" style="display: none;">
-      <div class="selection-info">
-        <span class="etiquette">DATES RETENUES SUR LE CALENDRIER</span>
-        <div id="selectedDatesList" class="selected-tags-container"></div>
-      </div>
-      <div class="selection-actions">
-        <button type="button" id="btnClearSelection" class="btn-clear">Vider la sélection</button>
-        <a href="#zone-formulaires" class="btn-noir btn-jump-form">Finaliser la demande &darr;</a>
-      </div>
-    </div>
+      <!-- Légende Cinéma -->
+      <div class="agenda-toolbar">
+        <div class="legend-grid">
+          <div class="legend-badge">
+            <span class="legend-box box-libre"></span>
+            <div class="legend-txt">
+              <strong>DISPONIBLE (LIBRE)</strong>
+              <span>Créneau ouvert aux propositions de séances</span>
+            </div>
+          </div>
+          <div class="legend-badge">
+            <span class="legend-box box-formation"></span>
+            <div class="legend-txt">
+              <strong>CFA / FORMATION</strong>
+              <span>Période d'apprentissage (non mobilisable)</span>
+            </div>
+          </div>
+          <div class="legend-badge">
+            <span class="legend-box box-cine1"></span>
+            <div class="legend-txt">
+              <strong>CINÉMA 1 (RÉSERVÉ)</strong>
+              <span>Vacation ou remplacement planifié</span>
+            </div>
+          </div>
+          <div class="legend-badge">
+            <span class="legend-box box-cine2"></span>
+            <div class="legend-txt">
+              <strong>CINÉMA 2 (RÉSERVÉ)</strong>
+              <span>Vacation ou remplacement planifié</span>
+            </div>
+          </div>
+          <div class="legend-badge">
+            <span class="legend-box box-option"></span>
+            <div class="legend-txt">
+              <strong>OPTION EN COURS</strong>
+              <span>Date en attente de confirmation</span>
+            </div>
+          </div>
+        </div>
 
-    <!-- ZONE DES DEUX FORMULAIRES (CINÉMA & FPV) -->
-    <div id="zone-formulaires">
-      <!-- FORMULAIRE 1 : CABINES CINÉMA -->
+        <div class="month-selector-bar">
+          <button type="button" id="btnPrevCinemaMonth" class="btn-outline btn-month">&larr; Mois précédent</button>
+          <div class="current-month-display">
+            <span class="etiquette">PLANNING CINÉMA</span>
+            <h2 id="cinemaMonthTitle" class="month-heading">NOVEMBRE 2026</h2>
+          </div>
+          <button type="button" id="btnNextCinemaMonth" class="btn-outline btn-month">Mois suivant &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Calendriers Cinéma -->
+      {planningCinemaMois.map((mois, indexMois) => (
+        <section
+          id={`cine-calendar-view-${indexMois}`}
+          class={`calendar-card cinema-month-view ${indexMois === 0 ? 'is-active-month' : 'is-hidden-month'}`}
+          data-month-index={indexMois}
+          data-month-name={`${mois.nom.toUpperCase()} ${mois.annee}`}
+        >
+          <div class="calendar-grid">
+            <div class="weekday-col">LUN</div>
+            <div class="weekday-col">MAR</div>
+            <div class="weekday-col">MER</div>
+            <div class="weekday-col">JEU</div>
+            <div class="weekday-col">VEN</div>
+            <div class="weekday-col">SAM</div>
+            <div class="weekday-col">DIM</div>
+
+            {Array.from({ length: mois.decalageLundi }).map((_, i) => (
+              <div class="day-cell day-empty" aria-hidden="true"></div>
+            ))}
+
+            {mois.jours.map((item) => {
+              const isLibre = item.statut === 'libre';
+              const isFormation = item.statut === 'formation';
+              const isCine1 = item.statut === 'reserve_cine1';
+              const isCine2 = item.statut === 'reserve_cine2';
+              const isOption = item.statut === 'option';
+
+              return (
+                <div
+                  class={`day-cell day-cine-${item.statut} ${isLibre ? 'day-selectable day-cine-selectable' : 'day-locked'}`}
+                  data-date={item.dateStr}
+                  data-statut={item.statut}
+                  data-label={item.label}
+                  data-detail={item.detail || ''}
+                  role={isLibre ? 'button' : 'region'}
+                  tabindex={isLibre ? '0' : '-1'}
+                >
+                  <div class="day-topline">
+                    <span class="day-number">{item.jour}</span>
+                    {isLibre && <span class="tag-libre">+ Choisir</span>}
+                    {isFormation && <span class="tag-formation">CFA</span>}
+                    {isCine1 && <span class="tag-cine1">Ciné 1</span>}
+                    {isCine2 && <span class="tag-cine2">Ciné 2</span>}
+                    {isOption && <span class="tag-option">Option</span>}
+                  </div>
+                  <div class="day-body">
+                    <div class="day-label-main">{item.label}</div>
+                    {item.detail && <div class="day-detail-txt">{item.detail}</div>}
+                  </div>
+                  {isLibre && (
+                    <div class="day-action-hint">
+                      <span>Poser une séance</span>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      ))}
+
+      <!-- Panier de dates Cinéma -->
+      <div id="selectionBarCinema" class="selection-summary-bar" style="display: none;">
+        <div class="selection-info">
+          <span class="etiquette">SÉANCES CINÉMA SÉLECTIONNÉES</span>
+          <div id="selectedCinemaDatesList" class="selected-tags-container"></div>
+        </div>
+        <div class="selection-actions">
+          <button type="button" id="btnClearCinemaDates" class="btn-clear">Vider</button>
+          <a href="#formCinemaContainer" class="btn-noir btn-jump-form">Finaliser la proposition &darr;</a>
+        </div>
+      </div>
+
+      <!-- Formulaire Cinéma -->
       <section id="formCinemaContainer" class="prose-card form-container">
         <div class="form-header">
           <div class="form-pre">
             <span class="etiquette">CABINE PROJECTION &bull; FORMULAIRE EXPLOITANT</span>
-            <span class="badge-direct">TRANSMISSION DIRECTE</span>
+            <span class="badge-direct">CABINE CINÉMA</span>
           </div>
           <h2>POSER DES DATES D'INTERVENTION EN CABINE</h2>
           <p class="form-intro">
-            Réservé à mes <strong>cinémas partenaires</strong> ou exploitants de salles. Sélectionnez vos dates libres sur le planning ci-dessus et indiquez vos séances.
+            Formulaire exclusivement réservé à mes cinémas partenaires et exploitants de salles de cinéma.
           </p>
         </div>
 
         <form id="agendaFormCinema" class="styled-agenda-form">
           <div class="form-section-title">
             <span class="step-num">1</span>
-            <h3>IDENTIFICATION DU CINÉMA PARTENAIRE</h3>
+            <h3>IDENTIFICATION DE L'ÉTABLISSEMENT</h3>
           </div>
 
           <div class="form-grid-fields">
             <div class="form-field full-width">
-              <label>
-                <strong>ÉTABLISSEMENT / SALLE DE CINÉMA *</strong>
-              </label>
+              <label><strong>ÉTABLISSEMENT / SALLE DE CINÉMA *</strong></label>
               <div class="cinema-radio-group">
                 <label class="cinema-option-card">
                   <input type="radio" name="cinemaChoix" value="Cinéma Partenaire 1" id="radioCine1" checked />
@@ -371,62 +427,31 @@ const planningMois: MoisPlanning[] = [
                 <label class="cinema-option-card">
                   <input type="radio" name="cinemaChoix" value="Autre cinéma" id="radioCineAutre" />
                   <span class="option-content">
-                    <strong>🏢 Autre établissement</strong>
-                    <span class="sub">Festival / Salle indépendante</span>
+                    <strong>🏢 Autre cinéma</strong>
+                    <span class="sub">Salle / Festival</span>
                   </span>
                 </label>
               </div>
             </div>
 
             <div class="form-field">
-              <label for="structure">
-                <strong>NOM PRÉCIS DU CINÉMA OU FESTIVAL *</strong>
-              </label>
-              <input
-                type="text"
-                id="structure"
-                name="structure"
-                value="Cinéma Partenaire 1"
-                required
-              />
+              <label for="structureCine"><strong>NOM DU CINÉMA OU FESTIVAL *</strong></label>
+              <input type="text" id="structureCine" name="structureCine" value="Cinéma Partenaire 1" required />
             </div>
 
             <div class="form-field">
-              <label for="contactNom">
-                <strong>RESPONSABLE CABINE / DIRECTION *</strong>
-              </label>
-              <input
-                type="text"
-                id="contactNom"
-                name="contactNom"
-                placeholder="Ex : Philippe D."
-                required
-              />
+              <label for="contactCine"><strong>RESPONSABLE CABINE / DIRECTION *</strong></label>
+              <input type="text" id="contactCine" name="contactCine" placeholder="Ex : Philippe D." required />
             </div>
 
             <div class="form-field">
-              <label for="contactEmail">
-                <strong>EMAIL PROFESSIONNEL DU CINÉMA *</strong>
-              </label>
-              <input
-                type="email"
-                id="contactEmail"
-                name="contactEmail"
-                placeholder="Ex : cabine@cinema.fr"
-                required
-              />
+              <label for="emailCine"><strong>EMAIL PROFESSIONNEL *</strong></label>
+              <input type="email" id="emailCine" name="emailCine" placeholder="Ex : cabine@cinema.fr" required />
             </div>
 
             <div class="form-field">
-              <label for="contactTelephone">
-                <strong>TÉLÉPHONE DIRECT CABINE / RESPONSABLE</strong>
-              </label>
-              <input
-                type="tel"
-                id="contactTelephone"
-                name="contactTelephone"
-                placeholder="Ex : 02 47 XX XX XX"
-              />
+              <label for="telCine"><strong>TÉLÉPHONE DIRECT CABINE</strong></label>
+              <input type="tel" id="telCine" name="telCine" placeholder="Ex : 02 47 XX XX XX" />
             </div>
           </div>
 
@@ -438,22 +463,14 @@ const planningMois: MoisPlanning[] = [
           <div class="form-grid-fields">
             <div class="form-field full-width">
               <label for="datesCinemaInput">
-                <strong>DATE(S) RETENUE(S) POUR LA MISSION *</strong>
-                <span class="label-help">(Sélectionnées automatiquement en cliquant sur le calendrier)</span>
+                <strong>DATE(S) CABINE CHOISIE(S) *</strong>
+                <span class="label-help">(Sélectionnées automatiquement en cliquant sur le calendrier ci-dessus)</span>
               </label>
-              <input
-                type="text"
-                id="datesCinemaInput"
-                name="datesCinemaInput"
-                placeholder="Ex : 2026-11-09, 2026-11-10..."
-                required
-              />
+              <input type="text" id="datesCinemaInput" name="datesCinemaInput" placeholder="Ex : 2026-11-09, 2026-11-10..." required />
             </div>
 
             <div class="form-field">
-              <label for="typeVacation">
-                <strong>TYPE DE VACATION CABINE *</strong>
-              </label>
+              <label for="typeVacation"><strong>TYPE DE VACATION CABINE *</strong></label>
               <select id="typeVacation" name="typeVacation" required>
                 <option value="Soirée (18h00 - 23h30)">Soirée (18h00 - 23h30)</option>
                 <option value="Après-midi + Soirée (13h45 - 23h30)">Après-midi + Soirée (13h45 - 23h30)</option>
@@ -465,132 +482,247 @@ const planningMois: MoisPlanning[] = [
             </div>
 
             <div class="form-field">
-              <label for="technoCabine">
-                <strong>SYSTÈME &amp; FORMAT DE PROJECTION</strong>
-              </label>
+              <label for="technoCabine"><strong>SYSTÈME &amp; FORMAT</strong></label>
               <select id="technoCabine" name="technoCabine">
                 <option value="Numérique DCI standard (Barco/Christie)">Numérique DCI standard (Barco / Christie / Doremi)</option>
-                <option value="Numérique DCI + Événementiel (Micros HF / Conférence)">DCI + Régie Débat / Rencontre réalisateur</option>
-                <option value="Séance 35mm Argentique (Plateau / Bobines)">Séance 35mm Argentique (Montage bobines)</option>
+                <option value="Numérique DCI + Débat micro HF">DCI + Régie Débat / Rencontre réalisateur</option>
+                <option value="Séance 35mm Argentique (Plateau)">Séance 35mm Argentique (Montage bobines)</option>
                 <option value="Autre configuration cabine">Autre configuration</option>
               </select>
             </div>
 
             <div class="form-field full-width">
-              <label for="notesCabine">
-                <strong>TITRES DES FILMS OU PRÉCISIONS POUR LA CABINE</strong>
-              </label>
-              <textarea
-                id="notesCabine"
-                name="notesCabine"
-                rows="4"
-                placeholder="Précisez les films au programme, horaires d'allumage des projecteurs, livraisons KDM ou particularités techniques..."
-              ></textarea>
+              <label for="notesCabine"><strong>TITRES DES FILMS OU PARTICULARITÉS DE SÉANCE</strong></label>
+              <textarea id="notesCabine" name="notesCabine" rows="4" placeholder="Précisez les films au programme, horaires d'allumage des projecteurs, livraisons KDM ou particularités techniques..."></textarea>
             </div>
           </div>
 
           <div class="form-footer">
             <button type="submit" class="btn-noir btn-submit">
-              Valider et transmettre la proposition de dates &rarr;
+              Transmettre la proposition de dates cabine &rarr;
             </button>
             <p class="form-notice">
-              Une copie est automatiquement préparée pour votre messagerie et transmise en direct à Tom Bigot.
+              Une copie structurée est préparée pour votre messagerie et transmise immédiatement à Tom Bigot.
             </p>
           </div>
 
           <div id="confirmationBannerCinema" class="confirmation-box" style="display: none;">
-            <h3>DEMANDE DE CABINE TRANSMISE AVEC SUCCÈS</h3>
+            <h3>DEMANDE DE CABINE TRANSMISE</h3>
             <p id="confirmationMessageCinema"></p>
-            <a href="#" id="mailtoFallbackBtnCinema" class="btn-outline btn-inline">
-              Ouvrir la copie dans votre messagerie &rarr;
-            </a>
+            <a href="#" id="mailtoFallbackBtnCinema" class="btn-outline btn-inline">Ouvrir dans votre messagerie &rarr;</a>
           </div>
         </form>
       </section>
+    </div>
 
-      <!-- FORMULAIRE 2 : DRONE FPV (TOURNAGE, RENDEZ-VOUS & DEVIS) -->
-      <section id="formFpvContainer" class="prose-card form-container" style="display: none;">
+
+    <!-- ======================================================================
+         SECTION 2 : AGENDA DRONE FPV & DEVIS (Totalement autonome)
+         ====================================================================== -->
+    <div id="agenda-fpv-wrapper" class="agenda-view-wrapper" style="display: none;">
+      <!-- Console Prestations FPV -->
+      <section class="fpv-quick-access" aria-label="Services drone FPV">
+        <div class="partner-banner-label">
+          <span class="etiquette">AÉRIEN &bull; TOURNAGES &bull; DEVIS</span>
+          <strong>Demander une date de tournage ou un devis chiffré</strong>
+        </div>
+        <div class="fpv-preset-grid">
+          <button type="button" class="btn-fpv-preset" data-fpv-type="Tournage Cinématique FPV (Journée)">
+            <span class="fpv-tag">EXTÉRIEUR HAUTE VITESSE</span>
+            <strong>Poursuite &amp; Action 5"</strong>
+            <span>Pointes &gt;150 km/h &bull; Stabilisation Gyroflow</span>
+          </button>
+          <button type="button" class="btn-fpv-preset" data-fpv-type="Plan-séquence intérieur Cinewhoop">
+            <span class="fpv-tag">INTÉRIEUR SÉCURISÉ</span>
+            <strong>Cinewhoop Caréné</strong>
+            <span>Bureaux, usines, musées &bull; Hélices protégées</span>
+          </button>
+          <button type="button" class="btn-fpv-preset" data-fpv-type="Rendez-vous préparatoire / Repérage">
+            <span class="fpv-tag">PRÉPARATION</span>
+            <strong>Repérage &amp; Briefing</strong>
+            <span>Visite technique sur site &bull; Validation sécurité</span>
+          </button>
+          <button type="button" class="btn-fpv-preset" data-fpv-type="Demande de devis estimatif">
+            <span class="fpv-tag">CHIFFRAGE</span>
+            <strong>Devis sous 24h</strong>
+            <span>Estimation détaillée selon votre cahier des charges</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Légende FPV -->
+      <div class="agenda-toolbar">
+        <div class="legend-grid">
+          <div class="legend-badge">
+            <span class="legend-box box-libre"></span>
+            <div class="legend-txt">
+              <strong>DISPONIBLE TOURNAGE</strong>
+              <span>Créneau ouvert pour vos vols et repérages</span>
+            </div>
+          </div>
+          <div class="legend-badge">
+            <span class="legend-box box-fpv-tournage"></span>
+            <div class="legend-txt">
+              <strong>TOURNAGE CONFIRMÉ</strong>
+              <span>Journée réservée pour un tournage FPV</span>
+            </div>
+          </div>
+          <div class="legend-badge">
+            <span class="legend-box box-fpv-reperage"></span>
+            <div class="legend-txt">
+              <strong>REPÉRAGE TECHNIQUE</strong>
+              <span>Visite de site et validation des trajectoires</span>
+            </div>
+          </div>
+          <div class="legend-badge">
+            <span class="legend-box box-fpv-option"></span>
+            <div class="legend-txt">
+              <strong>OPTION / REPLI MÉTÉO</strong>
+              <span>Date en option pour sécurité météo</span>
+            </div>
+          </div>
+          <div class="legend-badge">
+            <span class="legend-box box-indispo"></span>
+            <div class="legend-txt">
+              <strong>INDISPONIBLE</strong>
+              <span>Créneau non disponible pour le vol</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="month-selector-bar">
+          <button type="button" id="btnPrevFpvMonth" class="btn-outline btn-month">&larr; Mois précédent</button>
+          <div class="current-month-display">
+            <span class="etiquette">PLANNING DRONE FPV</span>
+            <h2 id="fpvMonthTitle" class="month-heading">NOVEMBRE 2026</h2>
+          </div>
+          <button type="button" id="btnNextFpvMonth" class="btn-outline btn-month">Mois suivant &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Calendriers FPV -->
+      {planningFpvMois.map((mois, indexMois) => (
+        <section
+          id={`fpv-calendar-view-${indexMois}`}
+          class={`calendar-card fpv-month-view ${indexMois === 0 ? 'is-active-month' : 'is-hidden-month'}`}
+          data-month-index={indexMois}
+          data-month-name={`${mois.nom.toUpperCase()} ${mois.annee}`}
+        >
+          <div class="calendar-grid">
+            <div class="weekday-col">LUN</div>
+            <div class="weekday-col">MAR</div>
+            <div class="weekday-col">MER</div>
+            <div class="weekday-col">JEU</div>
+            <div class="weekday-col">VEN</div>
+            <div class="weekday-col">SAM</div>
+            <div class="weekday-col">DIM</div>
+
+            {Array.from({ length: mois.decalageLundi }).map((_, i) => (
+              <div class="day-cell day-empty" aria-hidden="true"></div>
+            ))}
+
+            {mois.jours.map((item) => {
+              const isLibre = item.statut === 'libre';
+              const isTournage = item.statut === 'reserve_tournage';
+              const isReperage = item.statut === 'reserve_reperage';
+              const isOptionMeteo = item.statut === 'option_meteo';
+              const isIndispo = item.statut === 'indisponible';
+
+              return (
+                <div
+                  class={`day-cell day-fpv-${item.statut} ${isLibre ? 'day-selectable day-fpv-selectable' : 'day-locked'}`}
+                  data-date={item.dateStr}
+                  data-statut={item.statut}
+                  data-label={item.label}
+                  data-detail={item.detail || ''}
+                  role={isLibre ? 'button' : 'region'}
+                  tabindex={isLibre ? '0' : '-1'}
+                >
+                  <div class="day-topline">
+                    <span class="day-number">{item.jour}</span>
+                    {isLibre && <span class="tag-libre">+ Vol</span>}
+                    {isTournage && <span class="tag-fpv-tournage">Tournage</span>}
+                    {isReperage && <span class="tag-fpv-reperage">Repérage</span>}
+                    {isOptionMeteo && <span class="tag-option">Option</span>}
+                    {isIndispo && <span class="tag-indispo">&times;</span>}
+                  </div>
+                  <div class="day-body">
+                    <div class="day-label-main">{item.label}</div>
+                    {item.detail && <div class="day-detail-txt">{item.detail}</div>}
+                  </div>
+                  {isLibre && (
+                    <div class="day-action-hint">
+                      <span>Poser pour tournage</span>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      ))}
+
+      <!-- Panier de dates FPV -->
+      <div id="selectionBarFpv" class="selection-summary-bar" style="display: none;">
+        <div class="selection-info">
+          <span class="etiquette">DATES DE TOURNAGE RETENUES</span>
+          <div id="selectedFpvDatesList" class="selected-tags-container"></div>
+        </div>
+        <div class="selection-actions">
+          <button type="button" id="btnClearFpvDates" class="btn-clear">Vider</button>
+          <a href="#formFpvContainer" class="btn-noir btn-jump-form">Finaliser le devis &darr;</a>
+        </div>
+      </div>
+
+      <!-- Formulaire FPV Devis / Tournage -->
+      <section id="formFpvContainer" class="prose-card form-container">
         <div class="form-header">
           <div class="form-pre">
-            <span class="etiquette">TOURNAGE AÉRIEN &bull; DRONE FPV</span>
-            <span class="badge-direct">DEVIS &amp; DATES EN DIRECT</span>
+            <span class="etiquette">DRONE FPV &bull; PRODUCTION &amp; TOURNAGE</span>
+            <span class="badge-direct">DEVIS &amp; DATES</span>
           </div>
-          <h2>RÉSERVER UN TOURNAGE FPV OU DEMANDER UN DEVIS</h2>
+          <h2>DEMANDE DE DEVIS &amp; RÉSERVATION DE TOURNAGE FPV</h2>
           <p class="form-intro">
-            Pour les boîtes de production, marques, organisateurs d'événements et entreprises. Choisissez une date sur le calendrier ou déposez votre demande de devis chiffré.
+            Pour les boîtes de production, marques, organisateurs d'événements et entreprises. Choisissez une date sur le calendrier ou formulez votre demande de devis.
           </p>
         </div>
 
         <form id="agendaFormFpv" class="styled-agenda-form">
           <div class="form-section-title">
             <span class="step-num">1</span>
-            <h3>COORDONNÉES DE PRODUCTION &amp; CLIENT</h3>
+            <h3>COORDONNÉES DU COMMANDITAIRE</h3>
           </div>
 
           <div class="form-grid-fields">
             <div class="form-field">
-              <label for="fpvSociete">
-                <strong>SOCIÉTÉ / AGENCE / PRODUCTION *</strong>
-              </label>
-              <input
-                type="text"
-                id="fpvSociete"
-                name="fpvSociete"
-                placeholder="Ex : Studio Prod, Agence X, Client..."
-                required
-              />
+              <label for="fpvSociete"><strong>SOCIÉTÉ / AGENCE / PRODUCTION *</strong></label>
+              <input type="text" id="fpvSociete" name="fpvSociete" placeholder="Ex : Studio Prod, Agence X..." required />
             </div>
 
             <div class="form-field">
-              <label for="fpvContactNom">
-                <strong>NOM &amp; PRÉNOM DU RESPONSABLE *</strong>
-              </label>
-              <input
-                type="text"
-                id="fpvContactNom"
-                name="fpvContactNom"
-                placeholder="Ex : Julie Laurent"
-                required
-              />
+              <label for="fpvContactNom"><strong>NOM &amp; PRÉNOM DU RESPONSABLE *</strong></label>
+              <input type="text" id="fpvContactNom" name="fpvContactNom" placeholder="Ex : Julie Laurent" required />
             </div>
 
             <div class="form-field">
-              <label for="fpvEmail">
-                <strong>EMAIL PROFESSIONNEL *</strong>
-              </label>
-              <input
-                type="email"
-                id="fpvEmail"
-                name="fpvEmail"
-                placeholder="Ex : production@studio.fr"
-                required
-              />
+              <label for="fpvEmail"><strong>EMAIL PROFESSIONNEL *</strong></label>
+              <input type="email" id="fpvEmail" name="fpvEmail" placeholder="Ex : production@studio.fr" required />
             </div>
 
             <div class="form-field">
-              <label for="fpvTelephone">
-                <strong>TÉLÉPHONE DIRECT TOURNAGE *</strong>
-              </label>
-              <input
-                type="tel"
-                id="fpvTelephone"
-                name="fpvTelephone"
-                placeholder="Ex : 06 XX XX XX XX"
-                required
-              />
+              <label for="fpvTelephone"><strong>TÉLÉPHONE DIRECT TOURNAGE *</strong></label>
+              <input type="tel" id="fpvTelephone" name="fpvTelephone" placeholder="Ex : 06 XX XX XX XX" required />
             </div>
           </div>
 
           <div class="form-section-title">
             <span class="step-num">2</span>
-            <h3>OBJET DE LA DEMANDE &amp; DATES</h3>
+            <h3>CAHIER DES CHARGES &amp; DATES DU TOURNAGE</h3>
           </div>
 
           <div class="form-grid-fields">
             <div class="form-field">
-              <label for="fpvTypeDemande">
-                <strong>TYPE D'INTERVENTION FPV SOUHAITÉE *</strong>
-              </label>
+              <label for="fpvTypeDemande"><strong>TYPE D'INTERVENTION FPV *</strong></label>
               <select id="fpvTypeDemande" name="fpvTypeDemande" required>
                 <option value="Tournage Cinématique FPV (Journée complète)">Tournage Journée complète (&gt; 6h de vol)</option>
                 <option value="Tournage Cinématique FPV (Demi-journée)">Tournage Demi-journée (&le; 4h de vol)</option>
@@ -606,62 +738,36 @@ const planningMois: MoisPlanning[] = [
                 <strong>DATE(S) ENVISAGÉE(S) OU CHOISIE(S) *</strong>
                 <span class="label-help">(Sélectionnées sur le calendrier ou à renseigner)</span>
               </label>
-              <input
-                type="text"
-                id="fpvDatesInput"
-                name="fpvDatesInput"
-                placeholder="Ex : 2026-11-23, ou période envisagée"
-                required
-              />
+              <input type="text" id="fpvDatesInput" name="fpvDatesInput" placeholder="Ex : 2026-11-23, ou période envisagée" required />
             </div>
 
             <div class="form-field">
-              <label for="fpvLieu">
-                <strong>LIEU PRÉVU DU VOL / TOURNAGE *</strong>
-              </label>
-              <input
-                type="text"
-                id="fpvLieu"
-                name="fpvLieu"
-                placeholder="Ex : Tours (37), Région Centre, Paris..."
-                required
-              />
+              <label for="fpvLieu"><strong>LIEU PRÉVU DU VOL / TOURNAGE *</strong></label>
+              <input type="text" id="fpvLieu" name="fpvLieu" placeholder="Ex : Tours (37), Région Centre, Paris..." required />
             </div>
 
             <div class="form-field">
-              <label for="fpvEnvironnement">
-                <strong>ENVIRONNEMENT DE VOL</strong>
-              </label>
+              <label for="fpvEnvironnement"><strong>ENVIRONNEMENT DE VOL</strong></label>
               <select id="fpvEnvironnement" name="fpvEnvironnement">
                 <option value="Intérieur sécurisé (ERP, Bureaux, Salle de spectacle)">Intérieur clos / ERP (Cinewhoop protégé)</option>
                 <option value="Site privé extérieur (Circuit, Domaine, Usine)">Site privé extérieur (Espace sécurisé)</option>
                 <option value="Extérieur naturel (Campagne, Forêt, Falaise)">Extérieur naturel (Grands espaces)</option>
-                <option value="Espace public / Urbain (Démarches préfectorales requises)">Zone urbaine / Espace public</option>
+                <option value="Espace public / Urbain (Démarches requises)">Zone urbaine / Espace public</option>
               </select>
             </div>
 
             <div class="form-field full-width">
-              <label for="fpvLivrables">
-                <strong>LIVRABLES SOUHAITÉS &amp; POST-PRODUCTION</strong>
-              </label>
+              <label for="fpvLivrables"><strong>LIVRABLES SOUHAITÉS &amp; POST-PRODUCTION</strong></label>
               <select id="fpvLivrables" name="fpvLivrables">
                 <option value="Rushs 4K/5K stabilisés Gyroflow (Prêt au montage)">Rushs 4K/5K stabilisés par Gyroflow (Prêt pour montage)</option>
                 <option value="Rushs bruts Flat/Log + logs gyroscopiques">Rushs bruts Log + fichiers gyro bruts (.csv)</option>
-                <option value="Prestation globale (Prise de vue + Montage + Étalonnage)">Prestation complète : tournage + montage + étalonnage</option>
+                <option value="Prestation globale (Tournage + Montage + Étalonnage)">Prestation complète : tournage + montage + étalonnage</option>
               </select>
             </div>
 
             <div class="form-field full-width">
-              <label for="fpvBrief">
-                <strong>DESCRIPTION DU PROJET &amp; BRIEFS CRÉATIFS *</strong>
-              </label>
-              <textarea
-                id="fpvBrief"
-                name="fpvBrief"
-                rows="5"
-                placeholder="Décrivez votre projet : sujet du tournage, dynamique souhaitée, contraintes d'accès, budget envisagé, délai de rendu..."
-                required
-              ></textarea>
+              <label for="fpvBrief"><strong>DESCRIPTION DU PROJET &amp; BRIEF CRÉATIF *</strong></label>
+              <textarea id="fpvBrief" name="fpvBrief" rows="5" placeholder="Décrivez votre projet : sujet du tournage, dynamique souhaitée, contraintes d'accès, budget envisagé, délai de rendu..." required></textarea>
             </div>
           </div>
 
@@ -675,36 +781,34 @@ const planningMois: MoisPlanning[] = [
           </div>
 
           <div id="confirmationBannerFpv" class="confirmation-box" style="display: none;">
-            <h3>DEMANDE FPV TRANSMISE AVEC SUCCÈS</h3>
+            <h3>DEMANDE FPV TRANSMISE</h3>
             <p id="confirmationMessageFpv"></p>
-            <a href="#" id="mailtoFallbackBtnFpv" class="btn-outline btn-inline">
-              Ouvrir la copie dans votre messagerie &rarr;
-            </a>
+            <a href="#" id="mailtoFallbackBtnFpv" class="btn-outline btn-inline">Ouvrir dans votre messagerie &rarr;</a>
           </div>
         </form>
       </section>
     </div>
 
-    <!-- Rappel des compétences cabine & FPV -->
+    <!-- Rappel des garanties des 2 agendas -->
     <section class="prose-card memo-cabine">
-      <span class="etiquette">DOUBLE EXPERTISE OPÉRATIONNELLE</span>
-      <h2>ENGAGEMENTS TECHNIQUES</h2>
+      <span class="etiquette">INDÉPENDANCE DES PLANNINGS</span>
+      <h2>ENGAGEMENTS D'EXPLOITATION &amp; TOURNAGE</h2>
       <div class="specs-grid">
         <div class="spec-box">
-          <strong>Cabine Cinéma DCI &amp; 35mm</strong>
-          <p>Disponibilité pour vos sorties nationales, remplacements d'urgence et séances de patrimoine.</p>
+          <strong>Planning Cabines Dédié</strong>
+          <p>Réservé aux 2 cinémas partenaires, avec affichage exclusif des séances, remplacements et semaines de CFA.</p>
         </div>
         <div class="spec-box">
-          <strong>Périodes CFA &amp; Apprentissage</strong>
-          <p>Calendrier transparent pour ne jamais bloquer la planification de vos plannings de projection.</p>
+          <strong>Planning FPV Indépendant</strong>
+          <p>Consacré aux tournages cinématiques, repérages techniques et chiffrage des devis de vol.</p>
         </div>
         <div class="spec-box">
-          <strong>Drones FPV sur Mesure</strong>
-          <p>Flotte cinématique 2.5", 3.5" et 5" adaptée à chaque scénario de cadrage aérien au millimètre.</p>
+          <strong>Confidentialité Totale</strong>
+          <p>Aucun croisement de données entre exploitants cinéma et productions audiovisuelles.</p>
         </div>
         <div class="spec-box">
-          <strong>Post-Production Gyroflow</strong>
-          <p>Données inertielles synchronisées pour une fluidité digne des productions cinématographiques.</p>
+          <strong>Réactivité &amp; Rigueur</strong>
+          <p>Confirmation immédiate et coordination rigoureuse pour chaque intervention sur le terrain.</p>
         </div>
       </div>
     </section>
@@ -712,233 +816,193 @@ const planningMois: MoisPlanning[] = [
 </Base>
 
 <script>
-  // État local des dates sélectionnées
-  const datesSelectionnees = new Set<string>();
+  // ==========================================================================
+  // COMMUTATION MAÎTRESSE DES AGENDAS INDÉPENDANTS
+  // ==========================================================================
+  const btnSelectCinema = document.getElementById('btnSelectCinema');
+  const btnSelectFpv = document.getElementById('btnSelectFpv');
+  const quickLinkCinema = document.getElementById('quickLinkCinema');
+  const quickLinkFpv = document.getElementById('quickLinkFpv');
+  const wrapperCinema = document.getElementById('agenda-cinema-wrapper');
+  const wrapperFpv = document.getElementById('agenda-fpv-wrapper');
 
-  // Gestion des onglets de domaine (Cinéma vs FPV)
-  const tabCinema = document.getElementById('tabBtnCinema');
-  const tabFpv = document.getElementById('tabBtnFpv');
-  const bannerCinema = document.getElementById('bannerCinema');
-  const bannerFpv = document.getElementById('bannerFpv');
-  const formCinemaContainer = document.getElementById('formCinemaContainer');
-  const formFpvContainer = document.getElementById('formFpvContainer');
+  function activerAgenda(type: 'cinema' | 'fpv') {
+    if (type === 'cinema') {
+      btnSelectCinema?.classList.add('active');
+      btnSelectCinema?.setAttribute('aria-selected', 'true');
+      btnSelectFpv?.classList.remove('active');
+      btnSelectFpv?.setAttribute('aria-selected', 'false');
 
-  let activeMode: 'cinema' | 'fpv' = 'cinema';
+      quickLinkCinema?.classList.add('active-nav-pill');
+      quickLinkFpv?.classList.remove('active-nav-pill');
 
-  function setMode(mode: 'cinema' | 'fpv') {
-    activeMode = mode;
-    if (mode === 'cinema') {
-      tabCinema?.classList.add('active');
-      tabCinema?.setAttribute('aria-selected', 'true');
-      tabFpv?.classList.remove('active');
-      tabFpv?.setAttribute('aria-selected', 'false');
-
-      if (bannerCinema) bannerCinema.style.display = 'flex';
-      if (bannerFpv) bannerFpv.style.display = 'none';
-      if (formCinemaContainer) formCinemaContainer.style.display = 'block';
-      if (formFpvContainer) formFpvContainer.style.display = 'none';
+      if (wrapperCinema) wrapperCinema.style.display = 'block';
+      if (wrapperFpv) wrapperFpv.style.display = 'none';
+      history.replaceState(null, '', '#agenda-cinema');
     } else {
-      tabFpv?.classList.add('active');
-      tabFpv?.setAttribute('aria-selected', 'true');
-      tabCinema?.classList.remove('active');
-      tabCinema?.setAttribute('aria-selected', 'false');
+      btnSelectFpv?.classList.add('active');
+      btnSelectFpv?.setAttribute('aria-selected', 'true');
+      btnSelectCinema?.classList.remove('active');
+      btnSelectCinema?.setAttribute('aria-selected', 'false');
 
-      if (bannerFpv) bannerFpv.style.display = 'flex';
-      if (bannerCinema) bannerCinema.style.display = 'none';
-      if (formFpvContainer) formFpvContainer.style.display = 'block';
-      if (formCinemaContainer) formCinemaContainer.style.display = 'none';
+      quickLinkFpv?.classList.add('active-nav-pill');
+      quickLinkCinema?.classList.remove('active-nav-pill');
+
+      if (wrapperFpv) wrapperFpv.style.display = 'block';
+      if (wrapperCinema) wrapperCinema.style.display = 'none';
+      history.replaceState(null, '', '#agenda-fpv');
     }
   }
 
-  tabCinema?.addEventListener('click', () => setMode('cinema'));
-  tabFpv?.addEventListener('click', () => setMode('fpv'));
+  btnSelectCinema?.addEventListener('click', () => activerAgenda('cinema'));
+  btnSelectFpv?.addEventListener('click', () => activerAgenda('fpv'));
+  quickLinkCinema?.addEventListener('click', (e) => {
+    e.preventDefault();
+    activerAgenda('cinema');
+  });
+  quickLinkFpv?.addEventListener('click', (e) => {
+    e.preventDefault();
+    activerAgenda('fpv');
+  });
 
-  // Détection du hash #fpv ou #cinema dans l'URL
+  // Détection du hash dans l'URL à l'arrivée
   if (window.location.hash.toLowerCase().includes('fpv')) {
-    setMode('fpv');
+    activerAgenda('fpv');
+  } else {
+    activerAgenda('cinema');
   }
 
-  // Contrôleur de mois (Novembre 2026 / Décembre 2026)
-  const viewsMois = document.querySelectorAll('.month-view');
-  const btnPrev = document.getElementById('btnPrevMonth') as HTMLButtonElement | null;
-  const btnNext = document.getElementById('btnNextMonth') as HTMLButtonElement | null;
-  const activeMonthTitle = document.getElementById('activeMonthTitle');
+  // ==========================================================================
+  // GESTION INDÉPENDANTE DE L'AGENDA CINÉMA
+  // ==========================================================================
+  const cinemaDatesSelectionnees = new Set<string>();
+  const cinemaMonthViews = document.querySelectorAll('.cinema-month-view');
+  const btnPrevCinemaMonth = document.getElementById('btnPrevCinemaMonth') as HTMLButtonElement | null;
+  const btnNextCinemaMonth = document.getElementById('btnNextCinemaMonth') as HTMLButtonElement | null;
+  const cinemaMonthTitle = document.getElementById('cinemaMonthTitle');
+  let activeCinemaMonth = 0;
 
-  let activeIndex = 0;
-  const totalMois = viewsMois.length;
-
-  function afficherMois(index: number) {
-    viewsMois.forEach((view, i) => {
-      if (i === index) {
+  function afficherMoisCinema(idx: number) {
+    cinemaMonthViews.forEach((view, i) => {
+      if (i === idx) {
         view.classList.remove('is-hidden-month');
         view.classList.add('is-active-month');
-        const monthName = view.getAttribute('data-month-name');
-        if (activeMonthTitle && monthName) {
-          activeMonthTitle.textContent = monthName;
-        }
+        const name = view.getAttribute('data-month-name');
+        if (cinemaMonthTitle && name) cinemaMonthTitle.textContent = name;
       } else {
         view.classList.add('is-hidden-month');
         view.classList.remove('is-active-month');
       }
     });
-
-    if (btnPrev) btnPrev.disabled = index === 0;
-    if (btnNext) btnNext.disabled = index === totalMois - 1;
+    if (btnPrevCinemaMonth) btnPrevCinemaMonth.disabled = idx === 0;
+    if (btnNextCinemaMonth) btnNextCinemaMonth.disabled = idx === cinemaMonthViews.length - 1;
   }
 
-  if (btnPrev && btnNext) {
-    afficherMois(activeIndex);
-    btnPrev.addEventListener('click', () => {
-      if (activeIndex > 0) {
-        activeIndex--;
-        afficherMois(activeIndex);
+  if (btnPrevCinemaMonth && btnNextCinemaMonth) {
+    afficherMoisCinema(0);
+    btnPrevCinemaMonth.addEventListener('click', () => {
+      if (activeCinemaMonth > 0) {
+        activeCinemaMonth--;
+        afficherMoisCinema(activeCinemaMonth);
       }
     });
-    btnNext.addEventListener('click', () => {
-      if (activeIndex < totalMois - 1) {
-        activeIndex++;
-        afficherMois(activeIndex);
+    btnNextCinemaMonth.addEventListener('click', () => {
+      if (activeCinemaMonth < cinemaMonthViews.length - 1) {
+        activeCinemaMonth++;
+        afficherMoisCinema(activeCinemaMonth);
       }
     });
   }
 
-  // Presets pour les cinémas
-  const btnPresetCine = document.querySelectorAll('[data-preset-cine]');
-  const inputStructure = document.getElementById('structure') as HTMLInputElement | null;
-  const radioCine1 = document.getElementById('radioCine1') as HTMLInputElement | null;
-  const radioCine2 = document.getElementById('radioCine2') as HTMLInputElement | null;
-
-  btnPresetCine.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      setMode('cinema');
-      const preset = btn.getAttribute('data-preset-cine');
-      if (preset === 'cine1') {
-        if (radioCine1) radioCine1.checked = true;
-        if (inputStructure) inputStructure.value = 'Cinéma Partenaire 1';
-      } else if (preset === 'cine2') {
-        if (radioCine2) radioCine2.checked = true;
-        if (inputStructure) inputStructure.value = 'Cinéma Partenaire 2';
-      }
-      btnPresetCine.forEach((b) => b.classList.remove('active-preset'));
-      btn.classList.add('active-preset');
-
-      const toolbar = document.querySelector('.agenda-toolbar');
-      toolbar?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
-
-  // Presets pour FPV
-  const btnFpvPreset = document.querySelectorAll('[data-fpv-type]');
-  const selectFpvType = document.getElementById('fpvTypeDemande') as HTMLSelectElement | null;
-
-  btnFpvPreset.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      setMode('fpv');
-      const val = btn.getAttribute('data-fpv-type');
-      if (selectFpvType && val) {
-        selectFpvType.value = val;
-      }
-      const toolbar = document.querySelector('.agenda-toolbar');
-      toolbar?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
-
-  // Sélection dynamique des dates sur le calendrier
-  const dayCells = document.querySelectorAll('.day-cell');
-  const selectionBar = document.getElementById('selectionBar');
-  const selectedDatesList = document.getElementById('selectedDatesList');
-  const btnClearSelection = document.getElementById('btnClearSelection');
+  // Clic sur les cellules Cinéma
+  const selectionBarCinema = document.getElementById('selectionBarCinema');
+  const selectedCinemaDatesList = document.getElementById('selectedCinemaDatesList');
+  const btnClearCinemaDates = document.getElementById('btnClearCinemaDates');
   const inputDatesCinema = document.getElementById('datesCinemaInput') as HTMLInputElement | null;
-  const inputDatesFpv = document.getElementById('fpvDatesInput') as HTMLInputElement | null;
 
-  function actualiserAffichageSelection() {
-    if (!selectionBar || !selectedDatesList) return;
+  function majSelectionCinema() {
+    if (!selectionBarCinema || !selectedCinemaDatesList || !inputDatesCinema) return;
+    selectedCinemaDatesList.innerHTML = '';
 
-    selectedDatesList.innerHTML = '';
-
-    if (datesSelectionnees.size === 0) {
-      selectionBar.style.display = 'none';
-      if (inputDatesCinema) inputDatesCinema.value = '';
-      if (inputDatesFpv) inputDatesFpv.value = '';
+    if (cinemaDatesSelectionnees.size === 0) {
+      selectionBarCinema.style.display = 'none';
+      inputDatesCinema.value = '';
       return;
     }
 
-    selectionBar.style.display = 'flex';
-    const datesTriees = Array.from(datesSelectionnees).sort();
-    const strDates = datesTriees.join(', ');
+    selectionBarCinema.style.display = 'flex';
+    const tri = Array.from(cinemaDatesSelectionnees).sort();
+    inputDatesCinema.value = tri.join(', ');
 
-    if (inputDatesCinema) inputDatesCinema.value = strDates;
-    if (inputDatesFpv) inputDatesFpv.value = strDates;
-
-    datesTriees.forEach((date) => {
+    tri.forEach((date) => {
       const pill = document.createElement('span');
       pill.className = 'date-pill-selected';
-      pill.innerHTML = `<strong>${date}</strong> <button type="button" aria-label="Supprimer ${date}">&times;</button>`;
-
-      const btnRemove = pill.querySelector('button');
-      btnRemove?.addEventListener('click', (ev) => {
+      pill.innerHTML = `<strong>${date}</strong> <button type="button">&times;</button>`;
+      pill.querySelector('button')?.addEventListener('click', (ev) => {
         ev.stopPropagation();
-        retirerDate(date);
+        cinemaDatesSelectionnees.delete(date);
+        document.querySelectorAll(`.day-cine-selectable[data-date="${date}"]`).forEach((c) => c.classList.remove('day-selected'));
+        majSelectionCinema();
       });
-
-      selectedDatesList.appendChild(pill);
+      selectedCinemaDatesList.appendChild(pill);
     });
   }
 
-  function ajouterDate(date: string) {
-    datesSelectionnees.add(date);
-    document.querySelectorAll(`.day-cell[data-date="${date}"]`).forEach((cell) => {
-      cell.classList.add('day-selected');
-    });
-    actualiserAffichageSelection();
-  }
-
-  function retirerDate(date: string) {
-    datesSelectionnees.delete(date);
-    document.querySelectorAll(`.day-cell[data-date="${date}"]`).forEach((cell) => {
-      cell.classList.remove('day-selected');
-    });
-    actualiserAffichageSelection();
-  }
-
-  dayCells.forEach((cell) => {
+  document.querySelectorAll('.day-cine-selectable').forEach((cell) => {
     cell.addEventListener('click', () => {
       const date = cell.getAttribute('data-date');
       const statut = cell.getAttribute('data-statut');
-      const label = cell.getAttribute('data-label') || '';
       const detail = cell.getAttribute('data-detail') || '';
-
       if (!date) return;
 
       if (statut === 'formation') {
-        alert(
-          `Date indisponible :\n\nTom est en CFA / Formation projectionniste le ${date} (${detail || 'Apprentissage'}).\nCette date ne peut pas accueillir de vacation cinéma ni de tournage FPV.`
-        );
+        alert(`Journée indisponible :\n\nTom est en CFA / Formation projectionniste le ${date} (${detail || 'Apprentissage'}).\nCette date ne peut pas faire l'objet d'une vacation.`);
         return;
       }
-
       if (statut === 'reserve_cine1' || statut === 'reserve_cine2') {
-        alert(
-          `Date déjà réservée :\n\nTom est déjà programmé pour une séance cabine le ${date} (${label} — ${detail}).\nMerci de choisir une date libre.`
-        );
+        alert(`Date déjà réservée :\n\nTom est déjà programmé pour une séance cabine le ${date} (${detail}).`);
         return;
       }
 
-      if (datesSelectionnees.has(date)) {
-        retirerDate(date);
+      if (cinemaDatesSelectionnees.has(date)) {
+        cinemaDatesSelectionnees.delete(date);
+        cell.classList.remove('day-selected');
       } else {
-        ajouterDate(date);
+        cinemaDatesSelectionnees.add(date);
+        cell.classList.add('day-selected');
       }
+      majSelectionCinema();
     });
   });
 
-  btnClearSelection?.addEventListener('click', () => {
-    datesSelectionnees.clear();
-    document.querySelectorAll('.day-selected').forEach((c) => c.classList.remove('day-selected'));
-    actualiserAffichageSelection();
+  btnClearCinemaDates?.addEventListener('click', () => {
+    cinemaDatesSelectionnees.clear();
+    document.querySelectorAll('.day-cine-selectable').forEach((c) => c.classList.remove('day-selected'));
+    majSelectionCinema();
   });
 
-  // Soumission Formulaire Cinéma
+  // Presets Cinéma 1 / Cinéma 2
+  const inputStructureCine = document.getElementById('structureCine') as HTMLInputElement | null;
+  const radioCine1 = document.getElementById('radioCine1') as HTMLInputElement | null;
+  const radioCine2 = document.getElementById('radioCine2') as HTMLInputElement | null;
+
+  document.querySelectorAll('[data-preset-cine]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const preset = btn.getAttribute('data-preset-cine');
+      if (preset === 'cine1' && radioCine1 && inputStructureCine) {
+        radioCine1.checked = true;
+        inputStructureCine.value = 'Cinéma Partenaire 1';
+      } else if (preset === 'cine2' && radioCine2 && inputStructureCine) {
+        radioCine2.checked = true;
+        inputStructureCine.value = 'Cinéma Partenaire 2';
+      }
+      document.querySelectorAll('[data-preset-cine]').forEach((b) => b.classList.remove('active-preset'));
+      btn.classList.add('active-preset');
+      document.getElementById('agenda-cinema-wrapper')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Soumission formulaire Cinéma
   const formCinema = document.getElementById('agendaFormCinema') as HTMLFormElement | null;
   const confCinema = document.getElementById('confirmationBannerCinema');
   const confMsgCinema = document.getElementById('confirmationMessageCinema');
@@ -947,41 +1011,161 @@ const planningMois: MoisPlanning[] = [
   formCinema?.addEventListener('submit', (e) => {
     e.preventDefault();
     const data = new FormData(formCinema);
-    const structure = (data.get('structure') as string) || 'Cinéma';
-    const contact = (data.get('contactNom') as string) || '';
-    const email = (data.get('contactEmail') as string) || '';
-    const tel = (data.get('contactTelephone') as string) || 'Non renseigné';
+    const struct = (data.get('structureCine') as string) || 'Cinéma';
+    const contact = (data.get('contactCine') as string) || '';
+    const email = (data.get('emailCine') as string) || '';
+    const tel = (data.get('telCine') as string) || 'Non renseigné';
     const dates = (data.get('datesCinemaInput') as string) || 'Non spécifiées';
     const vacation = (data.get('typeVacation') as string) || '';
     const techno = (data.get('technoCabine') as string) || '';
     const notes = (data.get('notesCabine') as string) || 'Aucune';
 
-    const sujet = encodeURIComponent(`[CABINE CINÉMA] Proposition de dates — ${structure} (${dates})`);
+    const sujet = encodeURIComponent(`[CABINE CINÉMA] Proposition de dates — ${struct} (${dates})`);
     const corps = encodeURIComponent(
-      `Bonjour Tom,\n\nUne demande d'intervention cabine vient d'être posée via ton agenda :\n\n` +
-      `• Établissement : ${structure}\n` +
-      `• Contact responsable : ${contact}\n` +
+      `Bonjour Tom,\n\nUne demande d'intervention cabine vient d'être posée via l'agenda Cinéma indépendant :\n\n` +
+      `• Établissement : ${struct}\n` +
+      `• Responsable cabine : ${contact}\n` +
       `• Email : ${email}\n` +
-      `• Téléphone cabine : ${tel}\n` +
-      `• Date(s) demandée(s) : ${dates}\n` +
-      `• Vacation : ${vacation}\n` +
-      `• Système : ${techno}\n\n` +
+      `• Téléphone direct : ${tel}\n` +
+      `• Date(s) cabine : ${dates}\n` +
+      `• Vacation demandée : ${vacation}\n` +
+      `• Configuration : ${techno}\n\n` +
       `Titres des films & Notes d'exploitation :\n${notes}\n\n` +
-      `---\nTransmis depuis tom-bigot.fr`
+      `---\nTransmis depuis l'agenda Cinéma tom-bigot.fr`
     );
 
     const mailtoUrl = `mailto:contact@tom-bigot.fr?subject=${sujet}&body=${corps}`;
 
     if (confCinema && confMsgCinema) {
       confCinema.style.display = 'block';
-      confMsgCinema.textContent = `Votre demande pour le "${structure}" sur les dates (${dates}) a été enregistrée. Une copie directe a été transmise.`;
+      confMsgCinema.textContent = `Votre demande pour le "${struct}" sur les dates (${dates}) a été transmise.`;
       if (mailtoBtnCinema) mailtoBtnCinema.href = mailtoUrl;
       confCinema.scrollIntoView({ behavior: 'smooth' });
     }
     window.location.href = mailtoUrl;
   });
 
-  // Soumission Formulaire FPV
+
+  // ==========================================================================
+  // GESTION INDÉPENDANTE DE L'AGENDA DRONE FPV
+  // ==========================================================================
+  const fpvDatesSelectionnees = new Set<string>();
+  const fpvMonthViews = document.querySelectorAll('.fpv-month-view');
+  const btnPrevFpvMonth = document.getElementById('btnPrevFpvMonth') as HTMLButtonElement | null;
+  const btnNextFpvMonth = document.getElementById('btnNextFpvMonth') as HTMLButtonElement | null;
+  const fpvMonthTitle = document.getElementById('fpvMonthTitle');
+  let activeFpvMonth = 0;
+
+  function afficherMoisFpv(idx: number) {
+    fpvMonthViews.forEach((view, i) => {
+      if (i === idx) {
+        view.classList.remove('is-hidden-month');
+        view.classList.add('is-active-month');
+        const name = view.getAttribute('data-month-name');
+        if (fpvMonthTitle && name) fpvMonthTitle.textContent = name;
+      } else {
+        view.classList.add('is-hidden-month');
+        view.classList.remove('is-active-month');
+      }
+    });
+    if (btnPrevFpvMonth) btnPrevFpvMonth.disabled = idx === 0;
+    if (btnNextFpvMonth) btnNextFpvMonth.disabled = idx === fpvMonthViews.length - 1;
+  }
+
+  if (btnPrevFpvMonth && btnNextFpvMonth) {
+    afficherMoisFpv(0);
+    btnPrevFpvMonth.addEventListener('click', () => {
+      if (activeFpvMonth > 0) {
+        activeFpvMonth--;
+        afficherMoisFpv(activeFpvMonth);
+      }
+    });
+    btnNextFpvMonth.addEventListener('click', () => {
+      if (activeFpvMonth < fpvMonthViews.length - 1) {
+        activeFpvMonth++;
+        afficherMoisFpv(activeFpvMonth);
+      }
+    });
+  }
+
+  // Clic sur les cellules FPV
+  const selectionBarFpv = document.getElementById('selectionBarFpv');
+  const selectedFpvDatesList = document.getElementById('selectedFpvDatesList');
+  const btnClearFpvDates = document.getElementById('btnClearFpvDates');
+  const inputDatesFpv = document.getElementById('fpvDatesInput') as HTMLInputElement | null;
+
+  function majSelectionFpv() {
+    if (!selectionBarFpv || !selectedFpvDatesList || !inputDatesFpv) return;
+    selectedFpvDatesList.innerHTML = '';
+
+    if (fpvDatesSelectionnees.size === 0) {
+      selectionBarFpv.style.display = 'none';
+      inputDatesFpv.value = '';
+      return;
+    }
+
+    selectionBarFpv.style.display = 'flex';
+    const tri = Array.from(fpvDatesSelectionnees).sort();
+    inputDatesFpv.value = tri.join(', ');
+
+    tri.forEach((date) => {
+      const pill = document.createElement('span');
+      pill.className = 'date-pill-selected';
+      pill.innerHTML = `<strong>${date}</strong> <button type="button">&times;</button>`;
+      pill.querySelector('button')?.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        fpvDatesSelectionnees.delete(date);
+        document.querySelectorAll(`.day-fpv-selectable[data-date="${date}"]`).forEach((c) => c.classList.remove('day-selected'));
+        majSelectionFpv();
+      });
+      selectedFpvDatesList.appendChild(pill);
+    });
+  }
+
+  document.querySelectorAll('.day-fpv-selectable').forEach((cell) => {
+    cell.addEventListener('click', () => {
+      const date = cell.getAttribute('data-date');
+      const statut = cell.getAttribute('data-statut');
+      const detail = cell.getAttribute('data-detail') || '';
+      if (!date) return;
+
+      if (statut === 'indisponible') {
+        alert(`Date non disponible :\n\nTom n'est pas disponible pour une session de vol FPV le ${date} (${detail || 'Autre créneau'}).`);
+        return;
+      }
+      if (statut === 'reserve_tournage') {
+        alert(`Date mobilisée :\n\nUn tournage FPV est déjà confirmé le ${date} (${detail}).`);
+        return;
+      }
+
+      if (fpvDatesSelectionnees.has(date)) {
+        fpvDatesSelectionnees.delete(date);
+        cell.classList.remove('day-selected');
+      } else {
+        fpvDatesSelectionnees.add(date);
+        cell.classList.add('day-selected');
+      }
+      majSelectionFpv();
+    });
+  });
+
+  btnClearFpvDates?.addEventListener('click', () => {
+    fpvDatesSelectionnees.clear();
+    document.querySelectorAll('.day-fpv-selectable').forEach((c) => c.classList.remove('day-selected'));
+    majSelectionFpv();
+  });
+
+  // Presets FPV
+  const selectFpvType = document.getElementById('fpvTypeDemande') as HTMLSelectElement | null;
+  document.querySelectorAll('[data-fpv-type]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const val = btn.getAttribute('data-fpv-type');
+      if (selectFpvType && val) selectFpvType.value = val;
+      document.getElementById('formFpvContainer')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Soumission formulaire FPV
   const formFpv = document.getElementById('agendaFormFpv') as HTMLFormElement | null;
   const confFpv = document.getElementById('confirmationBannerFpv');
   const confMsgFpv = document.getElementById('confirmationMessageFpv');
@@ -1003,26 +1187,26 @@ const planningMois: MoisPlanning[] = [
 
     const sujet = encodeURIComponent(`[DRONE FPV - ${typeDemande.toUpperCase()}] ${societe} (${dates})`);
     const corps = encodeURIComponent(
-      `Bonjour Tom,\n\nUne nouvelle demande pour une prestation Drone FPV vient d'être formulée via ton agenda en ligne :\n\n` +
-      `• Structure / Production : ${societe}\n` +
+      `Bonjour Tom,\n\nUne nouvelle demande pour une prestation Drone FPV vient d'être formulée via l'agenda FPV indépendant :\n\n` +
+      `• Commanditaire / Boîte de prod : ${societe}\n` +
       `• Contact : ${contact}\n` +
       `• Email : ${email}\n` +
       `• Téléphone : ${tel}\n\n` +
-      `DÉTAILS DU PROJET :\n` +
-      `• Type de demande : ${typeDemande}\n` +
+      `CAHIER DES CHARGES DU VOL :\n` +
+      `• Prestation : ${typeDemande}\n` +
       `• Date(s) souhaitée(s) : ${dates}\n` +
-      `• Lieu du tournage / vol : ${lieu}\n` +
+      `• Lieu du vol : ${lieu}\n` +
       `• Environnement : ${env}\n` +
       `• Livrables vidéo : ${livrables}\n\n` +
-      `Brief créatif & Précisions :\n${brief}\n\n` +
-      `---\nTransmis depuis l'agenda tom-bigot.fr`
+      `Briefing créatif :\n${brief}\n\n` +
+      `---\nTransmis depuis l'agenda Drone FPV tom-bigot.fr`
     );
 
     const mailtoUrl = `mailto:contact@tom-bigot.fr?subject=${sujet}&body=${corps}`;
 
     if (confFpv && confMsgFpv) {
       confFpv.style.display = 'block';
-      confMsgFpv.textContent = `Votre demande pour "${societe}" (${typeDemande}) a été enregistrée. Une copie a été préparée pour votre messagerie et transmise à Tom.`;
+      confMsgFpv.textContent = `Votre demande pour "${societe}" (${typeDemande}) a été transmise.`;
       if (mailtoBtnFpv) mailtoBtnFpv.href = mailtoUrl;
       confFpv.scrollIntoView({ behavior: 'smooth' });
     }
@@ -1038,8 +1222,8 @@ const planningMois: MoisPlanning[] = [
   }
 
   .agenda-header {
-    margin-bottom: 28px;
-    padding-bottom: 24px;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
     border-bottom: 2px dashed var(--dash);
   }
 
@@ -1052,15 +1236,15 @@ const planningMois: MoisPlanning[] = [
     margin-bottom: 12px;
   }
 
-  .pill-accent {
-    background: var(--ink);
-    color: var(--paper);
-    border-color: var(--ink);
+  .agenda-switch-pills {
+    display: flex;
+    gap: 8px;
   }
 
-  .pill-accent:hover {
-    background: var(--paper);
-    color: var(--ink);
+  .active-nav-pill {
+    background: #000000;
+    color: #ffffff;
+    border-color: #000000;
   }
 
   .page-title {
@@ -1074,31 +1258,28 @@ const planningMois: MoisPlanning[] = [
   .page-subtitle {
     font: 400 16.5px/1.55 var(--font);
     color: rgba(0, 0, 0, 0.75);
-    max-width: 820px;
+    max-width: 860px;
     margin: 0;
   }
 
-  /* Commutateur de Domaine (Onglets Cinéma vs FPV) */
-  .domain-tabs-container {
-    margin-bottom: 20px;
-  }
-
-  .domain-tabs {
+  /* Master Switcher */
+  .agenda-master-selector {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 16px;
+    margin-bottom: 32px;
   }
 
-  @media (max-width: 640px) {
-    .domain-tabs {
+  @media (max-width: 720px) {
+    .agenda-master-selector {
       grid-template-columns: 1fr;
     }
   }
 
-  .domain-tab {
+  .agenda-master-tab {
     background: #ffffff;
     border: 2px dashed var(--dash);
-    padding: 16px 20px;
+    padding: 18px 20px;
     display: flex;
     align-items: center;
     gap: 14px;
@@ -1107,40 +1288,47 @@ const planningMois: MoisPlanning[] = [
     transition: all 0.2s ease;
   }
 
-  .domain-tab:hover {
+  .agenda-master-tab:hover {
     border-color: #000000;
+    transform: translateY(-2px);
   }
 
-  .domain-tab.active {
-    border: 2px solid #000000;
+  .agenda-master-tab.active {
     background: #000000;
     color: #ffffff;
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
+    border: 2px solid #000000;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.3);
   }
 
-  .tab-icon {
-    font-size: 28px;
+  .master-tab-icon {
+    font-size: 32px;
     line-height: 1;
   }
 
-  .tab-label {
+  .master-tab-text {
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 3px;
   }
 
-  .tab-label strong {
-    font: 800 14px var(--font);
-    letter-spacing: 0.08em;
+  .master-tab-text strong {
+    font: 800 15px var(--font);
+    letter-spacing: 0.06em;
     text-transform: uppercase;
   }
 
-  .tab-label span {
-    font: 400 11.5px var(--font);
+  .master-tab-text span {
+    font: 400 12px var(--font);
     opacity: 0.8;
   }
 
-  /* Console Cinéma Partenaires */
+  .master-tab-arrow {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  /* Console Partenaires & FPV Presets */
   .partner-quick-access,
   .fpv-quick-access {
     background: #fafafa;
@@ -1220,7 +1408,6 @@ const planningMois: MoisPlanning[] = [
     color: rgba(0, 0, 0, 0.65);
   }
 
-  /* Console FPV Presets */
   .fpv-preset-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -1264,7 +1451,7 @@ const planningMois: MoisPlanning[] = [
     color: rgba(0, 0, 0, 0.7);
   }
 
-  /* Toolbar de l'agenda */
+  /* Toolbar & Légende */
   .agenda-toolbar {
     background: var(--paper);
     border: 2px dashed var(--dash);
@@ -1277,7 +1464,7 @@ const planningMois: MoisPlanning[] = [
 
   .legend-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
     gap: 12px;
     padding-bottom: 16px;
     border-bottom: 1px dashed rgba(0, 0, 0, 0.2);
@@ -1326,6 +1513,25 @@ const planningMois: MoisPlanning[] = [
     border: 1px dashed #000000;
   }
 
+  .box-fpv-tournage {
+    background: #000000;
+    border: 2px solid #000000;
+  }
+
+  .box-fpv-reperage {
+    background: #444444;
+  }
+
+  .box-fpv-option {
+    background: #e0e0e0;
+    border: 1px dashed #000000;
+  }
+
+  .box-indispo {
+    background: #f0f0f0;
+    border: 1px solid #999999;
+  }
+
   .legend-txt {
     display: flex;
     flex-direction: column;
@@ -1344,7 +1550,7 @@ const planningMois: MoisPlanning[] = [
     color: rgba(0, 0, 0, 0.6);
   }
 
-  /* Barre de sélection de mois */
+  /* Barre Mois */
   .month-selector-bar {
     display: flex;
     justify-content: space-between;
@@ -1378,7 +1584,7 @@ const planningMois: MoisPlanning[] = [
     cursor: not-allowed;
   }
 
-  /* Calendrier Grille */
+  /* Grille Calendrier */
   .calendar-card {
     background: var(--paper);
     border: 2px dashed var(--dash);
@@ -1458,8 +1664,6 @@ const planningMois: MoisPlanning[] = [
 
   .tag-cine1 {
     font: 700 9px var(--font);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
     background: #000000;
     color: #ffffff;
     padding: 2px 5px;
@@ -1467,20 +1671,35 @@ const planningMois: MoisPlanning[] = [
 
   .tag-cine2 {
     font: 700 9px var(--font);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
     background: #666666;
+    color: #ffffff;
+    padding: 2px 5px;
+  }
+
+  .tag-fpv-tournage {
+    font: 700 9px var(--font);
+    background: #000000;
+    color: #ffffff;
+    padding: 2px 5px;
+  }
+
+  .tag-fpv-reperage {
+    font: 700 9px var(--font);
+    background: #444444;
     color: #ffffff;
     padding: 2px 5px;
   }
 
   .tag-option {
     font: 700 9px var(--font);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
     background: #eeeeee;
     color: #333333;
     padding: 2px 5px;
+  }
+
+  .tag-indispo {
+    font: 700 11px var(--font);
+    color: #999999;
   }
 
   .day-body {
@@ -1512,13 +1731,13 @@ const planningMois: MoisPlanning[] = [
   }
 
   /* Variations par statut */
-  .day-libre {
+  .day-selectable {
     border: 1.5px solid #000000;
     background: #ffffff;
     cursor: pointer;
   }
 
-  .day-libre:hover {
+  .day-selectable:hover {
     transform: translateY(-2px);
     box-shadow: 2px 2px 0 #000000;
   }
@@ -1542,7 +1761,7 @@ const planningMois: MoisPlanning[] = [
     color: #000000;
   }
 
-  .day-formation {
+  .day-cine-formation {
     background: repeating-linear-gradient(
       -45deg,
       #f5f5f5,
@@ -1552,32 +1771,39 @@ const planningMois: MoisPlanning[] = [
     );
     border: 1px solid #bbbbbb;
     cursor: not-allowed;
-    opacity: 0.9;
   }
 
-  .day-formation .day-label-main {
-    color: #222222;
-  }
-
-  .day-reserve_cine1 {
+  .day-cine-reserve_cine1 {
     background: #f4f4f4;
     border-left: 4px solid #000000;
     cursor: not-allowed;
   }
 
-  .day-reserve_cine2 {
+  .day-cine-reserve_cine2 {
     background: #f7f7f7;
     border-left: 4px solid #666666;
     cursor: not-allowed;
   }
 
-  .day-option {
-    background: #fafafa;
-    border: 1px dashed #888888;
-    cursor: pointer;
+  .day-fpv-reserve_tournage {
+    background: #f4f4f4;
+    border-left: 4px solid #000000;
+    cursor: not-allowed;
   }
 
-  /* Barre de sélection flottante / visible */
+  .day-fpv-reserve_reperage {
+    background: #f7f7f7;
+    border-left: 4px solid #444444;
+    cursor: not-allowed;
+  }
+
+  .day-fpv-indisponible {
+    background: #fafafa;
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  /* Panier de sélection */
   .selection-summary-bar {
     background: #000000;
     color: #ffffff;
@@ -1644,10 +1870,6 @@ const planningMois: MoisPlanning[] = [
     letter-spacing: 0.1em;
     text-transform: uppercase;
     cursor: pointer;
-  }
-
-  .btn-clear:hover {
-    border-color: #ffffff;
   }
 
   .btn-jump-form {
@@ -1731,7 +1953,6 @@ const planningMois: MoisPlanning[] = [
     color: #000000;
   }
 
-  /* Cartes de choix cinéma */
   .cinema-radio-group {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
