@@ -378,40 +378,40 @@ const bandeauxProjets = [
 
 const periodesLigneDuTemps = [
   {
-    id: '2025',
-    label: '2025',
-    sousLabel: 'Genèse locale',
-    resume: 'Démarrage du premier projet tourangeau. Un unique ruban actif.',
-  },
-  {
-    id: 'debut-2026',
-    label: 'Début 2026',
-    sousLabel: 'Lancement des chantiers',
-    resume: 'Éclosion simultanée des projets hardware, systèmes et outils : les rubans s\'ajoutent.',
-  },
-  {
-    id: 'fevrier-2026',
-    label: 'Fév. 2026',
-    sousLabel: 'Accélérations & pauses en fente',
-    resume: 'Premiers bancs d\'essai, télémétrie 32 kHz et premières plongées de rubans en fente R&D.',
-  },
-  {
-    id: 'mars-2026',
-    label: 'Mars 2026',
-    sousLabel: 'Sorties de fente & chantiers sous terre',
-    resume: 'Sorties de fente avec roulage autonome, tandis que d\'autres rubans restent masqués en pause.',
+    id: 'aujourdhui',
+    label: 'Aujourd\'hui',
+    sousLabel: 'Statuts opérationnels',
+    resume: 'L\'ensemble des bandeaux affichent leur statut actuel avec accès directs.',
   },
   {
     id: 'avril-2026',
     label: 'Avril 2026',
     sousLabel: 'Reprises & validations',
-    resume: 'Reprises des chantiers techniques et pauses documentaires.',
+    resume: 'Reprises des chantiers techniques et optimisations finales.',
   },
   {
-    id: 'aujourdhui',
-    label: 'Aujourd\'hui',
-    sousLabel: 'Statuts opérationnels',
-    resume: 'L\'ensemble des bandeaux atteignent leur statut avec découpe en pointe de fanion et accès directs.',
+    id: 'mars-2026',
+    label: 'Mars 2026',
+    sousLabel: 'Sorties de fente & chantiers sous terre',
+    resume: 'Sorties de fente avec roulage autonome, et pauses R&D.',
+  },
+  {
+    id: 'fevrier-2026',
+    label: 'Fév. 2026',
+    sousLabel: 'Accélérations & bancs de test',
+    resume: 'Premiers bancs d\'essai, télémétrie 32 kHz et premières fentes R&D.',
+  },
+  {
+    id: 'debut-2026',
+    label: 'Début 2026',
+    sousLabel: 'Lancement des chantiers',
+    resume: 'Genèse et éclosion simultanée de 9 projets hardware, systèmes et outils.',
+  },
+  {
+    id: '2025',
+    label: '2025',
+    sousLabel: 'Genèse locale',
+    resume: 'Démarrage du projet Les Tourangeaux. Fondation du premier ruban.',
   },
 ];
 
@@ -874,39 +874,39 @@ const rubansProjets = [
         ))}
       </aside>
 
-      <!-- Les 10 couloirs parallèles de rubans : BANDES FINES AVEC JUSTE LES LOGOS EN TÊTE -->
+      <!-- Les 10 couloirs parallèles de rubans : BANDES FINES, RÉCENT EN HAUT & ANCIEN VERS LE BAS -->
       <div class="timeline-parallel-tracks">
         {rubansProjets.map((p, idx) => {
           const isLeftTooltip = idx < 3;
           const isRightTooltip = idx > 6;
           const tooltipPosClass = isLeftTooltip ? 'tip-left' : isRightTooltip ? 'tip-right' : 'tip-center';
+          const isTourangeaux = p.id === 'lestourangeaux';
 
           return (
             <div class="timeline-lane" id={`lane-${p.id}`}>
               {periodesLigneDuTemps.map((periode) => {
                 const seg = p.segments[periode.id] || { etat: 'vide' };
-                const isVide = seg.etat === 'vide';
+                const isAujourdhui = periode.id === 'aujourdhui';
+                const is2025 = periode.id === '2025';
+                const isDebut2026 = periode.id === 'debut-2026';
+
+                // Détermination de la fin de course (Genèse) :
+                // Les Tourangeaux se termine en 2025, les 9 autres se terminent en Début 2026
+                const isGenesisCut = is2025 ? isTourangeaux : isDebut2026 ? !isTourangeaux : false;
+                const isBlank = is2025 && !isTourangeaux;
+                const isPauseSlit = seg.etat === 'fente_pause' || seg.etat === 'sortie_phase' || seg.etat === 'sortie_temps_fort';
+                const isStar = seg.etat === 'temps_fort';
                 const isEnPause = seg.etat === 'en_pause';
-                const isDebut = seg.etat === 'debut';
-                const isActif = seg.etat === 'actif';
-                const isTempsFort = seg.etat === 'temps_fort';
-                const isFentePause = seg.etat === 'fente_pause';
-                const isSortiePhase = seg.etat === 'sortie_phase';
-                const isSortieTempsFort = seg.etat === 'sortie_temps_fort';
-                const isSortieStatut = seg.etat === 'sortie_statut';
-                const isStatut = seg.etat === 'statut';
-                const isTerminal = isStatut || isSortieStatut;
-                const isEmerging = isSortiePhase || isSortieTempsFort;
 
                 return (
-                  <div class={`lane-segment seg-${seg.etat}`}>
-                    {/* 1. VIDE OU EN PAUSE : Rien sur le mur ! */}
-                    {(isVide || isEnPause) && (
+                  <div class={`lane-segment seg-${periode.id}`}>
+                    {/* 1. ESPACE BLANC VIERGE : Rien en 2025 pour les 9 projets nés en 2026, ou quand en pause */}
+                    {(isBlank || isEnPause) && (
                       <div class="ribbon-empty-space" aria-hidden="true"></div>
                     )}
 
-                    {/* 2. DÉBUT DU RUBAN : JUSTE LE LOGO EN TÊTE */}
-                    {isDebut && (
+                    {/* 2. EN TÊTE (AUJOURD'HUI) : JUSTE LE LOGO EN TÊTE */}
+                    {isAujourdhui && (
                       <div class="ribbon-segment-flow flow-head">
                         <a href={p.lien} class="ribbon-head-anchor" title={`${p.titre} — Voir la fiche`}>
                           <div class="ribbon-head-medallion">
@@ -918,6 +918,7 @@ const rubansProjets = [
                           <div class="tip-top">
                             <span class="tip-num">{p.numero}</span>
                             <span class="tip-title">{p.titre}</span>
+                            <span class="tip-active-tag">AUJOURD'HUI</span>
                           </div>
                           <span class="tip-step">{seg.titre}</span>
                           <span class="tip-desc">{seg.desc}</span>
@@ -925,16 +926,39 @@ const rubansProjets = [
                       </div>
                     )}
 
-                    {/* 3. RUBAN ACTIF EN CONTINU */}
-                    {isActif && (
+                    {/* 3. TERMINAISON EN POINTE CHEVRON (GENÈSE DU PROJET) */}
+                    {isGenesisCut && (
+                      <div class="ribbon-segment-flow terminal-flow">
+                        <div class="fine-ribbon-strip strip-terminal"></div>
+                        <div class="fine-chevron-cut"></div>
+                        <a href={p.lien} class="fine-terminal-link" title={`Voir la fiche de ${p.titre}`}>
+                          <span class="link-label">Fiche</span>
+                          <span class="link-arr">&rarr;</span>
+                        </a>
+                        <div class={`fine-ribbon-tooltip ${tooltipPosClass}`}>
+                          <div class="tip-top">
+                            <span class="tip-num">{p.numero}</span>
+                            <span class="tip-title">{p.titre}</span>
+                            <span class="tip-active-tag">{is2025 ? 'GENÈSE 2025' : 'GENÈSE 2026'}</span>
+                          </div>
+                          <span class="tip-step">{seg.titre}</span>
+                          <span class="tip-desc">{seg.desc}</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* 4. PASSAGE EN FENTE (PAUSE / REPRISE) */}
+                    {!isAujourdhui && !isGenesisCut && !isBlank && !isEnPause && isPauseSlit && (
                       <div class="ribbon-segment-flow">
-                        <div class="fine-ribbon-strip">
-                          <span class="strip-node-dot"></span>
+                        <div class="fine-ribbon-strip strip-to-slit"></div>
+                        <div class="fine-wall-slit slit-entry" title={`Fente R&D : ${seg.titre}`}>
+                          <span class="fine-slit-hole"></span>
                         </div>
                         <div class={`fine-ribbon-tooltip ${tooltipPosClass}`}>
                           <div class="tip-top">
                             <span class="tip-num">{p.numero}</span>
                             <span class="tip-title">{p.titre}</span>
+                            <span class="tip-pause-tag">PAUSE R&D</span>
                           </div>
                           <span class="tip-step">{seg.titre}</span>
                           <span class="tip-desc">{seg.desc}</span>
@@ -942,8 +966,8 @@ const rubansProjets = [
                       </div>
                     )}
 
-                    {/* 4. TEMPS FORT (★) */}
-                    {isTempsFort && (
+                    {/* 5. TEMPS FORT (★) */}
+                    {!isAujourdhui && !isGenesisCut && !isBlank && !isEnPause && !isPauseSlit && isStar && (
                       <div class="ribbon-segment-flow">
                         <div class="fine-ribbon-strip is-star-strip">
                           <span class="strip-star-icon">&#9733;</span>
@@ -960,65 +984,16 @@ const rubansProjets = [
                       </div>
                     )}
 
-                    {/* 5. RENTRÉE DANS LA FENTE (PAUSE) */}
-                    {isFentePause && (
+                    {/* 6. RUBAN ACTIF EN CONTINU */}
+                    {!isAujourdhui && !isGenesisCut && !isBlank && !isEnPause && !isPauseSlit && !isStar && (
                       <div class="ribbon-segment-flow">
-                        <div class="fine-ribbon-strip strip-to-slit"></div>
-                        <div class="fine-wall-slit slit-entry" title={`Entrée en fente (pause) : ${seg.titre}`}>
-                          <span class="fine-slit-hole"></span>
+                        <div class="fine-ribbon-strip">
+                          <span class="strip-node-dot"></span>
                         </div>
                         <div class={`fine-ribbon-tooltip ${tooltipPosClass}`}>
                           <div class="tip-top">
                             <span class="tip-num">{p.numero}</span>
                             <span class="tip-title">{p.titre}</span>
-                            <span class="tip-pause-tag">PAUSE R&D</span>
-                          </div>
-                          <span class="tip-step">{seg.titre}</span>
-                          <span class="tip-desc">{seg.desc}</span>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* 6. RESSORTIE DE LA FENTE */}
-                    {isEmerging && (
-                      <div class="ribbon-segment-flow">
-                        <div class="fine-wall-slit slit-exit" title="Sortie de fente (reprise)">
-                          <span class="fine-slit-hole"></span>
-                        </div>
-                        <div class={`fine-ribbon-strip strip-from-slit ${isSortieTempsFort ? 'is-star-strip' : ''}`}>
-                          {isSortieTempsFort && <span class="strip-star-icon">&#9733;</span>}
-                        </div>
-                        <div class={`fine-ribbon-tooltip ${tooltipPosClass}`}>
-                          <div class="tip-top">
-                            <span class="tip-num">{p.numero}</span>
-                            <span class="tip-title">{p.titre}</span>
-                            {isSortieTempsFort && <span class="tip-star-tag">&#9733; POINT FORT</span>}
-                          </div>
-                          <span class="tip-step">{seg.titre}</span>
-                          <span class="tip-desc">{seg.desc}</span>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* 7. POINTE FINALE EN CHEVRON (AUJOURD'HUI) */}
-                    {isTerminal && (
-                      <div class="ribbon-segment-flow terminal-flow">
-                        {isSortieStatut && (
-                          <div class="fine-wall-slit slit-exit">
-                            <span class="fine-slit-hole"></span>
-                          </div>
-                        )}
-                        <div class="fine-ribbon-strip strip-terminal"></div>
-                        <div class="fine-chevron-cut"></div>
-                        <a href={p.lien} class="fine-terminal-link" title={`Voir la fiche de ${p.titre}`}>
-                          <span class="link-label">Fiche</span>
-                          <span class="link-arr">&rarr;</span>
-                        </a>
-                        <div class={`fine-ribbon-tooltip ${tooltipPosClass}`}>
-                          <div class="tip-top">
-                            <span class="tip-num">{p.numero}</span>
-                            <span class="tip-title">{p.titre}</span>
-                            <span class="tip-active-tag">AUJOURD'HUI</span>
                           </div>
                           <span class="tip-step">{seg.titre}</span>
                           <span class="tip-desc">{seg.desc}</span>
