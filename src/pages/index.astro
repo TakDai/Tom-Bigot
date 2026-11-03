@@ -369,6 +369,391 @@ const bandeauxProjets = [
     ],
   },
 ];
+
+const epoques = [
+  {
+    id: '2025',
+    dateLabel: '2025',
+    badge: 'GENÈSE & FONDATION',
+    titre: 'Premier chantier : structuration locale',
+    desc: 'Un seul bandeau actif sur l\'établi : la conception du portail régional indépendant Les Tourangeaux.',
+    rubans: [
+      {
+        projetId: 'lestourangeaux',
+        titre: 'LES TOURANGEAUX',
+        numero: '06',
+        logo: '/assets/logos/les-tourangeaux.svg',
+        domaine: 'Web & Communauté',
+        statutType: 'phase',
+        etapeDate: '2025',
+        etapeTitre: 'Architecture & Collecte locale',
+        etapeDesc: 'Conception de la plateforme web pour valoriser les artisans et créateurs de Tours.',
+        badgeTissu: 'PREMIER BANDEAU ACTIF',
+        lien: '/projets/lestourangeaux',
+        github: 'https://github.com/TakDai',
+      },
+    ],
+    fentesPause: [],
+  },
+  {
+    id: 'debut-2026',
+    dateLabel: 'Début 2026',
+    badge: 'MULTIPLICATION DES CHANTIERS',
+    titre: 'Les rubans descendent et s\'ajoutent en parallèle',
+    desc: 'Lancement simultané des projets d\'électronique embarquée, robotique modulaire, monitoring bare-metal et FPV.',
+    rubans: [
+      {
+        projetId: 'multi-motors',
+        titre: 'MULTI-MOTORS',
+        numero: '01',
+        logo: '/assets/logos/multi-motors.png',
+        domaine: 'Électronique & Embarqué',
+        statutType: 'phase',
+        etapeDate: 'Début 2026',
+        etapeTitre: 'Conception mécanique',
+        etapeDesc: 'Dessin 3D du support de poussée et calibration des capteurs dynamométriques.',
+        badgeTissu: 'NOUVEAU BANDEAU AJOUTÉ',
+        lien: '/projets/multi-motors',
+        github: 'https://github.com/TakDai/Multi-Motors',
+      },
+      {
+        projetId: 'fix-my-drone',
+        titre: 'FIX-MY-DRONE',
+        numero: '02',
+        logo: '/assets/logos/fix-my-drone.svg',
+        domaine: 'Drones & Hardware',
+        statutType: 'phase',
+        etapeDate: 'Début 2026',
+        etapeTitre: 'Cartographie des pannes',
+        etapeDesc: 'Dépouillement des logs blackbox et identification des causes d\'avarie récurrentes.',
+        badgeTissu: 'NOUVEAU BANDEAU AJOUTÉ',
+        lien: '/projets/fix-my-drone',
+        github: 'https://github.com/TakDai/fix-my-drone',
+      },
+      {
+        projetId: 'openbots',
+        titre: 'OPENBOTS',
+        numero: '03',
+        logo: '/assets/logos/openbots.png',
+        domaine: 'Robotique & Open Source',
+        statutType: 'phase',
+        etapeDate: 'Début 2026',
+        etapeTitre: 'Modélisation CAD modulaire',
+        etapeDesc: 'Conception d\'un châssis polyvalent imprimable en 3D avec microcontrôleur ouvert.',
+        badgeTissu: 'NOUVEAU BANDEAU AJOUTÉ',
+        lien: '/projets/openbots',
+        github: 'https://github.com/TakDai/openbots',
+      },
+      {
+        projetId: 'superviseur',
+        titre: 'SUPERVISEUR',
+        numero: '04',
+        logo: '/assets/logos/superviseur.svg',
+        domaine: 'DevOps & Sécurité',
+        statutType: 'phase',
+        etapeDate: 'Début 2026',
+        etapeTitre: 'Conception agents légers',
+        etapeDesc: 'Développement de micro-sondes système en C/Node sans surcharge CPU.',
+        badgeTissu: 'NOUVEAU BANDEAU AJOUTÉ',
+        lien: '/projets/superviseur',
+        github: 'https://github.com/TakDai/Superviseur',
+      },
+      {
+        projetId: 'lestourangeaux',
+        titre: 'LES TOURANGEAUX',
+        numero: '06',
+        logo: '/assets/logos/les-tourangeaux.svg',
+        domaine: 'Web & Communauté',
+        statutType: 'temps_fort',
+        etapeDate: 'Début 2026',
+        etapeTitre: '150+ initiatives référencées',
+        etapeDesc: 'Mise en ligne et adoption rapide par le tissu local sans publicité payante.',
+        badgeTissu: '★ POINT FORT BRODÉ',
+        lien: '/projets/lestourangeaux',
+        github: 'https://github.com/TakDai',
+      },
+    ],
+    fentesPause: [],
+  },
+  {
+    id: 'fevrier-2026',
+    dateLabel: 'Février 2026',
+    badge: 'POINTS FORTS & RETRAIT EN FENTE',
+    titre: 'Écussons brodés ★ & rubans qui rentrent dans une fente',
+    desc: 'Mesure 32 kHz et bascule bare-metal en points forts. OpenBots et Les Tourangeaux s\'interrompent : leurs rubans plongent et disparaissent dans une fente.',
+    rubans: [
+      {
+        projetId: 'multi-motors',
+        titre: 'MULTI-MOTORS',
+        numero: '01',
+        logo: '/assets/logos/multi-motors.png',
+        domaine: 'Électronique & Embarqué',
+        statutType: 'temps_fort',
+        etapeDate: 'Fév. 2026',
+        etapeTitre: 'Mesure télémétrique 32 kHz',
+        etapeDesc: 'Couplage direct à 32 kHz pour mesurer le rendement poussée/ampérage au gramme près.',
+        badgeTissu: '★ POINT FORT BRODÉ',
+        lien: '/projets/multi-motors',
+        github: 'https://github.com/TakDai/Multi-Motors',
+      },
+      {
+        projetId: 'superviseur',
+        titre: 'SUPERVISEUR',
+        numero: '04',
+        logo: '/assets/logos/superviseur.svg',
+        domaine: 'DevOps & Sécurité',
+        statutType: 'temps_fort',
+        etapeDate: 'Fév. 2026',
+        etapeTitre: 'Bascule bare-metal 100%',
+        etapeDesc: 'Migration réussie des serveurs physiques sous surveillance temps réel sans tiers cloud.',
+        badgeTissu: '★ POINT FORT BRODÉ',
+        lien: '/projets/superviseur',
+        github: 'https://github.com/TakDai/Superviseur',
+      },
+      {
+        projetId: '127il',
+        titre: '127IL',
+        numero: '05',
+        logo: '/assets/logos/127il.svg',
+        domaine: 'Live & Partage',
+        statutType: 'temps_fort',
+        etapeDate: 'Fév. 2026',
+        etapeTitre: 'Marathon live 6h sans coupure',
+        etapeDesc: 'Session continue de soudure CMS, programmation STM32 et questions/réponses en direct.',
+        badgeTissu: '★ POINT FORT BRODÉ',
+        lien: '/projets/127il',
+        github: 'https://github.com/TakDai/127il',
+      },
+      {
+        projetId: 'tete-de-piaf',
+        titre: 'TÊTE DE PIAF',
+        numero: '10',
+        logo: '/assets/logos/tdp.png',
+        domaine: 'Création & Graphisme',
+        statutType: 'temps_fort',
+        etapeDate: 'Fév. 2026',
+        etapeTitre: 'Charte vectorielle complète',
+        etapeDesc: 'Finalisation des 10 logos vectoriels signature et harmonisation typographique.',
+        badgeTissu: '★ POINT FORT BRODÉ',
+        lien: '/projets/tete-de-piaf',
+        github: 'https://github.com/TakDai/tete-de-piaf',
+      },
+    ],
+    fentesPause: [
+      {
+        projetId: 'openbots',
+        titre: 'OPENBOTS',
+        numero: '03',
+        logo: '/assets/logos/openbots.png',
+        domaine: 'Robotique & Open Source',
+        date: 'Fév. 2026',
+        titrePause: 'Tests de rupture PETG',
+        descPause: 'Arrêt de l\'assemblage après casse de pignons, passage au filament carbone.',
+      },
+      {
+        projetId: 'lestourangeaux',
+        titre: 'LES TOURANGEAUX',
+        numero: '06',
+        logo: '/assets/logos/les-tourangeaux.svg',
+        domaine: 'Web & Communauté',
+        date: 'Fév. 2026',
+        titrePause: 'Transition vers le hardware',
+        descPause: 'Mise en veille du dev web pour consacrer l\'hiver à l\'atelier physique.',
+      },
+    ],
+  },
+  {
+    id: 'mars-2026',
+    dateLabel: 'Mars 2026',
+    badge: 'RENAISSANCES & NOUVEAUX RETRAITS',
+    titre: 'Rubans qui ressortent de fente & nouveaux départs',
+    desc: 'OpenBots et Les Tourangeaux réémergent d\'une fente. Multi-Motors et Superviseur plongent dans la fente pour leurs validations thermiques et sécurité.',
+    rubans: [
+      {
+        projetId: 'openbots',
+        titre: 'OPENBOTS',
+        numero: '03',
+        logo: '/assets/logos/openbots.png',
+        domaine: 'Robotique & Open Source',
+        statutType: 'temps_fort_emergent',
+        etapeDate: 'Mars 2026',
+        etapeTitre: 'Premier roulage autonome',
+        etapeDesc: 'Validation physique du cycle évitement d\'obstacles et navigation autonome en intérieur.',
+        badgeTissu: '★ RESSORT DE FENTE & POINT FORT',
+        lien: '/projets/openbots',
+        github: 'https://github.com/TakDai/openbots',
+      },
+      {
+        projetId: 'fix-my-drone',
+        titre: 'FIX-MY-DRONE',
+        numero: '02',
+        logo: '/assets/logos/fix-my-drone.svg',
+        domaine: 'Drones & Hardware',
+        statutType: 'temps_fort',
+        etapeDate: 'Mars 2026',
+        etapeTitre: 'Sauvetage STM32 & Filtres Notch',
+        etapeDesc: 'Mise au point d\'un protocole pour ressusciter les processeurs de vol brickés.',
+        badgeTissu: '★ POINT FORT BRODÉ',
+        lien: '/projets/fix-my-drone',
+        github: 'https://github.com/TakDai/fix-my-drone',
+      },
+      {
+        projetId: 'komeon',
+        titre: 'KOMEON',
+        numero: '08',
+        logo: '/assets/logos/komeon.png',
+        domaine: 'Réseaux & Protocoles',
+        statutType: 'temps_fort',
+        etapeDate: 'Mars 2026',
+        etapeTitre: 'Latence mesurée < 12 ms',
+        etapeDesc: 'Validation des tests de charge sous fort trafic avec une latence quasi imperceptible.',
+        badgeTissu: '★ POINT FORT BRODÉ',
+        lien: '/projets/komeon',
+        github: 'https://github.com/TakDai/komeon',
+      },
+      {
+        projetId: 'inskin',
+        titre: 'INSKIN',
+        numero: '09',
+        logo: '/assets/logos/inskin.png',
+        domaine: 'Design & Interface',
+        statutType: 'temps_fort',
+        etapeDate: 'Mars 2026',
+        etapeTitre: 'Système tactile haute réactivité',
+        etapeDesc: 'Mise au point de composants d\'interface répondant instantanément aux micro-gestes.',
+        badgeTissu: '★ POINT FORT BRODÉ',
+        lien: '/projets/inskin',
+        github: 'https://github.com/TakDai/Inskin',
+      },
+      {
+        projetId: 'lestourangeaux',
+        titre: 'LES TOURANGEAUX',
+        numero: '06',
+        logo: '/assets/logos/les-tourangeaux.svg',
+        domaine: 'Web & Communauté',
+        statutType: 'phase_emergente',
+        etapeDate: 'Mars 2026',
+        etapeTitre: 'Nouveau flux éditorial',
+        etapeDesc: 'Refonte complète du moteur de publication et des flux automatisés.',
+        badgeTissu: '↑ RESSORT DE FENTE',
+        lien: '/projets/lestourangeaux',
+        github: 'https://github.com/TakDai',
+      },
+    ],
+    fentesPause: [
+      {
+        projetId: 'multi-motors',
+        titre: 'MULTI-MOTORS',
+        numero: '01',
+        logo: '/assets/logos/multi-motors.png',
+        domaine: 'Électronique & Embarqué',
+        date: 'Mars 2026',
+        titrePause: 'Validation thermique ESC',
+        descPause: 'Interruption des tests pour mesurer l\'échauffement des MOSFETs sous 80A continus.',
+      },
+      {
+        projetId: 'superviseur',
+        titre: 'SUPERVISEUR',
+        numero: '04',
+        logo: '/assets/logos/superviseur.svg',
+        domaine: 'DevOps & Sécurité',
+        date: 'Mars 2026',
+        titrePause: 'Durcissement réseau & TLS',
+        descPause: 'Pause des nouvelles features pour blinder la cryptographie, pare-feu et clés SSH.',
+      },
+      {
+        projetId: 'tete-de-piaf',
+        titre: 'TÊTE DE PIAF',
+        numero: '10',
+        logo: '/assets/logos/tdp.png',
+        domaine: 'Création & Graphisme',
+        date: 'Mars 2026',
+        titrePause: 'Optimisation SVG & chargement',
+        descPause: 'Nettoyage des nœuds vectoriels pour minimiser le poids au kilo-octet près.',
+      },
+    ],
+  },
+  {
+    id: 'avril-2026',
+    dateLabel: 'Avril 2026',
+    badge: 'OPTIMISATIONS & DERNIÈRES FENTES',
+    titre: 'Multi-Motors réémerge • Dernières fentes de documentation',
+    desc: 'Multi-Motors ressort de sa fente pour régler les timings d\'injection brushless. Fix-My-Drone et Komeon rentrent en fente pour documenter et refactoriser.',
+    rubans: [
+      {
+        projetId: 'multi-motors',
+        titre: 'MULTI-MOTORS',
+        numero: '01',
+        logo: '/assets/logos/multi-motors.png',
+        domaine: 'Électronique & Embarqué',
+        statutType: 'phase_emergente',
+        etapeDate: 'Avril 2026',
+        etapeTitre: 'Optimisation timing & PID',
+        etapeDesc: 'Ajustement des timings d\'injection brushless selon le pas d\'hélice.',
+        badgeTissu: '↑ RESSORT DE FENTE',
+        lien: '/projets/multi-motors',
+        github: 'https://github.com/TakDai/Multi-Motors',
+      },
+    ],
+    fentesPause: [
+      {
+        projetId: 'fix-my-drone',
+        titre: 'FIX-MY-DRONE',
+        numero: '02',
+        logo: '/assets/logos/fix-my-drone.svg',
+        domaine: 'Drones & Hardware',
+        date: 'Avril 2026',
+        titrePause: 'Rédaction des protocoles',
+        descPause: 'Pause des soudures pour documenter méthodiquement chaque étape de diagnostic.',
+      },
+      {
+        projetId: 'komeon',
+        titre: 'KOMEON',
+        numero: '08',
+        logo: '/assets/logos/komeon.png',
+        domaine: 'Réseaux & Protocoles',
+        date: 'Avril 2026',
+        titrePause: 'Nettoyage des dépendances',
+        descPause: 'Chantier de refactorisation pour supprimer les bibliothèques superflues.',
+      },
+      {
+        projetId: 'inskin',
+        titre: 'INSKIN',
+        numero: '09',
+        logo: '/assets/logos/inskin.png',
+        domaine: 'Design & Interface',
+        date: 'Avril 2026',
+        titrePause: 'Fusion avec Tête de Piaf',
+        descPause: 'Mise en pause des tests d\'interface pour converger avec l\'identité visuelle générale.',
+      },
+    ],
+  },
+  {
+    id: 'aujourdhui',
+    dateLabel: 'Aujourd\'hui',
+    badge: 'STATUT OPÉRATIONNEL GLOBAL',
+    titre: 'Tous les rubans déployés & en production',
+    desc: 'L\'ensemble des projets a complété sa trajectoire : systèmes en production 24/7, plateformes actives et dépôts ouverts.',
+    rubans: bandeauxProjets.map((p) => {
+      const der = p.etapes[p.etapes.length - 1];
+      return {
+        projetId: p.id,
+        titre: p.titre,
+        numero: p.numero,
+        logo: p.logo,
+        domaine: p.domaine,
+        statutType: 'statut',
+        etapeDate: der.date,
+        etapeTitre: der.titre,
+        etapeDesc: der.desc,
+        badgeTissu: '● OPÉRATIONNEL',
+        lien: p.lien,
+        github: p.github,
+      };
+    }),
+    fentesPause: [],
+  },
+];
 ---
 
 <Base sansNav={true} titre="Portfolio" description="Tom Bigot — Portfolio d'ingénierie, systèmes embarqués, drones FPV & développement logiciel.">
@@ -401,8 +786,8 @@ const bandeauxProjets = [
       </p>
 
       <div class="hero-actions">
-        <a href="#chronologie-section" class="btn-noir btn-hero">
-          Faire défiler le bandeau &darr;
+        <a href="#chronologie-verticale" class="btn-noir btn-hero">
+          Descendre dans la chronologie &darr;
         </a>
         <a
           href="https://github.com/TakDai"
@@ -422,369 +807,254 @@ const bandeauxProjets = [
     </div>
 
     <!-- Indicateur de défilement vers le bas -->
-    <a href="#chronologie-section" class="scroll-cue" aria-label="Découvrir le bandeau de projets">
-      <span class="scroll-label">BANDEAU PROJETS</span>
+    <a href="#chronologie-verticale" class="scroll-cue" aria-label="Découvrir la chronologie en rubans">
+      <span class="scroll-label">CHRONOLOGIE &bull; RUBANS VERTICAUX</span>
       <span class="scroll-arrow">&darr;</span>
     </a>
   </section>
 
-  <!-- ================= SECTION BANDEAUX TISSU & FENTES AU SCROLL ================= -->
-  <section class="chrono-fluid-section" id="chronologie-section">
-    <div class="chrono-sticky-viewport">
-      <!-- En-tête de la chronologie -->
-      <header class="chrono-fluid-header">
-        <div class="header-main-row">
-          <div class="header-brand-block">
-            <span class="etiquette">CHRONOLOGIE DU TRAVAIL &bull; 10 BANDEAUX TISSU</span>
-            <h2 class="chrono-main-title">BANDEAUX TECHNIQUES &bull; POINTS FORTS &bull; FENTES R&amp;D</h2>
-          </div>
-
-          <!-- Légende monochrome explicite -->
-          <div class="bandeaux-legende" aria-label="Légende des rubans">
-            <span class="legende-pill"><span class="leg-patch-icon">&#9733;</span> Écusson Temps Fort</span>
-            <span class="legende-pill"><span class="leg-tissu-icon"></span> Ruban Tissu</span>
-            <span class="legende-pill"><span class="leg-fente-icon"></span> Fente (Entrée / Sortie)</span>
-            <span class="legende-pill"><span class="leg-dot statut-dot">&#9679;</span> Statut Actuel</span>
-          </div>
-        </div>
-
-        <!-- Sélecteur rapide des 10 bandeaux de projet -->
-        <nav class="ribbon-selector-nav" aria-label="Sélectionner un bandeau de projet">
-          {bandeauxProjets.map((p, idx) => (
-            <button
-              type="button"
-              class={`ribbon-tab-btn ${idx === 0 ? 'is-active' : ''}`}
-              data-target={`ruban-${p.id}`}
-              id={`tab-btn-${p.id}`}
+  <!-- ================= SECTION CHRONOLOGIE VERTICALE AU SCROLL ================= -->
+  <section class="chrono-verticale-section" id="chronologie-verticale">
+    <!-- Barre temporelle sticky en haut : navigation directe dans les dates -->
+    <nav class="sticky-time-bar" aria-label="Navigation chronologique des dates">
+      <div class="time-bar-inner">
+        <span class="time-bar-legend">AXE CHRONOLOGIQUE :</span>
+        <div class="time-bar-pills">
+          {epoques.map((ep, idx) => (
+            <a
+              href={`#epoque-${ep.id}`}
+              class={`time-pill ${idx === 0 ? 'is-active' : ''}`}
+              data-target={`epoque-${ep.id}`}
             >
-              <span class="tab-num">{p.numero}</span>
-              <span class="tab-titre">{p.titre}</span>
-            </button>
+              <span class="time-pill-date">{ep.dateLabel}</span>
+              <span class="time-pill-count">
+                {ep.rubans.length} ruban{ep.rubans.length > 1 ? 's' : ''}
+                {ep.fentesPause.length > 0 && ` &bull; ${ep.fentesPause.length} fente${ep.fentesPause.length > 1 ? 's' : ''}`}
+              </span>
+            </a>
           ))}
-        </nav>
-
-        <!-- Jauge continue de défilement horizontal (0% -> 100%) -->
-        <div class="chrono-progress-bar-wrap" aria-hidden="true">
-          <div class="chrono-progress-bar-fill" id="chronoProgressFill"></div>
-        </div>
-      </header>
-
-      <!-- Fenêtre de défilement des bandeaux de tissu verticaux -->
-      <div class="chrono-track-window" id="chronoTrackWindow">
-        <div class="chrono-continuous-track" id="chronoContinuousTrack">
-          {
-            bandeauxProjets.map((projet) => (
-              <article class="ruban-col-wrap" id={`ruban-${projet.id}`}>
-                <!-- Suspension supérieure : barre métallique et œillets d'attache -->
-                <div class="ruban-suspension">
-                  <div class="ruban-attaches" aria-hidden="true">
-                    <span class="oeillet-rivet"></span>
-                    <div class="tringle-support"></div>
-                    <span class="oeillet-rivet"></span>
-                  </div>
-
-                  <div class="ruban-top-header">
-                    <div class="top-meta">
-                      <span class="ruban-numero">{projet.numero}</span>
-                      <span class="domaine-pill">{projet.domaine}</span>
-                    </div>
-
-                    <div class="ruban-brand">
-                      <div class="ruban-logo">
-                        <img src={projet.logo} alt={`Logo ${projet.titre}`} loading="lazy" />
-                      </div>
-                      <div class="ruban-brand-info">
-                        <h3 class="ruban-title">{projet.titre}</h3>
-                        <p class="ruban-sub">{projet.sousTitre}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- CORPS DU RUBAN VERTICAL EN TISSU -->
-                <div class="ruban-tissu-corps">
-                  {projet.etapes.map((etape) => {
-                    const isTempsFort = etape.type === 'temps_fort';
-                    const isPause = etape.type === 'pause';
-                    const isStatut = etape.type === 'statut';
-
-                    if (isPause) {
-                      return (
-                        <div class="fente-sequence-container">
-                          {/* FENTE D'ENTRÉE : Le ruban de tissu plonge dans la fente */}
-                          <div class="fente-zone fente-entree">
-                            <div class="ruban-plongeon-slot" aria-hidden="true">
-                              <div class="point-couture-g"></div>
-                              <div class="point-couture-d"></div>
-                            </div>
-                            <div class="fente-fissure-barre" title="Le ruban plonge dans la fente">
-                              <div class="fente-levre-top"></div>
-                              <div class="fente-cavite-ombre">
-                                <span class="fente-slot-texte">&darr; RENTRE DANS LA FENTE &darr;</span>
-                              </div>
-                              <div class="fente-levre-bot"></div>
-                            </div>
-                          </div>
-
-                          {/* ZONE EN RETRAIT SOUS LA PAROI (pendant la pause) */}
-                          <div class="zone-sous-paroi">
-                            <div class="trace-sous-paroi" aria-hidden="true"></div>
-                            <div class="pause-card-interne">
-                              <div class="pause-topline">
-                                <span class="badge-pause-fente">PAUSE R&amp;D</span>
-                                <span class="pause-date">{etape.date}</span>
-                              </div>
-                              <h4 class="pause-titre">{etape.titre}</h4>
-                              <p class="pause-desc">{etape.desc}</p>
-                              <div class="pause-fente-info">
-                                <span class="pause-pulse-indicator"></span>
-                                Ruban rétracté dans la fente
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* FENTE DE SORTIE : Le ruban de tissu ressort de la fente */}
-                          <div class="fente-zone fente-sortie">
-                            <div class="fente-fissure-barre" title="Le ruban ressort de la fente">
-                              <div class="fente-levre-top"></div>
-                              <div class="fente-cavite-ombre">
-                                <span class="fente-slot-texte">&uarr; RESSORT DE LA FENTE &uarr;</span>
-                              </div>
-                              <div class="fente-levre-bot"></div>
-                            </div>
-                            <div class="ruban-emergence-slot" aria-hidden="true">
-                              <div class="point-couture-g"></div>
-                              <div class="point-couture-d"></div>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    }
-
-                    if (isTempsFort) {
-                      return (
-                        <div class="ruban-section section-temps-fort">
-                          <div class="fil-couture-ruban-g" aria-hidden="true"></div>
-                          <div class="fil-couture-ruban-d" aria-hidden="true"></div>
-
-                          {/* Écusson noir brodé cousu sur le tissu */}
-                          <div class="ecusson-brode-noir">
-                            <div class="ecusson-stitch-cadre">
-                              <div class="ecusson-head">
-                                <span class="ecusson-star">&#9733;</span>
-                                <span class="ecusson-tag">POINT FORT</span>
-                                <span class="ecusson-date">{etape.date}</span>
-                              </div>
-                              <h4 class="ecusson-titre">{etape.titre}</h4>
-                              <p class="ecusson-desc">{etape.desc}</p>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    }
-
-                    if (isStatut) {
-                      return (
-                        <div class="ruban-section section-statut-final">
-                          <div class="fil-couture-ruban-g" aria-hidden="true"></div>
-                          <div class="fil-couture-ruban-d" aria-hidden="true"></div>
-
-                          <div class="etiquette-statut-tissu">
-                            <div class="statut-topline">
-                              <span class="statut-pulse-dot"></span>
-                              <span class="statut-tag">STATUT ACTUEL</span>
-                              <span class="statut-date">{etape.date}</span>
-                            </div>
-                            <h4 class="statut-titre">{etape.titre}</h4>
-                            <p class="statut-desc">{etape.desc}</p>
-                          </div>
-                        </div>
-                      );
-                    }
-
-                    // Phase active ordinaire
-                    return (
-                      <div class="ruban-section section-phase-active">
-                        <div class="fil-couture-ruban-g" aria-hidden="true"></div>
-                        <div class="fil-couture-ruban-d" aria-hidden="true"></div>
-
-                        <div class="etiquette-phase-tissu">
-                          <div class="phase-topline">
-                            <span class="phase-carre">&#9632;</span>
-                            <span class="phase-tag">PHASE ACTIVE</span>
-                            <span class="phase-date">{etape.date}</span>
-                          </div>
-                          <h4 class="phase-titre">{etape.titre}</h4>
-                          <p class="phase-desc">{etape.desc}</p>
-                        </div>
-                      </div>
-                    );
-                  })}
-
-                  <!-- Extrémité inférieure du ruban : pointe biseautée (queue d'aronde) et actions -->
-                  <div class="ruban-terminaison">
-                    <div class="ruban-queue-aronde" aria-hidden="true"></div>
-                    <div class="ruban-actions-seam">
-                      <a href={projet.lien} class="btn-noir ruban-btn-action">
-                        Fiche projet &rarr;
-                      </a>
-                      {projet.github && (
-                        <a
-                          href={projet.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          class="btn-outline ruban-btn-action"
-                          title={`Dépôt GitHub de ${projet.titre}`}
-                        >
-                          GitHub ↗
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </article>
-            ))
-          }
         </div>
       </div>
+    </nav>
+
+    <!-- Déroulé vertical des époques au fil du scroll -->
+    <div class="epoques-vertical-flow">
+      {epoques.map((epoque, epIndex) => (
+        <section class="epoque-vertical-slice" id={`epoque-${epoque.id}`}>
+          <!-- En-tête de date de la période -->
+          <header class="epoque-header-block">
+            <div class="epoque-date-badge-row">
+              <span class="epoque-tag">{epoque.badge}</span>
+              <span class="epoque-year">{epoque.dateLabel}</span>
+            </div>
+            <h2 class="epoque-titre">{epoque.titre}</h2>
+            <p class="epoque-desc">{epoque.desc}</p>
+          </header>
+
+          <!-- Zone centrale : les rubans actifs descendent verticalement côte à côte -->
+          <div class="rubans-active-stage">
+            <div class="rubans-row">
+              {epoque.rubans.map((r) => {
+                const isTempsFort = r.statutType === 'temps_fort' || r.statutType === 'temps_fort_emergent';
+                const isEmergent = r.statutType === 'phase_emergente' || r.statutType === 'temps_fort_emergent';
+                const isStatut = r.statutType === 'statut';
+
+                return (
+                  <article class={`ruban-vertical-band ${isTempsFort ? 'has-temps-fort' : ''} ${isStatut ? 'is-statut-final' : ''}`}>
+                    <!-- Si le ruban ressort d'une fente à cette date -->
+                    {isEmergent && (
+                      <div class="ruban-fente-emergence-top" title="Le ruban ressort de la fente">
+                        <div class="fente-levre-haut"></div>
+                        <div class="fente-abyme-shadow">
+                          <span class="fente-indic">&uarr; RESSORT DE LA FENTE &uarr;</span>
+                        </div>
+                        <div class="fente-levre-bas"></div>
+                      </div>
+                    )}
+
+                    <!-- Suspension du ruban : rivets et barre métallique -->
+                    {!isEmergent && (
+                      <div class="ruban-suspension-tete" aria-hidden="true">
+                        <span class="rivet-oeillet"></span>
+                        <div class="tringle-fil"></div>
+                        <span class="rivet-oeillet"></span>
+                      </div>
+                    )}
+
+                    <!-- Corps du ruban textile -->
+                    <div class="ruban-tissu-surface">
+                      <!-- Surpiqûres de couture le long des liserés du ruban -->
+                      <div class="surpiqure-bord-gauche" aria-hidden="true"></div>
+                      <div class="surpiqure-bord-droite" aria-hidden="true"></div>
+
+                      <!-- En-tête imprimé sur le ruban -->
+                      <div class="ruban-imprime-head">
+                        <div class="ruban-meta-row">
+                          <span class="ruban-num">{r.numero}</span>
+                          <span class="ruban-domaine">{r.domaine}</span>
+                        </div>
+
+                        <div class="ruban-identite">
+                          <div class="ruban-logo-box">
+                            <img src={r.logo} alt={`Logo ${r.titre}`} loading="lazy" />
+                          </div>
+                          <div>
+                            <h3 class="ruban-nom">{r.titre}</h3>
+                            <span class="ruban-badge-tissu">{r.badgeTissu}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Contenu de l'étape sur le tissu -->
+                      {isTempsFort ? (
+                        <div class="ecusson-patch-noir">
+                          <div class="ecusson-fil-bordure">
+                            <div class="ecusson-top">
+                              <span class="ecusson-etoile">&#9733;</span>
+                              <span class="ecusson-mention">POINT FORT</span>
+                              <span class="ecusson-date">{r.etapeDate}</span>
+                            </div>
+                            <h4 class="ecusson-titre">{r.etapeTitre}</h4>
+                            <p class="ecusson-texte">{r.etapeDesc}</p>
+                          </div>
+                        </div>
+                      ) : (
+                        <div class="etape-imprimee-tissu">
+                          <div class="etape-top">
+                            <span class="etape-bullet">&#9632;</span>
+                            <span class="etape-date">{r.etapeDate}</span>
+                          </div>
+                          <h4 class="etape-titre">{r.etapeTitre}</h4>
+                          <p class="etape-texte">{r.etapeDesc}</p>
+                        </div>
+                      )}
+
+                      <!-- Bas de ruban : ourlet en biseau & actions -->
+                      <div class="ruban-base-ourlet">
+                        <div class="ruban-actions">
+                          <a href={r.lien} class="btn-noir ruban-btn">
+                            Fiche &rarr;
+                          </a>
+                          {r.github && (
+                            <a
+                              href={r.github}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              class="btn-outline ruban-btn"
+                              title={`Dépôt GitHub de ${r.titre}`}
+                            >
+                              GitHub ↗
+                            </a>
+                          )}
+                        </div>
+                        <div class="ruban-queue-biseau" aria-hidden="true"></div>
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+
+          <!-- Si des projets sont en pause à cette date : ils plongent et disparaissent dans une fente -->
+          {epoque.fentesPause.length > 0 && (
+            <div class="fentes-pause-zone">
+              <div class="fentes-pause-intro">
+                <span class="fentes-pause-badge">&#9208; EN PAUSE R&amp;D &bull; LE RUBAN RENTRE DANS UNE FENTE</span>
+                <span class="fentes-pause-count">{epoque.fentesPause.length} projet{epoque.fentesPause.length > 1 ? 's' : ''} en retrait sous la paroi</span>
+              </div>
+
+              <div class="fentes-pause-grid">
+                {epoque.fentesPause.map((f) => (
+                  <div class="fente-pause-artefact">
+                    <!-- Partie supérieure : ruban qui plonge vers la fente -->
+                    <div class="ruban-plongeon-slot-in">
+                      <div class="ruban-plongeon-etiquette">
+                        <span class="ruban-mini-num">{f.numero}</span>
+                        <span class="ruban-mini-nom">{f.titre}</span>
+                      </div>
+                    </div>
+
+                    <!-- FENTE PHYSIQUE 3D DANS LAQUELLE LE RUBAN RENTRE -->
+                    <div class="fente-cavite-physique" title={`${f.titre} rentre dans la fente`}>
+                      <div class="fente-levre-haut"></div>
+                      <div class="fente-abyme-shadow">
+                        <span class="fente-indic">&darr; RENTRE DANS LA FENTE &darr;</span>
+                      </div>
+                      <div class="fente-levre-bas"></div>
+                    </div>
+
+                    <!-- Sous la fente : le ruban a disparu dans la paroi -->
+                    <div class="fente-sous-paroi">
+                      <div class="fente-pause-motif" aria-hidden="true"></div>
+                      <div class="fente-pause-fiche">
+                        <div class="fente-pause-meta">
+                          <span class="fente-pause-tag">PAUSE R&amp;D</span>
+                          <span class="fente-pause-date">{f.date}</span>
+                        </div>
+                        <h4 class="fente-pause-titre">{f.titrePause}</h4>
+                        <p class="fente-pause-desc">{f.descPause}</p>
+                        <div class="fente-pause-sub">
+                          <span class="fente-pause-dot"></span>
+                          Ruban rétracté dans la fente &bull; absent de l'établi
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </section>
+      ))}
     </div>
   </section>
 </Base>
 
 <script>
-  // Défilement 1:1 continu des bandeaux au scroll + navigation par onglets
+  // Mise à jour de la barre temporelle sticky au scroll vertical
   document.addEventListener('DOMContentLoaded', () => {
-    const section = document.getElementById('chronologie-section');
-    const track = document.getElementById('chronoContinuousTrack');
-    const fill = document.getElementById('chronoProgressFill');
-    const windowEl = document.getElementById('chronoTrackWindow');
-    const tabButtons = document.querySelectorAll<HTMLButtonElement>('.ribbon-tab-btn');
+    const timePills = document.querySelectorAll<HTMLAnchorElement>('.time-pill');
+    const slices = document.querySelectorAll<HTMLElement>('.epoque-vertical-slice');
 
-    if (!section || !track) return;
-
-    function getTrackLimits() {
-      const trackWidth = track.scrollWidth;
-      const viewportWidth = window.innerWidth;
-      const totalDistance = Math.max(0, trackWidth - viewportWidth + 80);
-      return { trackWidth, viewportWidth, totalDistance };
-    }
-
-    function updateLayoutHeight() {
-      if (window.innerWidth < 900) {
-        section.style.height = 'auto';
-        track.style.transform = 'none';
-        return;
-      }
-      const { totalDistance } = getTrackLimits();
-      section.style.height = `${window.innerHeight + totalDistance}px`;
-    }
-
-    let isTicking = false;
-
-    function updateActiveTab(progress: number) {
-      if (tabButtons.length === 0) return;
-      const index = Math.min(
-        tabButtons.length - 1,
-        Math.floor(progress * tabButtons.length)
-      );
-      tabButtons.forEach((btn, idx) => {
-        if (idx === index) {
-          btn.classList.add('is-active');
-        } else {
-          btn.classList.remove('is-active');
-        }
-      });
-    }
+    if (slices.length === 0 || timePills.length === 0) return;
 
     function onScroll() {
-      if (window.innerWidth < 900) {
-        if (windowEl && fill) {
-          const maxLeft = windowEl.scrollWidth - windowEl.clientWidth;
-          const pct = maxLeft > 0 ? (windowEl.scrollLeft / maxLeft) * 100 : 0;
-          fill.style.width = `${pct.toFixed(1)}%`;
-          updateActiveTab(pct / 100);
+      const scrollY = window.scrollY + 180;
+      let activeIndex = 0;
+
+      slices.forEach((slice, idx) => {
+        const top = slice.offsetTop;
+        if (scrollY >= top) {
+          activeIndex = idx;
         }
-        return;
-      }
+      });
 
-      const rect = section.getBoundingClientRect();
-      const { totalDistance } = getTrackLimits();
-
-      if (totalDistance <= 0) return;
-
-      const scrolled = -rect.top;
-      const progress = Math.max(0, Math.min(1, scrolled / totalDistance));
-      const translateX = progress * totalDistance;
-
-      track.style.transform = `translate3d(-${translateX.toFixed(1)}px, 0, 0)`;
-
-      if (fill) {
-        fill.style.width = `${(progress * 100).toFixed(1)}%`;
-      }
-      updateActiveTab(progress);
-
-      isTicking = false;
+      timePills.forEach((pill, idx) => {
+        if (idx === activeIndex) {
+          pill.classList.add('is-active');
+        } else {
+          pill.classList.remove('is-active');
+        }
+      });
     }
 
-    window.addEventListener(
-      'scroll',
-      () => {
-        if (!isTicking) {
-          window.requestAnimationFrame(onScroll);
-          isTicking = true;
-        }
-      },
-      { passive: true }
-    );
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
 
-    // Clic sur un bouton d'onglet ruban pour glisser directement vers le projet
-    tabButtons.forEach((btn, btnIdx) => {
-      btn.addEventListener('click', () => {
-        const targetId = btn.getAttribute('data-target');
+    // Défilement doux lors du clic sur une puce de date
+    timePills.forEach((pill) => {
+      pill.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = pill.getAttribute('data-target');
         if (!targetId) return;
-
-        if (window.innerWidth < 900 && windowEl) {
-          const targetEl = document.getElementById(targetId);
-          if (targetEl) {
-            targetEl.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
-          }
-          return;
+        const targetEl = document.getElementById(targetId);
+        if (targetEl) {
+          const top = targetEl.getBoundingClientRect().top + window.scrollY - 70;
+          window.scrollTo({ top, behavior: 'smooth' });
         }
-
-        const { totalDistance } = getTrackLimits();
-        const targetProgress = btnIdx / Math.max(1, tabButtons.length - 1);
-        const sectionTop = section.getBoundingClientRect().top + window.scrollY;
-        const targetScrollY = sectionTop + targetProgress * totalDistance;
-
-        window.scrollTo({
-          top: targetScrollY,
-          behavior: 'smooth',
-        });
       });
     });
-
-    if (windowEl) {
-      windowEl.addEventListener(
-        'scroll',
-        () => {
-          if (window.innerWidth < 900 && fill) {
-            const maxLeft = windowEl.scrollWidth - windowEl.clientWidth;
-            const pct = maxLeft > 0 ? (windowEl.scrollLeft / maxLeft) * 100 : 0;
-            fill.style.width = `${pct.toFixed(1)}%`;
-            updateActiveTab(pct / 100);
-          }
-        },
-        { passive: true }
-      );
-    }
-
-    window.addEventListener('resize', () => {
-      updateLayoutHeight();
-      onScroll();
-    });
-
-    updateLayoutHeight();
-    onScroll();
   });
 </script>
 
@@ -938,258 +1208,215 @@ const bandeauxProjets = [
   }
 
   /* ==========================================================================
-     SECTION DU BANDEAU TISSU AU DÉFILEMENT FLUIDE
+     CHRONOLOGIE VERTICALE NATURELLE AU SCROLL
      ========================================================================== */
-  .chrono-fluid-section {
+  .chrono-verticale-section {
     position: relative;
     background: #f4f4f3;
   }
 
-  .chrono-sticky-viewport {
+  /* Barre temporelle sticky en haut */
+  .sticky-time-bar {
     position: sticky;
     top: 0;
-    height: 100svh;
-    display: flex;
-    flex-direction: column;
-    background: #f4f4f3;
-    overflow: hidden;
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(10px);
     border-bottom: 2px dashed var(--dash);
-    box-sizing: border-box;
-    padding: clamp(14px, 2.2vh, 24px) 0 16px;
+    padding: 10px clamp(16px, 3vw, 40px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
   }
 
-  /* En-tête */
-  .chrono-fluid-header {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 0 clamp(16px, 3vw, 40px) 10px;
-    border-bottom: 2px dashed rgba(0, 0, 0, 0.12);
-    flex-shrink: 0;
-  }
-
-  .header-main-row {
+  .time-bar-inner {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-
-  .header-brand-block {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
-
-  .chrono-main-title {
-    margin: 0;
-    font: 700 clamp(17px, 2vw, 24px)/1.1 var(--font);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #000000;
-  }
-
-  /* Légende */
-  .bandeaux-legende {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 5px 12px;
-    border: 1px dashed var(--dash);
-    border-radius: 20px;
-    background: #ffffff;
-    flex-wrap: wrap;
-  }
-
-  .legende-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font: 700 10px var(--font);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.75);
-  }
-
-  .leg-patch-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 15px;
-    height: 15px;
-    background: #000000;
-    color: #ffffff;
-    border-radius: 3px;
-    font-size: 9px;
-  }
-
-  .leg-tissu-icon {
-    display: inline-block;
-    width: 14px;
-    height: 12px;
-    background: #ffffff;
-    border-left: 2px dashed #000000;
-    border-right: 2px dashed #000000;
-  }
-
-  .leg-fente-icon {
-    display: inline-block;
-    width: 16px;
-    height: 6px;
-    background: #000000;
-    border-radius: 2px;
-    box-shadow: inset 0 2px 2px #333333;
-  }
-
-  .leg-dot {
-    font-size: 10px;
-    line-height: 1;
-    color: #000000;
-  }
-
-  /* Sélecteur d'onglets ruban */
-  .ribbon-selector-nav {
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    gap: 14px;
+    max-width: 1400px;
+    margin: 0 auto;
     overflow-x: auto;
-    padding: 2px 0 4px;
     scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
   }
 
-  .ribbon-selector-nav::-webkit-scrollbar {
+  .time-bar-inner::-webkit-scrollbar {
     display: none;
   }
 
-  .ribbon-tab-btn {
+  .time-bar-legend {
+    font: 700 9.5px var(--font);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.5);
+    white-space: nowrap;
+  }
+
+  .time-bar-pills {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: nowrap;
+  }
+
+  .time-pill {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 4px 10px;
-    background: #ffffff;
-    border: 1px dashed rgba(0, 0, 0, 0.2);
+    padding: 5px 12px;
+    background: #f5f5f4;
+    border: 1px dashed rgba(0, 0, 0, 0.25);
     border-radius: 14px;
-    font: 700 10px var(--font);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.6);
-    cursor: pointer;
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.7);
+    font: 700 10.5px var(--font);
+    letter-spacing: 0.06em;
     white-space: nowrap;
     transition: all 0.2s ease;
   }
 
-  .ribbon-tab-btn:hover {
+  .time-pill:hover {
     border-color: #000000;
     color: #000000;
-    background: #fafafa;
+    background: #ffffff;
   }
 
-  .ribbon-tab-btn.is-active {
+  .time-pill.is-active {
     background: #000000;
     color: #ffffff;
     border-style: solid;
     border-color: #000000;
   }
 
-  .ribbon-tab-btn .tab-num {
-    opacity: 0.6;
-    font-size: 9px;
+  .time-pill-date {
+    text-transform: uppercase;
   }
 
-  .ribbon-tab-btn.is-active .tab-num {
-    opacity: 0.9;
+  .time-pill-count {
+    font-size: 9px;
+    opacity: 0.6;
+    letter-spacing: 0.04em;
+  }
+
+  .time-pill.is-active .time-pill-count {
+    opacity: 0.85;
     color: #ffffff;
   }
 
-  /* Jauge continue de défilement */
-  .chrono-progress-bar-wrap {
-    position: relative;
-    width: 100%;
-    height: 3px;
-    background: rgba(0, 0, 0, 0.08);
-    border-radius: 2px;
-    overflow: hidden;
+  /* Tranche d'époque verticale */
+  .epoques-vertical-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 clamp(16px, 3vw, 40px);
   }
 
-  .chrono-progress-bar-fill {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 0%;
+  .epoque-vertical-slice {
+    position: relative;
+    padding: 60px 0 70px;
+    border-bottom: 2px dashed rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .epoque-vertical-slice:last-child {
+    border-bottom: none;
+  }
+
+  /* En-tête de tranche */
+  .epoque-header-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-left: 3px solid #000000;
+    padding-left: 16px;
+  }
+
+  .epoque-date-badge-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .epoque-tag {
+    font: 700 10px var(--font);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #ffffff;
     background: #000000;
-    transition: width 0.05s linear;
+    padding: 3px 8px;
+    border-radius: 3px;
   }
 
-  /* Fenêtre d'affichage des rubans */
-  .chrono-track-window {
-    flex: 1;
-    position: relative;
-    width: 100%;
-    display: flex;
-    align-items: stretch;
-    padding: 14px clamp(16px, 3vw, 40px) 0;
-    overflow: hidden;
-    box-sizing: border-box;
+  .epoque-year {
+    font: 700 clamp(24px, 3.5vw, 36px)/1 var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #000000;
   }
 
-  /* Conteneur continu glissant de gauche à droite */
-  .chrono-continuous-track {
-    display: flex;
-    flex-direction: row;
-    gap: 24px;
-    width: max-content;
-    height: 100%;
-    align-items: stretch;
-    will-change: transform;
+  .epoque-titre {
+    margin: 0;
+    font: 700 clamp(18px, 2.2vw, 24px)/1.2 var(--font);
+    letter-spacing: 0.04em;
+    color: #000000;
+  }
+
+  .epoque-desc {
+    margin: 0;
+    font: 400 13.5px/1.5 var(--font);
+    color: rgba(0, 0, 0, 0.7);
+    max-width: 800px;
   }
 
   /* ==========================================================================
-     STRUCTURE DU BANDEAU EN TISSU VERTICAL
+     LES RUBANS EN TISSU ACTIFS CÔTE À CÔTE
      ========================================================================== */
-  .ruban-col-wrap {
-    width: clamp(310px, 26vw, 360px);
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
+  .rubans-active-stage {
+    width: 100%;
   }
 
-  /* Suspension supérieure (potence / attache) */
-  .ruban-suspension {
+  .rubans-row {
     display: flex;
-    flex-direction: column;
-    background: #ffffff;
-    border: 2px dashed var(--dash);
-    border-bottom: none;
-    border-radius: 10px 10px 0 0;
-    padding: 12px 16px 10px;
-    flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-start;
   }
 
-  .ruban-attaches {
+  /* Un bandeau vertical textile */
+  .ruban-vertical-band {
+    width: clamp(230px, 22vw, 260px);
+    display: flex;
+    flex-direction: column;
+    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.07));
+    transition: transform 0.2s ease, filter 0.2s ease;
+  }
+
+  .ruban-vertical-band:hover {
+    transform: translateY(-4px);
+    filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.12));
+  }
+
+  /* Suspension métallique supérieure */
+  .ruban-suspension-tete {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
-    margin-bottom: 10px;
+    padding: 0 16px;
+    height: 14px;
   }
 
-  .oeillet-rivet {
+  .rivet-oeillet {
     width: 10px;
     height: 10px;
     border-radius: 50%;
     background: #000000;
-    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.4), 0 1px 2px rgba(0, 0, 0, 0.2);
-    display: inline-block;
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
   }
 
-  .tringle-support {
+  .tringle-fil {
     flex: 1;
-    height: 3px;
+    height: 2px;
     background: repeating-linear-gradient(
       90deg,
       #000000,
@@ -1197,275 +1424,357 @@ const bandeauxProjets = [
       rgba(0, 0, 0, 0.2) 6px,
       rgba(0, 0, 0, 0.2) 10px
     );
-    border-radius: 2px;
   }
 
-  .top-meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 8px;
-  }
-
-  .ruban-numero {
-    font: 700 15px var(--font);
-    color: #000000;
-  }
-
-  .domaine-pill {
-    display: inline-flex;
-    align-items: center;
-    height: 20px;
-    padding: 0 8px;
-    border: 1px dashed var(--dash);
-    border-radius: 10px;
-    font: 700 8.5px var(--font);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.7);
-    background: #fafafa;
-  }
-
-  .ruban-brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .ruban-logo {
-    width: 40px;
-    height: 40px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px dashed rgba(0, 0, 0, 0.2);
-    border-radius: 6px;
-    background: #fafafa;
-    padding: 4px;
-  }
-
-  .ruban-logo img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-  }
-
-  .ruban-title {
-    margin: 0;
-    font: 700 17px/1.15 var(--font);
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: #000000;
-  }
-
-  .ruban-sub {
-    margin: 2px 0 0;
-    font: 400 11px/1.3 var(--font);
-    color: rgba(0, 0, 0, 0.6);
-  }
-
-  /* Corps en tissu du ruban vertical */
-  .ruban-tissu-corps {
+  /* Corps textile du ruban */
+  .ruban-tissu-surface {
     position: relative;
-    flex: 1;
-    overflow-y: auto;
     background: #fbfbfb;
-    border-left: 2px dashed rgba(0, 0, 0, 0.25);
-    border-right: 2px dashed rgba(0, 0, 0, 0.25);
-    box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.08), inset 0 2px 8px rgba(0, 0, 0, 0.02);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
     display: flex;
     flex-direction: column;
-    gap: 0;
+    padding: 14px 14px 16px;
+    gap: 12px;
+    box-sizing: border-box;
   }
 
-  /* Liserés de couture brodés sur les côtés du tissu */
-  .fil-couture-ruban-g,
-  .fil-couture-ruban-d,
-  .point-couture-g,
-  .point-couture-d {
+  /* Liserés de couture brodés */
+  .surpiqure-bord-gauche,
+  .surpiqure-bord-droite {
     position: absolute;
     top: 0;
     bottom: 0;
     width: 2px;
     pointer-events: none;
-    z-index: 2;
   }
 
-  .fil-couture-ruban-g,
-  .point-couture-g {
+  .surpiqure-bord-gauche {
     left: 4px;
-    border-left: 1px dashed rgba(0, 0, 0, 0.2);
+    border-left: 1px dashed rgba(0, 0, 0, 0.28);
   }
 
-  .fil-couture-ruban-d,
-  .point-couture-d {
+  .surpiqure-bord-droite {
     right: 4px;
-    border-right: 1px dashed rgba(0, 0, 0, 0.2);
+    border-right: 1px dashed rgba(0, 0, 0, 0.28);
   }
 
-  /* Sections régulières sur le ruban */
-  .ruban-section {
-    position: relative;
-    padding: 12px 18px;
-    border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+  /* En-tête imprimé sur le ruban */
+  .ruban-imprime-head {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.15);
   }
 
-  /* Écusson brodé TEMPS FORT (★) */
-  .section-temps-fort {
-    background: #111111;
-    color: #ffffff;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  .ruban-meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
-  .ecusson-brode-noir {
-    position: relative;
+  .ruban-num {
+    font: 700 14px var(--font);
+    color: #000000;
   }
 
-  .ecusson-stitch-cadre {
-    border: 1.5px dashed rgba(255, 255, 255, 0.6);
+  .ruban-domaine {
+    font: 700 8.5px var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.05);
+    padding: 2px 6px;
     border-radius: 4px;
-    padding: 10px 12px;
-    background: #000000;
   }
 
-  .ecusson-head {
+  .ruban-identite {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .ruban-logo-box {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed rgba(0, 0, 0, 0.25);
+    border-radius: 6px;
+    background: #ffffff;
+    padding: 3px;
+  }
+
+  .ruban-logo-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .ruban-nom {
+    margin: 0;
+    font: 700 15px/1.2 var(--font);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #000000;
+  }
+
+  .ruban-badge-tissu {
+    font: 700 8.5px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.55);
+  }
+
+  /* Étape ordinaire imprimée */
+  .etape-imprimee-tissu {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: #ffffff;
+    border: 1px dashed rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    padding: 10px;
+  }
+
+  .etape-top {
     display: flex;
     align-items: center;
     gap: 6px;
-    margin-bottom: 6px;
   }
 
-  .ecusson-star {
+  .etape-bullet {
+    font-size: 8px;
+    color: #000000;
+  }
+
+  .etape-date {
+    font: 700 9px var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.5);
+  }
+
+  .etape-titre {
+    margin: 0;
+    font: 700 12.5px/1.3 var(--font);
+    letter-spacing: 0.03em;
+    color: #000000;
+  }
+
+  .etape-texte {
+    margin: 0;
+    font: 400 11px/1.45 var(--font);
+    color: rgba(0, 0, 0, 0.75);
+  }
+
+  /* Écusson brodé noir (★ POINT FORT) */
+  .ecusson-patch-noir {
+    background: #000000;
+    border-radius: 4px;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  }
+
+  .ecusson-fil-bordure {
+    border: 1.5px dashed rgba(255, 255, 255, 0.7);
+    border-radius: 4px;
+    padding: 10px 11px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .ecusson-top {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .ecusson-etoile {
     font-size: 13px;
     color: #ffffff;
     line-height: 1;
   }
 
-  .ecusson-tag {
-    font: 700 9px var(--font);
+  .ecusson-mention {
+    font: 700 8.5px var(--font);
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: #ffffff;
-    background: rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.2);
     padding: 2px 6px;
     border-radius: 3px;
   }
 
   .ecusson-date {
     margin-left: auto;
-    font: 700 9.5px var(--font);
+    font: 700 9px var(--font);
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.65);
   }
 
   .ecusson-titre {
-    margin: 0 0 4px;
-    font: 700 13px/1.25 var(--font);
+    margin: 0;
+    font: 700 12.5px/1.25 var(--font);
     letter-spacing: 0.04em;
     color: #ffffff;
   }
 
-  .ecusson-desc {
+  .ecusson-texte {
     margin: 0;
     font: 400 11px/1.45 var(--font);
-    color: rgba(255, 255, 255, 0.88);
+    color: rgba(255, 255, 255, 0.9);
   }
 
-  /* Phase Active ordinaire */
-  .section-phase-active {
-    background: #fafafa;
+  /* Bas du ruban : ourlet en biseau & boutons */
+  .ruban-base-ourlet {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 8px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.15);
   }
 
-  .etiquette-phase-tissu {
-    padding: 6px 4px;
-  }
-
-  .phase-topline {
+  .ruban-actions {
     display: flex;
     align-items: center;
     gap: 6px;
-    margin-bottom: 4px;
   }
 
-  .phase-carre {
-    font-size: 8px;
-    color: #000000;
+  .ruban-btn {
+    flex: 1;
+    text-align: center;
+    padding: 6px 8px;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
   }
 
-  .phase-tag {
-    font: 700 8.5px var(--font);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.55);
+  .ruban-queue-biseau {
+    width: 100%;
+    height: 12px;
+    background: #fbfbfb;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    margin-top: -4px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.15);
   }
 
-  .phase-date {
-    margin-left: auto;
-    font: 700 9px var(--font);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.45);
-  }
-
-  .phase-titre {
-    margin: 0 0 3px;
-    font: 700 12.5px/1.3 var(--font);
-    letter-spacing: 0.04em;
-    color: #000000;
-  }
-
-  .phase-desc {
-    margin: 0;
-    font: 400 11px/1.45 var(--font);
-    color: rgba(0, 0, 0, 0.72);
+  /* Fente d'émergence quand le ruban ressort */
+  .ruban-fente-emergence-top {
+    position: relative;
+    width: 100%;
+    height: 22px;
+    background: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   }
 
   /* ==========================================================================
-     FISSURES ET FENTES (LE RUBAN RENTRE DANS LA FENTE)
+     SYSTÈME DES FENTES R&D (LE RUBAN RENTRE DANS LA FENTE)
      ========================================================================== */
-  .fente-sequence-container {
-    position: relative;
-    background: #eaeae9;
-    border-top: 1px solid rgba(0, 0, 0, 0.15);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-  }
-
-  /* Fente d'entrée */
-  .fente-zone {
-    position: relative;
+  .fentes-pause-zone {
     display: flex;
     flex-direction: column;
+    gap: 16px;
+    background: #eaeae9;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    padding: 20px 24px;
+  }
+
+  .fentes-pause-intro {
+    display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
   }
 
-  .fente-entree {
-    padding-top: 0;
+  .fentes-pause-badge {
+    font: 700 10px var(--font);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: #000000;
+    padding: 4px 10px;
+    border-radius: 4px;
   }
 
-  /* Tissu qui plonge vers la fente avec ombre */
-  .ruban-plongeon-slot {
-    position: relative;
-    width: 100%;
-    height: 18px;
-    background: linear-gradient(to bottom, #fafafa 0%, #dfdfde 65%, #666666 100%);
+  .fentes-pause-count {
+    font: 700 10.5px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.6);
   }
 
-  /* Barre architecturale de la fente */
-  .fente-fissure-barre {
+  .fentes-pause-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .fente-pause-artefact {
+    width: clamp(230px, 22vw, 260px);
+    display: flex;
+    flex-direction: column;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
+  }
+
+  /* Le ruban qui plonge vers la fente */
+  .ruban-plongeon-slot-in {
+    height: 38px;
+    background: linear-gradient(to bottom, #fbfbfb 0%, #e0e0df 65%, #666666 100%);
+    border-left: 2px dashed rgba(0, 0, 0, 0.25);
+    border-right: 2px dashed rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  .ruban-plongeon-etiquette {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #ffffff;
+    padding: 2px 8px;
+    border-radius: 10px;
+    border: 1px dashed rgba(0, 0, 0, 0.3);
+  }
+
+  .ruban-mini-num {
+    font: 700 9px var(--font);
+    color: #000000;
+  }
+
+  .ruban-mini-nom {
+    font: 700 9px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #000000;
+  }
+
+  /* La fissure / cavité 3D */
+  .fente-cavite-physique {
     position: relative;
     width: 100%;
     height: 24px;
     background: #000000;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 5;
+    z-index: 4;
   }
 
-  .fente-levre-top {
+  .fente-levre-haut {
     position: absolute;
     top: 0;
     left: 0;
@@ -1475,24 +1784,24 @@ const bandeauxProjets = [
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
   }
 
-  .fente-cavite-ombre {
+  .fente-abyme-shadow {
     position: absolute;
     inset: 3px 0;
-    background: #050505;
+    background: #080808;
     box-shadow: inset 0 8px 10px #000000, inset 0 -4px 6px #000000;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .fente-slot-texte {
+  .fente-indic {
     font: 700 8px var(--font);
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.65);
   }
 
-  .fente-levre-bot {
+  .fente-levre-bas {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -1502,137 +1811,41 @@ const bandeauxProjets = [
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
   }
 
-  /* Zone sous la paroi : le ruban est à l'intérieur */
-  .zone-sous-paroi {
+  /* Sous la fente : le ruban est en retrait dans la paroi */
+  .fente-sous-paroi {
     position: relative;
-    padding: 14px 18px;
     background: repeating-linear-gradient(
       -45deg,
-      #ececec,
-      #ececec 8px,
-      #e3e3e2 8px,
-      #e3e3e2 16px
+      #dedede,
+      #dedede 8px,
+      #d4d4d3 8px,
+      #d4d4d3 16px
     );
+    border-left: 1px dashed rgba(0, 0, 0, 0.2);
+    border-right: 1px dashed rgba(0, 0, 0, 0.2);
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.2);
+    padding: 14px 12px;
   }
 
-  .trace-sous-paroi {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    width: 80%;
-    transform: translateX(-50%);
-    border-left: 2px dashed rgba(0, 0, 0, 0.25);
-    border-right: 2px dashed rgba(0, 0, 0, 0.25);
-    pointer-events: none;
-  }
-
-  .pause-card-interne {
-    position: relative;
-    z-index: 2;
+  .fente-pause-fiche {
     background: #ffffff;
-    border: 1px dashed rgba(0, 0, 0, 0.4);
+    border: 1px dashed rgba(0, 0, 0, 0.35);
     border-left: 3px solid #000000;
     border-radius: 4px;
     padding: 10px 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   }
 
-  .pause-topline {
+  .fente-pause-meta {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 6px;
-    margin-bottom: 4px;
   }
 
-  .badge-pause-fente {
-    font: 700 8.5px var(--font);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #ffffff;
-    background: #000000;
-    padding: 2px 6px;
-    border-radius: 3px;
-  }
-
-  .pause-date {
-    font: 700 9px var(--font);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.5);
-  }
-
-  .pause-titre {
-    margin: 0 0 3px;
-    font: 700 12.5px/1.3 var(--font);
-    letter-spacing: 0.03em;
-    color: #000000;
-  }
-
-  .pause-desc {
-    margin: 0 0 6px;
-    font: 400 11px/1.45 var(--font);
-    color: rgba(0, 0, 0, 0.7);
-  }
-
-  .pause-fente-info {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font: 700 8.5px var(--font);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.6);
-  }
-
-  .pause-pulse-indicator {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #000000;
-    opacity: 0.5;
-  }
-
-  /* Fente de sortie */
-  .ruban-emergence-slot {
-    position: relative;
-    width: 100%;
-    height: 18px;
-    background: linear-gradient(to bottom, #444444 0%, #dfdfde 40%, #fafafa 100%);
-  }
-
-  /* Statut Final */
-  .section-statut-final {
-    background: #ffffff;
-    border-bottom: none;
-  }
-
-  .etiquette-statut-tissu {
-    padding: 6px 4px;
-  }
-
-  .statut-topline {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 4px;
-  }
-
-  .statut-pulse-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #000000;
-    animation: pulseDot 2s infinite ease-in-out;
-  }
-
-  @keyframes pulseDot {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.3); opacity: 0.6; }
-  }
-
-  .statut-tag {
+  .fente-pause-tag {
     font: 700 8.5px var(--font);
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -1642,82 +1855,70 @@ const bandeauxProjets = [
     border-radius: 3px;
   }
 
-  .statut-date {
-    margin-left: auto;
+  .fente-pause-date {
     font: 700 9px var(--font);
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.6);
+    color: rgba(0, 0, 0, 0.5);
   }
 
-  .statut-titre {
-    margin: 0 0 3px;
+  .fente-pause-titre {
+    margin: 0;
     font: 700 12.5px/1.3 var(--font);
-    letter-spacing: 0.04em;
+    letter-spacing: 0.03em;
     color: #000000;
   }
 
-  .statut-desc {
+  .fente-pause-desc {
     margin: 0;
     font: 400 11px/1.45 var(--font);
-    color: rgba(0, 0, 0, 0.75);
+    color: rgba(0, 0, 0, 0.7);
   }
 
-  /* Terminaison du ruban (ourlet en biseau / queue d'aronde) */
-  .ruban-terminaison {
-    position: relative;
-    background: #fbfbfb;
-    padding: 10px 14px 16px;
-    display: flex;
-    flex-direction: column;
+  .fente-pause-sub {
+    display: inline-flex;
     align-items: center;
-    border-top: 1px dashed rgba(0, 0, 0, 0.15);
-  }
-
-  .ruban-actions-seam {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-  }
-
-  .ruban-btn-action {
-    flex: 1;
-    text-align: center;
-    padding: 7px 8px;
-    font-size: 10.5px;
+    gap: 6px;
+    font: 700 8px var(--font);
     letter-spacing: 0.08em;
-    white-space: nowrap;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.6);
+    margin-top: 4px;
+  }
+
+  .fente-pause-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #000000;
+    opacity: 0.5;
   }
 
   /* ==========================================================================
      RESPONSIVE SUR MOBILE
      ========================================================================== */
   @media (max-width: 899px) {
-    .chrono-sticky-viewport {
-      position: relative;
-      height: auto;
-      min-height: auto;
-      padding: 16px 0;
+    .sticky-time-bar {
+      padding: 8px 14px;
     }
 
-    .chrono-fluid-header {
-      padding: 0 16px 10px;
+    .epoque-vertical-slice {
+      padding: 40px 0 50px;
+      gap: 24px;
     }
 
-    .chrono-track-window {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      padding: 10px 16px;
+    .rubans-row {
+      gap: 14px;
     }
 
-    .chrono-continuous-track {
-      gap: 16px;
+    .ruban-vertical-band,
+    .fente-pause-artefact {
+      width: 100%;
+      max-width: 320px;
     }
 
-    .ruban-col-wrap {
-      width: 295px;
-      height: 560px;
+    .fentes-pause-zone {
+      padding: 16px;
     }
   }
 </style>
