@@ -196,85 +196,103 @@ const raisonProjet: Record<string, string> = {
     </div>
   </section>
 
-  <!-- ================= 03. PRÉSENTATION CHRONOLOGIQUE VERTICALE ================= -->
-  <section id="projets-chronologie" class="conteneur section-timeline">
+  <!-- ================= 03. CHRONOLOGIE EN BANDES VERTICALES ================= -->
+  <section id="projets-chronologie" class="conteneur section-chrono-bandes">
     <header class="timeline-header">
       <div class="header-pre">
-        <span class="etiquette">PORTFOLIO &bull; {projetsChronologiques.length} RÉALISATIONS</span>
+        <span class="etiquette">02 &bull; FLUX CHRONOLOGIQUE ({projetsChronologiques.length} PROJETS)</span>
       </div>
-      <h2 class="timeline-main-title">CHRONOLOGIE DES PROJETS</h2>
-      <p class="timeline-main-desc">
-        Parcours vertical et chronologique de mes réalisations logicielles, expérimentations matérielles et plateformes numériques.
-      </p>
+      <div class="chrono-head-flex">
+        <div>
+          <h2 class="timeline-main-title">CHRONOLOGIE DES RÉALISATIONS</h2>
+          <p class="timeline-main-desc">
+            Chaque bande représente un projet technique autonome. Défilez pour parcourir la chronologie et découvrir les architectures.
+          </p>
+        </div>
+        <!-- Indicateur de progression dynamique au scroll -->
+        <div class="scroll-progress-badge" aria-hidden="true">
+          <span class="progress-label">LECTURE //</span>
+          <span class="progress-count" id="chronoCounter">01 / {String(projetsChronologiques.length).padStart(2, '0')}</span>
+        </div>
+      </div>
     </header>
 
-    <!-- Flux chronologique vertical -->
-    <div class="timeline-track">
-      {
-        annees.map((annee) => (
-          <div class="timeline-year-group">
-            <!-- Balise de l'année -->
-            <div class="year-milestone">
-              <span class="year-pill">{annee}</span>
-            </div>
+    <!-- La colonne des bandes avec rail de défilement interactif -->
+    <div class="bandes-wrapper" id="bandesTrack">
+      <!-- Rail vertical de progression -->
+      <div class="bandes-rail" aria-hidden="true">
+        <div class="bandes-rail-fill" id="railFill"></div>
+      </div>
 
-            <!-- Liste des projets de l'année -->
-            <div class="year-items">
-              {projetsParAnnee[annee].map((projet) => {
-                const { titre, resume, nature, statut, domaines } = projet.data;
-                const meta = [nature, statut].filter(Boolean).join(' · ');
-                const logo = logoMap[projet.id];
+      <!-- Liste verticale des bandes de projet -->
+      <div class="bandes-stack">
+        {
+          projetsChronologiques.map((projet, index) => {
+            const { titre, resume, nature, statut, domaines, annee } = projet.data;
+            const meta = [nature, statut].filter(Boolean).join(' · ');
+            const logo = logoMap[projet.id];
+            const numero = String(index + 1).padStart(2, '0');
+            const raison = raisonProjet[projet.id] || resume;
 
-                return (
-                  <div class="timeline-item">
-                    <!-- Point d'ancrage sur la ligne verticale -->
-                    <div class="timeline-pin">
-                      <span class="pin-dot" />
-                    </div>
+            return (
+              <a
+                href={`/projets/${projet.id}`}
+                class={`projet-bande ${index === 0 ? 'is-active' : ''}`}
+                data-index={numero}
+                id={`bande-${projet.id}`}
+                aria-label={`Projet ${titre} (${annee})`}
+              >
+                <!-- Indicateur gauche : Index & Année -->
+                <div class="bande-marker-col">
+                  <span class="bande-num">{numero}</span>
+                  <span class="bande-year">{annee || '2026'}</span>
+                  <span class="bande-pin" aria-hidden="true">
+                    <span class="bande-pin-dot"></span>
+                  </span>
+                </div>
 
-                    <!-- Carte de projet -->
-                    <a class="timeline-card" href={`/projets/${projet.id}`}>
-                      <span class="card-ext">↗</span>
+                <!-- Logo du projet -->
+                <div class="bande-logo-frame">
+                  {logo ? (
+                    <img src={logo} alt={`Logo ${titre}`} loading="lazy" class="bande-logo-img" />
+                  ) : (
+                    <span class="bande-logo-fallback">{titre.slice(0, 2).toUpperCase()}</span>
+                  )}
+                </div>
 
-                      <div class="card-top">
-                        {logo && (
-                          <div class="card-logo-frame">
-                            <img src={logo} alt={titre} loading="lazy" />
-                          </div>
-                        )}
-                        <div class="card-titles">
-                          {meta && <span class="etiquette card-meta">{meta}</span>}
-                          <h3 class="card-name">{titre}</h3>
-                        </div>
-                      </div>
-
-                      <p class="card-summary">{resume}</p>
-
-                      {raisonProjet[projet.id] && (
-                        <div class="card-why">
-                          <span class="why-label">RAISON D'ÊTRE //</span>
-                          <span class="why-text">{raisonProjet[projet.id]}</span>
-                        </div>
-                      )}
-
-                      <div class="card-footer">
-                        {domaines && domaines.length > 0 && (
-                          <div class="card-tags">
-                            {domaines.map((d: string) => (
-                              <span class="domaine-pill">{d}</span>
-                            ))}
-                          </div>
-                        )}
-                        <span class="card-cta">Découvrir la fiche &rarr;</span>
-                      </div>
-                    </a>
+                <!-- Corps de la bande -->
+                <div class="bande-body">
+                  <div class="bande-heading">
+                    <h3 class="bande-titre">{titre}</h3>
+                    {meta && <span class="bande-meta">{meta}</span>}
                   </div>
-                );
-              })}
-            </div>
-          </div>
-        ))
-      }
+
+                  <p class="bande-resume">{resume}</p>
+
+                  <div class="bande-why">
+                    <span class="bande-why-tag">OBJECTIF //</span>
+                    <span class="bande-why-text">{raison}</span>
+                  </div>
+
+                  {domaines && domaines.length > 0 && (
+                    <div class="bande-tags-row">
+                      {domaines.map((d: string) => (
+                        <span class="domaine-pill">{d}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <!-- Action droite : Flèche & Call to action -->
+                <div class="bande-action-col">
+                  <span class="bande-action-label">Explorer</span>
+                  <span class="bande-arrow">↗</span>
+                </div>
+              </a>
+            );
+          })
+        }
+      </div>
     </div>
   </section>
 
@@ -644,12 +662,12 @@ const raisonProjet: Record<string, string> = {
   }
 
   /* ==========================================================================
-     PRÉSENTATION CHRONOLOGIQUE VERTICALE
+     CHRONOLOGIE EN BANDES VERTICALES & RÉACTIVES AU SCROLL
      ========================================================================== */
-  .section-timeline {
+  .section-chrono-bandes {
     padding-top: clamp(48px, 8vh, 80px);
     padding-bottom: clamp(32px, 5vh, 48px);
-    max-width: 860px;
+    max-width: 900px;
   }
 
   .timeline-header {
@@ -677,215 +695,335 @@ const raisonProjet: Record<string, string> = {
     max-width: 640px;
   }
 
-  /* La colonne chronologique avec ligne pointillée verticale */
-  .timeline-track {
-    position: relative;
-    padding-left: clamp(28px, 5vw, 44px);
-    border-left: 2px dashed var(--dash);
-    margin-left: clamp(14px, 3vw, 24px);
+  .chrono-head-flex {
     display: flex;
-    flex-direction: column;
-    gap: 40px;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
   }
 
-  .timeline-year-group {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .year-milestone {
-    position: relative;
-    margin-bottom: 4px;
-  }
-
-  .year-pill {
+  .scroll-progress-badge {
     display: inline-flex;
     align-items: center;
-    height: 32px;
-    padding: 0 16px;
-    border: 2px solid var(--ink);
-    border-radius: 16px;
-    background: var(--ink);
-    color: var(--paper);
-    font: 700 13px var(--font);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    gap: 8px;
+    padding: 6px 14px;
+    border: 2px dashed var(--dash);
+    border-radius: 20px;
+    background: #fafafa;
   }
 
-  .year-items {
+  .progress-label {
+    font: 700 10px var(--font);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.55);
+  }
+
+  .progress-count {
+    font: 700 12px var(--font);
+    letter-spacing: 0.1em;
+    color: #000000;
+  }
+
+  /* Conteneur avec rail vertical interactif */
+  .bandes-wrapper {
+    position: relative;
+    padding-left: clamp(24px, 4vw, 36px);
+  }
+
+  /* Rail vertical de progression */
+  .bandes-rail {
+    position: absolute;
+    left: 8px;
+    top: 20px;
+    bottom: 20px;
+    width: 2px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 1px;
+    overflow: hidden;
+  }
+
+  .bandes-rail-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10%;
+    background: #000000;
+    transition: height 0.15s ease-out;
+  }
+
+  /* Pile verticale des bandes */
+  .bandes-stack {
     display: flex;
     flex-direction: column;
     gap: 20px;
   }
 
-  .timeline-item {
+  /* Structure d'une bande de projet individuelle */
+  .projet-bande {
     position: relative;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 80px 64px 1fr auto;
+    align-items: center;
+    gap: clamp(14px, 2.5vw, 24px);
+    padding: clamp(16px, 2.5vw, 22px) clamp(16px, 3vw, 26px);
+    background: #ffffff;
+    border: 2px dashed var(--dash);
+    border-radius: 10px;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    opacity: 0.65;
+    transform: scale(0.985);
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                border 0.25s ease,
+                box-shadow 0.25s ease,
+                background-color 0.25s ease;
   }
 
-  .timeline-pin {
+  /* État actif au scroll & au survol */
+  .projet-bande.is-active,
+  .projet-bande:hover {
+    opacity: 1;
+    transform: scale(1) translateX(4px);
+    border: 2px solid #000000;
+    border-left: 6px solid #000000;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+    background: #ffffff;
+  }
+
+  /* Colonne Marker / Index & Année */
+  .bande-marker-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    position: relative;
+  }
+
+  .bande-num {
+    font: 700 22px/1 var(--font);
+    letter-spacing: 0.08em;
+    color: #000000;
+  }
+
+  .bande-year {
+    font: 700 11px var(--font);
+    letter-spacing: 0.14em;
+    color: rgba(0, 0, 0, 0.45);
+  }
+
+  .bande-pin {
     position: absolute;
-    top: 24px;
-    left: calc(-1 * clamp(28px, 5vw, 44px) - 8px);
+    left: calc(-1 * clamp(24px, 4vw, 36px) - 9px);
+    top: 50%;
+    transform: translateY(-50%);
     width: 14px;
     height: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 2;
   }
 
-  .pin-dot {
-    width: 14px;
-    height: 14px;
-    border: 2px solid var(--ink);
+  .bande-pin-dot {
+    width: 10px;
+    height: 10px;
+    border: 2px solid #000000;
     border-radius: 50%;
-    background: var(--paper);
-    transition: background-color 0.2s, transform 0.2s;
+    background: #ffffff;
+    transition: background-color 0.25s, transform 0.25s;
   }
 
-  .timeline-item:hover .pin-dot {
-    background: var(--ink);
-    transform: scale(1.25);
+  .projet-bande.is-active .bande-pin-dot,
+  .projet-bande:hover .bande-pin-dot {
+    background: #000000;
+    transform: scale(1.3);
   }
 
-  .timeline-card {
-    display: flex;
-    flex-direction: column;
-    padding: 24px 22px 20px;
-    border: 2px dashed var(--dash);
-    border-radius: 12px;
-    background: var(--paper);
-    text-decoration: none;
-    position: relative;
-    cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-                border-color 0.2s ease,
-                border-style 0.2s ease,
-                box-shadow 0.2s ease;
-  }
-
-  .timeline-card:hover {
-    transform: translateX(6px);
-    border-style: solid;
-    border-color: var(--ink);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  }
-
-  .card-ext {
-    position: absolute;
-    top: 14px;
-    right: 16px;
-    font-size: 14px;
-    font-weight: 700;
-    color: rgba(0, 0, 0, 0.35);
-    transition: color 0.2s, transform 0.2s;
-  }
-
-  .timeline-card:hover .card-ext {
-    color: var(--ink);
-    transform: translate(1px, -1px);
-  }
-
-  .card-top {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 12px;
-  }
-
-  .card-logo-frame {
-    width: 52px;
-    height: 52px;
+  /* Cadre logo */
+  .bande-logo-frame {
+    width: 58px;
+    height: 58px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 2px dashed rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 6px;
     background: #fafafa;
+    transition: border-color 0.2s, transform 0.2s;
   }
 
-  .card-logo-frame img {
+  .bande-logo-img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
     display: block;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s;
   }
 
-  .timeline-card:hover .card-logo-frame img {
-    transform: scale(1.1);
+  .bande-logo-fallback {
+    font: 700 16px var(--font);
+    letter-spacing: 0.1em;
+    color: rgba(0, 0, 0, 0.6);
   }
 
-  .card-titles {
+  .projet-bande.is-active .bande-logo-frame,
+  .projet-bande:hover .bande-logo-frame {
+    border-color: #000000;
+    background: #ffffff;
+  }
+
+  .projet-bande.is-active .bande-logo-img,
+  .projet-bande:hover .bande-logo-img {
+    transform: scale(1.08);
+  }
+
+  /* Corps de texte de la bande */
+  .bande-body {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 8px;
+    min-width: 0;
   }
 
-  .card-meta {
-    font-size: 10px;
-    letter-spacing: 0.12em;
+  .bande-heading {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .bande-titre {
+    margin: 0;
+    font: 700 clamp(18px, 2.5vw, 24px)/1.15 var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #000000;
+  }
+
+  .bande-meta {
+    font: 700 10px var(--font);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
     color: rgba(0, 0, 0, 0.5);
   }
 
-  .card-name {
+  .bande-resume {
     margin: 0;
-    font: 700 18px/1.2 var(--font);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink);
-  }
-
-  .card-summary {
-    margin: 0 0 10px;
-    font: 400 14px/1.6 var(--font);
+    font: 400 13px/1.5 var(--font);
+    color: rgba(0, 0, 0, 0.75);
     letter-spacing: 0.02em;
-    color: rgba(0, 0, 0, 0.8);
   }
 
-  .card-why {
-    margin: 0 0 16px;
-    padding: 10px 14px;
-    background: #fafafa;
-    border-left: 3px solid #000000;
-    border-radius: 0 6px 6px 0;
-    font: 400 12.5px/1.55 var(--font);
+  .bande-why {
     display: flex;
-    flex-direction: column;
-    gap: 3px;
+    align-items: baseline;
+    gap: 6px;
+    font: 400 12px/1.5 var(--font);
+    color: #111111;
+    background: #f8f8f8;
+    padding: 6px 10px;
+    border-left: 2px solid #000000;
+    border-radius: 0 4px 4px 0;
   }
 
-  .why-label {
+  .bande-why-tag {
     font-weight: 700;
-    font-size: 10px;
+    font-size: 9.5px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: rgba(0, 0, 0, 0.55);
+    flex-shrink: 0;
   }
 
-  .why-text {
-    color: #111111;
+  .bande-why-text {
+    color: #000000;
   }
 
-  .card-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    flex-wrap: wrap;
-    padding-top: 12px;
-    border-top: 2px dashed rgba(0, 0, 0, 0.15);
-  }
-
-  .card-tags {
+  .bande-tags-row {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
+  }
+
+  /* Action / Flèche droite */
+  .bande-action-col {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-left: 8px;
+  }
+
+  .bande-action-label {
+    font: 700 11px var(--font);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.45);
+    transition: color 0.2s;
+  }
+
+  .bande-arrow {
+    font-size: 16px;
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.35);
+    transition: transform 0.2s, color 0.2s;
+  }
+
+  .projet-bande.is-active .bande-action-label,
+  .projet-bande:hover .bande-action-label {
+    color: #000000;
+  }
+
+  .projet-bande.is-active .bande-arrow,
+  .projet-bande:hover .bande-arrow {
+    color: #000000;
+    transform: translate(2px, -2px);
+  }
+
+  /* Adaptations mobile */
+  @media (max-width: 680px) {
+    .projet-bande {
+      grid-template-columns: 50px 48px 1fr auto;
+      gap: 12px;
+      padding: 14px 12px;
+    }
+
+    .bande-num {
+      font-size: 18px;
+    }
+
+    .bande-logo-frame {
+      width: 48px;
+      height: 48px;
+    }
+
+    .bande-action-label {
+      display: none;
+    }
+
+    .bande-why {
+      flex-direction: column;
+      gap: 2px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .bandes-wrapper {
+      padding-left: 18px;
+    }
+
+    .bandes-rail {
+      left: 4px;
+    }
+
+    .bande-pin {
+      left: -23px;
+    }
   }
 
   .domaine-pill {
@@ -1053,3 +1191,101 @@ const raisonProjet: Record<string, string> = {
     }
   }
 </style>
+
+<script>
+  // Activation interactive des bandes de projets au défilement
+  function initChronoBandes() {
+    const bandes = Array.from(document.querySelectorAll<HTMLElement>('.projet-bande'));
+    const railFill = document.getElementById('railFill');
+    const chronoCounter = document.getElementById('chronoCounter');
+    const track = document.getElementById('bandesTrack');
+
+    if (!bandes.length) return;
+
+    const total = bandes.length;
+
+    // 1. Observer pour activer avec précision la bande la plus visible
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-active');
+          } else {
+            // Désactiver seulement si ce n'est pas la seule dans la zone
+            entry.target.classList.remove('is-active');
+          }
+        });
+      },
+      {
+        rootMargin: '-18% 0px -25% 0px',
+        threshold: 0.15,
+      }
+    );
+
+    bandes.forEach((b) => observer.observe(b));
+
+    // 2. Progression dynamique du rail vertical et mise à jour du compteur
+    let ticking = false;
+
+    function onScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const winH = window.innerHeight;
+          const centerY = winH * 0.45;
+
+          // Mise à jour de la bande la plus proche du centre de lecture
+          let closestBande: HTMLElement | null = null;
+          let minDistance = Infinity;
+
+          bandes.forEach((bande) => {
+            const rect = bande.getBoundingClientRect();
+            const bandeCenter = rect.top + rect.height / 2;
+            const dist = Math.abs(bandeCenter - centerY);
+
+            if (dist < minDistance) {
+              minDistance = dist;
+              closestBande = bande;
+            }
+          });
+
+          if (closestBande) {
+            bandes.forEach((b) => {
+              if (b === closestBande) {
+                b.classList.add('is-active');
+              }
+            });
+
+            const indexVal = (closestBande as HTMLElement).dataset.index || '01';
+            if (chronoCounter) {
+              chronoCounter.textContent = `${indexVal} / ${String(total).padStart(2, '0')}`;
+            }
+          }
+
+          // Remplissage progressif du rail vertical
+          if (track && railFill) {
+            const trackRect = track.getBoundingClientRect();
+            const start = trackRect.top - winH * 0.7;
+            const end = trackRect.bottom - winH * 0.3;
+            const totalTravel = end - start;
+
+            if (totalTravel > 0) {
+              const currentTravel = -start;
+              const ratio = Math.max(0, Math.min(1, currentTravel / totalTravel));
+              railFill.style.height = `${(ratio * 100).toFixed(1)}%`;
+            }
+          }
+
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll(); // Exécuter une première fois
+  }
+
+  // Initialisation immédiate et support des navigations Astro
+  initChronoBandes();
+  document.addEventListener('astro:page-load', initChronoBandes);
+</script>
