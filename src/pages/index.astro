@@ -3,6 +3,48 @@ import Base from '../layouts/Base.astro';
 
 const bandeauxProjets = [
   {
+    id: 'lestourangeaux',
+    numero: '06',
+    titre: 'LES TOURANGEAUX',
+    sousTitre: 'Portail régional indépendant',
+    domaine: 'Web & Communauté',
+    logo: '/assets/logos/lestourangeaux.svg',
+    lien: '/projets/lestourangeaux',
+    github: 'https://github.com/TakDai/LesTourangeaux',
+    etapes: [
+      {
+        type: 'phase',
+        date: '2025',
+        titre: 'Architecture & collecte locale',
+        desc: 'Conception de la plateforme web pour valoriser les artisans et créateurs de Tours.',
+      },
+      {
+        type: 'temps_fort',
+        date: 'Fin 2025',
+        titre: '150+ initiatives référencées',
+        desc: 'Mise en ligne et adoption rapide par le tissu local sans publicité payante.',
+      },
+      {
+        type: 'pause',
+        date: 'Hiver 2025',
+        titre: 'Transition vers le hardware',
+        desc: 'Mise en veilleuse du dev web pour consacrer l\'hiver à l\'atelier physique.',
+      },
+      {
+        type: 'phase',
+        date: 'Avril 2026',
+        titre: 'Maintenance & CDN haute disponibilité',
+        desc: 'Sortie de fente : remise à niveau de l\'infrastructure indépendante.',
+      },
+      {
+        type: 'statut',
+        date: 'Aujourd\'hui',
+        titre: 'En ligne & autonome',
+        desc: 'Accessible en continu sur lestourangeaux.fr.',
+      },
+    ],
+  },
+  {
     id: 'multi-motors',
     numero: '01',
     titre: 'MULTI-MOTORS',
@@ -185,42 +227,6 @@ const bandeauxProjets = [
         date: 'Aujourd\'hui',
         titre: 'Sessions régulières',
         desc: 'Diffusions techniques périodiques sur Twitch.',
-      },
-    ],
-  },
-  {
-    id: 'lestourangeaux',
-    numero: '06',
-    titre: 'LES TOURANGEAUX',
-    sousTitre: 'Portail régional indépendant',
-    domaine: 'Web & Communauté',
-    logo: '/assets/logos/lestourangeaux.svg',
-    lien: '/projets/lestourangeaux',
-    github: 'https://github.com/TakDai/LesTourangeaux',
-    etapes: [
-      {
-        type: 'phase',
-        date: '2025',
-        titre: 'Architecture & collecte locale',
-        desc: 'Conception de la plateforme web pour valoriser les artisans et créateurs de Tours.',
-      },
-      {
-        type: 'temps_fort',
-        date: 'Fin 2025',
-        titre: '150+ initiatives référencées',
-        desc: 'Mise en ligne et adoption rapide par le tissu local sans publicité payante.',
-      },
-      {
-        type: 'pause',
-        date: 'Hiver 2025',
-        titre: 'Transition vers le hardware',
-        desc: 'Mise en veilleuse du dev web pour consacrer l\'hiver à l\'atelier physique.',
-      },
-      {
-        type: 'statut',
-        date: 'Aujourd\'hui',
-        titre: 'En ligne & autonome',
-        desc: 'Accessible en continu sur lestourangeaux.fr.',
       },
     ],
   },
@@ -855,99 +861,135 @@ const rubansProjets = [
     </a>
   </section>
 
-  <!-- ================= SECTION BANDES NOIRES PURS ================= -->
-  <section class="bandes-section" id="chronologie-rubans">
-    <div class="bandes-container">
-      {periodesLigneDuTemps.map((periode) => {
-        const rubansVisibles = rubansProjets
-          .map((p) => {
-            const seg = p.segments[periode.id] || { etat: 'vide' };
-            return { projet: p, segment: seg };
-          })
-          .filter((item) => item.segment.etat !== 'vide' && item.segment.etat !== 'en_pause');
+  <!-- ================= SECTION BANDEAUX NOIRS DU TEMPS ================= -->
+  <section class="bandeaux-section" id="chronologie-rubans">
+    <div class="bandeaux-flow-container">
+      {bandeauxProjets.map((p) => {
+        const etapesAvantPause = [];
+        let etapePause = null;
+        const etapesApresPause = [];
+
+        let passedPause = false;
+        for (const e of p.etapes) {
+          if (e.type === 'pause') {
+            etapePause = e;
+            passedPause = true;
+          } else if (!passedPause) {
+            etapesAvantPause.push(e);
+          } else {
+            etapesApresPause.push(e);
+          }
+        }
+
+        const dateGenese = p.etapes[0]?.date || '2026';
+        const is2025 = dateGenese === '2025';
 
         return (
-          <div class="bandes-era-block" id={`era-${periode.id}`}>
-            <div class="era-date-title">{periode.label}</div>
+          <article class={`bandeau-tissu-noir ${is2025 ? 'is-genese-2025' : ''}`} id={`bandeau-${p.id}`}>
+            <!-- Œillet supérieur de suspension -->
+            <div class="bandeau-suspension" aria-hidden="true">
+              <span class="ring-rivet"></span>
+            </div>
 
-            <div class="bandes-row">
-              {rubansVisibles.map(({ projet, segment }) => {
-                const isTempsFort = segment.etat === 'temps_fort' || segment.etat === 'sortie_temps_fort';
-                const isFentePause = segment.etat === 'fente_pause';
-                const isSortie = segment.etat === 'sortie_phase' || segment.etat === 'sortie_temps_fort' || segment.etat === 'sortie_statut';
-                const isStatut = segment.etat === 'statut' || segment.etat === 'sortie_statut';
+            <!-- Tête du bandeau noir -->
+            <header class="bandeau-head">
+              <div class="bandeau-meta-top">
+                <span class="bandeau-num">{p.numero}</span>
+                <span class={`bandeau-origin-tag ${is2025 ? 'origin-2025' : ''}`}>
+                  {is2025 ? 'GENÈSE 2025' : dateGenese}
+                </span>
+              </div>
+              <h3 class="bandeau-title">{p.titre}</h3>
+              <span class="bandeau-sub">{p.sousTitre}</span>
+            </header>
 
+            <!-- PARTIE 1 DU RUBAN : Étapes actives initiales -->
+            <div class="bandeau-ribbon-section ribbon-active">
+              {etapesAvantPause.map((etape) => {
+                const isTempsFort = etape.type === 'temps_fort';
                 return (
-                  <article class={`bande-noire ${isStatut ? 'is-terminal' : ''}`} id={`bande-${projet.id}-${periode.id}`}>
-                    <div class="b-hanger" aria-hidden="true">
-                      <span class="b-ring"></span>
-                    </div>
-
-                    {isSortie && (
-                      <div class="b-slit b-slit-exit" title="Ressort de la fente">
-                        <span>&uarr; SORTIE DE FENTE</span>
-                      </div>
-                    )}
-
-                    <div class="b-header">
-                      <span class="b-num">{projet.numero}</span>
-                      <h3 class="b-titre">{projet.titre}</h3>
-                    </div>
-
-                    <div class="b-body">
+                  <div class={`bandeau-step ${isTempsFort ? 'is-star-step' : ''}`}>
+                    <div class="step-meta">
+                      <span class="step-date">{etape.date}</span>
                       {isTempsFort && (
-                        <div class="b-star">
-                          <span>&#9733; POINT FORT</span>
-                        </div>
+                        <span class="step-star-badge">&#9733; POINT FORT</span>
                       )}
-                      <div class="b-desc">{segment.titre}</div>
                     </div>
-
-                    {isFentePause && (
-                      <div class="b-slit b-slit-entry" title="Rentre dans la fente (pause R&D)">
-                        <span>&darr; FENTE PAUSE &darr;</span>
-                      </div>
-                    )}
-
-                    {isStatut && (
-                      <div class="b-footer">
-                        <a href={projet.lien} class="b-link">Fiche &rarr;</a>
-                      </div>
-                    )}
-                  </article>
+                    <h4 class="step-title">{etape.titre}</h4>
+                    <p class="step-desc">{etape.desc}</p>
+                  </div>
                 );
               })}
             </div>
-          </div>
+
+            <!-- SI LE RUBAN RENTRE DANS LA FENTE (PAUSE R&D) -->
+            {etapePause && (
+              <div class="bandeau-fente-zone">
+                <!-- Entrée dans la fente 3D -->
+                <div class="slit-entry" title={`Le ruban rentre dans la fente : ${etapePause.titre}`}>
+                  <div class="slit-bevel-top"></div>
+                  <div class="slit-opening">
+                    <span class="slit-txt">&darr; RENTRE DANS LA FENTE (PAUSE) &darr;</span>
+                  </div>
+                </div>
+
+                <!-- Sous la paroi / derrière le mur : le ruban est suspendu dans le vide -->
+                <div class="slit-subterranean" title={`Hibernation R&D : ${etapePause.titre}`}>
+                  <span class="sub-pause-pill">PAUSE R&amp;D</span>
+                  <span class="sub-pause-title">{etapePause.titre}</span>
+                  <span class="sub-pause-desc">{etapePause.desc}</span>
+                </div>
+
+                <!-- Sortie de la fente 3D -->
+                <div class="slit-exit" title="Le ruban ressort de la fente">
+                  <div class="slit-opening">
+                    <span class="slit-txt">&uarr; RESSORT DE LA FENTE &uarr;</span>
+                  </div>
+                  <div class="slit-bevel-bottom"></div>
+                </div>
+              </div>
+            )}
+
+            <!-- PARTIE 2 DU RUBAN : Reprise et statut actuel -->
+            <div class="bandeau-ribbon-section ribbon-resumed">
+              {etapesApresPause.map((etape) => {
+                const isTempsFort = etape.type === 'temps_fort';
+                const isStatut = etape.type === 'statut';
+                return (
+                  <div class={`bandeau-step ${isTempsFort ? 'is-star-step' : ''} ${isStatut ? 'is-terminal-step' : ''}`}>
+                    <div class="step-meta">
+                      <span class="step-date">{etape.date}</span>
+                      {isTempsFort && (
+                        <span class="step-star-badge">&#9733; POINT FORT</span>
+                      )}
+                      {isStatut && (
+                        <span class="step-status-dot">&bull; ACTIF</span>
+                      )}
+                    </div>
+                    <h4 class="step-title">{etape.titre}</h4>
+                    <p class="step-desc">{etape.desc}</p>
+                  </div>
+                );
+              })}
+            </div>
+
+            <!-- BAS DU BANDEAU : Boutons d'accès et pointe en chevron de fanion -->
+            <footer class="bandeau-terminal-tip">
+              <div class="terminal-actions">
+                <a href={p.lien} class="btn-bandeau btn-fiche">Fiche &rarr;</a>
+                {p.github && (
+                  <a href={p.github} target="_blank" rel="noopener noreferrer" class="btn-bandeau btn-gh">GH ↗</a>
+                )}
+              </div>
+              <!-- Découpe physique en pointe chevron / queue d'aronde -->
+              <div class="pennant-swallowtail-cut" aria-hidden="true"></div>
+            </footer>
+          </article>
         );
       })}
     </div>
   </section>
 </Base>
-
-<script>
-  // Suivi de l'époque active lors du défilement
-  document.addEventListener('DOMContentLoaded', () => {
-    const blocks = document.querySelectorAll<HTMLElement>('.bandes-era-block');
-    if (blocks.length === 0) return;
-
-    function onScroll() {
-      const scrollY = window.scrollY + 200;
-      blocks.forEach((b) => {
-        const top = b.offsetTop;
-        const h = b.offsetHeight;
-        if (scrollY >= top && scrollY < top + h) {
-          b.classList.add('is-active-era');
-        } else {
-          b.classList.remove('is-active-era');
-        }
-      });
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-  });
-</script>
 
 <style>
   /* ==========================================================================
@@ -1099,113 +1141,105 @@ const rubansProjets = [
   }
 
   /* ==========================================================================
-     SECTION DES BANDES NOIRES (ZÉRO TABLEAU, ZÉRO SCROLL HORIZONTAL)
+     SECTION DES BANDEAUX NOIRS VERTICAUX (ZÉRO PACK PAR MOIS, ZÉRO SCROLL HORIZONTAL)
      ========================================================================== */
-  .bandes-section {
+  .bandeaux-section {
     position: relative;
     background: #ffffff;
-    padding: clamp(50px, 7vh, 90px) clamp(16px, 3vw, 40px);
+    padding: clamp(60px, 8vh, 100px) clamp(16px, 3vw, 40px);
     overflow-x: hidden !important;
     border-bottom: 2px dashed var(--dash);
   }
 
-  .bandes-container {
-    max-width: 1200px;
+  .bandeaux-flow-container {
+    max-width: 1240px;
     margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: clamp(60px, 8vh, 90px);
-    overflow-x: hidden !important;
-  }
-
-  .bandes-era-block {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 22px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .era-date-title {
-    font: 800 clamp(20px, 2.5vw, 26px)/1 var(--font);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #000000;
-    text-align: center;
-  }
-
-  /* La rangée de bandes noires : wrap naturel, ZÉRO scroll horizontal */
-  .bandes-row {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: stretch;
-    gap: 16px;
-    width: 100%;
-    box-sizing: border-box;
+    gap: 32px;
     overflow-x: hidden !important;
   }
 
   /* ==========================================================================
-     LA BANDE NOIRE PURE
+     LE BANDEAU EN TISSU NOIR VERTICAL
      ========================================================================== */
-  .bande-noire {
+  .bandeau-tissu-noir {
     position: relative;
     background: #000000;
     color: #ffffff;
-    width: 135px;
-    min-width: 115px;
-    max-width: 145px;
-    flex: 0 1 135px;
+    width: 220px;
+    min-width: 200px;
+    max-width: 240px;
     box-sizing: border-box;
-    padding: 16px 12px 20px;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.28);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
   }
 
-  .bande-noire:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.35);
+  .bandeau-tissu-noir:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 22px 50px rgba(0, 0, 0, 0.4);
   }
 
-  /* Attache suspension discrète */
-  .b-hanger {
+  /* Anneau de suspension */
+  .bandeau-suspension {
     display: flex;
     justify-content: center;
-    margin-bottom: 8px;
+    padding-top: 14px;
   }
 
-  .b-ring {
-    width: 6px;
-    height: 6px;
+  .ring-rivet {
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background: #ffffff;
-    border: 1.5px solid #333333;
+    border: 2px solid #222222;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
   }
 
-  /* En-tête de la bande */
-  .b-header {
+  /* En-tête */
+  .bandeau-head {
+    padding: 10px 16px 14px;
     border-bottom: 1px solid #222222;
-    padding-bottom: 8px;
-    margin-bottom: 10px;
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 3px;
   }
 
-  .b-num {
+  .bandeau-meta-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+
+  .bandeau-num {
     font-family: monospace;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
+    color: #ffffff;
+  }
+
+  .bandeau-origin-tag {
+    font: 700 8.5px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     color: #888888;
   }
 
-  .b-titre {
+  .bandeau-origin-tag.origin-2025 {
+    color: #000000;
+    background: #ffffff;
+    padding: 1px 5px;
+    border-radius: 2px;
+    font-weight: 800;
+  }
+
+  .bandeau-title {
     margin: 0;
-    font: 700 11px/1.2 var(--font);
+    font: 700 13.5px/1.2 var(--font);
     letter-spacing: 0.04em;
     text-transform: uppercase;
     color: #ffffff;
@@ -1213,104 +1247,217 @@ const rubansProjets = [
     overflow-wrap: break-word;
   }
 
-  /* Corps textuel sur la bande */
-  .b-body {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    flex: 1;
+  .bandeau-sub {
+    font: 400 9.5px/1.3 var(--font);
+    color: #888888;
+    display: block;
   }
 
-  .b-star {
-    display: inline-flex;
+  /* Sections du ruban */
+  .bandeau-ribbon-section {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 16px 14px;
+  }
+
+  .bandeau-step {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    text-align: left;
+  }
+
+  .step-meta {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 4px;
+  }
+
+  .step-date {
+    font: 700 8px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #777777;
+  }
+
+  .step-star-badge {
     background: #ffffff;
     color: #000000;
     font: 800 7.5px var(--font);
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    padding: 2px 6px;
+    padding: 1.5px 5px;
     border-radius: 999px;
-    align-self: flex-start;
   }
 
-  .b-desc {
-    font: 400 10.5px/1.35 var(--font);
-    color: #cccccc;
+  .step-status-dot {
+    font: 700 8px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a0a0a0;
+  }
+
+  .step-title {
+    margin: 0;
+    font: 700 11.5px/1.25 var(--font);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #ffffff;
     word-break: normal;
     overflow-wrap: break-word;
   }
 
-  /* Fentes 3D (entrée et sortie) */
-  .b-slit {
+  .step-desc {
+    margin: 0;
+    font: 400 10px/1.4 var(--font);
+    color: #b0b0b0;
+    word-break: normal;
+    overflow-wrap: break-word;
+  }
+
+  /* ==========================================================================
+     FENTE 3D DU RUBAN (ENTRÉE, SOUS-TERRAIN, SORTIE)
+     ========================================================================== */
+  .bandeau-fente-zone {
+    display: flex;
+    flex-direction: column;
+    margin: 4px 0;
+  }
+
+  .slit-entry {
     background: #080808;
-    padding: 6px 4px;
+    border-top: 3px solid #333333;
+    padding: 7px 4px;
     text-align: center;
+    box-shadow: inset 0 8px 12px #000000;
+  }
+
+  .slit-opening {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .slit-txt {
     font: 800 7.5px var(--font);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: #ffffff;
-    box-shadow: inset 0 6px 8px #000000;
+    white-space: nowrap;
   }
 
-  .b-slit-entry {
-    margin-top: 10px;
-    border-top: 2px solid #444444;
-  }
-
-  .b-slit-exit {
-    margin-bottom: 10px;
-    border-bottom: 2px solid #444444;
-  }
-
-  /* Terminaison fanion (chevron swallowtail cut) */
-  .bande-noire.is-terminal {
-    padding-bottom: 34px;
-    clip-path: polygon(
-      0 0,
-      100% 0,
-      100% calc(100% - 16px),
-      50% 100%,
-      0 calc(100% - 16px)
+  .slit-subterranean {
+    background: repeating-linear-gradient(
+      -45deg,
+      #111111,
+      #111111 6px,
+      #080808 6px,
+      #080808 12px
     );
-  }
-
-  .b-footer {
-    margin-top: 12px;
+    padding: 12px 10px;
+    text-align: center;
+    border-left: 2px dashed #222222;
+    border-right: 2px dashed #222222;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    gap: 3px;
   }
 
-  .b-link {
-    display: inline-block;
-    padding: 4px 10px;
-    background: #ffffff;
+  .sub-pause-pill {
+    font: 800 7px var(--font);
+    letter-spacing: 0.1em;
     color: #000000;
-    text-decoration: none;
-    font: 700 8.5px var(--font);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    background: #ffffff;
+    padding: 1px 5px;
     border-radius: 2px;
-    transition: background 0.2s ease;
+    align-self: center;
   }
 
-  .b-link:hover {
-    background: #d4d4d4;
+  .sub-pause-title {
+    font: 700 9px var(--font);
+    color: #cccccc;
+    text-transform: uppercase;
+  }
+
+  .sub-pause-desc {
+    font: 400 8px/1.3 var(--font);
+    color: #777777;
+  }
+
+  .slit-exit {
+    background: #080808;
+    border-bottom: 3px solid #333333;
+    padding: 7px 4px;
+    text-align: center;
+    box-shadow: inset 0 -6px 10px #000000;
   }
 
   /* ==========================================================================
-     RESPONSIVE (100% FLUIDE, ZÉRO SCROLL HORIZONTAL)
+     POINTE EN CHEVRON DE FANION & ACTIONS
+     ========================================================================== */
+  .bandeau-terminal-tip {
+    padding: 16px 14px 44px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: auto;
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% calc(100% - 24px),
+      50% 100%,
+      0 calc(100% - 24px)
+    );
+  }
+
+  .terminal-actions {
+    display: flex;
+    gap: 6px;
+  }
+
+  .btn-bandeau {
+    flex: 1;
+    padding: 6px 0;
+    text-align: center;
+    text-decoration: none;
+    font: 700 9px var(--font);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    transition: all 0.2s ease;
+  }
+
+  .btn-fiche {
+    background: #ffffff;
+    color: #000000;
+  }
+
+  .btn-fiche:hover {
+    background: #e0e0e0;
+  }
+
+  .btn-gh {
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid #444444;
+  }
+
+  .btn-gh:hover {
+    border-color: #ffffff;
+  }
+
+  /* ==========================================================================
+     RESPONSIVE (ZÉRO SCROLL HORIZONTAL)
      ========================================================================== */
   @media (max-width: 600px) {
-    .bandes-section {
-      padding: 40px 12px 70px;
+    .bandeaux-section {
+      padding: 40px 12px 80px;
     }
 
-    .bande-noire {
-      width: calc(50% - 10px);
-      min-width: 120px;
-      flex: 1 1 calc(50% - 10px);
+    .bandeau-tissu-noir {
+      width: 100%;
+      max-width: 280px;
     }
   }
 </style>
