@@ -499,42 +499,32 @@ const projectsInfographique = [
   },
 ];
 
-const stripeWidth = 6;
-const stripeGap = 5;
-const pitch = stripeWidth + stripeGap; // 11px
-const numTracks = projectsInfographique.length; // 10
+const pitch = 36;
+const stripeWidth = 8;
+const bundleStartX = 50;
+const logosY = 50;
 
-const innerRadius = 26;
-const bundleStartX = 350;
-const arcOriginX = bundleStartX - innerRadius;
-const arcCenterY = 175;
-
-const cardStartX = bundleStartX + (numTracks * pitch) + 38;
-const itemHeight = 158;
-const cardsStartY = arcCenterY + 25;
+const cardStartX = bundleStartX + (projectsInfographique.length * pitch) + 40;
+const itemHeight = 280; // Grand format zoomé
+const cardsStartY = logosY + 65;
 
 const renderedTracks = projectsInfographique.map((p, idx) => {
-  const trackIdx = numTracks - 1 - idx;
-  const R = innerRadius + (trackIdx * pitch);
-  const startX = 205 + (trackIdx * 10);
-  const lineY_horiz = arcCenterY - R;
-  const verticalX = arcOriginX + R;
+  const trackIdx = projectsInfographique.length - 1 - idx;
+  const lineX = bundleStartX + (trackIdx * pitch);
+  
+  const logoX = lineX;
+  const logoY = logosY;
+
   const targetCardY = cardsStartY + (idx * itemHeight);
-  const spurY = targetCardY + 44;
+  const spurY = targetCardY + 65;
 
-  const logoX = startX - 14;
-  const logoY = lineY_horiz;
-
-  let d = `M ${startX} ${lineY_horiz} `;
-  d += `H ${arcOriginX} `;
-  d += `A ${R} ${R} 0 0 1 ${verticalX} ${arcCenterY} `;
-  d += `V ${spurY - 10} `;
-  d += `Q ${verticalX} ${spurY} ${verticalX + 10} ${spurY} `;
-  d += `H ${cardStartX - 15}`;
+  // Ligne 100% orthogonale droite : AUCUNE COURBE
+  const d = `M ${lineX} ${logoY + 16} V ${spurY} H ${cardStartX - 2}`;
 
   return {
     ...p,
     trackIdx,
+    lineX,
     d,
     spurY,
     logoX,
@@ -543,7 +533,7 @@ const renderedTracks = projectsInfographique.map((p, idx) => {
   };
 });
 
-const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHeight) + 40;
+const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHeight) + 60;
 ---
 
 <Base sansNav={true} titre="Portfolio" description="Tom Bigot — Portfolio d'ingénierie, systèmes embarqués, drones FPV & développement logiciel.">
@@ -603,69 +593,63 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
     </a>
   </section>
 
-        <!-- ================= SECTION BANDEAUX DU TEMPS (INFOGRAPHIQUE ZOOMÉE) ================= -->
+          <!-- ================= SECTION BANDEAUX DU TEMPS (ZOOMÉE SANS COURBE) ================= -->
   <section class="bandeaux-timeline-section" id="chronologie-rubans">
     <div class="timeline-container" style={`--timeline-height: ${totalTimelineHeight}px;`}>
-      <div class="infographic-header">
-        <span class="header-eyebrow">CHRONOLOGIE TECHNIQUE</span>
-        <h2>CHRONOLOGIE DES CHANTIERS</h2>
-        <p>10 projets d'ingénierie, systèmes embarqués et fabrication de 2025 à aujourd'hui.</p>
-      </div>
-
-      <!-- Médaillons des logos en tête de ligne (juste les logos en tête) -->
+      <!-- Médaillons des 10 logos en tête des bandes (sans courbe) -->
       <div class="ribbon-logos-head" aria-hidden="true">
         {renderedTracks.map((p) => (
           <a
             href={p.lien}
             class={`ribbon-logo-anchor logo-${p.id}`}
-            style={`left: ${p.logoX - 13}px; top: ${p.logoY - 13}px;`}
+            style={`left: ${p.logoX - 15}px; top: ${p.logoY - 15}px;`}
             title={`${p.num} · ${p.titre} — ${p.domaine}`}
           >
-            <div class="logo-circle" style={`border-color: ${p.color};`}>
+            <div class="logo-circle">
               <img src={p.logo} alt={p.titre} />
             </div>
           </a>
         ))}
       </div>
 
-      <!-- Bus de rubans SVG concentriques et branches à 90° -->
+      <!-- Bandes orthogonales 100% droites (AUCUNE COURBE) -->
       <svg class="svg-lines-layer" width="100%" height={totalTimelineHeight} aria-hidden="true">
         {renderedTracks.map((p) => (
           <g class={`track-group group-${p.id}`}>
             <path
               d={p.d}
               fill="none"
-              stroke={p.color}
+              stroke="#000000"
               stroke-width={stripeWidth}
-              stroke-linecap="round"
+              stroke-linecap="square"
               class="infographic-ribbon"
             />
-            <circle
-              cx={cardStartX - 15}
-              cy={p.spurY}
-              r="4.5"
-              fill={p.color}
-              class="ribbon-terminal-dot"
+            <rect
+              x={cardStartX - 10}
+              y={p.spurY - 5}
+              width="10"
+              height="10"
+              fill="#000000"
             />
           </g>
         ))}
       </svg>
 
-      <!-- Fiches projets zoomées, ultra-lisibles et bien espacées -->
+      <!-- Fiches projets super-zoomées, massives et lisibles -->
       <div class="infographic-cards-column">
         {renderedTracks.map((p) => (
           <article class={`infographic-card card-${p.id}`} style={`top: ${p.targetCardY}px;`}>
             <div class="card-meta-line">
-              <span class="card-num" style={`color: ${p.color};`}>{p.num}</span>
+              <span class="card-num">{p.num}</span>
               <div class="card-heading">
                 <h3 class="card-title">{p.titre}</h3>
                 <span class="card-domain">{p.domaine}</span>
               </div>
-              <span class="card-date-badge" style={`background: ${p.color};`}>{p.date}</span>
+              <span class="card-date-badge">{p.date}</span>
             </div>
             <p class="card-desc">{p.desc}</p>
             <div class="card-actions">
-              <a href={p.lien} class="btn-card btn-fiche" style={`border-color: ${p.color};`}>Fiche projet &rarr;</a>
+              <a href={p.lien} class="btn-card btn-fiche">Fiche projet &rarr;</a>
               {p.github && (
                 <a href={p.github} target="_blank" rel="noopener noreferrer" class="btn-card btn-gh">Code source &#8599;</a>
               )}
@@ -826,55 +810,23 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
     50% { transform: translateY(5px); }
   }
 
-    /* ==========================================================================
-     SECTION TIMELINE INFOGRAPHIQUE ZOOMÉE STYLE RUBANS & FICHES
+      /* ==========================================================================
+     SECTION TIMELINE SUPER ZOOMÉE SANS COURBE (PURE LIGNES DROITES & BLOCS)
      ========================================================================== */
   .bandeaux-timeline-section {
     position: relative;
-    background: #fbfaf7;
-    padding: clamp(48px, 6vh, 72px) 16px;
+    background: #fbfbfb;
+    padding: clamp(60px, 8vh, 100px) 16px;
     overflow-x: hidden !important;
     border-bottom: 2px dashed var(--dash);
   }
 
   .timeline-container {
     position: relative;
-    max-width: 1040px;
+    max-width: 1240px;
     margin: 0 auto;
-    height: var(--timeline-height, 1850px);
+    height: var(--timeline-height, 2800px);
     overflow-x: hidden !important;
-  }
-
-  .infographic-header {
-    position: absolute;
-    top: 15px;
-    left: 12px;
-    max-width: 180px;
-    z-index: 10;
-  }
-  .header-eyebrow {
-    display: inline-block;
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #666666;
-    margin-bottom: 4px;
-  }
-  .infographic-header h2 {
-    margin: 0 0 6px 0;
-    font-size: 18px;
-    font-weight: 800;
-    letter-spacing: -0.01em;
-    text-transform: uppercase;
-    line-height: 1.15;
-    color: #111111;
-  }
-  .infographic-header p {
-    margin: 0;
-    font-size: 11.5px;
-    line-height: 1.4;
-    color: #666666;
   }
 
   .ribbon-logos-head {
@@ -889,32 +841,32 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
 
   .ribbon-logo-anchor {
     position: absolute;
-    width: 26px;
-    height: 26px;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-decoration: none;
     pointer-events: auto;
-    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.15s ease;
   }
   .ribbon-logo-anchor:hover {
-    transform: scale(1.35);
+    transform: scale(1.3);
   }
   .logo-circle {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
     background: #ffffff;
-    border: 2px solid #000000;
+    border: 2.5px solid #000000;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   }
   .logo-circle img {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     object-fit: contain;
   }
 
@@ -927,9 +879,6 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
     pointer-events: none;
     z-index: 2;
   }
-  .infographic-ribbon {
-    transition: stroke-width 0.2s ease, opacity 0.2s ease;
-  }
 
   .infographic-cards-column {
     position: relative;
@@ -939,111 +888,115 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
 
   .infographic-card {
     position: absolute;
-    left: 498px;
-    right: 15px;
-    height: 142px;
+    left: 450px;
+    right: 20px;
+    height: 242px;
     background: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 6px;
-    padding: 16px 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    border: 3px solid #000000;
+    border-radius: 0px;
+    padding: 24px 30px;
+    box-shadow: 8px 8px 0px #000000;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
     z-index: 5;
     box-sizing: border-box;
   }
   .infographic-card:hover {
-    transform: translateX(5px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-    border-color: rgba(0, 0, 0, 0.3);
+    transform: translate(-4px, -4px);
+    box-shadow: 12px 12px 0px #000000;
   }
 
   .card-meta-line {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 18px;
   }
   .card-num {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", monospace;
-    font-size: 24px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 32px;
     font-weight: 900;
     line-height: 1;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
+    background: #000000;
+    color: #ffffff;
+    padding: 6px 16px;
   }
   .card-heading {
     display: flex;
     flex-direction: column;
+    gap: 2px;
   }
   .card-title {
     margin: 0;
-    font-size: 16.5px;
-    font-weight: 800;
-    letter-spacing: 0.02em;
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: -0.01em;
     text-transform: uppercase;
-    color: #111111;
+    color: #000000;
   }
   .card-domain {
-    font-size: 11px;
-    font-weight: 600;
+    font-size: 13.5px;
+    font-weight: 800;
     color: #666666;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
   }
   .card-date-badge {
     margin-left: auto;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: #ffffff;
-    padding: 4px 9px;
-    border-radius: 3px;
+    background: #000000;
+    padding: 7px 14px;
     white-space: nowrap;
   }
   .card-desc {
-    margin: 4px 0 0 0;
-    font-size: 13.5px;
-    line-height: 1.45;
-    color: #444444;
+    margin: 10px 0 0 0;
+    font-size: 16.5px;
+    line-height: 1.5;
+    color: #222222;
+    font-weight: 500;
   }
   .card-actions {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     align-items: center;
-    margin-top: 4px;
+    margin-top: 12px;
   }
   .btn-card {
     display: inline-flex;
     align-items: center;
-    font-size: 11px;
-    font-weight: 700;
+    font-size: 13px;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.05em;
     text-decoration: none;
-    padding: 5px 12px;
-    border-radius: 4px;
+    padding: 10px 22px;
+    border: 2px solid #000000;
     transition: all 0.15s ease;
   }
   .btn-fiche {
-    background: #111111;
+    background: #000000;
     color: #ffffff;
-    border: 1px solid #111111;
   }
   .btn-fiche:hover {
-    background: #333333;
+    background: #ffffff;
+    color: #000000;
   }
   .btn-gh {
     background: transparent;
-    color: #111111;
-    border: 1px solid #d5d5d5;
+    color: #000000;
   }
   .btn-gh:hover {
-    border-color: #111111;
+    background: #000000;
+    color: #ffffff;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     .timeline-container {
       height: auto !important;
       padding-top: 20px;
@@ -1051,15 +1004,10 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
     .svg-lines-layer, .ribbon-logos-head {
       display: none;
     }
-    .infographic-header {
-      position: static;
-      max-width: 100%;
-      margin-bottom: 24px;
-    }
     .infographic-cards-column {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 24px;
     }
     .infographic-card {
       position: static !important;
