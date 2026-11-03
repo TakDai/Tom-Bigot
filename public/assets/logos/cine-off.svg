@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="320" height="80" fill="none">
+  <!-- Bobine 35mm stylisée -->
+  <g transform="translate(10, 10)">
+    <circle cx="30" cy="30" r="28" stroke="#000000" stroke-width="3" fill="#ffffff" />
+    <circle cx="30" cy="30" r="10" stroke="#000000" stroke-width="2.5" fill="#000000" />
+    <circle cx="30" cy="30" r="4" fill="#ffffff" />
+    <!-- Perforations bobine -->
+    <circle cx="30" cy="11" r="4.5" fill="#000000" />
+    <circle cx="30" cy="49" r="4.5" fill="#000000" />
+    <circle cx="11" cy="30" r="4.5" fill="#000000" />
+    <circle cx="49" cy="30" r="4.5" fill="#000000" />
+    <circle cx="17" cy="17" r="4.5" fill="#000000" />
+    <circle cx="43" cy="43" r="4.5" fill="#000000" />
+    <circle cx="17" cy="43" r="4.5" fill="#000000" />
+    <circle cx="43" cy="17" r="4.5" fill="#000000" />
+  </g>
+  <!-- Typographie CINÉ-OFF -->
+  <text x="82" y="42" font-family="'Glacial Indifference', -apple-system, BlinkMacSystemFont, sans-serif" font-size="34" font-weight="900" letter-spacing="1" fill="#000000">CINÉ-OFF</text>
+  <!-- Baseline -->
+  <text x="84" y="60" font-family="'Glacial Indifference', -apple-system, BlinkMacSystemFont, sans-serif" font-size="9" font-weight="700" letter-spacing="2" fill="#555555">CIRCUIT ITINÉRANT &bull; INDRE-ET-LOIRE</text>
+</svg>
