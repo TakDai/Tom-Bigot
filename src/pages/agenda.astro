@@ -7,9 +7,10 @@ import Base from '../layouts/Base.astro';
 export interface JourPlanningCinema {
   jour: number;
   dateStr: string;
-  statut: 'libre' | 'formation' | 'reserve_cine1' | 'reserve_cine2' | 'option';
+  statut: 'libre' | 'formation' | 'reserve_studios' | 'reserve_cineoff' | 'option';
   label: string;
   detail?: string;
+  ownerId: 'studios' | 'cineoff' | 'cfa' | 'none';
 }
 
 export interface MoisCinema {
@@ -20,70 +21,70 @@ export interface MoisCinema {
 }
 
 const joursCinemaNovembre2026: JourPlanningCinema[] = [
-  { jour: 1, dateStr: '2026-11-01', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Cabine Soir (Sortie nationale)' },
-  { jour: 2, dateStr: '2026-11-02', statut: 'formation', label: 'CFA / Formation', detail: 'Théorie DCI & Acoustique' },
-  { jour: 3, dateStr: '2026-11-03', statut: 'formation', label: 'CFA / Formation', detail: 'Atelier Optique & Électronique' },
-  { jour: 4, dateStr: '2026-11-04', statut: 'formation', label: 'CFA / Formation', detail: 'Cryptographie & KDM' },
-  { jour: 5, dateStr: '2026-11-05', statut: 'formation', label: 'CFA / Formation', detail: 'Pratique 35mm Argentique' },
-  { jour: 6, dateStr: '2026-11-06', statut: 'formation', label: 'CFA / Formation', detail: 'Normes de sécurité ERP' },
-  { jour: 7, dateStr: '2026-11-07', statut: 'reserve_cine2', label: 'Cinéma 2', detail: 'Cabine Après-midi + Soir' },
-  { jour: 8, dateStr: '2026-11-08', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 9, dateStr: '2026-11-09', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 10, dateStr: '2026-11-10', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 11, dateStr: '2026-11-11', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Férié — Séances continues' },
-  { jour: 12, dateStr: '2026-11-12', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 13, dateStr: '2026-11-13', statut: 'option', label: 'Option en cours', detail: 'Confirmation cinéma en attente' },
-  { jour: 14, dateStr: '2026-11-14', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Séance 35mm Spéciale' },
-  { jour: 15, dateStr: '2026-11-15', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 16, dateStr: '2026-11-16', statut: 'formation', label: 'CFA / Formation', detail: 'Sonorisation Dolby CP' },
-  { jour: 17, dateStr: '2026-11-17', statut: 'formation', label: 'CFA / Formation', detail: 'Réseaux TMS & Ingest' },
-  { jour: 18, dateStr: '2026-11-18', statut: 'formation', label: 'CFA / Formation', detail: 'Calibration laser & xénon' },
-  { jour: 19, dateStr: '2026-11-19', statut: 'formation', label: 'CFA / Formation', detail: 'Maintenance préventive' },
-  { jour: 20, dateStr: '2026-11-20', statut: 'formation', label: 'CFA / Formation', detail: 'Contrôles réglementaires' },
-  { jour: 21, dateStr: '2026-11-21', statut: 'reserve_cine2', label: 'Cinéma 2', detail: 'Week-end cabine DCI' },
-  { jour: 22, dateStr: '2026-11-22', statut: 'reserve_cine2', label: 'Cinéma 2', detail: 'Week-end cabine DCI' },
-  { jour: 23, dateStr: '2026-11-23', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 24, dateStr: '2026-11-24', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 25, dateStr: '2026-11-25', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 26, dateStr: '2026-11-26', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 27, dateStr: '2026-11-27', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 28, dateStr: '2026-11-28', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Soirée ciné-débat régie' },
-  { jour: 29, dateStr: '2026-11-29', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 30, dateStr: '2026-11-30', statut: 'libre', label: 'Disponible Cabine' },
+  { jour: 1, dateStr: '2026-11-01', statut: 'reserve_studios', label: 'Les Studios', detail: 'Cabine DCI & 35mm (Soir)', ownerId: 'studios' },
+  { jour: 2, dateStr: '2026-11-02', statut: 'formation', label: 'CFA / Formation', detail: 'Théorie DCI & Acoustique', ownerId: 'cfa' },
+  { jour: 3, dateStr: '2026-11-03', statut: 'formation', label: 'CFA / Formation', detail: 'Atelier Optique & Électronique', ownerId: 'cfa' },
+  { jour: 4, dateStr: '2026-11-04', statut: 'formation', label: 'CFA / Formation', detail: 'Cryptographie & KDM', ownerId: 'cfa' },
+  { jour: 5, dateStr: '2026-11-05', statut: 'formation', label: 'CFA / Formation', detail: 'Pratique 35mm Argentique', ownerId: 'cfa' },
+  { jour: 6, dateStr: '2026-11-06', statut: 'formation', label: 'CFA / Formation', detail: 'Normes de sécurité ERP', ownerId: 'cfa' },
+  { jour: 7, dateStr: '2026-11-07', statut: 'reserve_cineoff', label: 'Ciné-Off', detail: 'Projection itinérante (Soirée)', ownerId: 'cineoff' },
+  { jour: 8, dateStr: '2026-11-08', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 9, dateStr: '2026-11-09', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 10, dateStr: '2026-11-10', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 11, dateStr: '2026-11-11', statut: 'reserve_studios', label: 'Les Studios', detail: 'Férié — Séances continues DCI', ownerId: 'studios' },
+  { jour: 12, dateStr: '2026-11-12', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 13, dateStr: '2026-11-13', statut: 'option', label: 'Option en cours', detail: 'Confirmation exploitant en attente', ownerId: 'none' },
+  { jour: 14, dateStr: '2026-11-14', statut: 'reserve_studios', label: 'Les Studios', detail: 'Séance 35mm Spéciale Patrimoine', ownerId: 'studios' },
+  { jour: 15, dateStr: '2026-11-15', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 16, dateStr: '2026-11-16', statut: 'formation', label: 'CFA / Formation', detail: 'Sonorisation Dolby CP', ownerId: 'cfa' },
+  { jour: 17, dateStr: '2026-11-17', statut: 'formation', label: 'CFA / Formation', detail: 'Réseaux TMS & Ingest', ownerId: 'cfa' },
+  { jour: 18, dateStr: '2026-11-18', statut: 'formation', label: 'CFA / Formation', detail: 'Calibration laser & xénon', ownerId: 'cfa' },
+  { jour: 19, dateStr: '2026-11-19', statut: 'formation', label: 'CFA / Formation', detail: 'Maintenance préventive cabine', ownerId: 'cfa' },
+  { jour: 20, dateStr: '2026-11-20', statut: 'formation', label: 'CFA / Formation', detail: 'Contrôles réglementaires', ownerId: 'cfa' },
+  { jour: 21, dateStr: '2026-11-21', statut: 'reserve_cineoff', label: 'Ciné-Off', detail: 'Tournée week-end circuit rural', ownerId: 'cineoff' },
+  { jour: 22, dateStr: '2026-11-22', statut: 'reserve_cineoff', label: 'Ciné-Off', detail: 'Tournée week-end circuit rural', ownerId: 'cineoff' },
+  { jour: 23, dateStr: '2026-11-23', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 24, dateStr: '2026-11-24', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 25, dateStr: '2026-11-25', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 26, dateStr: '2026-11-26', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 27, dateStr: '2026-11-27', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 28, dateStr: '2026-11-28', statut: 'reserve_studios', label: 'Les Studios', detail: 'Soirée ciné-débat & régie micro', ownerId: 'studios' },
+  { jour: 29, dateStr: '2026-11-29', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 30, dateStr: '2026-11-30', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
 ];
 
 const joursCinemaDecembre2026: JourPlanningCinema[] = [
-  { jour: 1, dateStr: '2026-12-01', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 2, dateStr: '2026-12-02', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 3, dateStr: '2026-12-03', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 4, dateStr: '2026-12-04', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 5, dateStr: '2026-12-05', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Cabine Week-end' },
-  { jour: 6, dateStr: '2026-12-06', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Cabine Week-end' },
-  { jour: 7, dateStr: '2026-12-07', statut: 'formation', label: 'CFA / Formation', detail: 'Exploitation multi-écrans' },
-  { jour: 8, dateStr: '2026-12-08', statut: 'formation', label: 'CFA / Formation', detail: 'Processeurs IMS automatisés' },
-  { jour: 9, dateStr: '2026-12-09', statut: 'formation', label: 'CFA / Formation', detail: 'Dépannage optique d\'urgence' },
-  { jour: 10, dateStr: '2026-12-10', statut: 'formation', label: 'CFA / Formation', detail: 'Normes SMPTE & DCI' },
-  { jour: 11, dateStr: '2026-12-11', statut: 'formation', label: 'CFA / Formation', detail: 'Évaluation des acquis' },
-  { jour: 12, dateStr: '2026-12-12', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 13, dateStr: '2026-12-13', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 14, dateStr: '2026-12-14', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 15, dateStr: '2026-12-15', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 16, dateStr: '2026-12-16', statut: 'reserve_cine2', label: 'Cinéma 2', detail: 'Sortie événementielle' },
-  { jour: 17, dateStr: '2026-12-17', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 18, dateStr: '2026-12-18', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 19, dateStr: '2026-12-19', statut: 'reserve_cine2', label: 'Cinéma 2', detail: 'Vacances de Noël - Affluence' },
-  { jour: 20, dateStr: '2026-12-20', statut: 'reserve_cine2', label: 'Cinéma 2', detail: 'Vacances de Noël - Affluence' },
-  { jour: 21, dateStr: '2026-12-21', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 22, dateStr: '2026-12-22', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 23, dateStr: '2026-12-23', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Séances jeunesse' },
-  { jour: 24, dateStr: '2026-12-24', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 25, dateStr: '2026-12-25', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Séances de Noël' },
-  { jour: 26, dateStr: '2026-12-26', statut: 'reserve_cine1', label: 'Cinéma 1', detail: 'Séances de Noël' },
-  { jour: 27, dateStr: '2026-12-27', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 28, dateStr: '2026-12-28', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 29, dateStr: '2026-12-29', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 30, dateStr: '2026-12-30', statut: 'libre', label: 'Disponible Cabine' },
-  { jour: 31, dateStr: '2026-12-31', statut: 'reserve_cine2', label: 'Cinéma 2', detail: 'Séances Réveillon' },
+  { jour: 1, dateStr: '2026-12-01', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 2, dateStr: '2026-12-02', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 3, dateStr: '2026-12-03', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 4, dateStr: '2026-12-04', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 5, dateStr: '2026-12-05', statut: 'reserve_studios', label: 'Les Studios', detail: 'Cabine Week-end 7 écrans', ownerId: 'studios' },
+  { jour: 6, dateStr: '2026-12-06', statut: 'reserve_studios', label: 'Les Studios', detail: 'Cabine Week-end 7 écrans', ownerId: 'studios' },
+  { jour: 7, dateStr: '2026-12-07', statut: 'formation', label: 'CFA / Formation', detail: 'Exploitation multi-écrans', ownerId: 'cfa' },
+  { jour: 8, dateStr: '2026-12-08', statut: 'formation', label: 'CFA / Formation', detail: 'Processeurs IMS automatisés', ownerId: 'cfa' },
+  { jour: 9, dateStr: '2026-12-09', statut: 'formation', label: 'CFA / Formation', detail: 'Dépannage optique d\'urgence', ownerId: 'cfa' },
+  { jour: 10, dateStr: '2026-12-10', statut: 'formation', label: 'CFA / Formation', detail: 'Normes SMPTE & DCI', ownerId: 'cfa' },
+  { jour: 11, dateStr: '2026-12-11', statut: 'formation', label: 'CFA / Formation', detail: 'Évaluation des acquis', ownerId: 'cfa' },
+  { jour: 12, dateStr: '2026-12-12', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 13, dateStr: '2026-12-13', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 14, dateStr: '2026-12-14', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 15, dateStr: '2026-12-15', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 16, dateStr: '2026-12-16', statut: 'reserve_cineoff', label: 'Ciné-Off', detail: 'Séance événementielle fête communale', ownerId: 'cineoff' },
+  { jour: 17, dateStr: '2026-12-17', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 18, dateStr: '2026-12-18', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 19, dateStr: '2026-12-19', statut: 'reserve_cineoff', label: 'Ciné-Off', detail: 'Circuit jeunesse vacances scolaires', ownerId: 'cineoff' },
+  { jour: 20, dateStr: '2026-12-20', statut: 'reserve_cineoff', label: 'Ciné-Off', detail: 'Circuit jeunesse vacances scolaires', ownerId: 'cineoff' },
+  { jour: 21, dateStr: '2026-12-21', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 22, dateStr: '2026-12-22', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 23, dateStr: '2026-12-23', statut: 'reserve_studios', label: 'Les Studios', detail: 'Séances jeunesse affluence', ownerId: 'studios' },
+  { jour: 24, dateStr: '2026-12-24', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 25, dateStr: '2026-12-25', statut: 'reserve_studios', label: 'Les Studios', detail: 'Séances de Noël après-midi + soir', ownerId: 'studios' },
+  { jour: 26, dateStr: '2026-12-26', statut: 'reserve_studios', label: 'Les Studios', detail: 'Séances de Noël après-midi + soir', ownerId: 'studios' },
+  { jour: 27, dateStr: '2026-12-27', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 28, dateStr: '2026-12-28', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 29, dateStr: '2026-12-29', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 30, dateStr: '2026-12-30', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
+  { jour: 31, dateStr: '2026-12-31', statut: 'reserve_cineoff', label: 'Ciné-Off', detail: 'Séance Réveillon itinérance festive', ownerId: 'cineoff' },
 ];
 
 const planningCinemaMois: MoisCinema[] = [
@@ -245,76 +246,112 @@ const planningFpvMois: MoisFpv[] = [
          SECTION 1 : AGENDA CABINE CINÉMA (Totalement autonome)
          ====================================================================== -->
     <div id="agenda-cinema-wrapper" class="agenda-view-wrapper active-agenda-view agenda-privacy-locked">
-      <!-- BARRE DE SÉCURITÉ & CONFIDENTIALITÉ CABINE (MODE GRISÉ / DÉVERROUILLAGE) -->
-      <section class="security-privacy-bar" id="cinemaSecurityBar">
-        <div class="security-info-block">
-          <div class="security-status-indicator">
-            <span class="sec-dot" id="secDot"></span>
-            <span class="sec-title" id="secTitle">MODE CONFIDENTIEL ACTIF (VUE GRISÉE)</span>
-          </div>
-          <p class="sec-desc" id="secDesc">
-            Pour préserver la confidentialité vis-à-vis des tiers et des circuits itinérants (ex : <strong>Ciné-Off</strong>), les vacations réservées et le suivi CFA sont <strong>masqués et grisés</strong>. Seuls les créneaux disponibles restent sélectionnables.
-          </p>
-        </div>
-
-        <div class="security-actions-block">
-          <!-- Formulaire de déverrouillage partenaire -->
-          <form id="formUnlockCinema" class="unlock-form-inline">
-            <div class="unlock-input-wrap">
-              <input
-                type="password"
-                id="inputCinemaCode"
-                placeholder="Code partenaire cabine..."
-                aria-label="Code d'accès partenaire cinéma"
-              />
-              <button type="submit" class="btn-unlock" id="btnUnlockCinema">
-                Déverrouiller 🔓
-              </button>
+      <!-- ESPACE COMPTES CINÉMAS (LES STUDIOS, CINÉ-OFF, ADMIN) -->
+      <section class="cinema-accounts-portal" id="cinemaAccountsPortal">
+        <!-- État DÉCONNECTÉ : Sélecteur de compte et saisie du code -->
+        <div id="accountLoggedOutView" class="account-portal-box">
+          <div class="account-portal-header">
+            <div class="account-topline">
+              <span class="etiquette">AUTHENTIFICATION EXPLOITANT</span>
+              <span class="portal-badge-mode">ESPACE COMPTES CINÉMAS</span>
             </div>
-            <div id="unlockMsgNotice" class="unlock-feedback" style="display: none;"></div>
-          </form>
+            <h3>RÉSERVATION DÉDIÉE PAR ÉTABLISSEMENT</h3>
+            <p>
+              Chaque cinéma dispose de son propre compte sécurisé. Connectez-vous avec votre compte (<strong>Cinémas Les Studios</strong> ou <strong>Ciné-Off</strong>) pour poser vos vacations en 1 clic et visualiser vos séances. Les réservations des autres cinémas restent strictement confidentielles et grisées.
+            </p>
+          </div>
 
-          <!-- Contrôle affiché si déverrouillé -->
-          <div id="unlockedControlGroup" style="display: none;">
-            <button type="button" id="btnRelockCinema" class="btn-relock">
-              🔒 Revenir au mode grisé (Confidentiel)
+          <!-- Sélecteur de compte cinéma -->
+          <div class="account-cards-grid">
+            <button type="button" class="account-card-btn active" data-pick-account="studios">
+              <div class="acc-card-top">
+                <span class="acc-card-icon">🏛️</span>
+                <span class="acc-card-badge">Salle Fixe</span>
+              </div>
+              <strong class="acc-card-title">CINÉMAS LES STUDIOS</strong>
+              <span class="acc-card-sub">Art &amp; Essai Tours &bull; 7 Écrans</span>
+              <span class="acc-card-state">Compte sélectionné &bull; Prêt</span>
+            </button>
+
+            <button type="button" class="account-card-btn" data-pick-account="cineoff">
+              <div class="acc-card-top">
+                <span class="acc-card-icon">🎞️</span>
+                <span class="acc-card-badge">Itinérance</span>
+              </div>
+              <strong class="acc-card-title">CINÉ-OFF</strong>
+              <span class="acc-card-sub">Circuit itinérant &bull; Indre-et-Loire</span>
+              <span class="acc-card-state">Cliquez pour choisir</span>
+            </button>
+
+            <button type="button" class="account-card-btn" data-pick-account="admin">
+              <div class="acc-card-top">
+                <span class="acc-card-icon">⚡</span>
+                <span class="acc-card-badge">Superviseur</span>
+              </div>
+              <strong class="acc-card-title">ADMINISTRATION</strong>
+              <span class="acc-card-sub">Tom Bigot &bull; Vue d'ensemble</span>
+              <span class="acc-card-state">Accès titulaire cabine</span>
             </button>
           </div>
+
+          <!-- Formulaire de connexion -->
+          <form id="cinemaAccountLoginForm" class="account-login-bar">
+            <input type="hidden" id="selectedAccountId" value="studios" />
+            <div class="login-inputs-cluster">
+              <label for="inputAccountPasscode" id="labelAccountPasscode">
+                Code d'accès pour <strong>Cinémas Les Studios</strong> :
+              </label>
+              <div class="login-input-row">
+                <input
+                  type="password"
+                  id="inputAccountPasscode"
+                  placeholder="Code exploitant (ex : STUDIOS)..."
+                  autocomplete="current-password"
+                  required
+                />
+                <button type="submit" class="btn-noir btn-open-account">
+                  Ouvrir mon compte exploitant &rarr;
+                </button>
+              </div>
+            </div>
+            <div id="accountLoginFeedback" class="account-login-feedback" style="display: none;"></div>
+            <div class="account-demo-hints">
+              <span>💡 <em>Codes configurés :</em> <code>STUDIOS</code> (Les Studios), <code>CINEOFF</code> (Ciné-Off), <code>TOM-2026</code> (Admin)</span>
+            </div>
+          </form>
+        </div>
+
+        <!-- État CONNECTÉ : Profil actif et actions rapides -->
+        <div id="accountLoggedInView" class="account-portal-box is-connected" style="display: none;">
+          <div class="account-session-header">
+            <div class="session-user-badge">
+              <span class="session-icon" id="connectedIcon">🏛️</span>
+              <div class="session-info">
+                <div class="session-status-row">
+                  <span class="status-live-indicator"></span>
+                  <strong id="connectedName">CINÉMAS LES STUDIOS</strong>
+                  <span class="badge-direct" id="connectedRole">COMPTE ACTIF</span>
+                </div>
+                <p id="connectedSub">Exploitation 7 salles Art &amp; Essai (Tours) &bull; Régie &amp; Direction cabine</p>
+              </div>
+            </div>
+
+            <div class="session-quick-actions">
+              <a href="#formCinemaContainer" class="btn-noir btn-jump-book">
+                + Poser une vacation &darr;
+              </a>
+              <button type="button" id="btnLogoutAccount" class="btn-outline btn-logout">
+                Changer de compte ✕
+              </button>
+            </div>
+          </div>
+          <div class="session-privacy-notice" id="connectedPrivacyNotice">
+            <span>🔒 <strong>Confidentialité garantie :</strong> Vos vacations apparaissent en clair. Les créneaux réservés par d'autres exploitants sont automatiquement masqués.</span>
+          </div>
         </div>
       </section>
 
-      <!-- Console exploitants & partenaires -->
-      <section class="partner-quick-access" aria-label="Sélection rapide cinéma partenaire ou circuit">
-        <div class="partner-banner-label">
-          <span class="etiquette">CABINE &bull; ACCÈS RAPIDE</span>
-          <strong>Sélectionnez votre établissement ou circuit pour poser des dates :</strong>
-        </div>
-        <div class="partner-buttons">
-          <button type="button" class="btn-partner" data-preset-cine="cine1">
-            <span class="partner-icon">🏛️</span>
-            <span class="partner-info">
-              <strong class="partner-name">CINÉMA PARTENAIRE 1</strong>
-              <span class="partner-code">Cabine fixe &bull; Poser une séance &rarr;</span>
-            </span>
-          </button>
-          <button type="button" class="btn-partner" data-preset-cine="cine2">
-            <span class="partner-icon">🎥</span>
-            <span class="partner-info">
-              <strong class="partner-name">CINÉMA PARTENAIRE 2</strong>
-              <span class="partner-code">Cabine fixe &bull; Poser une séance &rarr;</span>
-            </span>
-          </button>
-          <button type="button" class="btn-partner" data-preset-cine="cineoff">
-            <span class="partner-icon">🎞️</span>
-            <span class="partner-info">
-              <strong class="partner-name">CINÉ-OFF</strong>
-              <span class="partner-code">Circuit itinérant &bull; Proposer des dates &rarr;</span>
-            </span>
-          </button>
-        </div>
-      </section>
-
-      <!-- Légende Cinéma -->
+      <!-- Légende Cinéma Dynamique -->
       <div class="agenda-toolbar">
         <div class="legend-grid">
           <div class="legend-badge">
@@ -324,35 +361,35 @@ const planningFpvMois: MoisFpv[] = [
               <span>Créneau ouvert aux propositions de séances</span>
             </div>
           </div>
-          <div class="legend-badge legend-badge-locked">
-            <span class="legend-box box-locked-grise"></span>
+          <div class="legend-badge legend-badge-studios">
+            <span class="legend-box box-studios"></span>
             <div class="legend-txt">
-              <strong>OCCUPÉ / INDISPONIBLE</strong>
-              <span>Créneau réservé (vue grisée confidentielle)</span>
+              <strong>LES STUDIOS</strong>
+              <span>Séance réservée Cinémas Les Studios</span>
             </div>
           </div>
-          <div class="legend-badge legend-badge-unlocked">
+          <div class="legend-badge legend-badge-cineoff">
+            <span class="legend-box box-cineoff"></span>
+            <div class="legend-txt">
+              <strong>CINÉ-OFF</strong>
+              <span>Séance réservée Circuit itinérant</span>
+            </div>
+          </div>
+          <div class="legend-badge">
             <span class="legend-box box-formation"></span>
             <div class="legend-txt">
               <strong>CFA / FORMATION</strong>
               <span>Période d'apprentissage (non mobilisable)</span>
             </div>
           </div>
-          <div class="legend-badge legend-badge-unlocked">
-            <span class="legend-box box-cine1"></span>
+          <div class="legend-badge legend-badge-masked">
+            <span class="legend-box box-locked-grise"></span>
             <div class="legend-txt">
-              <strong>CINÉMA 1 (RÉSERVÉ)</strong>
-              <span>Vacation ou remplacement planifié</span>
+              <strong>OCCUPÉ / AUTRE SALLE</strong>
+              <span>Créneau réservé (confidentiel &bull; grisé)</span>
             </div>
           </div>
-          <div class="legend-badge legend-badge-unlocked">
-            <span class="legend-box box-cine2"></span>
-            <div class="legend-txt">
-              <strong>CINÉMA 2 (RÉSERVÉ)</strong>
-              <span>Vacation ou remplacement planifié</span>
-            </div>
-          </div>
-          <div class="legend-badge legend-badge-unlocked">
+          <div class="legend-badge">
             <span class="legend-box box-option"></span>
             <div class="legend-txt">
               <strong>OPTION EN COURS</strong>
@@ -395,15 +432,17 @@ const planningFpvMois: MoisFpv[] = [
             {mois.jours.map((item) => {
               const isLibre = item.statut === 'libre';
               const isFormation = item.statut === 'formation';
-              const isCine1 = item.statut === 'reserve_cine1';
-              const isCine2 = item.statut === 'reserve_cine2';
+              const isStudios = item.statut === 'reserve_studios';
+              const isCineoff = item.statut === 'reserve_cineoff';
               const isOption = item.statut === 'option';
+              const owner = item.ownerId;
 
               return (
                 <div
                   class={`day-cell day-cine-${item.statut} ${isLibre ? 'day-selectable day-cine-selectable' : 'day-locked day-cine-locked'}`}
                   data-date={item.dateStr}
                   data-statut={item.statut}
+                  data-owner={owner}
                   data-label={item.label}
                   data-detail={item.detail || ''}
                   role={isLibre ? 'button' : 'region'}
@@ -413,13 +452,9 @@ const planningFpvMois: MoisFpv[] = [
                     <span class="day-number">{item.jour}</span>
                     {isLibre && <span class="tag-libre">+ Choisir</span>}
                     {!isLibre && (
-                      <>
-                        <span class="tag-masked tag-masked-only">🔒 Occupé</span>
-                        {isFormation && <span class="tag-formation tag-clear-only">CFA</span>}
-                        {isCine1 && <span class="tag-cine1 tag-clear-only">Ciné 1</span>}
-                        {isCine2 && <span class="tag-cine2 tag-clear-only">Ciné 2</span>}
-                        {isOption && <span class="tag-option tag-clear-only">Option</span>}
-                      </>
+                      <span class="tag-cine-dynamic" data-day-tag>
+                        {isFormation ? 'CFA' : (isStudios ? 'Studios' : (isCineoff ? 'Ciné-Off' : (isOption ? 'Option' : '🔒 Occupé')))}
+                      </span>
                     )}
                   </div>
                   <div class="day-body">
@@ -430,13 +465,9 @@ const planningFpvMois: MoisFpv[] = [
                       </>
                     ) : (
                       <>
-                        <div class="cine-content-clear">
-                          <div class="day-label-main">{item.label}</div>
-                          {item.detail && <div class="day-detail-txt">{item.detail}</div>}
-                        </div>
-                        <div class="cine-content-masked">
-                          <div class="day-label-main">🔒 Indisponible</div>
-                          <div class="day-detail-txt">Créneau réservé (Privé)</div>
+                        <div class="cine-content-dynamic">
+                          <div class="day-label-main" data-slot-title>{item.label}</div>
+                          <div class="day-detail-txt" data-slot-desc>{item.detail || ''}</div>
                         </div>
                       </>
                     )}
@@ -448,8 +479,7 @@ const planningFpvMois: MoisFpv[] = [
                   )}
                   {!isLibre && (
                     <div class="day-action-hint day-action-hint-locked">
-                      <span class="hint-masked tag-masked-only">🔒 Non dispo</span>
-                      <span class="hint-clear tag-clear-only">Réservé cabine</span>
+                      <span data-action-hint-txt>{isFormation ? 'CFA' : 'Réservé cabine'}</span>
                     </div>
                   )}
                 </div>
@@ -476,7 +506,7 @@ const planningFpvMois: MoisFpv[] = [
         <div class="form-header">
           <div class="form-pre">
             <span class="etiquette">CABINE PROJECTION &bull; FORMULAIRE EXPLOITANT</span>
-            <span class="badge-direct">CABINE CINÉMA</span>
+            <span class="badge-direct" id="formHeaderBadge">CABINE CINÉMA</span>
           </div>
           <h2>POSER DES DATES D'INTERVENTION EN CABINE</h2>
           <p class="form-intro">
@@ -495,28 +525,21 @@ const planningFpvMois: MoisFpv[] = [
               <label><strong>ÉTABLISSEMENT / SALLE DE CINÉMA *</strong></label>
               <div class="cinema-radio-group">
                 <label class="cinema-option-card">
-                  <input type="radio" name="cinemaChoix" value="Cinéma Partenaire 1" id="radioCine1" checked />
+                  <input type="radio" name="cinemaChoix" value="Cinémas Les Studios" id="radioCineStudios" checked />
                   <span class="option-content">
-                    <strong>🏛️ Cinéma Partenaire 1</strong>
-                    <span class="sub">Partenaire régulier</span>
-                  </span>
-                </label>
-                <label class="cinema-option-card">
-                  <input type="radio" name="cinemaChoix" value="Cinéma Partenaire 2" id="radioCine2" />
-                  <span class="option-content">
-                    <strong>🎥 Cinéma Partenaire 2</strong>
-                    <span class="sub">Partenaire régulier</span>
+                    <strong>🏛️ Cinémas Les Studios</strong>
+                    <span class="sub">Tours &bull; 7 salles Art &amp; Essai</span>
                   </span>
                 </label>
                 <label class="cinema-option-card">
                   <input type="radio" name="cinemaChoix" value="Ciné-Off (Circuit itinérant)" id="radioCineOff" />
                   <span class="option-content">
                     <strong>🎞️ Ciné-Off</strong>
-                    <span class="sub">Circuit itinérant</span>
+                    <span class="sub">Circuit itinérant 37</span>
                   </span>
                 </label>
                 <label class="cinema-option-card">
-                  <input type="radio" name="cinemaChoix" value="Autre établissement" id="radioCineAutre" />
+                  <input type="radio" name="cinemaChoix" value="Autre cinéma / Festival" id="radioCineAutre" />
                   <span class="option-content">
                     <strong>🏢 Autre cinéma</strong>
                     <span class="sub">Salle / Festival</span>
@@ -527,7 +550,7 @@ const planningFpvMois: MoisFpv[] = [
 
             <div class="form-field">
               <label for="structureCine"><strong>NOM DU CINÉMA OU FESTIVAL *</strong></label>
-              <input type="text" id="structureCine" name="structureCine" value="Cinéma Partenaire 1" required />
+              <input type="text" id="structureCine" name="structureCine" value="Cinémas Les Studios" required />
             </div>
 
             <div class="form-field">
@@ -537,7 +560,7 @@ const planningFpvMois: MoisFpv[] = [
 
             <div class="form-field">
               <label for="emailCine"><strong>EMAIL PROFESSIONNEL *</strong></label>
-              <input type="email" id="emailCine" name="emailCine" placeholder="Ex : cabine@cinema.fr" required />
+              <input type="email" id="emailCine" name="emailCine" placeholder="Ex : cabine@cinemas-lesstudios.fr" required />
             </div>
 
             <div class="form-field">
@@ -967,84 +990,293 @@ const planningFpvMois: MoisFpv[] = [
   }
 
   // ==========================================================================
-  // SÉCURITÉ & CONFIDENTIALITÉ AGENDA CINÉMA (VUE GRISÉE / DÉVERROUILLAGE)
+  // SYSTÈME DE COMPTES EXPLOITANTS CINÉMAS (LES STUDIOS, CINÉ-OFF, ADMIN)
   // ==========================================================================
-  const CODES_PARTENAIRES_VALIDES = [
-    'CINE-PARTENAIRE',
-    'CINEPARTENAIRE',
-    'CINEMA1',
-    'CINEMA2',
-    'CINE1',
-    'CINE2',
-    'TOM2026',
-    'TOM-2026',
-    'CABINE',
-    'CABINEDCI',
-    'CABINE-DCI',
-  ];
+  interface CinemaAccountConfig {
+    id: 'studios' | 'cineoff' | 'admin';
+    name: string;
+    role: string;
+    sub: string;
+    icon: string;
+    defaultEmail: string;
+    defaultStructure: string;
+    codes: string[];
+  }
 
-  const formUnlockCinema = document.getElementById('formUnlockCinema') as HTMLFormElement | null;
-  const inputCinemaCode = document.getElementById('inputCinemaCode') as HTMLInputElement | null;
-  const unlockMsgNotice = document.getElementById('unlockMsgNotice');
-  const unlockedControlGroup = document.getElementById('unlockedControlGroup');
-  const btnRelockCinema = document.getElementById('btnRelockCinema');
-  const secDot = document.getElementById('secDot');
-  const secTitle = document.getElementById('secTitle');
-  const secDesc = document.getElementById('secDesc');
-
-  function setCinemaSecurityMode(unlocked: boolean) {
-    if (!wrapperCinema) return;
-    if (unlocked) {
-      wrapperCinema.classList.remove('agenda-privacy-locked');
-      wrapperCinema.classList.add('agenda-privacy-unlocked');
-      sessionStorage.setItem('tom_cine_partner_auth', '1');
-      if (formUnlockCinema) formUnlockCinema.style.display = 'none';
-      if (unlockedControlGroup) unlockedControlGroup.style.display = 'block';
-      if (secDot) secDot.classList.add('sec-dot-unlocked');
-      if (secTitle) secTitle.textContent = 'ACCÈS PARTENAIRE VÉRIFIÉ (VUE DÉTAILLÉE ACTIVE)';
-      if (secDesc) {
-        secDesc.innerHTML = 'Planning complet déverrouillé : affichage nominatif des cabines <strong>Cinéma 1, Cinéma 2</strong>, des semaines <strong>CFA</strong> et des options.';
-      }
-    } else {
-      wrapperCinema.classList.remove('agenda-privacy-unlocked');
-      wrapperCinema.classList.add('agenda-privacy-locked');
-      sessionStorage.removeItem('tom_cine_partner_auth');
-      if (formUnlockCinema) formUnlockCinema.style.display = 'flex';
-      if (unlockedControlGroup) unlockedControlGroup.style.display = 'none';
-      if (secDot) secDot.classList.remove('sec-dot-unlocked');
-      if (secTitle) secTitle.textContent = 'MODE CONFIDENTIEL ACTIF (VUE GRISÉE)';
-      if (secDesc) {
-        secDesc.innerHTML = 'Pour préserver la confidentialité vis-à-vis des tiers et des circuits itinérants (ex : <strong>Ciné-Off</strong>), les vacations réservées et le suivi CFA sont <strong>masqués et grisés</strong>. Seuls les créneaux disponibles restent sélectionnables.';
-      }
-      if (inputCinemaCode) inputCinemaCode.value = '';
-      if (unlockMsgNotice) unlockMsgNotice.style.display = 'none';
+  const CINEMA_ACCOUNTS: Record<string, CinemaAccountConfig> = {
+    studios: {
+      id: 'studios',
+      name: 'CINÉMAS LES STUDIOS',
+      role: 'SALLE PARTENAIRE ACTIVE',
+      sub: 'Exploitation 7 salles Art & Essai (Tours) • Régie & Direction cabine',
+      icon: '🏛️',
+      defaultEmail: 'cabine@cinemas-lesstudios.fr',
+      defaultStructure: 'Cinémas Les Studios (Tours)',
+      codes: ['STUDIOS', 'STUDIOS-TOURS', 'STUDIOS2026', 'LESSTUDIOS', 'CINE1']
+    },
+    cineoff: {
+      id: 'cineoff',
+      name: 'CINÉ-OFF',
+      role: 'CIRCUIT ITINÉRANT ACTIF',
+      sub: 'Coordination & Régie des circuits de cinéma itinérant en Indre-et-Loire',
+      icon: '🎞️',
+      defaultEmail: 'contact@cine-off.fr',
+      defaultStructure: 'Ciné-Off (Circuit itinérant)',
+      codes: ['CINEOFF', 'CINEOFF-37', 'CINEOFF2026', 'CINE-OFF', 'CINE2']
+    },
+    admin: {
+      id: 'admin',
+      name: 'TOM BIGOT (ADMINISTRATION)',
+      role: 'SUPERVISEUR CABINE',
+      sub: 'Opérateur projectionniste titulaire • Vue d\'ensemble déverrouillée',
+      icon: '⚡',
+      defaultEmail: 'contact@tom-bigot.fr',
+      defaultStructure: 'Direction Technique Tom Bigot',
+      codes: ['TOM-2026', 'TOM2026', 'ADMIN', 'CABINE', 'CABINEDCI']
     }
+  };
+
+  let connectedCinemaAccount: CinemaAccountConfig | null = null;
+
+  const accountLoggedOutView = document.getElementById('accountLoggedOutView');
+  const accountLoggedInView = document.getElementById('accountLoggedInView');
+  const accountCards = document.querySelectorAll<HTMLButtonElement>('[data-pick-account]');
+  const selectedAccountIdInput = document.getElementById('selectedAccountId') as HTMLInputElement | null;
+  const labelAccountPasscode = document.getElementById('labelAccountPasscode');
+  const inputAccountPasscode = document.getElementById('inputAccountPasscode') as HTMLInputElement | null;
+  const accountLoginForm = document.getElementById('cinemaAccountLoginForm') as HTMLFormElement | null;
+  const accountLoginFeedback = document.getElementById('accountLoginFeedback');
+
+  const connectedIcon = document.getElementById('connectedIcon');
+  const connectedName = document.getElementById('connectedName');
+  const connectedRole = document.getElementById('connectedRole');
+  const connectedSub = document.getElementById('connectedSub');
+  const connectedPrivacyNotice = document.getElementById('connectedPrivacyNotice');
+  const btnLogoutAccount = document.getElementById('btnLogoutAccount');
+
+  const inputStructureCine = document.getElementById('structureCine') as HTMLInputElement | null;
+  const emailCineInput = document.getElementById('emailCine') as HTMLInputElement | null;
+  const contactCineInput = document.getElementById('contactCine') as HTMLInputElement | null;
+  const radioCineStudios = document.getElementById('radioCineStudios') as HTMLInputElement | null;
+  const radioCineOff = document.getElementById('radioCineOff') as HTMLInputElement | null;
+  const radioCineAutre = document.getElementById('radioCineAutre') as HTMLInputElement | null;
+  const formHeaderBadge = document.getElementById('formHeaderBadge');
+
+  // Sélection visuelle de l'onglet de compte dans le formulaire de login
+  function choisirOngletCompte(accId: 'studios' | 'cineoff' | 'admin') {
+    accountCards.forEach((btn) => {
+      const isTarget = btn.getAttribute('data-pick-account') === accId;
+      btn.classList.toggle('active', isTarget);
+      const stateSpan = btn.querySelector('.acc-card-state');
+      if (stateSpan) {
+        stateSpan.textContent = isTarget ? 'Compte sélectionné • Prêt' : 'Cliquez pour choisir';
+      }
+    });
+
+    if (selectedAccountIdInput) selectedAccountIdInput.value = accId;
+
+    if (labelAccountPasscode) {
+      if (accId === 'studios') {
+        labelAccountPasscode.innerHTML = "Code d'accès pour <strong>Cinémas Les Studios</strong> :";
+      } else if (accId === 'cineoff') {
+        labelAccountPasscode.innerHTML = "Code d'accès pour <strong>Ciné-Off (Circuit itinérant)</strong> :";
+      } else {
+        labelAccountPasscode.innerHTML = "Code administrateur pour <strong>Tom Bigot</strong> :";
+      }
+    }
+
+    if (inputAccountPasscode) {
+      inputAccountPasscode.placeholder = `Code pour ${CINEMA_ACCOUNTS[accId].name.toLowerCase()}...`;
+      inputAccountPasscode.value = '';
+      inputAccountPasscode.focus();
+    }
+    if (accountLoginFeedback) accountLoginFeedback.style.display = 'none';
   }
 
-  // Vérification de la session en mémoire
-  if (sessionStorage.getItem('tom_cine_partner_auth') === '1') {
-    setCinemaSecurityMode(true);
+  accountCards.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const accId = btn.getAttribute('data-pick-account') as 'studios' | 'cineoff' | 'admin';
+      if (accId) choisirOngletCompte(accId);
+    });
+  });
+
+  // Mise à jour de la grille du calendrier selon le compte connecté
+  function actualiserCalendrierCompte(account: CinemaAccountConfig | null) {
+    const dayCells = document.querySelectorAll<HTMLElement>('.day-cine-locked');
+
+    dayCells.forEach((cell) => {
+      const owner = cell.getAttribute('data-owner');
+      const statut = cell.getAttribute('data-statut');
+      const date = cell.getAttribute('data-date');
+      const label = cell.getAttribute('data-label') || '';
+      const detail = cell.getAttribute('data-detail') || '';
+
+      const slotTitle = cell.querySelector<HTMLElement>('[data-slot-title]');
+      const slotDesc = cell.querySelector<HTMLElement>('[data-slot-desc]');
+      const dayTag = cell.querySelector<HTMLElement>('[data-day-tag]');
+      const hintTxt = cell.querySelector<HTMLElement>('[data-action-hint-txt]');
+
+      cell.classList.remove('day-owner-active', 'day-masked-grise');
+
+      if (!account) {
+        // Mode public / non connecté : tout est anonymisé et grisé
+        cell.classList.add('day-masked-grise');
+        if (slotTitle) slotTitle.textContent = '🔒 Indisponible';
+        if (slotDesc) slotDesc.textContent = 'Créneau réservé (Privé)';
+        if (dayTag) dayTag.textContent = '🔒 Occupé';
+        if (hintTxt) hintTxt.textContent = '🔒 Réservé';
+      } else if (account.id === 'admin') {
+        // Mode Administrateur : tout est en clair
+        cell.classList.add('day-owner-active');
+        if (slotTitle) slotTitle.textContent = label;
+        if (slotDesc) slotDesc.textContent = detail;
+        if (dayTag) {
+          dayTag.textContent = owner === 'studios' ? 'Studios' : (owner === 'cineoff' ? 'Ciné-Off' : 'CFA');
+        }
+        if (hintTxt) hintTxt.textContent = 'Réservé cabine';
+      } else if (account.id === 'studios') {
+        // Mode Les Studios : Studios + CFA en clair, Ciné-Off grisé
+        if (owner === 'studios') {
+          cell.classList.add('day-owner-active');
+          if (slotTitle) slotTitle.textContent = 'Les Studios';
+          if (slotDesc) slotDesc.textContent = detail;
+          if (dayTag) dayTag.textContent = '🏛️ Studios';
+          if (hintTxt) hintTxt.textContent = 'Votre séance';
+        } else if (owner === 'cfa') {
+          if (slotTitle) slotTitle.textContent = 'CFA / Formation';
+          if (slotDesc) slotDesc.textContent = detail;
+          if (dayTag) dayTag.textContent = 'CFA';
+          if (hintTxt) hintTxt.textContent = 'Période CFA';
+        } else {
+          // Créneau Ciné-Off masqué
+          cell.classList.add('day-masked-grise');
+          if (slotTitle) slotTitle.textContent = '🔒 Indisponible';
+          if (slotDesc) slotDesc.textContent = 'Créneau réservé (Autre exploitant)';
+          if (dayTag) dayTag.textContent = '🔒 Occupé';
+          if (hintTxt) hintTxt.textContent = '🔒 Réservé';
+        }
+      } else if (account.id === 'cineoff') {
+        // Mode Ciné-Off : Ciné-Off en clair, Studios & CFA grisés
+        if (owner === 'cineoff') {
+          cell.classList.add('day-owner-active');
+          if (slotTitle) slotTitle.textContent = 'Ciné-Off';
+          if (slotDesc) slotDesc.textContent = detail;
+          if (dayTag) dayTag.textContent = '🎞️ Ciné-Off';
+          if (hintTxt) hintTxt.textContent = 'Votre tournée';
+        } else if (owner === 'cfa') {
+          cell.classList.add('day-masked-grise');
+          if (slotTitle) slotTitle.textContent = '🔒 Indisponible';
+          if (slotDesc) slotDesc.textContent = 'Période de formation (Non disponible)';
+          if (dayTag) dayTag.textContent = '🔒 CFA';
+          if (hintTxt) hintTxt.textContent = '🔒 Indisponible';
+        } else {
+          // Créneau Studios masqué
+          cell.classList.add('day-masked-grise');
+          if (slotTitle) slotTitle.textContent = '🔒 Indisponible';
+          if (slotDesc) slotDesc.textContent = 'Créneau réservé (Autre exploitant)';
+          if (dayTag) dayTag.textContent = '🔒 Occupé';
+          if (hintTxt) hintTxt.textContent = '🔒 Réservé';
+        }
+      }
+    });
   }
 
-  formUnlockCinema?.addEventListener('submit', (e) => {
+  // Connexion à un compte cinéma
+  function connecterCompte(accId: 'studios' | 'cineoff' | 'admin') {
+    const account = CINEMA_ACCOUNTS[accId];
+    if (!account) return;
+
+    connectedCinemaAccount = account;
+    sessionStorage.setItem('tom_active_cinema_account', accId);
+
+    if (accountLoggedOutView) accountLoggedOutView.style.display = 'none';
+    if (accountLoggedInView) accountLoggedInView.style.display = 'block';
+
+    if (connectedIcon) connectedIcon.textContent = account.icon;
+    if (connectedName) connectedName.textContent = account.name;
+    if (connectedRole) connectedRole.textContent = account.role;
+    if (connectedSub) connectedSub.textContent = account.sub;
+
+    if (connectedPrivacyNotice) {
+      if (accId === 'studios') {
+        connectedPrivacyNotice.innerHTML = `<span>🔒 <strong>Compte Cinémas Les Studios actif :</strong> Vos réservations 7 écrans et le suivi CFA sont affichés en clair. Les créneaux réservés par Ciné-Off sont masqués et protégés.</span>`;
+      } else if (accId === 'cineoff') {
+        connectedPrivacyNotice.innerHTML = `<span>🔒 <strong>Compte Ciné-Off actif :</strong> Vos vacations du circuit itinérant sont affichées en clair. Les séances en salle fixe des Studios sont masquées par confidentialité.</span>`;
+      } else {
+        connectedPrivacyNotice.innerHTML = `<span>🔓 <strong>Compte Superviseur Tom Bigot :</strong> Vue globale déverrouillée. L'ensemble des cabines, sessions CFA et options sont affichées en clair.</span>`;
+      }
+    }
+
+    // Préremplissage automatique du formulaire exploitant
+    if (accId === 'studios') {
+      if (radioCineStudios) radioCineStudios.checked = true;
+      if (inputStructureCine) inputStructureCine.value = account.defaultStructure;
+      if (emailCineInput) emailCineInput.value = account.defaultEmail;
+      if (contactCineInput) contactCineInput.placeholder = 'Responsable programmation Les Studios';
+      if (formHeaderBadge) formHeaderBadge.textContent = 'COMPTE : LES STUDIOS';
+    } else if (accId === 'cineoff') {
+      if (radioCineOff) radioCineOff.checked = true;
+      if (inputStructureCine) inputStructureCine.value = account.defaultStructure;
+      if (emailCineInput) emailCineInput.value = account.defaultEmail;
+      if (contactCineInput) contactCineInput.placeholder = 'Responsable régie Ciné-Off';
+      if (formHeaderBadge) formHeaderBadge.textContent = 'COMPTE : CINÉ-OFF';
+    } else {
+      if (formHeaderBadge) formHeaderBadge.textContent = 'ADMINISTRATION CABINE';
+    }
+
+    actualiserCalendrierCompte(account);
+  }
+
+  // Déconnexion
+  function deconnecterCompte() {
+    connectedCinemaAccount = null;
+    sessionStorage.removeItem('tom_active_cinema_account');
+
+    if (accountLoggedInView) accountLoggedInView.style.display = 'none';
+    if (accountLoggedOutView) accountLoggedOutView.style.display = 'block';
+
+    if (formHeaderBadge) formHeaderBadge.textContent = 'CABINE CINÉMA';
+    if (inputAccountPasscode) inputAccountPasscode.value = '';
+
+    actualiserCalendrierCompte(null);
+  }
+
+  btnLogoutAccount?.addEventListener('click', deconnecterCompte);
+
+  // Soumission du formulaire de connexion
+  accountLoginForm?.addEventListener('submit', (e) => {
     e.preventDefault();
-    const val = (inputCinemaCode?.value || '').trim().toUpperCase();
-    if (CODES_PARTENAIRES_VALIDES.includes(val)) {
-      setCinemaSecurityMode(true);
+    const accId = (selectedAccountIdInput?.value || 'studios') as 'studios' | 'cineoff' | 'admin';
+    const pass = (inputAccountPasscode?.value || '').trim().toUpperCase();
+    const config = CINEMA_ACCOUNTS[accId];
+
+    if (config && config.codes.includes(pass)) {
+      connecterCompte(accId);
     } else {
-      if (unlockMsgNotice) {
-        unlockMsgNotice.style.display = 'block';
-        unlockMsgNotice.textContent = 'Code erroné. Veuillez saisir le code fourni par Tom.';
+      if (accountLoginFeedback) {
+        accountLoginFeedback.style.display = 'block';
+        accountLoginFeedback.textContent = `Code incorrect pour le compte ${config?.name || ''}.`;
       }
     }
   });
 
-  btnRelockCinema?.addEventListener('click', () => {
-    setCinemaSecurityMode(false);
-  });
+  // Restauration de session ou détection par URL
+  const savedAcc = sessionStorage.getItem('tom_active_cinema_account') as 'studios' | 'cineoff' | 'admin' | null;
+  const urlParams = new URLSearchParams(window.location.search);
+  const paramCompte = urlParams.get('compte')?.toLowerCase();
+
+  if (savedAcc && CINEMA_ACCOUNTS[savedAcc]) {
+    connecterCompte(savedAcc);
+  } else if (paramCompte === 'cineoff' || paramCompte === 'cine-off') {
+    choisirOngletCompte('cineoff');
+    actualiserCalendrierCompte(null);
+  } else {
+    choisirOngletCompte('studios');
+    actualiserCalendrierCompte(null);
+  }
 
   // ==========================================================================
-  // GESTION INDÉPENDANTE DE L'AGENDA CINÉMA
+  // GESTION DU CALENDRIER & PANIER DE VACATIONS
   // ==========================================================================
   const cinemaDatesSelectionnees = new Set<string>();
   const cinemaMonthViews = document.querySelectorAll('.cinema-month-view');
@@ -1135,29 +1367,32 @@ const planningFpvMois: MoisFpv[] = [
     });
   });
 
-  // Clic sur les cellules occupées/verrouillées
+  // Clic sur les cellules occupées/verrouillées : messages contextualisés
   document.querySelectorAll('.day-cine-locked').forEach((cell) => {
     cell.addEventListener('click', () => {
       const date = cell.getAttribute('data-date');
-      const statut = cell.getAttribute('data-statut');
+      const owner = cell.getAttribute('data-owner');
       const detail = cell.getAttribute('data-detail') || '';
-      const isUnlocked = wrapperCinema?.classList.contains('agenda-privacy-unlocked');
+      const acc = connectedCinemaAccount;
 
-      if (!isUnlocked) {
+      if (!acc) {
         alert(
           `Créneau indisponible :\n\n` +
-          `Ce jour (${date}) fait déjà l'objet d'un créneau réservé ou d'une période de formation CFA.\n\n` +
-          `Par mesure de sécurité et de confidentialité, le détail des séances est masqué (vue grisée).\n` +
-          `Si vous représentez un circuit (ex : Ciné-Off) ou un cinéma tiers, vous pouvez sélectionner l'un des créneaux blancs "+ Choisir" (Disponible Cabine) pour me proposer vos dates.`
+          `Ce jour (${date}) fait déjà l'objet d'une réservation ou d'une période de formation CFA.\n\n` +
+          `Connectez-vous à votre compte exploitant (Cinémas Les Studios ou Ciné-Off) avec votre code en haut de page pour afficher vos dates en clair.\n` +
+          `Pour poser une séance, choisissez l'un des créneaux blancs "+ Choisir" (Disponible Cabine).`
         );
+      } else if (acc.id === 'admin') {
+        alert(`Information Administrateur :\n\nDate : ${date}\nAttribution : ${owner === 'studios' ? 'Cinémas Les Studios' : (owner === 'cineoff' ? 'Ciné-Off' : 'CFA')}\nDétails : ${detail}`);
+      } else if (owner === acc.id) {
+        alert(`Séance planifiée pour votre compte (${acc.name}) :\n\nDate : ${date}\nProgramme : ${detail}\n\nCette vacation est confirmée pour votre établissement.`);
       } else {
-        if (statut === 'formation') {
-          alert(`Journée indisponible :\n\nTom est en CFA / Formation projectionniste le ${date} (${detail || 'Apprentissage'}).\nCette date ne peut pas faire l'objet d'une vacation.`);
-        } else if (statut === 'reserve_cine1' || statut === 'reserve_cine2') {
-          alert(`Date déjà réservée :\n\nTom est déjà programmé pour une séance cabine le ${date} (${detail}).`);
-        } else {
-          alert(`Option en attente de confirmation le ${date} (${detail}).`);
-        }
+        alert(
+          `Créneau indisponible :\n\n` +
+          `Le ${date} est déjà réservé par un autre exploitant ou engagé en formation CFA.\n` +
+          `Par respect de la confidentialité entre cinémas partenaires, les détails sont masqués.\n\n` +
+          `Vous pouvez poser votre demande sur n'importe quel créneau blanc disponible.`
+        );
       }
     });
   });
@@ -1168,41 +1403,15 @@ const planningFpvMois: MoisFpv[] = [
     majSelectionCinema();
   });
 
-  // Presets Cinéma 1 / Cinéma 2 / Ciné-Off
-  const inputStructureCine = document.getElementById('structureCine') as HTMLInputElement | null;
-  const radioCine1 = document.getElementById('radioCine1') as HTMLInputElement | null;
-  const radioCine2 = document.getElementById('radioCine2') as HTMLInputElement | null;
-  const radioCineOff = document.getElementById('radioCineOff') as HTMLInputElement | null;
-
-  document.querySelectorAll('[data-preset-cine]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const preset = btn.getAttribute('data-preset-cine');
-      if (preset === 'cine1' && radioCine1 && inputStructureCine) {
-        radioCine1.checked = true;
-        inputStructureCine.value = 'Cinéma Partenaire 1';
-      } else if (preset === 'cine2' && radioCine2 && inputStructureCine) {
-        radioCine2.checked = true;
-        inputStructureCine.value = 'Cinéma Partenaire 2';
-      } else if (preset === 'cineoff' && radioCineOff && inputStructureCine) {
-        radioCineOff.checked = true;
-        inputStructureCine.value = 'Ciné-Off (Circuit itinérant)';
-      }
-      document.querySelectorAll('[data-preset-cine]').forEach((b) => b.classList.remove('active-preset'));
-      btn.classList.add('active-preset');
-      document.getElementById('agenda-cinema-wrapper')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
-
+  // Sélection radio manuelle dans le formulaire
   document.querySelectorAll('input[name="cinemaChoix"]').forEach((radio) => {
     radio.addEventListener('change', (ev) => {
       const target = ev.target as HTMLInputElement;
       if (target.checked && inputStructureCine) {
-        if (target.value.includes('Ciné-Off')) {
+        if (target.value.includes('Studios')) {
+          inputStructureCine.value = 'Cinémas Les Studios (Tours)';
+        } else if (target.value.includes('Ciné-Off')) {
           inputStructureCine.value = 'Ciné-Off (Circuit itinérant)';
-        } else if (target.value.includes('Partenaire 1')) {
-          inputStructureCine.value = 'Cinéma Partenaire 1';
-        } else if (target.value.includes('Partenaire 2')) {
-          inputStructureCine.value = 'Cinéma Partenaire 2';
         }
       }
     });
@@ -1557,112 +1766,203 @@ const planningFpvMois: MoisFpv[] = [
     font-weight: 700;
   }
 
-  /* Barre de sécurité et confidentialité */
-  .security-privacy-bar {
+  /* Portail des Comptes Cinémas */
+  .cinema-accounts-portal {
+    margin-bottom: 28px;
+  }
+
+  .account-portal-box {
     background: #000000;
     color: #ffffff;
     border: 2px solid #000000;
-    padding: 18px 22px;
-    margin-bottom: 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-
-  .security-info-block {
-    flex: 1;
-    min-width: 280px;
+    padding: clamp(18px, 3vw, 28px);
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 20px;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
   }
 
-  .security-status-indicator {
+  .account-portal-box.is-connected {
+    background: #000000;
+    border-color: #000000;
+  }
+
+  .account-portal-header {
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.25);
+    padding-bottom: 16px;
+  }
+
+  .account-topline {
     display: flex;
     align-items: center;
     gap: 10px;
+    margin-bottom: 8px;
   }
 
-  .sec-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #888888;
-    box-shadow: 0 0 0 2px #444444;
-    display: inline-block;
-    flex-shrink: 0;
-  }
-
-  .sec-dot.sec-dot-unlocked {
+  .account-topline .etiquette {
     background: #ffffff;
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+    color: #000000;
   }
 
-  .sec-title {
-    font: 800 13px var(--font);
+  .portal-badge-mode {
+    font: 700 10px var(--font);
     letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+  }
+
+  .account-portal-header h3 {
+    font: 900 clamp(18px, 2.5vw, 24px)/1.2 var(--font);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin: 0 0 6px 0;
+  }
+
+  .account-portal-header p {
+    font: 400 13px/1.5 var(--font);
+    color: rgba(255, 255, 255, 0.78);
+    margin: 0;
+  }
+
+  .account-portal-header p strong {
+    color: #ffffff;
+  }
+
+  /* Cartes de comptes sélectionnables */
+  .account-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+  }
+
+  .account-card-btn {
+    background: #141414;
+    border: 2px dashed #444444;
+    color: #ffffff;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease;
+  }
+
+  .account-card-btn:hover {
+    border-color: #ffffff;
+    background: #1f1f1f;
+    transform: translateY(-2px);
+  }
+
+  .account-card-btn.active {
+    background: #ffffff;
+    color: #000000;
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+  }
+
+  .acc-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2px;
+  }
+
+  .acc-card-icon {
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .acc-card-badge {
+    font: 700 9px var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 1px 5px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+  }
+
+  .account-card-btn.active .acc-card-badge {
+    background: #000000;
+    color: #ffffff;
+  }
+
+  .acc-card-title {
+    font: 800 13.5px var(--font);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .acc-card-sub {
+    font: 400 11px/1.3 var(--font);
+    opacity: 0.75;
+  }
+
+  .acc-card-state {
+    font: 700 9.5px var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 4px;
+    padding-top: 4px;
+    border-top: 1px dashed rgba(128, 128, 128, 0.3);
+  }
+
+  .account-card-btn.active .acc-card-state {
+    color: #000000;
+    border-top-color: rgba(0, 0, 0, 0.2);
+  }
+
+  /* Formulaire de login rapide */
+  .account-login-bar {
+    background: #111111;
+    border: 1px solid #333333;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .login-inputs-cluster {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .login-inputs-cluster label {
+    font: 700 12px var(--font);
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: #ffffff;
   }
 
-  .sec-desc {
-    margin: 0;
-    font: 400 12.5px/1.45 var(--font);
-    color: rgba(255, 255, 255, 0.78);
+  .login-input-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
   }
 
-  .sec-desc strong {
+  .login-input-row input {
+    flex: 1;
+    min-width: 220px;
+    background: #000000;
     color: #ffffff;
+    border: 1.5px solid #555555;
+    padding: 10px 14px;
+    font: 400 14px var(--font);
   }
 
-  .security-actions-block {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 6px;
-  }
-
-  @media (max-width: 768px) {
-    .security-actions-block {
-      align-items: stretch;
-      width: 100%;
-    }
-  }
-
-  .unlock-form-inline {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .unlock-input-wrap {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .unlock-input-wrap input {
-    background: #1a1a1a;
-    color: #ffffff;
-    border: 1px solid #444444;
-    padding: 8px 12px;
-    font: 400 13px var(--font);
-    width: 200px;
-  }
-
-  .unlock-input-wrap input:focus {
+  .login-input-row input:focus {
     border-color: #ffffff;
     outline: none;
   }
 
-  .btn-unlock {
+  .btn-open-account {
     background: #ffffff;
     color: #000000;
-    border: 1px solid #ffffff;
-    padding: 8px 14px;
-    font: 700 11px var(--font);
+    border: 1.5px solid #ffffff;
+    padding: 10px 20px;
+    font: 700 12px var(--font);
     letter-spacing: 0.1em;
     text-transform: uppercase;
     cursor: pointer;
@@ -1670,35 +1970,140 @@ const planningFpvMois: MoisFpv[] = [
     transition: all 0.2s ease;
   }
 
-  .btn-unlock:hover {
+  .btn-open-account:hover {
     background: #e0e0e0;
   }
 
-  .btn-relock {
+  .account-login-feedback {
+    font: 700 11.5px var(--font);
+    color: #ff6666;
+    letter-spacing: 0.04em;
+  }
+
+  .account-demo-hints {
+    font: 400 11px var(--font);
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  .account-demo-hints code {
+    background: #222222;
+    color: #ffffff;
+    padding: 1px 5px;
+    border: 1px solid #444444;
+  }
+
+  /* Vue connectée */
+  .account-session-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.25);
+  }
+
+  .session-user-badge {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .session-icon {
+    font-size: 32px;
+    line-height: 1;
+  }
+
+  .session-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .session-status-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .status-live-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+    display: inline-block;
+  }
+
+  .session-status-row strong {
+    font: 900 16px var(--font);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+
+  .session-status-row .badge-direct {
+    background: #ffffff;
+    color: #000000;
+  }
+
+  .session-info p {
+    font: 400 12px/1.35 var(--font);
+    color: rgba(255, 255, 255, 0.75);
+    margin: 0;
+  }
+
+  .session-quick-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .btn-jump-book {
+    background: #ffffff;
+    color: #000000;
+    border: 1px solid #ffffff;
+    padding: 9px 16px;
+    font: 700 11px var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-jump-book:hover {
+    background: #e6e6e6;
+  }
+
+  .btn-logout {
     background: transparent;
     color: #ffffff;
-    border: 1px dashed rgba(255, 255, 255, 0.6);
-    padding: 8px 16px;
+    border: 1px dashed rgba(255, 255, 255, 0.5);
+    padding: 8px 14px;
     font: 700 11px var(--font);
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     cursor: pointer;
     transition: all 0.2s ease;
   }
 
-  .btn-relock:hover {
+  .btn-logout:hover {
     border-color: #ffffff;
     background: rgba(255, 255, 255, 0.1);
   }
 
-  .unlock-feedback {
-    font: 700 11px var(--font);
-    color: #ff6666;
-    letter-spacing: 0.04em;
+  .session-privacy-notice {
+    font: 400 12px/1.4 var(--font);
+    color: rgba(255, 255, 255, 0.85);
   }
 
-  /* Console Partenaires & FPV Presets */
-  .partner-quick-access,
+  .session-privacy-notice strong {
+    color: #ffffff;
+  }
+
+  /* Console Presets FPV */
   .fpv-quick-access {
     background: #fafafa;
     border: 2px dashed var(--dash);
@@ -1880,12 +2285,12 @@ const planningFpvMois: MoisFpv[] = [
     border: 1px solid #000000;
   }
 
-  .box-cine1 {
+  .box-studios {
     background: #000000;
   }
 
-  .box-cine2 {
-    background: #666666;
+  .box-cineoff {
+    background: #555555;
   }
 
   .box-option {
@@ -2042,18 +2447,12 @@ const planningFpvMois: MoisFpv[] = [
     padding: 1px 4px;
   }
 
-  .tag-cine1 {
+  .tag-cine-dynamic {
     font: 700 9px var(--font);
     background: #000000;
     color: #ffffff;
     padding: 2px 5px;
-  }
-
-  .tag-cine2 {
-    font: 700 9px var(--font);
-    background: #666666;
-    color: #ffffff;
-    padding: 2px 5px;
+    letter-spacing: 0.05em;
   }
 
   .tag-fpv-tournage {
@@ -2141,72 +2540,73 @@ const planningFpvMois: MoisFpv[] = [
     color: #000000;
   }
 
-  /* Gestion du verrouillage confidentiel (grisé) */
-  .agenda-privacy-locked .legend-badge-unlocked {
-    opacity: 0.35;
-    filter: grayscale(1);
-  }
-
-  .agenda-privacy-unlocked .legend-badge-locked {
-    display: none;
-  }
-
-  .agenda-privacy-locked .day-cine-locked {
+  /* Gestion de la confidentialité et des statuts des cellules cinéma */
+  .day-masked-grise {
     background: repeating-linear-gradient(
       -45deg,
-      #f8f8f8,
-      #f8f8f8 6px,
-      #eeeeee 6px,
-      #eeeeee 12px
+      #f9f9f9,
+      #f9f9f9 6px,
+      #efefef 6px,
+      #efefef 12px
     ) !important;
-    border: 1px solid #cccccc !important;
-    border-left: 3px solid #888888 !important;
+    border: 1.5px dashed #cccccc !important;
+    border-left: 4px solid #888888 !important;
     cursor: pointer;
+    transition: all 0.2s ease;
   }
 
-  .agenda-privacy-locked .day-cine-locked:hover {
+  .day-masked-grise:hover {
+    border-color: #000000 !important;
     background: repeating-linear-gradient(
       -45deg,
-      #f0f0f0,
-      #f0f0f0 6px,
-      #e5e5e5 6px,
-      #e5e5e5 12px
+      #f2f2f2,
+      #f2f2f2 6px,
+      #e8e8e8 6px,
+      #e8e8e8 12px
     ) !important;
-    border-color: #000000 !important;
+    transform: translateY(-2px);
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
   }
 
-  .agenda-privacy-locked .cine-content-clear,
-  .agenda-privacy-locked .tag-clear-only {
-    display: none !important;
+  .day-masked-grise .tag-cine-dynamic {
+    background: #666666 !important;
+    color: #ffffff !important;
   }
 
-  .agenda-privacy-locked .cine-content-masked {
-    display: block;
+  .day-masked-grise .day-label-main {
+    color: #666666 !important;
+    font-style: italic;
   }
 
-  .agenda-privacy-locked span.tag-masked-only {
-    display: inline-block !important;
+  .day-masked-grise .day-detail-txt {
+    color: #999999 !important;
   }
 
-  .agenda-privacy-unlocked .cine-content-masked,
-  .agenda-privacy-unlocked .tag-masked-only {
-    display: none !important;
+  .day-owner-active {
+    background: #ffffff !important;
+    border: 2px solid #000000 !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
   }
 
-  .agenda-privacy-unlocked .cine-content-clear {
-    display: block !important;
+  .day-owner-active:hover {
+    transform: translateY(-2px);
+    box-shadow: 3px 3px 0 #000000;
   }
 
-  .agenda-privacy-unlocked span.tag-clear-only {
-    display: inline-block !important;
+  .day-owner-active .tag-cine-dynamic {
+    background: #000000 !important;
+    color: #ffffff !important;
   }
 
-  .tag-masked {
-    font: 700 9px var(--font);
-    background: #555555;
-    color: #ffffff;
-    padding: 2px 5px;
-    letter-spacing: 0.05em;
+  .day-owner-active .day-label-main {
+    font-weight: 700;
+    color: #000000 !important;
+  }
+
+  .day-owner-active .day-action-hint {
+    color: #000000 !important;
+    font-weight: 700;
   }
 
   .day-cine-formation {
@@ -2218,19 +2618,19 @@ const planningFpvMois: MoisFpv[] = [
       #ebebeb 12px
     );
     border: 1px solid #bbbbbb;
-    cursor: not-allowed;
+    cursor: pointer;
   }
 
-  .day-cine-reserve_cine1 {
-    background: #f4f4f4;
-    border-left: 4px solid #000000;
-    cursor: not-allowed;
-  }
-
-  .day-cine-reserve_cine2 {
+  .day-cine-reserve_studios {
     background: #f7f7f7;
-    border-left: 4px solid #666666;
-    cursor: not-allowed;
+    border-left: 4px solid #000000;
+    cursor: pointer;
+  }
+
+  .day-cine-reserve_cineoff {
+    background: #f9f9f9;
+    border-left: 4px solid #555555;
+    cursor: pointer;
   }
 
   .day-fpv-reserve_tournage {
