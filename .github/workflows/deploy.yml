@@ -1,4 +1,4 @@
-name: Déploiement GitHub Pages
+name: Déploiement
 
 on:
   push:
@@ -6,22 +6,55 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
 concurrency:
-  group: pages
+  group: deploy
   cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: withastro/action@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-  deploy:
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static site
+        run: npm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Push to ovh branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: ovh
+          publish_dir: ./dist
+          keep_files: false
+          force_orphan: true
+
+      - name: Ping OVH Webhook
+        if: env.OVH_WEBHOOK_URL != ''
+        env:
+          OVH_WEBHOOK_URL: ${{ secrets.OVH_WEBHOOK_URL }}
+        run: |
+          curl -s -X POST "$OVH_WEBHOOK_URL" || true
+
+  deploy-pages:
     needs: build
     runs-on: ubuntu-latest
     environment:
