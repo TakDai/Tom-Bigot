@@ -496,14 +496,14 @@ const projectsInfographique = [
 const pitch = 14;
 const stripeWidth = 8;
 const bundleStartX = 40;
-const logoSize = 22;
-const logoStaggerStep = 28; // Échelon sans aucune superposition (28px > 22px)
+const logoSize = 36;
+const logoStaggerStep = 42; // Échelon spacieux pour grands logos nets (42px > 36px, marge 6px)
 const topOffset = 30;
 const numTracks = projectsInfographique.length;
 
 const cardsStartY = topOffset + (numTracks * logoStaggerStep) + 30;
-const cardStartX = bundleStartX + (numTracks * pitch) + 35; // ~215px
-const itemHeight = 290; // Format zoomé avec marge respiratoire
+const cardStartX = bundleStartX + (numTracks * pitch) + 40; // ~220px
+const itemHeight = 310; // Format zoomé spacieux
 
 const renderedTracks = projectsInfographique.map((p, idx) => {
   const trackIdx = numTracks - 1 - idx;
@@ -513,7 +513,7 @@ const renderedTracks = projectsInfographique.map((p, idx) => {
   const logoY = topOffset + (trackIdx * logoStaggerStep);
 
   const targetCardY = cardsStartY + (idx * itemHeight);
-  const spurY = targetCardY + 60;
+  const spurY = targetCardY + 65;
 
   // Ligne 100% orthogonale droite : AUCUNE COURBE
   // Démarre au bas exact du médaillon sans superposition
@@ -601,7 +601,7 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
           <a
             href={p.lien}
             class={`ribbon-logo-anchor logo-${p.id}`}
-            style={`left: ${p.logoX - 11}px; top: ${p.logoY - 11}px;`}
+            style={`left: ${p.logoX - (logoSize / 2)}px; top: ${p.logoY - (logoSize / 2)}px;`}
             title={`${p.num} · ${p.titre} — ${p.domaine}`}
             data-target-id={p.id}
           >
@@ -642,6 +642,9 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
           <article class={`infographic-card card-${p.id}`} style={`top: ${p.targetCardY}px;`}>
             <div class="card-meta-line">
               <span class="card-num">{p.num}</span>
+              <div class="card-logo-badge">
+                <img src={p.logo} alt={p.titre} />
+              </div>
               <div class="card-heading">
                 <h3 class="card-title">{p.titre}</h3>
                 <span class="card-domain">{p.domaine}</span>
@@ -887,8 +890,8 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
 
   .ribbon-logo-anchor {
     position: absolute;
-    width: 22px;
-    height: 22px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -906,27 +909,27 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
   }
 
   .logo-circle {
-    width: 22px;
-    height: 22px;
-    border-radius: 4px;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
     background: #ffffff;
-    border: 2px solid #000000;
+    border: 2.5px solid #000000;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.14);
     transition: background-color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   }
 
   .ribbon-logo-anchor:hover .logo-circle,
   .ribbon-logo-anchor.is-active .logo-circle {
     background: #000000;
-    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.28);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
   }
 
   .logo-circle img {
-    width: 14px;
-    height: 14px;
+    width: 24px;
+    height: 24px;
     object-fit: contain;
     transition: filter 0.2s ease;
   }
@@ -939,7 +942,7 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
   /* Infobulle élégante au survol du médaillon */
   .logo-head-tooltip {
     position: absolute;
-    left: 28px;
+    left: 42px;
     top: 50%;
     transform: translateY(-50%) translateX(-4px);
     background: #000000;
@@ -995,7 +998,7 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
 
   .infographic-card {
     position: absolute;
-    left: 215px;
+    left: 220px;
     right: 16px;
     min-height: 250px;
     height: auto;
@@ -1031,6 +1034,30 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
     color: #ffffff;
     padding: 5px 15px;
   }
+
+  /* Emblème / Logo officiel dans chaque fiche projet */
+  .card-logo-badge {
+    width: 48px;
+    height: 48px;
+    background: #ffffff;
+    border: 2.5px solid #000000;
+    border-radius: 4px;
+    box-shadow: 2px 2px 0px #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.15s ease;
+  }
+  .card-logo-badge img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+  }
+  .infographic-card:hover .card-logo-badge {
+    transform: scale(1.05);
+  }
+
   .card-heading {
     display: flex;
     flex-direction: column;
@@ -1108,9 +1135,17 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
 
   @media (max-width: 900px) {
     .infographic-card {
-      left: 205px;
+      left: 215px;
       right: 12px;
       padding: 20px 22px;
+    }
+    .card-logo-badge {
+      width: 42px;
+      height: 42px;
+    }
+    .card-logo-badge img {
+      width: 26px;
+      height: 26px;
     }
     .card-title {
       font-size: 22px;
@@ -1145,6 +1180,14 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
       min-height: auto !important;
       height: auto !important;
       padding: 20px 18px;
+    }
+    .card-logo-badge {
+      width: 40px;
+      height: 40px;
+    }
+    .card-logo-badge img {
+      width: 24px;
+      height: 24px;
     }
   }
 </style>
