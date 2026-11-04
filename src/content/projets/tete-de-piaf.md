@@ -1,12 +1,12 @@
 ---
-titre: "tête-de-piaf"
-resume: "Projet créatif et expérimental autour du design et de l'illustration."
+titre: "Tête de Piaf"
+resume: "Laboratoire de design graphique, identités visuelles vectorielles et recherche esthétique."
 nature: création
 statut: en cours
 annee: 2026
-domaines: ["création", "expérimentation"]
+domaines: ["Design", "Illustration", "Identité Visuelle", "SEEWORLD"]
 github: https://github.com/TakDai/tete-de-piaf
-ordre: 100
+ordre: 90
 ---
 
-Laboratoire d'idées, d'illustrations et d'expérimentations graphiques et interactives.
+Laboratoire créatif dédié à la direction artistique, aux logos signatures monochromes, aux chartes vectorielles géométriques et à l'identité visuelle générale du groupe SEEWORLD.

@@ -1,12 +1,17 @@
 ---
-titre: "superviseur"
-resume: "Outil de monitoring et de supervision d'infrastructures et de serveurs autonomes."
+titre: "Superviseur"
+resume: "Console desktop native en C# / .NET 8 / Avalonia pour supervision de serveurs bare-metal."
 nature: création
 statut: en cours
 annee: 2026
-domaines: ["devops", "monitoring", "système"]
+domaines: ["C# .NET 8", "Avalonia", "DevOps", "Sécurité"]
 github: https://github.com/TakDai/Superviseur
-ordre: 60
+ordre: 40
 ---
 
-Solution de supervision légère et autonome pour suivre en continu la disponibilité, la charge et la sécurité d'infrastructures de serveurs hébergés et auto-hébergés.
+Application de bureau multiplateforme développée en **C#**, **.NET 8** et **Avalonia UI** pour superviser en temps réel l'ensemble du parc de serveurs (OpenBots, Komeon, Les Tourangeaux).
+
+**Sécurité zero-agent :**
+- Aucun port ouvert en production : communication directe via des tunnels SSH chiffrés.
+- Coffre-fort d'identifiants chiffré en **AES-256-GCM** avec dérivation de clé **Argon2id**.
+- Verrouillage automatique de la console après inactivité.

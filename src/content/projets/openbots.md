@@ -1,13 +1,15 @@
 ---
-titre: "openbots"
-resume: "Plateforme et conception de robots modulaires et open source."
+titre: "OpenBots"
+resume: "Plateforme cloud d'hébergement multi-tenant de bots Discord automatisés."
 nature: création
 statut: en cours
 annee: 2026
-domaines: ["robotique", "open source", "hardware"]
+domaines: ["Discord", "Python", "Cloud PaaS", "Docker"]
 lien: https://openbots.fr
 github: https://github.com/TakDai/openbots
 ordre: 30
 ---
 
-Initiative visant à concevoir des robots accessibles, modulaires et faciles à reproduire, alliant impression 3D, microcontrôleurs et logiciels ouverts.
+Plateforme d'hébergement et d'orchestration de bots Discord en production. 
+
+L'architecture repose sur un panel web centralisé de gestion et d'administration, couplé à un processus bot dédié (`discord.py`) par client, conteneurisé, supervisé et isolé pour garantir stabilité et performance.
