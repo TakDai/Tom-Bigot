@@ -496,29 +496,22 @@ const projectsInfographique = [
 const pitch = 14;
 const stripeWidth = 8;
 const bundleStartX = 40;
-const logoSize = 36;
-const logoStaggerStep = 42; // Échelon spacieux pour grands logos nets (42px > 36px, marge 6px)
-const topOffset = 30;
 const numTracks = projectsInfographique.length;
-
-const cardsStartY = topOffset + (numTracks * logoStaggerStep) + 30;
-const cardStartX = bundleStartX + (numTracks * pitch) + 40; // ~220px
-const itemHeight = 310; // Format zoomé spacieux
+const cardStartX = bundleStartX + (numTracks * pitch) + 35; // ~215px
+const itemHeight = 295; // Format zoomé spacieux et équilibré
+const topY = 40;
+const cardsStartY = topY + 45;
 
 const renderedTracks = projectsInfographique.map((p, idx) => {
   const trackIdx = numTracks - 1 - idx;
   const lineX = bundleStartX + (trackIdx * pitch);
   
-  const logoX = lineX;
-  const logoY = topOffset + (trackIdx * logoStaggerStep);
-
   const targetCardY = cardsStartY + (idx * itemHeight);
-  const spurY = targetCardY + 65;
+  const spurY = targetCardY + 60;
 
   // Ligne 100% orthogonale droite : AUCUNE COURBE
-  // Démarre au bas exact du médaillon sans superposition
-  const lineStartY = logoY + (logoSize / 2);
-  const d = `M ${lineX} ${lineStartY} V ${spurY} H ${cardStartX - 2}`;
+  // Démarre au sommet du faisceau unifié et bifurque à 90° dans la fiche
+  const d = `M ${lineX} ${topY} V ${spurY} H ${cardStartX - 2}`;
 
   return {
     ...p,
@@ -526,12 +519,11 @@ const renderedTracks = projectsInfographique.map((p, idx) => {
     lineX,
     d,
     spurY,
-    logoX,
-    logoY,
     targetCardY,
   };
 });
 
+const totalBundleWidth = (numTracks - 1) * pitch + stripeWidth;
 const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHeight) + 60;
 ---
 
@@ -592,25 +584,16 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
     </a>
   </section>
 
-          <!-- ================= SECTION BANDEAUX DU TEMPS (ZOOMÉE SANS COURBE) ================= -->
+          <!-- ================= SECTION BANDEAUX DU TEMPS (HOMOGÈNE & ÉPURÉE) ================= -->
   <section class="bandeaux-timeline-section" id="chronologie-rubans">
     <div class="timeline-container" style={`--timeline-height: ${totalTimelineHeight}px;`}>
-      <!-- Médaillons des 10 logos en tête des bandes (sans courbe, zéro superposition) -->
-      <div class="ribbon-logos-head" aria-label="Accès direct aux projets via leurs emblèmes">
-        {renderedTracks.map((p) => (
-          <a
-            href={p.lien}
-            class={`ribbon-logo-anchor logo-${p.id}`}
-            style={`left: ${p.logoX - (logoSize / 2)}px; top: ${p.logoY - (logoSize / 2)}px;`}
-            title={`${p.num} · ${p.titre} — ${p.domaine}`}
-            data-target-id={p.id}
-          >
-            <div class="logo-circle">
-              <img src={p.logo} alt={p.titre} />
-            </div>
-            <span class="logo-head-tooltip">{p.num} · {p.titre}</span>
-          </a>
-        ))}
+      <!-- Tête de faisceau unifiée : connecteur de bus élégant -->
+      <div
+        class="bundle-header-block"
+        style={`left: ${bundleStartX - 6}px; top: ${topY - 24}px; width: ${totalBundleWidth + 12}px;`}
+        title="Bus temporel des 10 projets"
+      >
+        <span>10 PROJETS</span>
       </div>
 
       <!-- Bandes orthogonales 100% droites (AUCUNE COURBE) -->
@@ -668,26 +651,9 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
   </section>
 
   <script is:inline>
-    // Interactions simples au hover : relier médaillon en tête, ligne SVG et fiche projet
+    // Interactions simples au hover : relier fiche projet et ligne SVG
     document.addEventListener('DOMContentLoaded', () => {
-      const anchors = document.querySelectorAll('.ribbon-logo-anchor');
       const cards = document.querySelectorAll('.infographic-card');
-
-      anchors.forEach((anchor) => {
-        const id = anchor.getAttribute('data-target-id');
-        if (!id) return;
-        const group = document.querySelector(`.group-${id}`);
-        const card = document.querySelector(`.card-${id}`);
-
-        anchor.addEventListener('mouseenter', () => {
-          if (group) group.classList.add('is-active');
-          if (card) card.classList.add('is-highlighted');
-        });
-        anchor.addEventListener('mouseleave', () => {
-          if (group) group.classList.remove('is-active');
-          if (card) card.classList.remove('is-highlighted');
-        });
-      });
 
       cards.forEach((card) => {
         const classList = Array.from(card.classList);
@@ -695,15 +661,12 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
         if (!cardClass) return;
         const id = cardClass.replace('card-', '');
         const group = document.querySelector(`.group-${id}`);
-        const anchor = document.querySelector(`.logo-${id}`);
 
         card.addEventListener('mouseenter', () => {
           if (group) group.classList.add('is-active');
-          if (anchor) anchor.classList.add('is-active');
         });
         card.addEventListener('mouseleave', () => {
           if (group) group.classList.remove('is-active');
-          if (anchor) anchor.classList.remove('is-active');
         });
       });
     });
@@ -878,94 +841,22 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
     overflow-x: hidden !important;
   }
 
-  .ribbon-logos-head {
+  /* Tête de bus unifiée : connecteur net et sobre au sommet du faisceau */
+  .bundle-header-block {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 8;
-  }
-
-  .ribbon-logo-anchor {
-    position: absolute;
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    pointer-events: auto;
-    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-    z-index: 10;
-  }
-  
-  /* Petits déplacements simples au survol : élévation sans occlusion */
-  .ribbon-logo-anchor:hover,
-  .ribbon-logo-anchor.is-active {
-    transform: translateY(-4px) translateX(2px);
-    z-index: 50;
-  }
-
-  .logo-circle {
-    width: 36px;
-    height: 36px;
-    border-radius: 6px;
-    background: #ffffff;
-    border: 2.5px solid #000000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.14);
-    transition: background-color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-  }
-
-  .ribbon-logo-anchor:hover .logo-circle,
-  .ribbon-logo-anchor.is-active .logo-circle {
-    background: #000000;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
-  }
-
-  .logo-circle img {
-    width: 24px;
     height: 24px;
-    object-fit: contain;
-    transition: filter 0.2s ease;
-  }
-
-  .ribbon-logo-anchor:hover .logo-circle img,
-  .ribbon-logo-anchor.is-active .logo-circle img {
-    filter: invert(1);
-  }
-
-  /* Infobulle élégante au survol du médaillon */
-  .logo-head-tooltip {
-    position: absolute;
-    left: 42px;
-    top: 50%;
-    transform: translateY(-50%) translateX(-4px);
     background: #000000;
     color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.04em;
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    white-space: nowrap;
-    padding: 4px 10px;
-    border-radius: 2px;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.15s ease, transform 0.15s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-    z-index: 60;
-  }
-
-  .ribbon-logo-anchor:hover .logo-head-tooltip,
-  .ribbon-logo-anchor.is-active .logo-head-tooltip {
-    opacity: 1;
-    transform: translateY(-50%) translateX(2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 10;
   }
 
   .track-group {
@@ -977,7 +868,7 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
   }
 
   .track-group.is-active .infographic-ribbon {
-    stroke-width: 11px;
+    stroke-width: 12px;
   }
 
   .svg-lines-layer {
@@ -1164,7 +1055,7 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
       height: auto !important;
       padding-top: 20px;
     }
-    .svg-lines-layer, .ribbon-logos-head {
+    .svg-lines-layer, .bundle-header-block {
       display: none;
     }
     .infographic-cards-column {
