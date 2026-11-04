@@ -496,8 +496,9 @@ const projectsInfographique = [
 const pitch = 14;
 const stripeWidth = 8;
 const bundleStartX = 40;
-const logoStaggerStep = 20;
-const topOffset = 35;
+const logoSize = 22;
+const logoStaggerStep = 28; // Échelon sans aucune superposition (28px > 22px)
+const topOffset = 30;
 const numTracks = projectsInfographique.length;
 
 const cardsStartY = topOffset + (numTracks * logoStaggerStep) + 30;
@@ -515,7 +516,9 @@ const renderedTracks = projectsInfographique.map((p, idx) => {
   const spurY = targetCardY + 60;
 
   // Ligne 100% orthogonale droite : AUCUNE COURBE
-  const d = `M ${lineX} ${logoY + 14} V ${spurY} H ${cardStartX - 2}`;
+  // Démarre au bas exact du médaillon sans superposition
+  const lineStartY = logoY + (logoSize / 2);
+  const d = `M ${lineX} ${lineStartY} V ${spurY} H ${cardStartX - 2}`;
 
   return {
     ...p,
@@ -592,18 +595,20 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
           <!-- ================= SECTION BANDEAUX DU TEMPS (ZOOMÉE SANS COURBE) ================= -->
   <section class="bandeaux-timeline-section" id="chronologie-rubans">
     <div class="timeline-container" style={`--timeline-height: ${totalTimelineHeight}px;`}>
-      <!-- Médaillons des 10 logos en tête des bandes (sans courbe) -->
-      <div class="ribbon-logos-head" aria-hidden="true">
+      <!-- Médaillons des 10 logos en tête des bandes (sans courbe, zéro superposition) -->
+      <div class="ribbon-logos-head" aria-label="Accès direct aux projets via leurs emblèmes">
         {renderedTracks.map((p) => (
           <a
             href={p.lien}
             class={`ribbon-logo-anchor logo-${p.id}`}
-            style={`left: ${p.logoX - 15}px; top: ${p.logoY - 15}px;`}
+            style={`left: ${p.logoX - 11}px; top: ${p.logoY - 11}px;`}
             title={`${p.num} · ${p.titre} — ${p.domaine}`}
+            data-target-id={p.id}
           >
             <div class="logo-circle">
               <img src={p.logo} alt={p.titre} />
             </div>
+            <span class="logo-head-tooltip">{p.num} · {p.titre}</span>
           </a>
         ))}
       </div>
@@ -658,6 +663,48 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
       </div>
     </div>
   </section>
+
+  <script is:inline>
+    // Interactions simples au hover : relier médaillon en tête, ligne SVG et fiche projet
+    document.addEventListener('DOMContentLoaded', () => {
+      const anchors = document.querySelectorAll('.ribbon-logo-anchor');
+      const cards = document.querySelectorAll('.infographic-card');
+
+      anchors.forEach((anchor) => {
+        const id = anchor.getAttribute('data-target-id');
+        if (!id) return;
+        const group = document.querySelector(`.group-${id}`);
+        const card = document.querySelector(`.card-${id}`);
+
+        anchor.addEventListener('mouseenter', () => {
+          if (group) group.classList.add('is-active');
+          if (card) card.classList.add('is-highlighted');
+        });
+        anchor.addEventListener('mouseleave', () => {
+          if (group) group.classList.remove('is-active');
+          if (card) card.classList.remove('is-highlighted');
+        });
+      });
+
+      cards.forEach((card) => {
+        const classList = Array.from(card.classList);
+        const cardClass = classList.find((c) => c.startsWith('card-') && c !== 'card-actions' && c !== 'card-desc');
+        if (!cardClass) return;
+        const id = cardClass.replace('card-', '');
+        const group = document.querySelector(`.group-${id}`);
+        const anchor = document.querySelector(`.logo-${id}`);
+
+        card.addEventListener('mouseenter', () => {
+          if (group) group.classList.add('is-active');
+          if (anchor) anchor.classList.add('is-active');
+        });
+        card.addEventListener('mouseleave', () => {
+          if (group) group.classList.remove('is-active');
+          if (anchor) anchor.classList.remove('is-active');
+        });
+      });
+    });
+  </script>
 </Base>
 
 <style>
@@ -840,34 +887,94 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
 
   .ribbon-logo-anchor {
     position: absolute;
-    width: 28px;
-    height: 28px;
+    width: 22px;
+    height: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-decoration: none;
     pointer-events: auto;
-    transition: transform 0.15s ease;
+    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
     z-index: 10;
   }
-  .ribbon-logo-anchor:hover {
-    transform: scale(1.3);
+  
+  /* Petits déplacements simples au survol : élévation sans occlusion */
+  .ribbon-logo-anchor:hover,
+  .ribbon-logo-anchor.is-active {
+    transform: translateY(-4px) translateX(2px);
+    z-index: 50;
   }
+
   .logo-circle {
-    width: 28px;
-    height: 28px;
+    width: 22px;
+    height: 22px;
     border-radius: 4px;
     background: #ffffff;
     border: 2px solid #000000;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   }
+
+  .ribbon-logo-anchor:hover .logo-circle,
+  .ribbon-logo-anchor.is-active .logo-circle {
+    background: #000000;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.28);
+  }
+
   .logo-circle img {
-    width: 17px;
-    height: 17px;
+    width: 14px;
+    height: 14px;
     object-fit: contain;
+    transition: filter 0.2s ease;
+  }
+
+  .ribbon-logo-anchor:hover .logo-circle img,
+  .ribbon-logo-anchor.is-active .logo-circle img {
+    filter: invert(1);
+  }
+
+  /* Infobulle élégante au survol du médaillon */
+  .logo-head-tooltip {
+    position: absolute;
+    left: 28px;
+    top: 50%;
+    transform: translateY(-50%) translateX(-4px);
+    background: #000000;
+    color: #ffffff;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding: 4px 10px;
+    border-radius: 2px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    z-index: 60;
+  }
+
+  .ribbon-logo-anchor:hover .logo-head-tooltip,
+  .ribbon-logo-anchor.is-active .logo-head-tooltip {
+    opacity: 1;
+    transform: translateY(-50%) translateX(2px);
+  }
+
+  .track-group {
+    transition: opacity 0.2s ease;
+  }
+
+  .track-group .infographic-ribbon {
+    transition: stroke-width 0.2s ease, stroke 0.2s ease;
+  }
+
+  .track-group.is-active .infographic-ribbon {
+    stroke-width: 11px;
   }
 
   .svg-lines-layer {
