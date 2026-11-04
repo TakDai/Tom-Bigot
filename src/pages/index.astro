@@ -1,393 +1,21 @@
 ---
 import Base from '../layouts/Base.astro';
 
-const bandeauxProjets = [
-  {
-    id: 'lestourangeaux',
-    numero: '06',
-    titre: 'LES TOURANGEAUX',
-    sousTitre: 'Portail régional indépendant',
-    domaine: 'Web & Communauté',
-    logo: '/assets/logos/lestourangeaux.svg',
-    lien: '/projets/lestourangeaux',
-    github: 'https://github.com/TakDai/LesTourangeaux',
-    etapes: [
-      {
-        type: 'phase',
-        date: '2025',
-        titre: 'Architecture & collecte locale',
-        desc: 'Conception de la plateforme web pour valoriser les artisans et créateurs de Tours.',
-      },
-      {
-        type: 'temps_fort',
-        date: 'Fin 2025',
-        titre: '150+ initiatives référencées',
-        desc: 'Mise en ligne et adoption rapide par le tissu local sans publicité payante.',
-      },
-      {
-        type: 'pause',
-        date: 'Hiver 2025',
-        titre: 'Transition vers le hardware',
-        desc: 'Mise en veilleuse du dev web pour consacrer l\'hiver à l\'atelier physique.',
-      },
-      {
-        type: 'phase',
-        date: 'Avril 2026',
-        titre: 'Maintenance & CDN haute disponibilité',
-        desc: 'Sortie de fente : remise à niveau de l\'infrastructure indépendante.',
-      },
-      {
-        type: 'statut',
-        date: 'Aujourd\'hui',
-        titre: 'En ligne & autonome',
-        desc: 'Accessible en continu sur lestourangeaux.fr.',
-      },
-    ],
-  },
-  {
-    id: 'multi-motors',
-    numero: '01',
-    titre: 'MULTI-MOTORS',
-    sousTitre: "Bancs d'essai & télémétrie moteur",
-    domaine: 'Électronique & Embarqué',
-    logo: '/assets/logos/multi-motors.png',
-    lien: '/projets/multi-motors',
-    github: 'https://github.com/TakDai/Multi-Motors',
-    etapes: [
-      {
-        type: 'phase',
-        date: 'Début 2026',
-        titre: 'Conception mécanique',
-        desc: 'Dessin 3D du support de poussée et calibration des capteurs dynamométriques.',
-      },
-      {
-        type: 'temps_fort',
-        date: 'Fév. 2026',
-        titre: 'Mesure télémétrique 32 kHz',
-        desc: 'Couplage direct à 32 kHz pour mesurer le rendement poussée/ampérage au gramme près.',
-      },
-      {
-        type: 'pause',
-        date: 'Mars 2026',
-        titre: 'Validation thermique ESC',
-        desc: 'Interruption des tests pour mesurer l\'échauffement des MOSFETs sous 80A continus.',
-      },
-      {
-        type: 'phase',
-        date: 'Avril 2026',
-        titre: 'Optimisation timing & PID',
-        desc: 'Ajustement des timings d\'injection brushless selon le pas d\'hélice.',
-      },
-      {
-        type: 'statut',
-        date: 'Aujourd\'hui',
-        titre: 'Essais en vol & Validation',
-        desc: 'Intégration sur châssis de vol réel et validation des bancs de charge.',
-      },
-    ],
-  },
-  {
-    id: 'fix-my-drone',
-    numero: '02',
-    titre: 'FIX-MY-DRONE',
-    sousTitre: 'Diagnostic & réparation FPV',
-    domaine: 'Drones & Hardware',
-    logo: '/assets/logos/fix-my-drone.svg',
-    lien: '/projets/fix-my-drone',
-    github: 'https://github.com/TakDai/fix-my-drone',
-    etapes: [
-      {
-        type: 'phase',
-        date: 'Début 2026',
-        titre: 'Cartographie des pannes',
-        desc: 'Dépouillement des logs blackbox et identification des causes d\'avarie récurrentes.',
-      },
-      {
-        type: 'temps_fort',
-        date: 'Mars 2026',
-        titre: 'Sauvetage STM32 & Filtres Notch',
-        desc: 'Mise au point d\'un protocole pour ressusciter les processeurs de vol brickés.',
-      },
-      {
-        type: 'pause',
-        date: 'Avril 2026',
-        titre: 'Rédaction des protocoles',
-        desc: 'Pause des soudures pour documenter méthodiquement chaque étape de diagnostic.',
-      },
-      {
-        type: 'statut',
-        date: 'Aujourd\'hui',
-        titre: 'Plateforme en développement',
-        desc: 'Outil de diagnostic interactif en cours d\'assemblage.',
-      },
-    ],
-  },
-  {
-    id: 'openbots',
-    numero: '03',
-    titre: 'OPENBOTS',
-    sousTitre: 'Robotique modulaire 3D',
-    domaine: 'Robotique & Open Source',
-    logo: '/assets/logos/openbots.png',
-    lien: '/projets/openbots',
-    github: 'https://github.com/TakDai/openbots',
-    etapes: [
-      {
-        type: 'phase',
-        date: 'Début 2026',
-        titre: 'Modélisation CAD modulaire',
-        desc: 'Conception d\'un châssis polyvalent imprimable en 3D avec microcontrôleur ouvert.',
-      },
-      {
-        type: 'pause',
-        date: 'Fév. 2026',
-        titre: 'Tests de rupture PETG',
-        desc: 'Arrêt de l\'assemblage après casse de pignons, passage au filament carbone.',
-      },
-      {
-        type: 'temps_fort',
-        date: 'Mars 2026',
-        titre: 'Premier roulage autonome',
-        desc: 'Validation physique du cycle évitement d\'obstacles et navigation autonome en intérieur.',
-      },
-      {
-        type: 'statut',
-        date: 'Aujourd\'hui',
-        titre: 'Documentation & STL ouverts',
-        desc: 'Préparation du dépôt public et des plans d\'assemblage.',
-      },
-    ],
-  },
-  {
-    id: 'superviseur',
-    numero: '04',
-    titre: 'SUPERVISEUR',
-    sousTitre: 'Monitoring bare-metal autonome',
-    domaine: 'DevOps & Sécurité',
-    logo: '/assets/logos/superviseur.svg',
-    lien: '/projets/superviseur',
-    github: 'https://github.com/TakDai/Superviseur',
-    etapes: [
-      {
-        type: 'phase',
-        date: 'Début 2026',
-        titre: 'Conception agents légers',
-        desc: 'Développement de micro-sondes système en C/Node sans surcharge CPU.',
-      },
-      {
-        type: 'temps_fort',
-        date: 'Fév. 2026',
-        titre: 'Bascule bare-metal 100%',
-        desc: 'Migration réussie des serveurs physiques sous surveillance temps réel sans tiers cloud.',
-      },
-      {
-        type: 'pause',
-        date: 'Mars 2026',
-        titre: 'Durcissement réseau & TLS',
-        desc: 'Pause des nouvelles features pour blinder la cryptographie, pare-feu et clés SSH.',
-      },
-      {
-        type: 'statut',
-        date: 'Aujourd\'hui',
-        titre: 'En production 24/7',
-        desc: 'Supervision continue du homelab et des services distants.',
-      },
-    ],
-  },
-  {
-    id: '127il',
-    numero: '05',
-    titre: '127IL',
-    sousTitre: 'Live streaming fabrication & code',
-    domaine: 'Live & Partage technique',
-    logo: '/assets/logos/127il.svg',
-    lien: '/projets/127il',
-    github: 'https://github.com/TakDai/127il',
-    etapes: [
-      {
-        type: 'phase',
-        date: 'Début 2026',
-        titre: 'Installation régie atelier',
-        desc: 'Mise en place des caméras zénithales et microscopes sur l\'établi de soudure.',
-      },
-      {
-        type: 'temps_fort',
-        date: 'Fév. 2026',
-        titre: 'Marathon live 6h sans coupure',
-        desc: 'Session continue de soudure CMS, programmation STM32 et questions/réponses en direct.',
-      },
-      {
-        type: 'pause',
-        date: 'Avril 2026',
-        titre: 'Refonte éclairage & ergonomie',
-        desc: 'Suspension des lives pour refaire l\'éclairage de travail et l\'extraction des fumées.',
-      },
-      {
-        type: 'statut',
-        date: 'Aujourd\'hui',
-        titre: 'Sessions régulières',
-        desc: 'Diffusions techniques périodiques sur Twitch.',
-      },
-    ],
-  },
-  {
-    id: 'pensee-nocturne',
-    numero: '07',
-    titre: 'PENSÉE NOCTURNE',
-    sousTitre: 'Essais sur la technique & liberté',
-    domaine: 'Éditorial & Essais',
-    logo: '/assets/logos/pensee-nocturne.svg',
-    lien: '/projets/pensee-nocturne',
-    github: 'https://github.com/TakDai/pensee-nocturne',
-    etapes: [
-      {
-        type: 'phase',
-        date: 'Début 2026',
-        titre: 'Genèse des écrits',
-        desc: 'Prise de notes nocturnes sur la dépendance technologique et l\'enfermement propriétaire.',
-      },
-      {
-        type: 'pause',
-        date: 'Fév. 2026',
-        titre: 'Maturation des concepts',
-        desc: 'Recul volontaire pour confronter la réflexion philosophique à la réalité de l\'atelier.',
-      },
-      {
-        type: 'temps_fort',
-        date: 'Printemps 2026',
-        titre: 'Manifestes sur l\'autonomie',
-        desc: 'Publication des premiers essais critiques sur le droit de réparer et la liberté d\'ingénierie.',
-      },
-      {
-        type: 'statut',
-        date: 'Aujourd\'hui',
-        titre: 'Publications au fil de l\'eau',
-        desc: 'Articles rédigés à tête reposée.',
-      },
-    ],
-  },
-  {
-    id: 'komeon',
-    numero: '08',
-    titre: 'KOMEON',
-    sousTitre: 'Messagerie temps réel épurée',
-    domaine: 'Web & Temps Réel',
-    logo: '/assets/logos/komeon.png',
-    lien: '/projets/komeon',
-    github: 'https://github.com/TakDai/komeon',
-    etapes: [
-      {
-        type: 'phase',
-        date: 'Début 2026',
-        titre: 'Protocole websocket léger',
-        desc: 'Spécification d\'un format binaire pour les échanges de données temps réel.',
-      },
-      {
-        type: 'temps_fort',
-        date: 'Mars 2026',
-        titre: 'Latence mesurée < 12 ms',
-        desc: 'Validation des tests de charge sous fort trafic avec une latence quasi imperceptible.',
-      },
-      {
-        type: 'pause',
-        date: 'Avril 2026',
-        titre: 'Nettoyage des dépendances',
-        desc: 'Chantier de refactorisation pour supprimer les bibliothèques superflues.',
-      },
-      {
-        type: 'statut',
-        date: 'Aujourd\'hui',
-        titre: 'Prototype fonctionnel',
-        desc: 'Architecture prête pour intégration modulaire.',
-      },
-    ],
-  },
-  {
-    id: 'inskin',
-    numero: '09',
-    titre: 'INSKIN',
-    sousTitre: 'Design d\'interfaces & ergonomie',
-    domaine: 'Design & Interface',
-    logo: '/assets/logos/inskin.png',
-    lien: '/projets/inskin',
-    github: 'https://github.com/TakDai/Inskin',
-    etapes: [
-      {
-        type: 'phase',
-        date: 'Début 2026',
-        titre: 'Recherches micro-interactions',
-        desc: 'Exploration d\'animations légères au CSS natif sans framework JavaScript lourd.',
-      },
-      {
-        type: 'temps_fort',
-        date: 'Mars 2026',
-        titre: 'Système tactile haute réactivité',
-        desc: 'Mise au point de composants d\'interface répondant instantanément aux micro-gestes.',
-      },
-      {
-        type: 'pause',
-        date: 'Avril 2026',
-        titre: 'Fusion avec Tête de Piaf',
-        desc: 'Mise en pause des tests d\'interface pour converger avec l\'identité visuelle générale.',
-      },
-      {
-        type: 'statut',
-        date: 'Aujourd\'hui',
-        titre: 'En intégration',
-        desc: 'Composants réutilisables sur les futures plateformes.',
-      },
-    ],
-  },
-  {
-    id: 'tete-de-piaf',
-    numero: '10',
-    titre: 'TÊTE DE PIAF',
-    sousTitre: 'Laboratoire visuel & expérimental',
-    domaine: 'Création & Graphisme',
-    logo: '/assets/logos/tdp.png',
-    lien: '/projets/tete-de-piaf',
-    github: 'https://github.com/TakDai/tete-de-piaf',
-    etapes: [
-      {
-        type: 'phase',
-        date: 'Début 2026',
-        titre: 'Esquisses brutes noir & blanc',
-        desc: 'Recherche de symboles visuels minimalistes et tranchés pour chaque application.',
-      },
-      {
-        type: 'temps_fort',
-        date: 'Fév. 2026',
-        titre: 'Charte vectorielle complète',
-        desc: 'Finalisation des 10 logos vectoriels signature et harmonisation typographique.',
-      },
-      {
-        type: 'pause',
-        date: 'Mars 2026',
-        titre: 'Optimisation SVG & chargement',
-        desc: 'Nettoyage des nœuds vectoriels pour minimiser le poids au kilo-octet près.',
-      },
-      {
-        type: 'statut',
-        date: 'Aujourd\'hui',
-        titre: 'Identité déployée',
-        desc: 'Actif sur l\'ensemble des projets du site.',
-      },
-    ],
-  },
-];
-
-const projectsInfographique = [
+const projects = [
   {
     num: '01',
     id: 'multi-motors',
     titre: 'MULTI-MOTORS',
     domaine: 'Drones FPV & Moteurs Brushless',
     date: "Aujourd'hui · En ligne",
-    desc: "Catalogue comparatif et base de données de référence des moteurs brushless pour multirotors FPV. Pipeline automatisé quotidien agrégeant fiches fabricants, bancs d'essai et benchmarks communautaires.",
+    desc: "Catalogue comparatif et base de données de référence des moteurs brushless pour multirotors FPV. Pipeline automatisé quotidien agrégeant fiches fabricants, bancs d'essai dynamométriques et benchmarks communautaires.",
     logo: '/assets/logos/multi-motors.png',
     lien: '/projets/multi-motors',
     site: 'https://multi-motors.fr',
     github: 'https://github.com/TakDai/Multi-Motors',
+    color: '#DCE7E1', // Pastel Celadon / Sauge
+    accent: '#1D3B32',
+    tech: ['Python / Pipeline', 'Astro / SSR', 'PostgreSQL', 'Bancs Dynamométriques'],
   },
   {
     num: '02',
@@ -399,6 +27,9 @@ const projectsInfographique = [
     logo: '/assets/logos/fix-my-drone.svg',
     lien: '/projets/fix-my-drone',
     github: 'https://github.com/TakDai/fix-my-drone',
+    color: '#EAE4F2', // Pastel Iris / Lavande
+    accent: '#33294E',
+    tech: ['STM32 / DFU', 'Betaflight / ESC', 'Oscilloscope', 'Reverse Eng.'],
   },
   {
     num: '03',
@@ -411,6 +42,9 @@ const projectsInfographique = [
     lien: '/projets/openbots',
     site: 'https://openbots.fr',
     github: 'https://github.com/TakDai/openbots',
+    color: '#DEE8F4', // Pastel Sky Blue / Ciel
+    accent: '#1E3553',
+    tech: ['Docker Engine', 'Python / discord.py', 'FastAPI', 'Redis / Webhooks'],
   },
   {
     num: '04',
@@ -422,6 +56,9 @@ const projectsInfographique = [
     logo: '/assets/logos/superviseur.svg',
     lien: '/projets/superviseur',
     github: 'https://github.com/TakDai/Superviseur',
+    color: '#D7EDE7', // Pastel Menthe
+    accent: '#1B3D34',
+    tech: ['C# .NET 8', 'Avalonia UI', 'SSH.NET', 'AES-256-GCM / Argon2id'],
   },
   {
     num: '05',
@@ -433,6 +70,9 @@ const projectsInfographique = [
     logo: '/assets/logos/127il.svg',
     lien: '/projets/127il',
     github: 'https://github.com/TakDai/127il',
+    color: '#FBE9DE', // Pastel Pêche / Abricot
+    accent: '#4E2C1B',
+    tech: ['OBS WebSocket', 'Microscopie 4K', 'Soudure CMS / 0402', 'Directs Twitch'],
   },
   {
     num: '06',
@@ -445,6 +85,9 @@ const projectsInfographique = [
     lien: '/projets/pensee-nocturne',
     site: 'https://pensées-nocturnes.fr',
     github: 'https://github.com/TakDai/pensee-nocturne',
+    color: '#EDE2EE', // Pastel Bruyère / Violet doux
+    accent: '#3E2542',
+    tech: ['Astro Statique', 'Typography SSG', 'Essais Libres', 'Open Web'],
   },
   {
     num: '07',
@@ -456,6 +99,9 @@ const projectsInfographique = [
     logo: '/assets/logos/komeon.png',
     lien: '/projets/komeon',
     github: 'https://github.com/TakDai/komeon',
+    color: '#FDF2DB', // Pastel Beurre / Citron doux
+    accent: '#473914',
+    tech: ['WebSockets', 'Go / Node runtime', 'Flux binaire', 'Protobuf'],
   },
   {
     num: '08',
@@ -467,6 +113,9 @@ const projectsInfographique = [
     logo: '/assets/logos/inskin.png',
     lien: '/projets/inskin',
     github: 'https://github.com/TakDai/Inskin',
+    color: '#F6DFDC', // Pastel Blush Corail / Terracotta
+    accent: '#4B221E',
+    tech: ['Android Kotlin', 'Jetpack Compose', 'NFC ISO 14443-A', 'Proxmark3'],
   },
   {
     num: '09',
@@ -478,6 +127,9 @@ const projectsInfographique = [
     logo: '/assets/logos/tdp.png',
     lien: '/projets/tete-de-piaf',
     github: 'https://github.com/TakDai/tete-de-piaf',
+    color: '#E4E7EA', // Pastel Gris Ardoise
+    accent: '#232930',
+    tech: ['Direction Artistique', 'Vecteurs SVG', 'Identité Visuelle', 'Print & Web'],
   },
   {
     num: '10',
@@ -490,46 +142,16 @@ const projectsInfographique = [
     lien: '/projets/lestourangeaux',
     site: 'https://lestourangeaux.fr',
     github: 'https://github.com/TakDai/LesTourangeaux',
+    color: '#EFE9DC', // Pastel Sable Chaud / Lin
+    accent: '#3B3220',
+    tech: ['Hub Régional', 'Tours 37', 'Annuaire Local', 'Indépendant'],
   },
 ];
-
-const pitch = 14;
-const stripeWidth = 8;
-const bundleStartX = 40;
-const numTracks = projectsInfographique.length;
-const cardStartX = bundleStartX + (numTracks * pitch) + 35; // ~215px
-const itemHeight = 295; // Format zoomé spacieux et équilibré
-const topY = 40;
-const cardsStartY = topY + 45;
-
-const renderedTracks = projectsInfographique.map((p, idx) => {
-  const trackIdx = numTracks - 1 - idx;
-  const lineX = bundleStartX + (trackIdx * pitch);
-  
-  const targetCardY = cardsStartY + (idx * itemHeight);
-  const spurY = targetCardY + 60;
-
-  // Ligne 100% orthogonale droite : AUCUNE COURBE
-  // Démarre au sommet du faisceau unifié et bifurque à 90° dans la fiche
-  const d = `M ${lineX} ${topY} V ${spurY} H ${cardStartX - 2}`;
-
-  return {
-    ...p,
-    trackIdx,
-    lineX,
-    d,
-    spurY,
-    targetCardY,
-  };
-});
-
-const totalBundleWidth = (numTracks - 1) * pitch + stripeWidth;
-const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHeight) + 60;
 ---
 
 <Base sansNav={true} titre="Portfolio" description="Tom Bigot — Portfolio d'ingénierie, systèmes embarqués, drones FPV & développement logiciel.">
   <!-- ================= ACCUEIL VIDÉO PLEIN FORMAT MONOCHROME ================= -->
-  <section class="hero-video-screen">
+  <section class="hero-video-screen" id="top">
     <div class="video-container">
       <video
         id="heroVideo"
@@ -557,8 +179,8 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
       </p>
 
       <div class="hero-actions">
-        <a href="#chronologie-rubans" class="btn-noir btn-hero">
-          Descendre le temps &darr;
+        <a href="#multi-motors" class="btn-noir btn-hero">
+          Explorer les 10 projets &darr;
         </a>
         <a
           href="https://github.com/TakDai"
@@ -578,97 +200,195 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
     </div>
 
     <!-- Indicateur de défilement vers le bas -->
-    <a href="#chronologie-rubans" class="scroll-cue" aria-label="Découvrir les rubans verticaux du temps">
-      <span class="scroll-label">BANDEAUX VERTICAUX DU TEMPS</span>
+    <a href="#multi-motors" class="scroll-cue" aria-label="Découvrir les projets plein écran">
+      <span class="scroll-label">PROJETS PLEIN ÉCRAN</span>
       <span class="scroll-arrow">&darr;</span>
     </a>
   </section>
 
-          <!-- ================= SECTION BANDEAUX DU TEMPS (HOMOGÈNE & ÉPURÉE) ================= -->
-  <section class="bandeaux-timeline-section" id="chronologie-rubans">
-    <div class="timeline-container" style={`--timeline-height: ${totalTimelineHeight}px;`}>
-      <!-- Tête de faisceau unifiée : connecteur de bus élégant -->
-      <div
-        class="bundle-header-block"
-        style={`left: ${bundleStartX - 6}px; top: ${topY - 24}px; width: ${totalBundleWidth + 12}px;`}
-        title="Bus temporel des 10 projets"
-      >
-        <span>10 PROJETS</span>
-      </div>
+  <!-- ================= DOCK LATÉRAL DE NAVIGATION RAPIDE ================= -->
+  <nav class="quick-nav-dock" aria-label="Accès direct aux 10 projets">
+    {projects.map((p) => (
+      <a href={`#${p.id}`} class="dock-dot" data-dock-id={p.id} title={`${p.num} ${p.titre}`}>
+        <span>{p.num}</span>
+      </a>
+    ))}
+  </nav>
 
-      <!-- Bandes orthogonales 100% droites (AUCUNE COURBE) -->
-      <svg class="svg-lines-layer" width="100%" height={totalTimelineHeight} aria-hidden="true">
-        {renderedTracks.map((p) => (
-          <g class={`track-group group-${p.id}`}>
-            <path
-              d={p.d}
-              fill="none"
-              stroke="#000000"
-              stroke-width={stripeWidth}
-              stroke-linecap="square"
-              class="infographic-ribbon"
-            />
-            <rect
-              x={cardStartX - 10}
-              y={p.spurY - 5}
-              width="10"
-              height="10"
-              fill="#000000"
-            />
-          </g>
-        ))}
-      </svg>
+  <!-- ================= SECTIONS PLEIN ÉCRAN PASTEL & PARALLAXE ================= -->
+  <div class="projets-fullscreen-wrapper" id="projets">
+    {projects.map((p, idx) => {
+      const nextProject = projects[idx + 1] || null;
+      const nextTarget = nextProject ? `#${nextProject.id}` : '#top';
+      const nextLabel = nextProject ? `Projet suivant : ${nextProject.num} ${nextProject.titre}` : '↑ Haut de page';
+      const shortNextLabel = nextProject ? `0${idx + 2} Suivant` : 'Haut';
 
-      <!-- Fiches projets super-zoomées, massives et lisibles -->
-      <div class="infographic-cards-column">
-        {renderedTracks.map((p) => (
-          <article class={`infographic-card card-${p.id}`} style={`top: ${p.targetCardY}px;`}>
-            <div class="card-meta-line">
-              <span class="card-num">{p.num}</span>
-              <div class="card-logo-badge">
-                <img src={p.logo} alt={p.titre} />
-              </div>
-              <div class="card-heading">
-                <h3 class="card-title">{p.titre}</h3>
-                <span class="card-domain">{p.domaine}</span>
-              </div>
-              <span class="card-date-badge">{p.date}</span>
+      return (
+        <section
+          class={`project-fullscreen-section project-${p.id}`}
+          id={p.id}
+          style={`--project-pastel: ${p.color}; --project-accent: ${p.accent};`}
+          data-index={idx}
+        >
+          <!-- Filigrane Parallaxe Géant en arrière-plan -->
+          <div class="parallax-watermark" aria-hidden="true" data-parallax-speed="0.28">
+            <span class="watermark-number">{p.num}</span>
+          </div>
+
+          <!-- Bandeau supérieur plein écran / Séparation d'en-tête -->
+          <header class="section-top-bar">
+            <div class="top-bar-left">
+              <span class="bar-step-tag">PROJET {p.num} / 10</span>
+              <span class="bar-separator">&bull;</span>
+              <span class="bar-domain">{p.domaine}</span>
             </div>
-            <p class="card-desc">{p.desc}</p>
-            <div class="card-actions">
-              <a href={p.lien} class="btn-card btn-fiche">Fiche projet &rarr;</a>
-              {p.site && (
-                <a href={p.site} target="_blank" rel="noopener noreferrer" class="btn-card btn-site">Site officiel &#8599;</a>
-              )}
-              {p.github && (
-                <a href={p.github} target="_blank" rel="noopener noreferrer" class="btn-card btn-gh">Code source &#8599;</a>
-              )}
+            <div class="top-bar-right">
+              <span class="bar-date-pill">{p.date}</span>
             </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
+          </header>
 
+          <!-- Zone centrale : grille deux colonnes avec effet parallaxe décalé -->
+          <div class="project-main-content">
+            <div class="project-left-col">
+              <div class="project-title-lockup">
+                <div class="mobile-logo-badge">
+                  <img src={p.logo} alt={p.titre} />
+                </div>
+                <div class="title-text-group">
+                  <span class="title-subhead">{p.domaine}</span>
+                  <h2 class="project-title">{p.titre}</h2>
+                </div>
+              </div>
+
+              <p class="project-description">{p.desc}</p>
+
+              <!-- Badges techniques du projet -->
+              <div class="tech-pills-row">
+                {p.tech.map((t) => (
+                  <span class="tech-pill">{t}</span>
+                ))}
+              </div>
+
+              <!-- Boutons d'action -->
+              <div class="project-actions">
+                <a href={p.lien} class="btn-action btn-primary">Fiche détaillée &rarr;</a>
+                {p.site && (
+                  <a href={p.site} target="_blank" rel="noopener noreferrer" class="btn-action btn-secondary">
+                    Site officiel &#8599;
+                  </a>
+                )}
+                {p.github && (
+                  <a href={p.github} target="_blank" rel="noopener noreferrer" class="btn-action btn-secondary">
+                    Code source &#8599;
+                  </a>
+                )}
+              </div>
+            </div>
+
+            <!-- Colonne droite : Carte Emblème avec Parallaxe Inversé (Desktop) -->
+            <div class="project-right-col" data-parallax-speed="-0.15">
+              <div class="emblem-card-frame">
+                <div class="emblem-card-inner">
+                  <div class="emblem-logo-circle">
+                    <img src={p.logo} alt={p.titre} />
+                  </div>
+                  <div class="emblem-card-info">
+                    <span class="emblem-num">PROJET #{p.num}</span>
+                    <span class="emblem-title">{p.titre}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bandeau inférieur plein écran / Séparation de transition -->
+          <footer class="section-bottom-seam">
+            <div class="seam-progress-track">
+              <div class="seam-progress-fill" style={`width: ${((idx + 1) / projects.length) * 100}%;`}></div>
+            </div>
+            <div class="seam-info-row">
+              <span class="seam-counter">{p.num} sur 10</span>
+              <a href={nextTarget} class="seam-next-link" aria-label={nextLabel}>
+                <span class="seam-label-full">{nextLabel}</span>
+                <span class="seam-label-mobile">{shortNextLabel}</span>
+                <span class="seam-arrow">{nextProject ? '↓' : '↑'}</span>
+              </a>
+            </div>
+          </footer>
+        </section>
+      );
+    })}
+  </div>
+
+  <!-- ================= GESTIONNAIRE DE PARALLAXE & DOCK ================= -->
   <script is:inline>
-    // Interactions simples au hover : relier fiche projet et ligne SVG
     document.addEventListener('DOMContentLoaded', () => {
-      const cards = document.querySelectorAll('.infographic-card');
+      const sections = document.querySelectorAll('.project-fullscreen-section');
+      const dots = document.querySelectorAll('.dock-dot');
+      const dock = document.querySelector('.quick-nav-dock');
+      const hero = document.getElementById('top');
+      let ticking = false;
 
-      cards.forEach((card) => {
-        const classList = Array.from(card.classList);
-        const cardClass = classList.find((c) => c.startsWith('card-') && c !== 'card-actions' && c !== 'card-desc');
-        if (!cardClass) return;
-        const id = cardClass.replace('card-', '');
-        const group = document.querySelector(`.group-${id}`);
+      function updateParallax() {
+        const windowHeight = window.innerHeight;
 
-        card.addEventListener('mouseenter', () => {
-          if (group) group.classList.add('is-active');
+        // Afficher le dock uniquement lorsqu'on a dépassé le hero
+        if (dock && hero) {
+          const heroBottom = hero.getBoundingClientRect().bottom;
+          if (heroBottom <= windowHeight * 0.5) {
+            dock.classList.add('is-visible');
+          } else {
+            dock.classList.remove('is-visible');
+          }
+        }
+
+        sections.forEach((section, idx) => {
+          const rect = section.getBoundingClientRect();
+
+          // Indicateur actif sur le dock latéral
+          if (rect.top <= windowHeight * 0.45 && rect.bottom >= windowHeight * 0.45) {
+            dots.forEach((d) => d.classList.remove('is-active'));
+            if (dots[idx]) dots[idx].classList.add('is-active');
+          }
+
+          // Effet de parallaxe sur les éléments visibles
+          if (rect.bottom > -150 && rect.top < windowHeight + 150) {
+            const progress = (windowHeight - rect.top) / (windowHeight + rect.height);
+            const centeredProgress = progress - 0.5;
+
+            // 1. Chiffre géant en filigrane (déplacement lent vertical)
+            const watermark = section.querySelector('.parallax-watermark');
+            if (watermark) {
+              const speed = parseFloat(watermark.getAttribute('data-parallax-speed') || 0.28);
+              const translateY = centeredProgress * speed * 220;
+              watermark.style.transform = `translate3d(0, calc(-50% + ${translateY}px), 0)`;
+            }
+
+            // 2. Carte emblème (flotte en contre-vitesse)
+            const rightCol = section.querySelector('.project-right-col');
+            if (rightCol) {
+              const speed = parseFloat(rightCol.getAttribute('data-parallax-speed') || -0.15);
+              const translateY = centeredProgress * speed * 120;
+              rightCol.style.transform = `translate3d(0, ${translateY}px, 0)`;
+            }
+          }
         });
-        card.addEventListener('mouseleave', () => {
-          if (group) group.classList.remove('is-active');
-        });
-      });
+
+        ticking = false;
+      }
+
+      function onScroll() {
+        if (!ticking) {
+          window.requestAnimationFrame(updateParallax);
+          ticking = true;
+        }
+      }
+
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll, { passive: true });
+        updateParallax();
+      }
     });
   </script>
 </Base>
@@ -689,7 +409,7 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
     overflow: hidden;
     background: #000000;
     color: #ffffff;
-    border-bottom: 2px dashed var(--dash);
+    border-bottom: 3.5px solid #000000;
   }
 
   .video-container {
@@ -698,49 +418,50 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
     width: 100%;
     height: 100%;
     overflow: hidden;
+    z-index: 1;
   }
 
   .video-element {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    object-position: center;
     filter: grayscale(100%) contrast(1.15) brightness(0.65);
+    transform: scale(1.02);
   }
 
   .video-overlay {
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at center, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%),
-                linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.7) 100%);
+    background: radial-gradient(
+      circle at center,
+      rgba(0, 0, 0, 0.4) 0%,
+      rgba(0, 0, 0, 0.8) 100%
+    );
+    pointer-events: none;
   }
 
   .hero-content {
     position: relative;
     z-index: 2;
-    max-width: 860px;
+    max-width: 900px;
     padding: 0 24px;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 20px;
   }
 
   .hero-badge {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 6px 16px;
-    border: 2px dashed rgba(255, 255, 255, 0.45);
-    border-radius: 20px;
-    background: rgba(0, 0, 0, 0.5);
+    padding: 6px 14px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 999px;
     backdrop-filter: blur(8px);
-    margin-bottom: 24px;
   }
 
   .hero-dot {
@@ -748,31 +469,30 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
     height: 8px;
     border-radius: 50%;
     background: #ffffff;
-    display: inline-block;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
   }
 
   .etiquette-hero {
     font: 700 11px var(--font);
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    letter-spacing: 0.15em;
     color: #ffffff;
   }
 
   .hero-title {
-    margin: 0 0 20px;
-    font: 700 clamp(32px, 7vw, 64px)/1.08 var(--font);
-    letter-spacing: 0.12em;
+    font: 900 clamp(36px, 6.5vw, 68px) / 1.05 var(--font);
+    letter-spacing: -0.03em;
     text-transform: uppercase;
     color: #ffffff;
-    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    margin: 0;
+    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.8);
   }
 
   .hero-subtitle {
-    margin: 0 0 32px;
-    font: 400 clamp(13px, 2vw, 16px)/1.55 var(--font);
-    letter-spacing: 0.05em;
+    font: 400 clamp(15px, 1.8vw, 19px) / 1.55 var(--font);
     color: rgba(255, 255, 255, 0.85);
-    max-width: 640px;
+    max-width: 680px;
+    margin: 0;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
   }
 
   .hero-actions {
@@ -797,7 +517,7 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
     gap: 6px;
     text-decoration: none;
     color: #ffffff;
-    opacity: 0.8;
+    opacity: 0.85;
     transition: opacity 0.2s, transform 0.2s;
   }
 
@@ -822,263 +542,521 @@ const totalTimelineHeight = cardsStartY + (projectsInfographique.length * itemHe
     50% { transform: translateY(5px); }
   }
 
-      /* ==========================================================================
-     SECTION TIMELINE SUPER ZOOMÉE SANS COURBE (PURE LIGNES DROITES & BLOCS)
+  /* ==========================================================================
+     BARRE FLOTTANTE D'ACCÈS RAPIDE AUX 10 PROJETS (DOCK LATÉRAL)
      ========================================================================== */
-  .bandeaux-timeline-section {
-    position: relative;
-    background: #fbfbfb;
-    padding: clamp(60px, 8vh, 100px) 16px;
-    overflow-x: hidden !important;
-    border-bottom: 2px dashed var(--dash);
+  .quick-nav-dock {
+    position: fixed;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 90;
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(8px);
+    padding: 10px 7px;
+    border-radius: 30px;
+    border: 2px solid #ffffff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
   }
-
-  .timeline-container {
-    position: relative;
-    max-width: 1240px;
-    margin: 0 auto;
-    height: var(--timeline-height, 2800px);
-    overflow-x: hidden !important;
+  @media (min-width: 1280px) {
+    .quick-nav-dock {
+      display: flex;
+    }
   }
-
-  /* Tête de bus unifiée : connecteur net et sobre au sommet du faisceau */
-  .bundle-header-block {
-    position: absolute;
-    height: 24px;
-    background: #000000;
-    color: #ffffff;
+  .quick-nav-dock.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .dock-dot {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 900;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    z-index: 10;
+    color: #ffffff;
+    text-decoration: none;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .dock-dot:hover, .dock-dot.is-active {
+    background: #ffffff;
+    color: #000000;
+    transform: scale(1.15);
   }
 
-  .track-group {
-    transition: opacity 0.2s ease;
-  }
-
-  .track-group .infographic-ribbon {
-    transition: stroke-width 0.2s ease, stroke 0.2s ease;
-  }
-
-  .track-group.is-active .infographic-ribbon {
-    stroke-width: 12px;
-  }
-
-  .svg-lines-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 2;
-  }
-
-  .infographic-cards-column {
+  /* ==========================================================================
+     SECTIONS PLEIN ÉCRAN PASTEL POUR CHAQUE PROJET
+     ========================================================================== */
+  .projets-fullscreen-wrapper {
     position: relative;
     width: 100%;
-    height: 100%;
+    background: #000000;
   }
 
-  .infographic-card {
-    position: absolute;
-    left: 220px;
-    right: 16px;
-    min-height: 250px;
-    height: auto;
-    background: #ffffff;
-    border: 3px solid #000000;
-    border-radius: 0px;
-    padding: 24px 28px;
-    box-shadow: 8px 8px 0px #000000;
+  .project-fullscreen-section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
+    background-color: var(--project-pastel, #f0f0f0);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-    z-index: 5;
+    padding: clamp(24px, 4vh, 44px) clamp(20px, 4.5vw, 80px);
+    overflow: hidden;
+    border-bottom: 3.5px solid #000000;
     box-sizing: border-box;
   }
-  .infographic-card:hover {
-    transform: translate(-3px, -3px);
-    box-shadow: 11px 11px 0px #000000;
+
+  /* FILIGRANE GÉANT EN PARALLAXE */
+  .parallax-watermark {
+    position: absolute;
+    right: clamp(10px, 5vw, 90px);
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 1;
+    user-select: none;
+    will-change: transform;
+    opacity: 0.16;
+  }
+  .watermark-number {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: clamp(200px, 30vw, 400px);
+    font-weight: 900;
+    line-height: 0.75;
+    color: #000000;
+    letter-spacing: -0.06em;
   }
 
-  .card-meta-line {
+  /* ==========================================================================
+     BANDEAU SUPÉRIEUR PLEIN ÉCRAN
+     ========================================================================== */
+  .section-top-bar {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding-bottom: 18px;
+    border-bottom: 2px solid #000000;
+  }
+  .top-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .bar-step-tag {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 13px;
+    font-weight: 900;
+    background: #000000;
+    color: #ffffff;
+    padding: 5px 12px;
+    letter-spacing: 0.08em;
+  }
+  .bar-separator {
+    font-weight: 900;
+    color: #000000;
+  }
+  .bar-domain {
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #000000;
+  }
+  .bar-date-pill {
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background: #ffffff;
+    color: #000000;
+    border: 2px solid #000000;
+    padding: 6px 14px;
+    box-shadow: 3px 3px 0px #000000;
+    white-space: nowrap;
+  }
+
+  /* ==========================================================================
+     ZONE CENTRALE : 2 COLONNES AVEC PARALLAXE
+     ========================================================================== */
+  .project-main-content {
+    position: relative;
+    z-index: 5;
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: clamp(24px, 3.5vw, 50px);
+    align-items: center;
+    max-width: 1060px;
+    width: 100%;
+    margin: 16px auto;
+  }
+
+  .project-left-col {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project-title-lockup {
     display: flex;
     align-items: center;
     gap: 16px;
-  }
-  .card-num {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 30px;
-    font-weight: 900;
-    line-height: 1;
-    letter-spacing: -0.02em;
-    background: #000000;
-    color: #ffffff;
-    padding: 5px 15px;
+    margin-bottom: 16px;
   }
 
-  /* Emblème / Logo officiel dans chaque fiche projet */
-  .card-logo-badge {
-    width: 48px;
-    height: 48px;
+  .mobile-logo-badge {
+    display: none;
+    width: 50px;
+    height: 50px;
     background: #ffffff;
     border: 2.5px solid #000000;
-    border-radius: 4px;
-    box-shadow: 2px 2px 0px #000000;
-    display: flex;
+    box-shadow: 3px 3px 0px #000000;
+    border-radius: 6px;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    transition: transform 0.15s ease;
   }
-  .card-logo-badge img {
-    width: 32px;
-    height: 32px;
+  .mobile-logo-badge img {
+    width: 34px;
+    height: 34px;
     object-fit: contain;
   }
-  .infographic-card:hover .card-logo-badge {
-    transform: scale(1.05);
-  }
 
-  .card-heading {
+  .title-text-group {
     display: flex;
     flex-direction: column;
-    gap: 2px;
   }
-  .card-title {
+
+  .title-subhead {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--project-accent, #000000);
+    margin-bottom: 4px;
+  }
+  .project-title {
     margin: 0;
-    font-size: 26px;
+    font-size: clamp(34px, 4.8vw, 60px);
+    font-weight: 900;
+    line-height: 0.96;
+    letter-spacing: -0.025em;
+    text-transform: uppercase;
+    color: #000000;
+  }
+
+  .project-description {
+    margin: 0 0 22px 0;
+    font-size: clamp(15.5px, 1.4vw, 18.5px);
+    line-height: 1.55;
+    color: #1a1a1a;
+    font-weight: 500;
+    max-width: 720px;
+  }
+
+  /* BADGES TECHNIQUES */
+  .tech-pills-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 26px;
+  }
+  .tech-pill {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 12px;
+    font-weight: 800;
+    background: rgba(255, 255, 255, 0.88);
+    color: #000000;
+    border: 1.8px solid #000000;
+    padding: 5px 12px;
+    letter-spacing: 0.04em;
+  }
+
+  /* BOUTONS D'ACTION */
+  .project-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .btn-action {
+    display: inline-flex;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    padding: 12px 24px;
+    border: 2.5px solid #000000;
+    transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background: #000000;
+    color: #ffffff;
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.4);
+  }
+  .btn-primary:hover {
+    background: #ffffff;
+    color: #000000;
+    box-shadow: 6px 6px 0px #000000;
+    transform: translate(-2px, -2px);
+  }
+  .btn-secondary {
+    background: #ffffff;
+    color: #000000;
+    box-shadow: 4px 4px 0px #000000;
+  }
+  .btn-secondary:hover {
+    background: #000000;
+    color: #ffffff;
+    box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.35);
+    transform: translate(-2px, -2px);
+  }
+
+  /* ==========================================================================
+     COLONNE DROITE : CARTE EMBLÈME FLOTTANTE AVEC PARALLAXE
+     ========================================================================== */
+  .project-right-col {
+    position: relative;
+    will-change: transform;
+    display: flex;
+    justify-content: center;
+  }
+  .emblem-card-frame {
+    background: #ffffff;
+    border: 3.5px solid #000000;
+    box-shadow: 9px 9px 0px #000000;
+    width: 100%;
+    max-width: 270px;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .emblem-card-frame:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 13px 13px 0px #000000;
+  }
+  .emblem-logo-circle {
+    width: 80px;
+    height: 80px;
+    background: #ffffff;
+    border: 3px solid #000000;
+    box-shadow: 3px 3px 0px #000000;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+  .emblem-logo-circle img {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+  }
+  .emblem-card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .emblem-num {
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    background: #000000;
+    color: #ffffff;
+    padding: 4px 10px;
+    align-self: center;
+  }
+  .emblem-title {
+    font-size: 16px;
     font-weight: 900;
     letter-spacing: -0.01em;
     text-transform: uppercase;
     color: #000000;
   }
-  .card-domain {
-    font-size: 13px;
-    font-weight: 800;
-    color: #666666;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .card-date-badge {
-    margin-left: auto;
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #ffffff;
-    background: #000000;
-    padding: 7px 14px;
-    white-space: nowrap;
-  }
-  .card-desc {
-    margin: 10px 0 0 0;
-    font-size: 16px;
-    line-height: 1.5;
-    color: #222222;
-    font-weight: 500;
-  }
-  .card-actions {
+
+  /* ==========================================================================
+     BANDEAU INFÉRIEUR PLEIN ÉCRAN / SÉPARATION BASSE
+     ========================================================================== */
+  .section-bottom-seam {
+    position: relative;
+    z-index: 10;
+    width: 100%;
     display: flex;
-    gap: 10px;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-top: 14px;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 16px;
   }
-  .btn-card {
+  .seam-progress-track {
+    width: 100%;
+    height: 3px;
+    background: rgba(0, 0, 0, 0.15);
+    position: relative;
+  }
+  .seam-progress-fill {
+    height: 100%;
+    background: #000000;
+    transition: width 0.3s ease;
+  }
+  .seam-info-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .seam-counter {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: #000000;
+    color: #ffffff;
+    padding: 4px 10px;
+  }
+  .seam-next-link {
     display: inline-flex;
     align-items: center;
-    font-size: 12.5px;
-    font-weight: 800;
+    gap: 8px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 12px;
+    font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
+    color: #000000;
     text-decoration: none;
-    padding: 9px 18px;
-    border: 2px solid #000000;
-    transition: all 0.15s ease;
-    white-space: nowrap;
-  }
-  .btn-fiche {
-    background: #000000;
-    color: #ffffff;
-  }
-  .btn-fiche:hover {
     background: #ffffff;
-    color: #000000;
+    border: 2px solid #000000;
+    padding: 6px 14px;
+    box-shadow: 2px 2px 0px #000000;
+    transition: all 0.15s ease;
   }
-  .btn-site, .btn-gh {
-    background: transparent;
-    color: #000000;
-  }
-  .btn-site:hover, .btn-gh:hover {
+  .seam-next-link:hover {
     background: #000000;
     color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
+  }
+  .seam-label-mobile {
+    display: none;
   }
 
-  @media (max-width: 900px) {
-    .infographic-card {
-      left: 215px;
-      right: 12px;
-      padding: 20px 22px;
-    }
-    .card-logo-badge {
-      width: 42px;
-      height: 42px;
-    }
-    .card-logo-badge img {
-      width: 26px;
-      height: 26px;
-    }
-    .card-title {
-      font-size: 22px;
-    }
-    .card-desc {
-      font-size: 15px;
-    }
-    .card-num {
-      font-size: 26px;
-      padding: 4px 12px;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .timeline-container {
-      height: auto !important;
-      padding-top: 20px;
-    }
-    .svg-lines-layer, .bundle-header-block {
-      display: none;
-    }
-    .infographic-cards-column {
-      display: flex;
-      flex-direction: column;
+  /* ==========================================================================
+     RESPONSIVE
+     ========================================================================== */
+  @media (max-width: 960px) {
+    .project-main-content {
+      grid-template-columns: minmax(0, 1fr);
       gap: 20px;
     }
-    .infographic-card {
-      position: static !important;
-      width: 100% !important;
-      left: auto !important;
-      right: auto !important;
-      min-height: auto !important;
-      height: auto !important;
-      padding: 20px 18px;
+    .project-left-col {
+      min-width: 0;
     }
-    .card-logo-badge {
-      width: 40px;
-      height: 40px;
+    .project-right-col {
+      display: none;
     }
-    .card-logo-badge img {
-      width: 24px;
-      height: 24px;
+    .mobile-logo-badge {
+      display: inline-flex;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .project-fullscreen-section {
+      min-height: 100vh;
+      min-height: 100svh;
+      padding: 20px 16px;
+      overflow-x: hidden;
+    }
+    .top-bar-left {
+      gap: 6px;
+    }
+    .bar-step-tag {
+      font-size: 11px;
+      padding: 3px 8px;
+    }
+    .bar-domain, .bar-separator {
+      display: none;
+    }
+    .bar-date-pill {
+      font-size: 10px;
+      padding: 3px 8px;
+      box-shadow: 2px 2px 0px #000000;
+    }
+    .parallax-watermark {
+      opacity: 0.1;
+      right: 8px;
+    }
+    .watermark-number {
+      font-size: 160px;
+    }
+    .project-title {
+      font-size: 28px;
+    }
+    .mobile-logo-badge {
+      width: 44px;
+      height: 44px;
+    }
+    .mobile-logo-badge img {
+      width: 28px;
+      height: 28px;
+    }
+    .project-description {
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+    .tech-pills-row {
+      margin-bottom: 16px;
+      gap: 6px;
+    }
+    .tech-pill {
+      font-size: 11px;
+      padding: 4px 8px;
+    }
+    .project-actions {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+    }
+    .btn-action {
+      padding: 10px 16px;
+      font-size: 12px;
+      justify-content: center;
+      width: 100%;
+    }
+    .seam-counter {
+      font-size: 10px;
+      padding: 3px 8px;
+    }
+    .seam-next-link {
+      font-size: 10px;
+      padding: 4px 10px;
+    }
+    .seam-label-full {
+      display: none;
+    }
+    .seam-label-mobile {
+      display: inline;
     }
   }
 </style>
