@@ -485,15 +485,19 @@ const transitionVariants = [
 
                   <!-- 1. Vague sortante haute (pastel sortant) -->
                   <g class="silk-group-top">
-                    <path d={v.topD} fill={`url(#s-top-${idx})`} filter={`url(#sh-top-${idx})`} />
-                    <path d={v.topLine} class="silk-crest-specular" transform="translate(0, -1)" />
-                    <path d={v.topLine} class="silk-crest-edge" />
+                    <g class="silk-wave-fluid-top">
+                      <path d={v.topD} fill={`url(#s-top-${idx})`} filter={`url(#sh-top-${idx})`} />
+                      <path d={v.topLine} class="silk-crest-specular" transform="translate(0, -1)" />
+                      <path d={v.topLine} class="silk-crest-edge" />
+                    </g>
                   </g>
 
                   <!-- 2. Ruban soyeux translucide intermédiaire -->
                   <g class="silk-group-ribbon">
-                    <path d={v.ribbonD} fill={`url(#s-ribbon-${idx})`} />
-                    <path d={v.ribbonLine} class="silk-crest-specular" />
+                    <g class="silk-wave-fluid-ribbon">
+                      <path d={v.ribbonD} fill={`url(#s-ribbon-${idx})`} />
+                      <path d={v.ribbonLine} class="silk-crest-specular" />
+                    </g>
                   </g>
 
                   <!-- 3. Liaison harmonique -->
@@ -508,9 +512,11 @@ const transitionVariants = [
 
                   <!-- 5. Vague montante basse (pastel entrant) -->
                   <g class="silk-group-bot">
-                    <path d={v.botD} fill={`url(#s-bot-${idx})`} filter={`url(#sh-bot-${idx})`} />
-                    <path d={v.botLine} class="silk-crest-specular" transform="translate(0, -1)" />
-                    <path d={v.botLine} class="silk-crest-edge" />
+                    <g class="silk-wave-fluid-bot">
+                      <path d={v.botD} fill={`url(#s-bot-${idx})`} filter={`url(#sh-bot-${idx})`} />
+                      <path d={v.botLine} class="silk-crest-specular" transform="translate(0, -1)" />
+                      <path d={v.botLine} class="silk-crest-edge" />
+                    </g>
                   </g>
                 </svg>
               </div>
@@ -642,36 +648,73 @@ const transitionVariants = [
           }
         });
 
-        // 4. Parallaxe dynamique fluide sur les transitions soyeuses
-        const transitions = document.querySelectorAll('.project-nonlinear-transition');
-        transitions.forEach((trans) => {
-          const rect = trans.getBoundingClientRect();
-          if (rect.bottom > -100 && rect.top < windowHeight + 100) {
-            const progress = (windowHeight - rect.top) / (windowHeight + rect.height);
-            const centered = progress - 0.5;
-            const topGroup = trans.querySelector('.silk-group-top');
-            const ribbonGroup = trans.querySelector('.silk-group-ribbon');
-            const threadGroup = trans.querySelector('.silk-group-thread');
-            const botGroup = trans.querySelector('.silk-group-bot');
-            if (topGroup) topGroup.style.transform = `translate3d(0, ${(centered * -28).toFixed(1)}px, 0)`;
-            if (ribbonGroup) ribbonGroup.style.transform = `translate3d(${(centered * 22).toFixed(1)}px, ${(centered * 32).toFixed(1)}px, 0)`;
-            if (threadGroup) threadGroup.style.transform = `translate3d(${(centered * -16).toFixed(1)}px, ${(centered * 18).toFixed(1)}px, 0)`;
-            if (botGroup) botGroup.style.transform = `translate3d(0, ${(centered * 28).toFixed(1)}px, 0)`;
-          }
-        });
-
         ticking = false;
       }
 
+      // 4. Parallaxe ultra-fluide avec inertie liquide (Lerp loop sans reflow)
+      let transData = [];
+      function cacheTransitions() {
+        transData = Array.from(document.querySelectorAll('.project-nonlinear-transition')).map((trans) => {
+          const rect = trans.getBoundingClientRect();
+          return {
+            el: trans,
+            top: rect.top + window.scrollY,
+            height: trans.offsetHeight || rect.height,
+            topGroup: trans.querySelector('.silk-group-top'),
+            ribbonGroup: trans.querySelector('.silk-group-ribbon'),
+            threadGroup: trans.querySelector('.silk-group-thread'),
+            botGroup: trans.querySelector('.silk-group-bot'),
+            current: 0,
+            target: 0
+          };
+        });
+      }
+      cacheTransitions();
+
+      let currentScroll = window.scrollY;
+      let targetScroll = window.scrollY;
+
+      function renderTransitionsLoop() {
+        // Interpolation d'inertie fluide (effet liquide velouté à 60fps/120fps)
+        currentScroll += (targetScroll - currentScroll) * 0.12;
+        const windowHeight = window.innerHeight;
+
+        for (let i = 0; i < transData.length; i++) {
+          const item = transData[i];
+          const relTop = item.top - currentScroll;
+          if (relTop < windowHeight + 150 && relTop + item.height > -150) {
+            const progress = (windowHeight - relTop) / (windowHeight + item.height);
+            const centered = progress - 0.5;
+            item.target = centered;
+            item.current += (item.target - item.current) * 0.14;
+            const c = item.current;
+
+            if (item.topGroup) item.topGroup.style.transform = `translate3d(0, ${(c * -28).toFixed(2)}px, 0)`;
+            if (item.ribbonGroup) item.ribbonGroup.style.transform = `translate3d(${(c * 22).toFixed(2)}px, ${(c * 32).toFixed(2)}px, 0)`;
+            if (item.threadGroup) item.threadGroup.style.transform = `translate3d(${(c * -16).toFixed(2)}px, ${(c * 18).toFixed(2)}px, 0)`;
+            if (item.botGroup) item.botGroup.style.transform = `translate3d(0, ${(c * 28).toFixed(2)}px, 0)`;
+          }
+        }
+
+        requestAnimationFrame(renderTransitionsLoop);
+      }
+      requestAnimationFrame(renderTransitionsLoop);
+
       function onScroll() {
+        targetScroll = window.scrollY;
         if (!ticking) {
           window.requestAnimationFrame(updateScrollTimeline);
           ticking = true;
         }
       }
 
+      function onResize() {
+        cacheTransitions();
+        onScroll();
+      }
+
       window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', onScroll, { passive: true });
+      window.addEventListener('resize', onResize, { passive: true });
       updateScrollTimeline();
     });
   </script>
@@ -1609,16 +1652,27 @@ const transitionVariants = [
     );
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   .silk-trans-aura {
     position: absolute;
-    inset: 0;
+    inset: -15%;
     pointer-events: none;
     background: 
       radial-gradient(ellipse 75% 55% at 20% 30%, var(--curr-pastel) 0%, transparent 70%),
       radial-gradient(ellipse 80% 65% at 80% 70%, var(--next-pastel) 0%, transparent 75%),
       radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.45) 0%, transparent 65%);
-    filter: blur(40px);
+    filter: blur(45px);
     opacity: 0.85;
+    animation: auraBreath 12s ease-in-out infinite alternate;
+  }
+
+  @keyframes auraBreath {
+    0% { transform: scale(0.97) translate3d(-1%, -1%, 0); opacity: 0.80; }
+    50% { transform: scale(1.03) translate3d(1%, 1%, 0); opacity: 0.95; }
+    100% { transform: scale(1) translate3d(0, 0, 0); opacity: 0.85; }
   }
 
   .silk-svg-layer {
@@ -1635,7 +1689,39 @@ const transitionVariants = [
   .silk-group-thread,
   .silk-group-bot {
     will-change: transform;
-    transition: transform 0.05s linear;
+    transition: none !important;
+  }
+
+  /* Ondulation organique liquide perpétuelle */
+  .silk-wave-fluid-top {
+    animation: fluidUndulateTop 14s ease-in-out infinite alternate;
+    transform-origin: 50% 30%;
+  }
+  .silk-wave-fluid-ribbon {
+    animation: fluidUndulateRibbon 10s ease-in-out infinite alternate;
+    transform-origin: 50% 50%;
+  }
+  .silk-wave-fluid-bot {
+    animation: fluidUndulateBot 16s ease-in-out infinite alternate;
+    transform-origin: 50% 70%;
+  }
+
+  @keyframes fluidUndulateTop {
+    0% { transform: translate3d(0, 0, 0) scale(1, 1); }
+    50% { transform: translate3d(-10px, 7px, 0) scale(1.008, 0.985); }
+    100% { transform: translate3d(8px, -5px, 0) scale(0.995, 1.012); }
+  }
+
+  @keyframes fluidUndulateRibbon {
+    0% { transform: translate3d(0, 0, 0) scale(1, 1); opacity: 0.80; }
+    50% { transform: translate3d(14px, -10px, 0) scale(1.015, 1.025); opacity: 0.94; }
+    100% { transform: translate3d(-12px, 8px, 0) scale(0.99, 0.98); opacity: 0.82; }
+  }
+
+  @keyframes fluidUndulateBot {
+    0% { transform: translate3d(0, 0, 0) scale(1, 1); }
+    50% { transform: translate3d(10px, -6px, 0) scale(0.992, 1.015); }
+    100% { transform: translate3d(-8px, 7px, 0) scale(1.006, 0.99); }
   }
 
   .silk-crest-edge {
