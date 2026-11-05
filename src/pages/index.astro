@@ -160,48 +160,24 @@ const projects = [
 
 const transitionVariants = [
   {
-    // Variante 1 : S-Curve voluptueuse & rubans soyeux en cascade
-    topD: "M 0,0 L 1440,0 L 1440,310 C 1140,410 820,170 480,340 C 260,450 100,260 0,330 Z",
-    topLine: "M 0,330 C 100,260 260,450 480,340 C 820,170 1140,410 1440,310",
-    ribbonD: "M 0,280 C 300,190 620,440 980,290 C 1220,190 1360,370 1440,320 L 1440,470 C 1240,530 980,360 680,490 C 380,620 140,410 0,480 Z",
-    ribbonLine: "M 0,280 C 300,190 620,440 980,290 C 1220,190 1360,370 1440,320",
-    toneD: "M 0,400 C 280,310 600,530 940,390 C 1200,280 1340,480 1440,420 L 1440,650 L 0,650 Z",
-    threadD: "M 0,360 C 380,500 740,250 1100,410 C 1280,490 1380,360 1440,400",
-    botD: "M 0,440 C 240,570 580,370 960,520 C 1200,620 1360,440 1440,500 L 1440,650 L 0,650 Z",
-    botLine: "M 0,440 C 240,570 580,370 960,520 C 1200,620 1360,440 1440,500"
+    // Variante 1 : S-Curve fluide & ample
+    shapeD: "M 0,130 C 380,230 720,30 1080,180 C 1240,240 1360,90 1440,130 L 1440,260 L 0,260 Z",
+    lineD: "M 0,130 C 380,230 720,30 1080,180 C 1240,240 1360,90 1440,130"
   },
   {
-    // Variante 2 : Crête ondulante dynamique & voile d'éther
-    topD: "M 0,0 L 1440,0 L 1440,340 C 1160,210 860,420 500,250 C 280,140 120,320 0,250 Z",
-    topLine: "M 0,250 C 120,320 280,140 500,250 C 860,420 1160,210 1440,340",
-    ribbonD: "M 0,350 C 340,480 720,260 1080,410 C 1300,500 1380,360 1440,390 L 1440,520 C 1220,440 920,580 600,450 C 340,330 120,540 0,440 Z",
-    ribbonLine: "M 0,350 C 340,480 720,260 1080,410 C 1300,500 1380,360 1440,390",
-    toneD: "M 0,380 C 260,470 640,280 980,420 C 1220,510 1360,370 1440,410 L 1440,650 L 0,650 Z",
-    threadD: "M 0,290 C 280,190 640,420 1000,280 C 1220,180 1360,360 1440,320",
-    botD: "M 0,470 C 260,350 580,590 920,430 C 1180,310 1340,510 1440,450 L 1440,650 L 0,650 Z",
-    botLine: "M 0,470 C 260,350 580,590 920,430 C 1180,310 1340,510 1440,450"
+    // Variante 2 : Houle ascendante & crête dynamique
+    shapeD: "M 0,170 C 320,60 660,250 1020,90 C 1200,20 1350,180 1440,120 L 1440,260 L 0,260 Z",
+    lineD: "M 0,170 C 320,60 660,250 1020,90 C 1200,20 1350,180 1440,120"
   },
   {
-    // Variante 3 : Double houle asymétrique & drapé lumineux
-    topD: "M 0,0 L 1440,0 L 1440,280 C 1240,400 960,190 680,360 C 420,490 200,220 0,310 Z",
-    topLine: "M 0,310 C 200,220 420,490 680,360 C 960,190 1240,400 1440,280",
-    ribbonD: "M 0,260 C 280,380 600,180 940,320 C 1180,420 1340,260 1440,310 L 1440,450 C 1280,370 1040,530 760,400 C 480,270 200,480 0,400 Z",
-    ribbonLine: "M 0,260 C 280,380 600,180 940,320 C 1180,420 1340,260 1440,310",
-    toneD: "M 0,370 C 300,270 660,480 1000,340 C 1220,240 1360,420 1440,370 L 1440,650 L 0,650 Z",
-    threadD: "M 0,380 C 360,250 720,470 1060,320 C 1240,220 1380,390 1440,340",
-    botD: "M 0,430 C 280,550 640,320 980,490 C 1200,590 1340,390 1440,470 L 1440,650 L 0,650 Z",
-    botLine: "M 0,430 C 280,550 640,320 980,490 C 1200,590 1340,390 1440,470"
+    // Variante 3 : Double creux asymétrique & courbe continue
+    shapeD: "M 0,110 C 260,210 560,50 880,190 C 1140,270 1320,120 1440,150 L 1440,260 L 0,260 Z",
+    lineD: "M 0,110 C 260,210 560,50 880,190 C 1140,270 1320,120 1440,150"
   },
   {
-    // Variante 4 : Vague ascendante aérienne & souffle céleste
-    topD: "M 0,0 L 1440,0 L 1440,320 C 1180,180 900,380 580,220 C 380,110 160,290 0,220 Z",
-    topLine: "M 0,220 C 160,290 380,110 580,220 C 900,380 1180,180 1440,320",
-    ribbonD: "M 0,290 C 280,200 620,430 960,290 C 1200,190 1340,360 1440,310 L 1440,460 C 1220,530 960,370 660,500 C 360,630 140,430 0,490 Z",
-    ribbonLine: "M 0,290 C 280,200 620,430 960,290 C 1200,190 1340,360 1440,310",
-    toneD: "M 0,390 C 260,300 580,520 920,380 C 1180,270 1320,460 1440,410 L 1440,650 L 0,650 Z",
-    threadD: "M 0,340 C 340,480 700,240 1060,390 C 1260,470 1360,340 1440,380",
-    botD: "M 0,450 C 220,350 560,580 920,420 C 1160,310 1320,500 1440,440 L 1440,650 L 0,650 Z",
-    botLine: "M 0,450 C 220,350 560,580 920,420 C 1160,310 1320,500 1440,440"
+    // Variante 4 : Vague panoramique douce
+    shapeD: "M 0,150 C 340,240 700,60 1040,170 C 1220,230 1350,80 1440,100 L 1440,260 L 0,260 Z",
+    lineD: "M 0,150 C 340,240 700,60 1040,170 C 1220,230 1350,80 1440,100"
   }
 ];
 ---
@@ -441,7 +417,7 @@ const transitionVariants = [
             </footer>
           </section>
 
-          <!-- ================= TRANSITION SOIE LIQUIDE HAUTE COUTURE ENTRE PROJETS ================= -->
+          <!-- ================= TRANSITION À LIGNE UNIQUE NON-LINÉAIRE ENTRE PROJETS ================= -->
           {nextProject && (() => {
             const v = transitionVariants[idx % transitionVariants.length];
             return (
@@ -450,85 +426,13 @@ const transitionVariants = [
                 style={`--curr-pastel: ${p.color}; --next-pastel: ${nextProject.color};`}
                 aria-hidden="true"
               >
-                <!-- Dégradé et aura lumineuse continue -->
-                <div class="silk-trans-bg"></div>
-                <div class="silk-trans-aura"></div>
-
-                <svg class="silk-svg-layer" viewBox="0 0 1440 650" preserveAspectRatio="none">
-                  <defs>
-                    <!-- 1. Onde sortante haute : fondu progressif de l'opaque vers la transparence douce -->
-                    <linearGradient id={`s-top-${idx}`} x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stop-color={p.color} stop-opacity="1" />
-                      <stop offset="45%" stop-color={p.color} stop-opacity="0.95" />
-                      <stop offset="80%" stop-color={p.color} stop-opacity="0.60" />
-                      <stop offset="100%" stop-color={p.color} stop-opacity="0.20" />
-                    </linearGradient>
-
-                    <!-- 2. Ruban d'éther : voile opalescent fluide -->
-                    <linearGradient id={`s-ribbon-${idx}`} x1="0%" y1="0%" x2="100%" y2="80%">
-                      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.55" />
-                      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.18" />
-                      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.45" />
-                    </linearGradient>
-
-                    <!-- 3. Voile harmonique : dégradé croisé graduel reliant les 2 pastels -->
-                    <linearGradient id={`s-tone-${idx}`} x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stop-color={p.color} stop-opacity="0.25" />
-                      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.40" />
-                      <stop offset="100%" stop-color={nextProject.color} stop-opacity="0.70" />
-                    </linearGradient>
-
-                    <!-- 4. Onde montante basse : fondu progressif depuis la transparence vers la pleine couleur -->
-                    <linearGradient id={`s-bot-${idx}`} x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stop-color={nextProject.color} stop-opacity="0.20" />
-                      <stop offset="25%" stop-color={nextProject.color} stop-opacity="0.65" />
-                      <stop offset="65%" stop-color={nextProject.color} stop-opacity="0.95" />
-                      <stop offset="100%" stop-color={nextProject.color} stop-opacity="1" />
-                    </linearGradient>
-
-                    <filter id={`sh-top-${idx}`} x="-5%" y="-10%" width="110%" height="140%">
-                      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.03" />
-                    </filter>
-                    <filter id={`sh-bot-${idx}`} x="-5%" y="-10%" width="110%" height="140%">
-                      <feDropShadow dx="0" dy="-10" stdDeviation="14" flood-color="#000000" flood-opacity="0.025" />
-                    </filter>
-                  </defs>
-
-                  <!-- 1. Vague sortante haute (pastel sortant) -->
-                  <g class="silk-group-top">
-                    <g class="silk-wave-fluid-top">
-                      <path d={v.topD} fill={`url(#s-top-${idx})`} filter={`url(#sh-top-${idx})`} />
-                      <path d={v.topLine} class="silk-crest-specular" transform="translate(0, -1)" />
-                      <path d={v.topLine} class="silk-crest-edge" />
-                    </g>
-                  </g>
-
-                  <!-- 2. Ruban soyeux translucide intermédiaire -->
-                  <g class="silk-group-ribbon">
-                    <g class="silk-wave-fluid-ribbon">
-                      <path d={v.ribbonD} fill={`url(#s-ribbon-${idx})`} />
-                      <path d={v.ribbonLine} class="silk-crest-specular" />
-                    </g>
-                  </g>
-
-                  <!-- 3. Liaison harmonique -->
-                  <g class="silk-group-tone">
-                    <path d={v.toneD} fill={`url(#s-tone-${idx})`} />
-                  </g>
-
-                  <!-- 4. Constellation discrète céleste -->
-                  <g class="silk-group-thread">
-                    <path d={v.threadD} class="silk-thread" />
-                  </g>
-
-                  <!-- 5. Vague montante basse (pastel entrant) -->
-                  <g class="silk-group-bot">
-                    <g class="silk-wave-fluid-bot">
-                      <path d={v.botD} fill={`url(#s-bot-${idx})`} filter={`url(#sh-bot-${idx})`} />
-                      <path d={v.botLine} class="silk-crest-specular" transform="translate(0, -1)" />
-                      <path d={v.botLine} class="silk-crest-edge" />
-                    </g>
-                  </g>
+                <svg viewBox="0 0 1440 260" preserveAspectRatio="none" class="single-line-svg">
+                  <!-- Fond haut : pastel du projet actuel -->
+                  <rect width="1440" height="260" fill="var(--curr-pastel)" />
+                  <!-- Forme basse : pastel du projet suivant délimité par la courbe non-linéaire -->
+                  <path d={v.shapeD} fill="var(--next-pastel)" />
+                  <!-- La ligne unique : trait net continu séparant les deux projets -->
+                  <path d={v.lineD} class="single-transition-line" />
                 </svg>
               </div>
             );
@@ -656,83 +560,13 @@ const transitionVariants = [
               const translateY = centeredProgress * speed * 120;
               rightCol.style.transform = `translate3d(0, ${translateY}px, 0)`;
             }
-
-            // Fondu graduel du contenu lors du défilement
-            const mainContent = section.querySelector('.project-main-content');
-            if (mainContent) {
-              let contentOpacity = 1;
-              let contentShiftY = 0;
-              if (rect.top > 0) {
-                // Entrée progressive par le bas
-                const enterRatio = Math.max(0, Math.min(1, (windowHeight - rect.top) / (windowHeight * 0.65)));
-                contentOpacity = 0.2 + (enterRatio * 0.8);
-                contentShiftY = (1 - enterRatio) * 30;
-              } else if (rect.bottom < windowHeight) {
-                // Sortie progressive par le haut
-                const exitRatio = Math.max(0, Math.min(1, (windowHeight - rect.bottom) / (windowHeight * 0.65)));
-                contentOpacity = Math.max(0.15, 1 - (exitRatio * 0.85));
-                contentShiftY = exitRatio * -30;
-              }
-              mainContent.style.opacity = contentOpacity.toFixed(2);
-              mainContent.style.transform = `translate3d(0, ${contentShiftY.toFixed(1)}px, 0)`;
-            }
           }
         });
 
         ticking = false;
       }
 
-      // 4. Parallaxe ultra-fluide avec inertie liquide (Lerp loop sans reflow)
-      let transData = [];
-      function cacheTransitions() {
-        transData = Array.from(document.querySelectorAll('.project-nonlinear-transition')).map((trans) => {
-          const rect = trans.getBoundingClientRect();
-          return {
-            el: trans,
-            top: rect.top + window.scrollY,
-            height: trans.offsetHeight || rect.height,
-            topGroup: trans.querySelector('.silk-group-top'),
-            ribbonGroup: trans.querySelector('.silk-group-ribbon'),
-            threadGroup: trans.querySelector('.silk-group-thread'),
-            botGroup: trans.querySelector('.silk-group-bot'),
-            current: 0,
-            target: 0
-          };
-        });
-      }
-      cacheTransitions();
-
-      let currentScroll = window.scrollY;
-      let targetScroll = window.scrollY;
-
-      function renderTransitionsLoop() {
-        // Interpolation d'inertie fluide (effet liquide velouté à 60fps/120fps)
-        currentScroll += (targetScroll - currentScroll) * 0.12;
-        const windowHeight = window.innerHeight;
-
-        for (let i = 0; i < transData.length; i++) {
-          const item = transData[i];
-          const relTop = item.top - currentScroll;
-          if (relTop < windowHeight + 150 && relTop + item.height > -150) {
-            const progress = (windowHeight - relTop) / (windowHeight + item.height);
-            const centered = progress - 0.5;
-            item.target = centered;
-            item.current += (item.target - item.current) * 0.14;
-            const c = item.current;
-
-            if (item.topGroup) item.topGroup.style.transform = `translate3d(0, ${(c * -28).toFixed(2)}px, 0)`;
-            if (item.ribbonGroup) item.ribbonGroup.style.transform = `translate3d(${(c * 22).toFixed(2)}px, ${(c * 32).toFixed(2)}px, 0)`;
-            if (item.threadGroup) item.threadGroup.style.transform = `translate3d(${(c * -16).toFixed(2)}px, ${(c * 18).toFixed(2)}px, 0)`;
-            if (item.botGroup) item.botGroup.style.transform = `translate3d(0, ${(c * 28).toFixed(2)}px, 0)`;
-          }
-        }
-
-        requestAnimationFrame(renderTransitionsLoop);
-      }
-      requestAnimationFrame(renderTransitionsLoop);
-
       function onScroll() {
-        targetScroll = window.scrollY;
         if (!ticking) {
           window.requestAnimationFrame(updateScrollTimeline);
           ticking = true;
@@ -740,7 +574,6 @@ const transitionVariants = [
       }
 
       function onResize() {
-        cacheTransitions();
         onScroll();
       }
 
@@ -1661,12 +1494,12 @@ const transitionVariants = [
   }
 
   /* ==========================================================================
-     TRANSITION SOIE LIQUIDE HAUTE COUTURE ENTRE PROJETS
+     TRANSITION ÉPURÉE À LIGNE UNIQUE ENTRE PROJETS
      ========================================================================== */
   .project-nonlinear-transition {
     position: relative;
     width: 100%;
-    height: clamp(600px, 85vh, 920px);
+    height: clamp(160px, 22vh, 280px);
     overflow: hidden;
     pointer-events: none;
     user-select: none;
@@ -1677,109 +1510,25 @@ const transitionVariants = [
     background-color: var(--curr-pastel);
   }
 
-  .silk-trans-bg {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, 
-      var(--curr-pastel) 0%, 
-      var(--curr-pastel) 14%, 
-      transparent 50%, 
-      var(--next-pastel) 86%, 
-      var(--next-pastel) 100%
-    );
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
-
-  .silk-trans-aura {
-    position: absolute;
-    inset: -15%;
-    pointer-events: none;
-    background: 
-      radial-gradient(ellipse 75% 55% at 20% 30%, var(--curr-pastel) 0%, transparent 70%),
-      radial-gradient(ellipse 80% 65% at 80% 70%, var(--next-pastel) 0%, transparent 75%),
-      radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.45) 0%, transparent 65%);
-    filter: blur(45px);
-    opacity: 0.85;
-    animation: auraBreath 12s ease-in-out infinite alternate;
-  }
-
-  @keyframes auraBreath {
-    0% { transform: scale(0.97) translate3d(-1%, -1%, 0); opacity: 0.80; }
-    50% { transform: scale(1.03) translate3d(1%, 1%, 0); opacity: 0.95; }
-    100% { transform: scale(1) translate3d(0, 0, 0); opacity: 0.85; }
-  }
-
-  .silk-svg-layer {
+  .single-line-svg {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     display: block;
-    overflow: visible;
   }
 
-  .silk-group-top,
-  .silk-group-ribbon,
-  .silk-group-thread,
-  .silk-group-bot {
-    will-change: transform;
-    transition: none !important;
-  }
-
-  /* Ondulation organique liquide perpétuelle */
-  .silk-wave-fluid-top {
-    animation: fluidUndulateTop 14s ease-in-out infinite alternate;
-    transform-origin: 50% 30%;
-  }
-  .silk-wave-fluid-ribbon {
-    animation: fluidUndulateRibbon 10s ease-in-out infinite alternate;
-    transform-origin: 50% 50%;
-  }
-  .silk-wave-fluid-bot {
-    animation: fluidUndulateBot 16s ease-in-out infinite alternate;
-    transform-origin: 50% 70%;
-  }
-
-  @keyframes fluidUndulateTop {
-    0% { transform: translate3d(0, 0, 0) scale(1, 1); }
-    50% { transform: translate3d(-10px, 7px, 0) scale(1.008, 0.985); }
-    100% { transform: translate3d(8px, -5px, 0) scale(0.995, 1.012); }
-  }
-
-  @keyframes fluidUndulateRibbon {
-    0% { transform: translate3d(0, 0, 0) scale(1, 1); opacity: 0.80; }
-    50% { transform: translate3d(14px, -10px, 0) scale(1.015, 1.025); opacity: 0.94; }
-    100% { transform: translate3d(-12px, 8px, 0) scale(0.99, 0.98); opacity: 0.82; }
-  }
-
-  @keyframes fluidUndulateBot {
-    0% { transform: translate3d(0, 0, 0) scale(1, 1); }
-    50% { transform: translate3d(10px, -6px, 0) scale(0.992, 1.015); }
-    100% { transform: translate3d(-8px, 7px, 0) scale(1.006, 0.99); }
-  }
-
-  .silk-crest-edge {
+  .single-transition-line {
     fill: none;
-    stroke: rgba(0, 0, 0, 0.11);
-    stroke-width: 1.5px;
+    stroke: #000000;
+    stroke-width: 2.5px;
     stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
   }
 
-  .silk-crest-specular {
-    fill: none;
-    stroke: rgba(255, 255, 255, 0.85);
-    stroke-width: 1.5px;
-    stroke-linecap: round;
-  }
-
-  .silk-thread {
-    fill: none;
-    stroke: rgba(255, 255, 255, 0.70);
-    stroke-width: 1.5px;
-    stroke-dasharray: 6 6;
+  html {
+    scroll-behavior: smooth;
   }
 
   /* ==========================================================================
@@ -1880,7 +1629,7 @@ const transitionVariants = [
       display: inline;
     }
     .project-nonlinear-transition {
-      height: clamp(420px, 65vh, 600px);
+      height: clamp(110px, 16vh, 180px);
     }
   }
 </style>
