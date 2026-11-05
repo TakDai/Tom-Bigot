@@ -10,6 +10,7 @@ const projects = [
     date: "Aujourd'hui · En ligne",
     desc: "Catalogue comparatif et base de données de référence des moteurs brushless pour multirotors FPV. Pipeline automatisé quotidien agrégeant fiches fabricants, bancs d'essai dynamométriques et benchmarks communautaires.",
     logo: '/assets/logos/multi-motors.png',
+    video: '/assets/videos/multi-motors.webm',
     lien: '/projets/multi-motors',
     site: 'https://multi-motors.fr',
     github: 'https://github.com/TakDai/Multi-Motors',
@@ -25,6 +26,7 @@ const projects = [
     date: "Aujourd'hui · En cours",
     desc: "Outils techniques et protocoles de maintenance spécialisés pour multirotors FPV : analyse de pannes électroniques, calibration ESC/Betaflight, tests de régulateurs et sauvetage de microcontrôleurs STM32 brickés.",
     logo: '/assets/logos/fix-my-drone.svg',
+    video: '/assets/videos/fix-my-drone.webm',
     lien: '/projets/fix-my-drone',
     github: 'https://github.com/TakDai/fix-my-drone',
     color: '#EAE4F2', // Pastel Iris / Lavande
@@ -39,6 +41,7 @@ const projects = [
     date: "Aujourd'hui · En production",
     desc: "Plateforme cloud d'hébergement multi-tenant de bots Discord : interface web de gestion centralisée couplée à des processus bots isolés (discord.py) conteneurisés et monitorés en continu.",
     logo: '/assets/logos/openbots.png',
+    video: '/assets/videos/openbots.webm',
     lien: '/projets/openbots',
     site: 'https://openbots.fr',
     github: 'https://github.com/TakDai/openbots',
@@ -54,6 +57,7 @@ const projects = [
     date: "Aujourd'hui · Exploitation",
     desc: "Application de bureau native en C# / Avalonia UI pour la supervision temps réel du parc de serveurs bare-metal via des tunnels SSH chiffrés. Coffre-fort d'identifiants chiffré en AES-256-GCM / Argon2id sans agent exposé.",
     logo: '/assets/logos/superviseur.svg',
+    video: '/assets/videos/superviseur.webm',
     lien: '/projets/superviseur',
     github: 'https://github.com/TakDai/Superviseur',
     color: '#D7EDE7', // Pastel Menthe
@@ -68,6 +72,7 @@ const projects = [
     date: "Aujourd'hui · Actif",
     desc: "Diffusions techniques en direct sur Twitch consacrées à la programmation système, à la fabrication mécanique, à la soudure électronique de précision sous microscope zénithal et aux retours d'expérience d'ingénierie.",
     logo: '/assets/logos/127il.svg',
+    video: '/assets/videos/127il.webm',
     lien: '/projets/127il',
     github: 'https://github.com/TakDai/127il',
     color: '#FBE9DE', // Pastel Pêche / Abricot
@@ -82,6 +87,7 @@ const projects = [
     date: "Aujourd'hui · En ligne",
     desc: "Recueil d'essais critiques et de réflexions personnelles rédigés à tête reposée : autonomie technologique face aux monopoles, droit à la réparation, souveraineté numérique et liberté de concevoir.",
     logo: '/assets/logos/pensee-nocturne.svg',
+    video: '/assets/videos/pensee-nocturne.webm',
     lien: '/projets/pensee-nocturne',
     site: 'https://pensées-nocturnes.fr',
     github: 'https://github.com/TakDai/pensee-nocturne',
@@ -97,6 +103,7 @@ const projects = [
     date: "Aujourd'hui · En développement",
     desc: "Plateforme collaborative de messagerie instantanée conçue pour les collectifs et ateliers : communication bidirectionnelle en flux WebSockets binaires, basse consommation de bande passante et latence minimale.",
     logo: '/assets/logos/komeon.png',
+    video: '/assets/videos/komeon.webm',
     lien: '/projets/komeon',
     github: 'https://github.com/TakDai/komeon',
     color: '#FDF2DB', // Pastel Beurre / Citron doux
@@ -111,6 +118,7 @@ const projects = [
     date: "Aujourd'hui · En cours",
     desc: "Application Android native en Kotlin et Jetpack Compose dédiée à la lecture, l'écriture, l'émulation et l'organisation de tags NFC/RFID et d'implants sous-cutanés. Moteur d'automatisation nodale et compatibilité Proxmark3.",
     logo: '/assets/logos/inskin.png',
+    video: '/assets/videos/inskin.webm',
     lien: '/projets/inskin',
     github: 'https://github.com/TakDai/Inskin',
     color: '#F6DFDC', // Pastel Blush Corail / Terracotta
@@ -125,6 +133,7 @@ const projects = [
     date: "Aujourd'hui · Actif",
     desc: "Laboratoire de direction artistique et de création graphique : conception vectorielle monochrome, identité du groupe SEEWORLD, expérimentations visuelles à l'encre et chartes typographiques épurées.",
     logo: '/assets/logos/tdp.png',
+    video: '/assets/videos/tete-de-piaf.webm',
     lien: '/projets/tete-de-piaf',
     github: 'https://github.com/TakDai/tete-de-piaf',
     color: '#E4E7EA', // Pastel Gris Ardoise
@@ -139,6 +148,7 @@ const projects = [
     date: 'Genèse 2025 · Réalisé',
     desc: "Portail indépendant et vitrine interactive valorisant les créateurs, commerces et initiatives d'Indre-et-Loire. Hub communautaire avec thèmes visuels saisonniers, annuaire local et serveur d'échange.",
     logo: '/assets/logos/lestourangeaux.svg',
+    video: '/assets/videos/lestourangeaux.webm',
     lien: '/projets/lestourangeaux',
     site: 'https://lestourangeaux.fr',
     github: 'https://github.com/TakDai/LesTourangeaux',
@@ -150,7 +160,7 @@ const projects = [
 ---
 
 <Base sansNav={true} titre="Portfolio" description="Tom Bigot — Portfolio d'ingénierie, systèmes embarqués, drones FPV & développement logiciel.">
-  <!-- ================= ACCUEIL VIDÉO PLEIN FORMAT MONOCHROME ================= -->
+  <!-- ================= ACCUEIL VIDÉO PLEIN FORMAT MONOCHROME (NOUVELLE VIDÉO TOURS & ÉVÉNEMENT) ================= -->
   <section class="hero-video-screen" id="top">
     <div class="video-container">
       <video
@@ -163,6 +173,7 @@ const projects = [
         preload="auto"
         poster="/favicon.svg"
       >
+        <source src="/assets/videos/hero_tours.webm" type="video/webm" />
         <source src="/assets/hero.mp4" type="video/mp4" />
       </video>
       <div class="video-overlay"></div>
@@ -206,13 +217,55 @@ const projects = [
     </a>
   </section>
 
-  <!-- ================= DOCK LATÉRAL DE NAVIGATION RAPIDE ================= -->
-  <nav class="quick-nav-dock" aria-label="Accès direct aux 10 projets">
-    {projects.map((p) => (
-      <a href={`#${p.id}`} class="dock-dot" data-dock-id={p.id} title={`${p.num} ${p.titre}`}>
-        <span>{p.num}</span>
-      </a>
-    ))}
+  <!-- ================= TIMELINE DU SCROLL CLIQUABLE (INDICATEUR INTERACTIF COMPLET) ================= -->
+  <aside class="scroll-timeline-nav" id="scrollTimeline" aria-label="Timeline de navigation du scroll">
+    <div class="timeline-rail-wrap">
+      <!-- Ligne de rail continue avec progression en temps réel -->
+      <div class="timeline-track-line">
+        <div class="timeline-track-progress" id="timelineProgressBar"></div>
+      </div>
+
+      <!-- Les 10 nœuds de projets cliquables -->
+      <nav class="timeline-nodes-list">
+        {projects.map((p, idx) => (
+          <a
+            href={`#${p.id}`}
+            class={`timeline-node-item node-${p.id}`}
+            data-target-id={p.id}
+            data-index={idx}
+            aria-label={`Aller au projet ${p.num} : ${p.titre}`}
+          >
+            <span class="node-bullet">
+              <span class="node-num">{p.num}</span>
+            </span>
+            <span class="node-flyout">
+              <span class="node-flyout-num">{p.num}</span>
+              <span class="node-flyout-title">{p.titre}</span>
+            </span>
+          </a>
+        ))}
+      </nav>
+    </div>
+  </aside>
+
+  <!-- ================= TIMELINE HORIZONTALE COMPACTE (MOBILE / TABLETTE) ================= -->
+  <nav class="mobile-timeline-bar" id="mobileTimeline" aria-label="Navigation rapide mobile">
+    <div class="mobile-timeline-track">
+      <div class="mobile-timeline-fill" id="mobileTimelineFill"></div>
+    </div>
+    <div class="mobile-timeline-items">
+      {projects.map((p, idx) => (
+        <a
+          href={`#${p.id}`}
+          class="mobile-timeline-btn"
+          data-target-id={p.id}
+          data-index={idx}
+          title={`${p.num} ${p.titre}`}
+        >
+          {p.num}
+        </a>
+      ))}
+    </div>
   </nav>
 
   <!-- ================= SECTIONS PLEIN ÉCRAN PASTEL & PARALLAXE ================= -->
@@ -224,131 +277,200 @@ const projects = [
       const shortNextLabel = nextProject ? `0${idx + 2} Suivant` : 'Haut';
 
       return (
-        <section
-          class={`project-fullscreen-section project-${p.id}`}
-          id={p.id}
-          style={`--project-pastel: ${p.color}; --project-accent: ${p.accent};`}
-          data-index={idx}
-        >
-          <!-- Filigrane Parallaxe Géant en arrière-plan -->
-          <div class="parallax-watermark" aria-hidden="true" data-parallax-speed="0.28">
-            <span class="watermark-number">{p.num}</span>
-          </div>
-
-          <!-- Bandeau supérieur plein écran / Séparation d'en-tête -->
-          <header class="section-top-bar">
-            <div class="top-bar-left">
-              <span class="bar-step-tag">PROJET {p.num} / 10</span>
-              <span class="bar-separator">&bull;</span>
-              <span class="bar-domain">{p.domaine}</span>
-            </div>
-            <div class="top-bar-right">
-              <span class="bar-date-pill">{p.date}</span>
-            </div>
-          </header>
-
-          <!-- Zone centrale : grille deux colonnes avec effet parallaxe décalé -->
-          <div class="project-main-content">
-            <div class="project-left-col">
-              <div class="project-title-lockup">
-                <div class="mobile-logo-badge">
-                  <img src={p.logo} alt={p.titre} />
-                </div>
-                <div class="title-text-group">
-                  <span class="title-subhead">{p.domaine}</span>
-                  <h2 class="project-title">{p.titre}</h2>
-                </div>
-              </div>
-
-              <p class="project-description">{p.desc}</p>
-
-              <!-- Badges techniques du projet -->
-              <div class="tech-pills-row">
-                {p.tech.map((t) => (
-                  <span class="tech-pill">{t}</span>
-                ))}
-              </div>
-
-              <!-- Boutons d'action -->
-              <div class="project-actions">
-                <a href={p.lien} class="btn-action btn-primary">Fiche détaillée &rarr;</a>
-                {p.site && (
-                  <a href={p.site} target="_blank" rel="noopener noreferrer" class="btn-action btn-secondary">
-                    Site officiel &#8599;
-                  </a>
-                )}
-                {p.github && (
-                  <a href={p.github} target="_blank" rel="noopener noreferrer" class="btn-action btn-secondary">
-                    Code source &#8599;
-                  </a>
-                )}
-              </div>
+        <article class="project-block-container">
+          <section
+            class={`project-fullscreen-section project-${p.id}`}
+            id={p.id}
+            style={`--project-pastel: ${p.color}; --project-accent: ${p.accent};`}
+            data-index={idx}
+          >
+            <!-- Couche Vidéo de Fond Subtile intégrée à la couleur unie pastel -->
+            <div class="project-video-layer" aria-hidden="true">
+              <video
+                class="project-bg-video"
+                autoplay
+                loop
+                muted
+                playsinline
+                preload="metadata"
+              >
+                <source src={p.video} type="video/webm" />
+              </video>
+              <div class="project-video-tint"></div>
             </div>
 
-            <!-- Colonne droite : Carte Emblème avec Parallaxe Inversé (Desktop) -->
-            <div class="project-right-col" data-parallax-speed="-0.15">
-              <div class="emblem-card-frame">
-                <div class="emblem-card-inner">
-                  <div class="emblem-logo-circle">
+            <!-- Filigrane Parallaxe Géant en arrière-plan -->
+            <div class="parallax-watermark" aria-hidden="true" data-parallax-speed="0.28">
+              <span class="watermark-number">{p.num}</span>
+            </div>
+
+            <!-- Bandeau supérieur plein écran / Séparation d'en-tête -->
+            <header class="section-top-bar">
+              <div class="top-bar-left">
+                <span class="bar-step-tag">PROJET {p.num} / 10</span>
+                <span class="bar-separator">&bull;</span>
+                <span class="bar-domain">{p.domaine}</span>
+              </div>
+              <div class="top-bar-right">
+                <span class="bar-date-pill">{p.date}</span>
+              </div>
+            </header>
+
+            <!-- Zone centrale : grille deux colonnes avec effet parallaxe décalé -->
+            <div class="project-main-content">
+              <div class="project-left-col">
+                <div class="project-title-lockup">
+                  <div class="mobile-logo-badge">
                     <img src={p.logo} alt={p.titre} />
                   </div>
-                  <div class="emblem-card-info">
-                    <span class="emblem-num">PROJET #{p.num}</span>
-                    <span class="emblem-title">{p.titre}</span>
+                  <div class="title-text-group">
+                    <span class="title-subhead">{p.domaine}</span>
+                    <h2 class="project-title">{p.titre}</h2>
+                  </div>
+                </div>
+
+                <p class="project-description">{p.desc}</p>
+
+                <!-- Badges techniques du projet -->
+                <div class="tech-pills-row">
+                  {p.tech.map((t) => (
+                    <span class="tech-pill">{t}</span>
+                  ))}
+                </div>
+
+                <!-- Boutons d'action -->
+                <div class="project-actions">
+                  <a href={p.lien} class="btn-action btn-primary">Fiche détaillée &rarr;</a>
+                  {p.site && (
+                    <a href={p.site} target="_blank" rel="noopener noreferrer" class="btn-action btn-secondary">
+                      Site officiel &#8599;
+                    </a>
+                  )}
+                  {p.github && (
+                    <a href={p.github} target="_blank" rel="noopener noreferrer" class="btn-action btn-secondary">
+                      Code source &#8599;
+                    </a>
+                  )}
+                </div>
+              </div>
+
+              <!-- Colonne droite : Carte Emblème avec Parallaxe Inversé (Desktop) -->
+              <div class="project-right-col" data-parallax-speed="-0.15">
+                <div class="emblem-card-frame">
+                  <div class="emblem-card-inner">
+                    <div class="emblem-logo-circle">
+                      <img src={p.logo} alt={p.titre} />
+                    </div>
+                    <div class="emblem-card-info">
+                      <span class="emblem-num">PROJET #{p.num}</span>
+                      <span class="emblem-title">{p.titre}</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <!-- Bandeau inférieur plein écran / Séparation de transition -->
-          <footer class="section-bottom-seam">
-            <div class="seam-progress-track">
-              <div class="seam-progress-fill" style={`width: ${((idx + 1) / projects.length) * 100}%;`}></div>
+            <!-- Bandeau inférieur plein écran / Séparation de transition -->
+            <footer class="section-bottom-seam">
+              <div class="seam-progress-track">
+                <div class="seam-progress-fill" style={`width: ${((idx + 1) / projects.length) * 100}%;`}></div>
+              </div>
+              <div class="seam-info-row">
+                <span class="seam-counter">{p.num} sur 10</span>
+                <a href={nextTarget} class="seam-next-link" aria-label={nextLabel}>
+                  <span class="seam-label-full">{nextLabel}</span>
+                  <span class="seam-label-mobile">{shortNextLabel}</span>
+                  <span class="seam-arrow">{nextProject ? '↓' : '↑'}</span>
+                </a>
+              </div>
+            </footer>
+          </section>
+
+          <!-- ================= AGRANDISSEMENT DES SÉPARATIONS ENTRE PROJETS ================= -->
+          {nextProject && (
+            <div class="project-inter-separator" aria-hidden="true">
+              <div class="separator-track">
+                <div class="separator-line left-line"></div>
+                <div class="separator-node">
+                  <span class="sep-dot"></span>
+                  <span class="sep-badge">TRANSITION &bull; {p.num} &rarr; {nextProject.num}</span>
+                  <span class="sep-cue">PROCHAIN : {nextProject.titre}</span>
+                  <span class="sep-arrow">&darr;</span>
+                </div>
+                <div class="separator-line right-line"></div>
+              </div>
             </div>
-            <div class="seam-info-row">
-              <span class="seam-counter">{p.num} sur 10</span>
-              <a href={nextTarget} class="seam-next-link" aria-label={nextLabel}>
-                <span class="seam-label-full">{nextLabel}</span>
-                <span class="seam-label-mobile">{shortNextLabel}</span>
-                <span class="seam-arrow">{nextProject ? '↓' : '↑'}</span>
-              </a>
-            </div>
-          </footer>
-        </section>
+          )}
+        </article>
       );
     })}
   </div>
 
-  <!-- ================= GESTIONNAIRE DE PARALLAXE & DOCK ================= -->
+  <!-- ================= GESTIONNAIRE DE TIMELINE DU SCROLL, PARALLAXE & VIDÉOS ================= -->
   <script is:inline>
     document.addEventListener('DOMContentLoaded', () => {
       const sections = document.querySelectorAll('.project-fullscreen-section');
-      const dots = document.querySelectorAll('.dock-dot');
-      const dock = document.querySelector('.quick-nav-dock');
+      const timelineNodes = document.querySelectorAll('.timeline-node-item');
+      const mobileNodes = document.querySelectorAll('.mobile-timeline-btn');
+      const timelineNav = document.getElementById('scrollTimeline');
+      const mobileTimeline = document.getElementById('mobileTimeline');
+      const timelineProgressBar = document.getElementById('timelineProgressBar');
+      const mobileTimelineFill = document.getElementById('mobileTimelineFill');
       const hero = document.getElementById('top');
+      const wrapper = document.getElementById('projets');
       let ticking = false;
 
-      function updateParallax() {
+      function updateScrollTimeline() {
         const windowHeight = window.innerHeight;
+        const scrollY = window.scrollY;
 
-        // Afficher le dock uniquement lorsqu'on a dépassé le hero
-        if (dock && hero) {
+        // 1. Afficher les timelines uniquement lorsqu'on a dépassé le hero
+        if (hero) {
           const heroBottom = hero.getBoundingClientRect().bottom;
-          if (heroBottom <= windowHeight * 0.5) {
-            dock.classList.add('is-visible');
-          } else {
-            dock.classList.remove('is-visible');
+          const isPastHero = heroBottom <= windowHeight * 0.45;
+          if (timelineNav) {
+            if (isPastHero) timelineNav.classList.add('is-visible');
+            else timelineNav.classList.remove('is-visible');
+          }
+          if (mobileTimeline) {
+            if (isPastHero) mobileTimeline.classList.add('is-visible');
+            else mobileTimeline.classList.remove('is-visible');
           }
         }
 
+        // 2. Calcul du pourcentage d'avancement global dans la section projets
+        if (wrapper) {
+          const wrapperRect = wrapper.getBoundingClientRect();
+          const totalScrollable = wrapperRect.height - windowHeight;
+          if (totalScrollable > 0) {
+            const currentScrolled = -wrapperRect.top;
+            const progressRatio = Math.max(0, Math.min(1, currentScrolled / totalScrollable));
+            const pct = (progressRatio * 100).toFixed(1) + '%';
+            if (timelineProgressBar) timelineProgressBar.style.height = pct;
+            if (mobileTimelineFill) mobileTimelineFill.style.width = pct;
+          }
+        }
+
+        // 3. Identification du projet actif et parallaxe
         sections.forEach((section, idx) => {
           const rect = section.getBoundingClientRect();
 
-          // Indicateur actif sur le dock latéral
-          if (rect.top <= windowHeight * 0.45 && rect.bottom >= windowHeight * 0.45) {
-            dots.forEach((d) => d.classList.remove('is-active'));
-            if (dots[idx]) dots[idx].classList.add('is-active');
+          // Nœud actif de la timeline
+          if (rect.top <= windowHeight * 0.5 && rect.bottom >= windowHeight * 0.5) {
+            timelineNodes.forEach((n) => n.classList.remove('is-active'));
+            mobileNodes.forEach((m) => m.classList.remove('is-active'));
+
+            if (timelineNodes[idx]) timelineNodes[idx].classList.add('is-active');
+            if (mobileNodes[idx]) mobileNodes[idx].classList.add('is-active');
+          }
+
+          // Marquage des nœuds passés (complétés)
+          if (rect.bottom < windowHeight * 0.5) {
+            if (timelineNodes[idx]) timelineNodes[idx].classList.add('is-past');
+            if (mobileNodes[idx]) mobileNodes[idx].classList.add('is-past');
+          } else {
+            if (timelineNodes[idx]) timelineNodes[idx].classList.remove('is-past');
+            if (mobileNodes[idx]) mobileNodes[idx].classList.remove('is-past');
           }
 
           // Effet de parallaxe sur les éléments visibles
@@ -356,7 +478,7 @@ const projects = [
             const progress = (windowHeight - rect.top) / (windowHeight + rect.height);
             const centeredProgress = progress - 0.5;
 
-            // 1. Chiffre géant en filigrane (déplacement lent vertical)
+            // Filigrane géant
             const watermark = section.querySelector('.parallax-watermark');
             if (watermark) {
               const speed = parseFloat(watermark.getAttribute('data-parallax-speed') || 0.28);
@@ -364,7 +486,7 @@ const projects = [
               watermark.style.transform = `translate3d(0, calc(-50% + ${translateY}px), 0)`;
             }
 
-            // 2. Carte emblème (flotte en contre-vitesse)
+            // Carte emblème
             const rightCol = section.querySelector('.project-right-col');
             if (rightCol) {
               const speed = parseFloat(rightCol.getAttribute('data-parallax-speed') || -0.15);
@@ -379,23 +501,21 @@ const projects = [
 
       function onScroll() {
         if (!ticking) {
-          window.requestAnimationFrame(updateParallax);
+          window.requestAnimationFrame(updateScrollTimeline);
           ticking = true;
         }
       }
 
-      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        window.addEventListener('scroll', onScroll, { passive: true });
-        window.addEventListener('resize', onScroll, { passive: true });
-        updateParallax();
-      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      updateScrollTimeline();
     });
   </script>
 </Base>
 
 <style>
   /* ==========================================================================
-     ACCUEIL VIDÉO PLEIN FORMAT MONOCHROME
+     ACCUEIL VIDÉO PLEIN FORMAT MONOCHROME (TOURS & ÉVÉNEMENT)
      ========================================================================== */
   .hero-video-screen {
     position: relative;
@@ -543,63 +663,245 @@ const projects = [
   }
 
   /* ==========================================================================
-     BARRE FLOTTANTE D'ACCÈS RAPIDE AUX 10 PROJETS (DOCK LATÉRAL)
+     TIMELINE DU SCROLL CLIQUABLE (INDICATEUR INTERACTIF COMPLET DES 10 PROJETS)
      ========================================================================== */
-  .quick-nav-dock {
+  .scroll-timeline-nav {
     position: fixed;
-    right: 18px;
+    right: 24px;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 90;
+    z-index: 100;
     display: none;
-    flex-direction: column;
-    gap: 6px;
-    background: rgba(0, 0, 0, 0.88);
-    backdrop-filter: blur(8px);
-    padding: 10px 7px;
-    border-radius: 30px;
-    border: 2px solid #ffffff;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.25s ease, transform 0.25s ease;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s ease;
   }
-  @media (min-width: 1280px) {
-    .quick-nav-dock {
-      display: flex;
+
+  @media (min-width: 1100px) {
+    .scroll-timeline-nav {
+      display: block;
     }
   }
-  .quick-nav-dock.is-visible {
+
+  .scroll-timeline-nav.is-visible {
     opacity: 1;
     pointer-events: auto;
   }
-  .dock-dot {
+
+  .timeline-rail-wrap {
+    position: relative;
+    padding: 12px 14px;
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid #ffffff;
+    border-radius: 40px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(12px);
+  }
+
+  /* Ligne de rail continue */
+  .timeline-track-line {
+    position: absolute;
+    left: 27px;
+    top: 24px;
+    bottom: 24px;
+    width: 2px;
+    background: rgba(255, 255, 255, 0.25);
+    z-index: 1;
+  }
+
+  .timeline-track-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: #ffffff;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    transition: height 0.15s ease-out;
+  }
+
+  .timeline-nodes-list {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  /* Nœud individuel cliquable */
+  .timeline-node-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .node-bullet {
     width: 26px;
     height: 26px;
     border-radius: 50%;
+    background: #111111;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 10px;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 9.5px;
     font-weight: 900;
-    color: #ffffff;
-    text-decoration: none;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .dock-dot:hover, .dock-dot.is-active {
+
+  .timeline-node-item:hover .node-bullet,
+  .timeline-node-item.is-active .node-bullet {
     background: #ffffff;
     color: #000000;
-    transform: scale(1.15);
+    border-color: #ffffff;
+    transform: scale(1.22);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.9);
+  }
+
+  .timeline-node-item.is-past .node-bullet {
+    background: #ffffff;
+    color: #000000;
+    border-color: #ffffff;
+  }
+
+  /* Étiquette dépliée (Flyout) au survol ou actif */
+  .node-flyout {
+    position: absolute;
+    right: 36px;
+    top: 50%;
+    transform: translateY(-50%) translateX(6px);
+    opacity: 0;
+    pointer-events: none;
+    background: #000000;
+    border: 1.8px solid #ffffff;
+    padding: 5px 12px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .node-flyout-num {
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 10px;
+    font-weight: 900;
+    background: #ffffff;
+    color: #000000;
+    padding: 1px 5px;
+  }
+
+  .node-flyout-title {
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 11px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .timeline-node-item:hover .node-flyout,
+  .timeline-node-item.is-active .node-flyout {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0px);
   }
 
   /* ==========================================================================
-     SECTIONS PLEIN ÉCRAN PASTEL POUR CHAQUE PROJET
+     TIMELINE HORIZONTALE MOBILE / TABLETTE
+     ========================================================================== */
+  .mobile-timeline-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    background: rgba(0, 0, 0, 0.94);
+    border-bottom: 2px solid #ffffff;
+    padding: 8px 12px;
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  @media (max-width: 1099px) {
+    .mobile-timeline-bar {
+      display: flex;
+    }
+  }
+
+  .mobile-timeline-bar.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .mobile-timeline-track {
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.2);
+    position: relative;
+    border-radius: 2px;
+  }
+
+  .mobile-timeline-fill {
+    height: 100%;
+    width: 0%;
+    background: #ffffff;
+    transition: width 0.15s ease-out;
+  }
+
+  .mobile-timeline-items {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 4px;
+  }
+
+  .mobile-timeline-btn {
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 10.5px;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    padding: 3px 6px;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    transition: all 0.15s ease;
+  }
+
+  .mobile-timeline-btn.is-active {
+    color: #000000;
+    background: #ffffff;
+    border-color: #ffffff;
+    transform: scale(1.1);
+  }
+
+  .mobile-timeline-btn.is-past {
+    color: #ffffff;
+  }
+
+  /* ==========================================================================
+     CONTENEUR GLOBAL DES PROJETS & COUCHE VIDÉO DÉDIÉE PAR PROJET
      ========================================================================== */
   .projets-fullscreen-wrapper {
     position: relative;
     width: 100%;
     background: #000000;
+  }
+
+  .project-block-container {
+    position: relative;
+    width: 100%;
   }
 
   .project-fullscreen-section {
@@ -611,10 +913,39 @@ const projects = [
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: clamp(24px, 4vh, 44px) clamp(20px, 4.5vw, 80px);
+    padding: clamp(28px, 4.5vh, 48px) clamp(20px, 4.5vw, 80px);
     overflow: hidden;
-    border-bottom: 3.5px solid #000000;
     box-sizing: border-box;
+  }
+
+  /* VIDÉO DE FOND DÉDIÉE PAR PROJET (SUBTILE & ÉLÉGANTE) */
+  .project-video-layer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.22;
+    mix-blend-mode: multiply;
+  }
+
+  .project-bg-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%) contrast(1.18);
+  }
+
+  .project-video-tint {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at center,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(0, 0, 0, 0.15) 100%
+    );
   }
 
   /* FILIGRANE GÉANT EN PARALLAXE */
@@ -624,11 +955,12 @@ const projects = [
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
-    z-index: 1;
+    z-index: 2;
     user-select: none;
     will-change: transform;
     opacity: 0.16;
   }
+
   .watermark-number {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: clamp(200px, 30vw, 400px);
@@ -651,11 +983,13 @@ const projects = [
     padding-bottom: 18px;
     border-bottom: 2px solid #000000;
   }
+
   .top-bar-left {
     display: flex;
     align-items: center;
     gap: 12px;
   }
+
   .bar-step-tag {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: 13px;
@@ -665,10 +999,12 @@ const projects = [
     padding: 5px 12px;
     letter-spacing: 0.08em;
   }
+
   .bar-separator {
     font-weight: 900;
     color: #000000;
   }
+
   .bar-domain {
     font-size: 13px;
     font-weight: 800;
@@ -676,6 +1012,7 @@ const projects = [
     letter-spacing: 0.06em;
     color: #000000;
   }
+
   .bar-date-pill {
     font-size: 12px;
     font-weight: 800;
@@ -728,6 +1065,7 @@ const projects = [
     justify-content: center;
     flex-shrink: 0;
   }
+
   .mobile-logo-badge img {
     width: 34px;
     height: 34px;
@@ -748,6 +1086,7 @@ const projects = [
     color: var(--project-accent, #000000);
     margin-bottom: 4px;
   }
+
   .project-title {
     margin: 0;
     font-size: clamp(34px, 4.8vw, 60px);
@@ -774,6 +1113,7 @@ const projects = [
     gap: 8px;
     margin-bottom: 26px;
   }
+
   .tech-pill {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: 12px;
@@ -792,6 +1132,7 @@ const projects = [
     align-items: center;
     flex-wrap: wrap;
   }
+
   .btn-action {
     display: inline-flex;
     align-items: center;
@@ -805,22 +1146,26 @@ const projects = [
     transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
     white-space: nowrap;
   }
+
   .btn-primary {
     background: #000000;
     color: #ffffff;
     box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.4);
   }
+
   .btn-primary:hover {
     background: #ffffff;
     color: #000000;
     box-shadow: 6px 6px 0px #000000;
     transform: translate(-2px, -2px);
   }
+
   .btn-secondary {
     background: #ffffff;
     color: #000000;
     box-shadow: 4px 4px 0px #000000;
   }
+
   .btn-secondary:hover {
     background: #000000;
     color: #ffffff;
@@ -837,6 +1182,7 @@ const projects = [
     display: flex;
     justify-content: center;
   }
+
   .emblem-card-frame {
     background: #ffffff;
     border: 3.5px solid #000000;
@@ -851,10 +1197,12 @@ const projects = [
     position: relative;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
+
   .emblem-card-frame:hover {
     transform: translate(-3px, -3px);
     box-shadow: 13px 13px 0px #000000;
   }
+
   .emblem-logo-circle {
     width: 80px;
     height: 80px;
@@ -867,16 +1215,19 @@ const projects = [
     justify-content: center;
     margin-bottom: 16px;
   }
+
   .emblem-logo-circle img {
     width: 52px;
     height: 52px;
     object-fit: contain;
   }
+
   .emblem-card-info {
     display: flex;
     flex-direction: column;
     gap: 6px;
   }
+
   .emblem-num {
     font-family: ui-monospace, SFMono-Regular, monospace;
     font-size: 11px;
@@ -887,6 +1238,7 @@ const projects = [
     padding: 4px 10px;
     align-self: center;
   }
+
   .emblem-title {
     font-size: 16px;
     font-weight: 900;
@@ -907,23 +1259,27 @@ const projects = [
     gap: 12px;
     padding-top: 16px;
   }
+
   .seam-progress-track {
     width: 100%;
     height: 3px;
     background: rgba(0, 0, 0, 0.15);
     position: relative;
   }
+
   .seam-progress-fill {
     height: 100%;
     background: #000000;
     transition: width 0.3s ease;
   }
+
   .seam-info-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
   }
+
   .seam-counter {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: 12px;
@@ -934,6 +1290,7 @@ const projects = [
     color: #ffffff;
     padding: 4px 10px;
   }
+
   .seam-next-link {
     display: inline-flex;
     align-items: center;
@@ -951,14 +1308,103 @@ const projects = [
     box-shadow: 2px 2px 0px #000000;
     transition: all 0.15s ease;
   }
+
   .seam-next-link:hover {
     background: #000000;
     color: #ffffff;
     transform: translateY(-2px);
     box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
   }
+
   .seam-label-mobile {
     display: none;
+  }
+
+  /* ==========================================================================
+     AGRANDISSEMENT DES SÉPARATIONS ENTRE PROJETS (ZONE DE TRANSITION PROMINENTE)
+     ========================================================================== */
+  .project-inter-separator {
+    position: relative;
+    width: 100%;
+    height: clamp(140px, 18vh, 220px);
+    background: #0a0a0a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 3.5px solid #000000;
+    border-bottom: 3.5px solid #000000;
+    overflow: hidden;
+    box-shadow: inset 0 10px 28px rgba(0, 0, 0, 0.85);
+  }
+
+  .separator-track {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 1100px;
+    padding: 0 clamp(16px, 4vw, 40px);
+    gap: 20px;
+  }
+
+  .separator-line {
+    flex: 1;
+    height: 2px;
+    background: repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.6) 0px,
+      rgba(255, 255, 255, 0.6) 8px,
+      transparent 8px,
+      transparent 16px
+    );
+  }
+
+  .separator-node {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #141414;
+    border: 2px solid #ffffff;
+    padding: 10px 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+    white-space: nowrap;
+  }
+
+  .sep-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+    animation: pulseDot 2s infinite ease-in-out;
+  }
+
+  @keyframes pulseDot {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.3); opacity: 1; }
+  }
+
+  .sep-badge {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    color: #ffffff;
+    text-transform: uppercase;
+  }
+
+  .sep-cue {
+    font-size: 11px;
+    font-weight: 800;
+    color: #bbbbbb;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .sep-arrow {
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: 900;
+    animation: bounceDown 1.8s infinite ease-in-out;
   }
 
   /* ==========================================================================
@@ -969,14 +1415,14 @@ const projects = [
       grid-template-columns: minmax(0, 1fr);
       gap: 20px;
     }
-    .project-left-col {
-      min-width: 0;
-    }
     .project-right-col {
       display: none;
     }
     .mobile-logo-badge {
       display: inline-flex;
+    }
+    .sep-cue {
+      display: none;
     }
   }
 
@@ -1057,6 +1503,13 @@ const projects = [
     }
     .seam-label-mobile {
       display: inline;
+    }
+    .project-inter-separator {
+      height: 120px;
+    }
+    .separator-node {
+      padding: 8px 14px;
+      font-size: 10px;
     }
   }
 </style>
