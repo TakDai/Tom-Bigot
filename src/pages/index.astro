@@ -158,26 +158,38 @@ const projects = [
   },
 ];
 
-const wavePaths = [
+const transitionVariants = [
   {
-    // S-curve asymétrique fluide
-    d: "M 0,65 C 380,135 680,-10 1020,85 C 1220,135 1360,35 1440,65 L 1440,140 L 0,140 Z",
-    line: "M 0,65 C 380,135 680,-10 1020,85 C 1220,135 1360,35 1440,65"
+    // Variante 1 : S-Curve asymétrique profonde
+    topD: "M 0,0 L 1440,0 L 1440,90 C 1120,170 820,20 460,150 C 240,210 90,80 0,120 Z",
+    topLine: "M 0,120 C 90,80 240,210 460,150 C 820,20 1120,170 1440,90",
+    midD: "M 0,0 L 1440,0 L 1440,95 C 1040,180 760,10 400,140 C 200,190 70,60 0,95 Z",
+    botD: "M 0,85 C 340,10 700,170 1040,45 C 1240,-20 1360,120 1440,75 L 1440,200 L 0,200 Z",
+    botLine: "M 0,85 C 340,10 700,170 1040,45 C 1240,-20 1360,120 1440,75"
   },
   {
-    // Vague descendante dynamique
-    d: "M 0,40 C 340,-15 720,130 1100,45 C 1260,10 1360,80 1440,90 L 1440,140 L 0,140 Z",
-    line: "M 0,40 C 340,-15 720,130 1100,45 C 1260,10 1360,80 1440,90"
+    // Variante 2 : Onde descendante dynamique
+    topD: "M 0,0 L 1440,0 L 1440,130 C 1180,60 920,180 580,70 C 340,10 160,140 0,60 Z",
+    topLine: "M 0,60 C 160,140 340,10 580,70 C 920,180 1180,60 1440,130",
+    midD: "M 0,0 L 1440,0 L 1440,80 C 1100,160 720,20 380,140 C 180,190 60,70 0,80 Z",
+    botD: "M 0,60 C 260,140 600,15 940,125 C 1160,180 1340,40 1440,100 L 1440,200 L 0,200 Z",
+    botLine: "M 0,60 C 260,140 600,15 940,125 C 1160,180 1340,40 1440,100"
   },
   {
-    // Onde double asymétrique
-    d: "M 0,80 C 280,20 560,135 860,45 C 1120,-15 1320,110 1440,60 L 1440,140 L 0,140 Z",
-    line: "M 0,80 C 280,20 560,135 860,45 C 1120,-15 1320,110 1440,60"
+    // Variante 3 : Double onde asymétrique
+    topD: "M 0,0 L 1440,0 L 1440,70 C 1260,150 1020,30 760,130 C 480,210 240,40 0,110 Z",
+    topLine: "M 0,110 C 240,40 480,210 760,130 C 1020,30 1260,150 1440,70",
+    midD: "M 0,0 L 1440,0 L 1440,110 C 1140,40 860,170 520,60 C 280,-10 120,120 0,110 Z",
+    botD: "M 0,110 C 280,25 580,165 880,55 C 1140,-15 1320,120 1440,70 L 1440,200 L 0,200 Z",
+    botLine: "M 0,110 C 280,25 580,165 880,55 C 1140,-15 1320,120 1440,70"
   },
   {
-    // Vague ascendante
-    d: "M 0,90 C 360,30 640,130 980,30 C 1180,-10 1340,85 1440,50 L 1440,140 L 0,140 Z",
-    line: "M 0,90 C 360,30 640,130 980,30 C 1180,-10 1340,85 1440,50"
+    // Variante 4 : Vague ascendante douce
+    topD: "M 0,0 L 1440,0 L 1440,120 C 1200,40 960,160 640,50 C 420,-10 180,110 0,80 Z",
+    topLine: "M 0,80 C 180,110 420,-10 640,50 C 960,160 1200,40 1440,120",
+    midD: "M 0,0 L 1440,0 L 1440,90 C 1080,170 800,20 440,130 C 240,180 80,70 0,90 Z",
+    botD: "M 0,75 C 380,150 700,20 1060,120 C 1240,170 1360,50 1440,90 L 1440,200 L 0,200 Z",
+    botLine: "M 0,75 C 380,150 700,20 1060,120 C 1240,170 1360,50 1440,90"
   }
 ];
 ---
@@ -417,40 +429,51 @@ const wavePaths = [
             </footer>
           </section>
 
-          <!-- ================= TRANSITIONS NON-LINÉAIRES EN VAGUES PURES (SANS ÉLÉMENTS UI) ================= -->
-          {nextProject && (
-            <div
-              class="project-nonlinear-transition"
-              style={`--curr-pastel: ${p.color}; --next-pastel: ${nextProject.color};`}
-              aria-hidden="true"
-            >
-              <svg class="nonlinear-wave-svg" viewBox="0 0 1440 140" preserveAspectRatio="none">
-                <defs>
-                  <filter id={`wave-shadow-${idx}`} x="-5%" y="-20%" width="110%" height="150%">
-                    <feDropShadow dx="0" dy="-4" stdDeviation="6" flood-color="#000000" flood-opacity="0.14" />
-                  </filter>
-                </defs>
-                <!-- Fond supérieur : prolongement de la couleur du projet sortant -->
-                <rect width="1440" height="140" fill="var(--curr-pastel)" />
-                <!-- Volume d'effet d'ombre portée volumétrique -->
-                <path d={wavePaths[idx % wavePaths.length].d} fill="rgba(0, 0, 0, 0.08)" transform="translate(0, -6)" />
-                <!-- Forme organique non-linéaire avec la couleur pastel du projet entrant -->
-                <path
-                  d={wavePaths[idx % wavePaths.length].d}
-                  fill="var(--next-pastel)"
-                  filter={`url(#wave-shadow-${idx})`}
-                />
-                <!-- Liseré de crête brutaliste noir signature -->
-                <path
-                  d={wavePaths[idx % wavePaths.length].line}
-                  stroke="#000000"
-                  stroke-width="3.5"
-                  stroke-linecap="round"
-                  fill="none"
-                />
-              </svg>
-            </div>
-          )}
+          <!-- ================= LONGUE TRANSITION PROPRE SANS ÉLÉMENTS ENTRE PROJETS ================= -->
+          {nextProject && (() => {
+            const v = transitionVariants[idx % transitionVariants.length];
+            return (
+              <div
+                class="project-nonlinear-transition"
+                style={`--curr-pastel: ${p.color}; --next-pastel: ${nextProject.color};`}
+                aria-hidden="true"
+              >
+                <!-- Vague 1 : Décrochage organique supérieur avec ombre portée volumétrique -->
+                <div class="trans-wave-top">
+                  <svg class="wave-svg" viewBox="0 0 1440 200" preserveAspectRatio="none">
+                    <defs>
+                      <filter id={`top-shadow-${idx}`} x="-5%" y="-20%" width="110%" height="160%">
+                        <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.10" />
+                      </filter>
+                    </defs>
+                    <path d={v.topD} fill="var(--curr-pastel)" filter={`url(#top-shadow-${idx})`} />
+                    <path d={v.topLine} class="trans-wave-line" />
+                  </svg>
+                </div>
+
+                <!-- Vague 2 : Courbe médiane fluide en profondeur / brume organique -->
+                <div class="trans-wave-mid">
+                  <svg class="wave-svg" viewBox="0 0 1440 200" preserveAspectRatio="none">
+                    <path d={v.midD} fill="rgba(255, 255, 255, 0.40)" />
+                    <path d={v.topLine} stroke="rgba(0, 0, 0, 0.16)" stroke-width="2" stroke-dasharray="8 6" fill="none" />
+                  </svg>
+                </div>
+
+                <!-- Vague 3 : Vague organique inférieure annonçant le projet suivant -->
+                <div class="trans-wave-bottom">
+                  <svg class="wave-svg" viewBox="0 0 1440 200" preserveAspectRatio="none">
+                    <defs>
+                      <filter id={`bot-shadow-${idx}`} x="-5%" y="-20%" width="110%" height="160%">
+                        <feDropShadow dx="0" dy="-8" stdDeviation="12" flood-color="#000000" flood-opacity="0.12" />
+                      </filter>
+                    </defs>
+                    <path d={v.botD} fill="var(--next-pastel)" filter={`url(#bot-shadow-${idx})`} />
+                    <path d={v.botLine} class="trans-wave-line" />
+                  </svg>
+                </div>
+              </div>
+            );
+          })()}
         </article>
       );
     })}
@@ -574,6 +597,22 @@ const wavePaths = [
               const translateY = centeredProgress * speed * 120;
               rightCol.style.transform = `translate3d(0, ${translateY}px, 0)`;
             }
+          }
+        });
+
+        // 4. Parallaxe dynamique fluide sur les longues transitions de projets
+        const transitions = document.querySelectorAll('.project-nonlinear-transition');
+        transitions.forEach((trans) => {
+          const rect = trans.getBoundingClientRect();
+          if (rect.bottom > -100 && rect.top < windowHeight + 100) {
+            const progress = (windowHeight - rect.top) / (windowHeight + rect.height);
+            const centered = progress - 0.5;
+            const topWave = trans.querySelector('.trans-wave-top');
+            const midWave = trans.querySelector('.trans-wave-mid');
+            const botWave = trans.querySelector('.trans-wave-bottom');
+            if (topWave) topWave.style.transform = `translate3d(0, ${(centered * -45).toFixed(1)}px, 0)`;
+            if (midWave) midWave.style.transform = `translate3d(0, ${(centered * 65).toFixed(1)}px, 0) scaleY(-1)`;
+            if (botWave) botWave.style.transform = `translate3d(0, ${(centered * 45).toFixed(1)}px, 0)`;
           }
         });
 
@@ -1499,12 +1538,12 @@ const wavePaths = [
   }
 
   /* ==========================================================================
-     TRANSITION NON-LINÉAIRE PURE SANS ÉLÉMENTS ENTRE PROJETS
+     LONGUE TRANSITION PROPRE SANS ÉLÉMENTS ENTRE PROJETS
      ========================================================================== */
   .project-nonlinear-transition {
     position: relative;
     width: 100%;
-    height: clamp(90px, 13vw, 175px);
+    height: clamp(520px, 80vh, 900px);
     overflow: hidden;
     pointer-events: none;
     user-select: none;
@@ -1512,13 +1551,62 @@ const wavePaths = [
     margin-top: -2px;
     margin-bottom: -2px;
     z-index: 2;
+    background: linear-gradient(180deg, 
+      var(--curr-pastel) 0%, 
+      var(--curr-pastel) 14%, 
+      rgba(240, 240, 240, 0.45) 50%, 
+      var(--next-pastel) 86%, 
+      var(--next-pastel) 100%
+    );
   }
 
-  .nonlinear-wave-svg {
-    display: block;
+  .trans-wave-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: clamp(150px, 26vh, 280px);
+    z-index: 2;
+    will-change: transform;
+    transition: transform 0.05s linear;
+  }
+
+  .trans-wave-mid {
+    position: absolute;
+    top: 26%;
+    left: 0;
+    width: 100%;
+    height: clamp(160px, 28vh, 300px);
+    z-index: 1;
+    opacity: 0.55;
+    transform: scaleY(-1);
+    will-change: transform;
+    transition: transform 0.05s linear;
+  }
+
+  .trans-wave-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: clamp(160px, 26vh, 280px);
+    z-index: 3;
+    will-change: transform;
+    transition: transform 0.05s linear;
+  }
+
+  .wave-svg {
     width: 100%;
     height: 100%;
+    display: block;
     overflow: visible;
+  }
+
+  .trans-wave-line {
+    stroke: #000000;
+    stroke-width: 3.5px;
+    stroke-linecap: round;
+    fill: none;
   }
 
   /* ==========================================================================
@@ -1619,7 +1707,16 @@ const wavePaths = [
       display: inline;
     }
     .project-nonlinear-transition {
-      height: clamp(65px, 14vw, 110px);
+      height: clamp(380px, 65vh, 550px);
+    }
+    .trans-wave-top {
+      height: clamp(100px, 20vh, 160px);
+    }
+    .trans-wave-mid {
+      height: clamp(110px, 22vh, 180px);
+    }
+    .trans-wave-bottom {
+      height: clamp(110px, 22vh, 180px);
     }
   }
 </style>
