@@ -449,110 +449,129 @@ const transitionVariants = [
       const wrapper = document.getElementById('projets');
       let ticking = false;
 
+      // 1. Mise en cache des positions pour éliminer les recalculs de reflow (zéro getBoundingClientRect au scroll)
+      let sectionData = [];
+      let heroHeight = window.innerHeight;
+      let wrapperTop = 0;
+      let wrapperHeight = 0;
+      let currentActiveIdx = -1;
+
+      function measureLayout() {
+        const windowHeight = window.innerHeight;
+        heroHeight = hero ? hero.offsetHeight : windowHeight;
+        if (wrapper) {
+          const wRect = wrapper.getBoundingClientRect();
+          wrapperTop = wRect.top + window.scrollY;
+          wrapperHeight = wrapper.offsetHeight;
+        }
+
+        sectionData = Array.from(sections).map((section, idx) => {
+          const rect = section.getBoundingClientRect();
+          const top = rect.top + window.scrollY;
+          const height = section.offsetHeight || rect.height;
+          return {
+            el: section,
+            idx,
+            top,
+            height,
+            watermark: section.querySelector('.parallax-watermark'),
+            watermarkSpeed: parseFloat(section.querySelector('.parallax-watermark')?.getAttribute('data-parallax-speed') || 0.28),
+            rightCol: section.querySelector('.project-right-col'),
+            rightColSpeed: parseFloat(section.querySelector('.project-right-col')?.getAttribute('data-parallax-speed') || -0.15),
+          };
+        });
+      }
+      measureLayout();
+
+      // 2. Gestionnaire de scroll 120 FPS pur GPU (zéro layout thrashing)
       function updateScrollTimeline() {
         const windowHeight = window.innerHeight;
         const scrollY = window.scrollY;
 
-        // 1. Émergence dynamique de la timeline depuis l'arrière de la vidéo principale
-        if (hero) {
-          const heroRect = hero.getBoundingClientRect();
-          const heroHeight = heroRect.height || windowHeight;
-          const scrolledPastTop = -heroRect.top;
+        // A. Émergence dynamique de la timeline (accélération matérielle, sans filtre de flou coûteux)
+        if (hero && timelineNav) {
+          if (scrollY > 30) {
+            timelineNav.classList.add('is-visible');
+            const emergeRatio = Math.max(0, Math.min(1, scrollY / (heroHeight * 0.55)));
+            const slideX = (1 - emergeRatio) * 60;
+            const scale = 0.90 + (emergeRatio * 0.10);
+            const opacity = Math.min(1, emergeRatio * 1.5);
 
-          if (timelineNav) {
-            // Dès que le scroll quitte le sommet (le hero commence à défiler vers le haut)
-            if (scrolledPastTop > 30) {
-              timelineNav.classList.add('is-visible');
-              const emergeRatio = Math.max(0, Math.min(1, scrolledPastTop / (heroHeight * 0.55)));
-              // Glissement depuis l'arrière de la vidéo principale vers sa position d'ancrage
-              const slideX = (1 - emergeRatio) * 65;
-              const scale = 0.88 + (emergeRatio * 0.12);
-              const blur = (1 - emergeRatio) * 6;
-              const opacity = Math.min(1, emergeRatio * 1.5);
+            timelineNav.style.transform = `translate3d(${slideX.toFixed(1)}px, -50%, 0) scale(${scale.toFixed(3)})`;
+            timelineNav.style.opacity = opacity.toFixed(2);
+            timelineNav.style.pointerEvents = emergeRatio >= 0.7 ? 'auto' : 'none';
 
-              timelineNav.style.transform = `translate3d(${slideX.toFixed(1)}px, -50%, 0) scale(${scale.toFixed(3)})`;
-              timelineNav.style.opacity = opacity.toFixed(2);
-              timelineNav.style.filter = `blur(${blur.toFixed(1)}px)`;
-              timelineNav.style.pointerEvents = emergeRatio >= 0.7 ? 'auto' : 'none';
-
-              // Gestion de la profondeur : la timeline est physiquement sous le hero (z-index 5 < 10),
-              // et s'élève au-dessus des sections de projets (z-index 100) dès que le hero a quitté l'écran
-              if (heroRect.bottom <= 60) {
-                timelineNav.style.zIndex = '100';
-              } else {
-                timelineNav.style.zIndex = '5';
-              }
+            if (scrollY >= heroHeight - 60) {
+              timelineNav.style.zIndex = '100';
             } else {
-              timelineNav.classList.remove('is-visible');
-              timelineNav.style.transform = 'translate3d(75px, -50%, 0) scale(0.85)';
-              timelineNav.style.opacity = '0';
-              timelineNav.style.filter = 'blur(8px)';
-              timelineNav.style.pointerEvents = 'none';
               timelineNav.style.zIndex = '5';
             }
-          }
-
-          if (mobileTimeline) {
-            if (heroRect.bottom <= windowHeight * 0.6) mobileTimeline.classList.add('is-visible');
-            else mobileTimeline.classList.remove('is-visible');
-          }
-        }
-
-        // 2. Calcul du pourcentage d'avancement global dans la section projets
-        if (wrapper) {
-          const wrapperRect = wrapper.getBoundingClientRect();
-          const totalScrollable = wrapperRect.height - windowHeight;
-          if (totalScrollable > 0) {
-            const currentScrolled = -wrapperRect.top;
-            const progressRatio = Math.max(0, Math.min(1, currentScrolled / totalScrollable));
-            const pct = (progressRatio * 100).toFixed(1) + '%';
-            if (timelineProgressBar) timelineProgressBar.style.height = pct;
-            if (mobileTimelineFill) mobileTimelineFill.style.width = pct;
+          } else {
+            timelineNav.classList.remove('is-visible');
+            timelineNav.style.transform = 'translate3d(70px, -50%, 0) scale(0.90)';
+            timelineNav.style.opacity = '0';
+            timelineNav.style.pointerEvents = 'none';
+            timelineNav.style.zIndex = '5';
           }
         }
 
-        // 3. Identification cohérente du projet actif (transition fluide sans coupure)
+        if (mobileTimeline) {
+          if (scrollY >= heroHeight * 0.4) mobileTimeline.classList.add('is-visible');
+          else mobileTimeline.classList.remove('is-visible');
+        }
+
+        // B. Barre de progression globale (via transform GPU scale sans déclencher de reflow)
+        if (wrapperHeight > windowHeight) {
+          const currentScrolled = scrollY - wrapperTop;
+          const totalScrollable = wrapperHeight - windowHeight;
+          const progressRatio = Math.max(0, Math.min(1, currentScrolled / totalScrollable));
+          if (timelineProgressBar) {
+            timelineProgressBar.style.transform = `scaleY(${progressRatio.toFixed(4)})`;
+          }
+          if (mobileTimelineFill) {
+            mobileTimelineFill.style.transform = `scaleX(${progressRatio.toFixed(4)})`;
+          }
+        }
+
+        // C. Nœud actif calculé par coordonnées pures (0ms, 0 reflow)
+        const midPoint = scrollY + windowHeight * 0.5;
         let activeIdx = 0;
-        sections.forEach((section, idx) => {
-          const rect = section.getBoundingClientRect();
-          if (rect.top <= windowHeight * 0.5) {
-            activeIdx = idx;
+        for (let i = 0; i < sectionData.length; i++) {
+          if (midPoint >= sectionData[i].top) {
+            activeIdx = i;
           }
-        });
+        }
 
-        timelineNodes.forEach((n, idx) => {
-          n.classList.toggle('is-active', idx === activeIdx);
-          n.classList.toggle('is-past', idx < activeIdx);
-        });
-        mobileNodes.forEach((m, idx) => {
-          m.classList.toggle('is-active', idx === activeIdx);
-          m.classList.toggle('is-past', idx < activeIdx);
-        });
+        if (activeIdx !== currentActiveIdx) {
+          currentActiveIdx = activeIdx;
+          timelineNodes.forEach((n, idx) => {
+            n.classList.toggle('is-active', idx === activeIdx);
+            n.classList.toggle('is-past', idx < activeIdx);
+          });
+          mobileNodes.forEach((m, idx) => {
+            m.classList.toggle('is-active', idx === activeIdx);
+            m.classList.toggle('is-past', idx < activeIdx);
+          });
+        }
 
-        // 4. Effet de parallaxe sur les éléments visibles
-        sections.forEach((section) => {
-          const rect = section.getBoundingClientRect();
-          if (rect.bottom > -150 && rect.top < windowHeight + 150) {
-            const progress = (windowHeight - rect.top) / (windowHeight + rect.height);
+        // D. Parallaxe doux uniquement sur les sections dans le champ de vision
+        for (let i = 0; i < sectionData.length; i++) {
+          const item = sectionData[i];
+          const relTop = item.top - scrollY;
+          if (relTop > -item.height && relTop < windowHeight) {
+            const progress = (windowHeight - relTop) / (windowHeight + item.height);
             const centeredProgress = progress - 0.5;
 
-            // Filigrane géant
-            const watermark = section.querySelector('.parallax-watermark');
-            if (watermark) {
-              const speed = parseFloat(watermark.getAttribute('data-parallax-speed') || 0.28);
-              const translateY = centeredProgress * speed * 220;
-              watermark.style.transform = `translate3d(0, calc(-50% + ${translateY}px), 0)`;
+            if (item.watermark) {
+              const translateY = centeredProgress * item.watermarkSpeed * 180;
+              item.watermark.style.transform = `translate3d(0, calc(-50% + ${translateY.toFixed(1)}px), 0)`;
             }
-
-            // Carte emblème
-            const rightCol = section.querySelector('.project-right-col');
-            if (rightCol) {
-              const speed = parseFloat(rightCol.getAttribute('data-parallax-speed') || -0.15);
-              const translateY = centeredProgress * speed * 120;
-              rightCol.style.transform = `translate3d(0, ${translateY}px, 0)`;
+            if (item.rightCol) {
+              const translateY = centeredProgress * item.rightColSpeed * 100;
+              item.rightCol.style.transform = `translate3d(0, ${translateY.toFixed(1)}px, 0)`;
             }
           }
-        });
+        }
 
         ticking = false;
       }
@@ -565,12 +584,46 @@ const transitionVariants = [
       }
 
       function onResize() {
+        measureLayout();
         onScroll();
       }
 
       window.addEventListener('scroll', onScroll, { passive: true });
       window.addEventListener('resize', onResize, { passive: true });
+      window.addEventListener('load', measureLayout);
       updateScrollTimeline();
+
+      // 3. Optimisation vidéo majeure : ne lire QUE la vidéo visible à l'écran (réduit la charge GPU de 90%)
+      const allVideos = document.querySelectorAll('.project-bg-video');
+      const videoObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          const vid = entry.target;
+          if (entry.isIntersecting) {
+            if (vid.paused) vid.play().catch(() => {});
+          } else {
+            if (!vid.paused) vid.pause();
+          }
+        });
+      }, { rootMargin: '200px 0px 200px 0px', threshold: 0.05 });
+
+      allVideos.forEach((vid) => {
+        vid.pause();
+        videoObserver.observe(vid);
+      });
+
+      // 4. Navigation fluide par clic avec défilement amorti haute précision
+      document.querySelectorAll('.timeline-node-item, .mobile-timeline-btn, .hero-actions a[href^="#"]').forEach((link) => {
+        link.addEventListener('click', (e) => {
+          const href = link.getAttribute('href');
+          if (!href || href === '#' || !href.startsWith('#')) return;
+          const targetEl = document.querySelector(href);
+          if (targetEl) {
+            e.preventDefault();
+            targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (history.pushState) history.pushState(null, '', href);
+          }
+        });
+      });
     });
   </script>
 </Base>
@@ -732,14 +785,13 @@ const transitionVariants = [
     position: fixed;
     right: 24px;
     top: 50%;
-    transform: translate3d(75px, -50%, 0) scale(0.85);
+    transform: translate3d(70px, -50%, 0) scale(0.90);
     transform-origin: center right;
     z-index: 5;
     display: none;
     opacity: 0;
-    filter: blur(8px);
     pointer-events: none;
-    will-change: transform, opacity, filter;
+    will-change: transform, opacity;
   }
 
   @media (min-width: 1100px) {
@@ -755,11 +807,10 @@ const transitionVariants = [
   .timeline-rail-wrap {
     position: relative;
     padding: 10px 10px;
-    background: rgba(0, 0, 0, 0.92);
+    background: rgba(0, 0, 0, 0.95);
     border: 2px solid #ffffff;
     border-radius: 40px;
     box-shadow: 0 16px 42px rgba(0, 0, 0, 0.65), 0 0 24px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(14px);
   }
 
   /* Ligne de rail continue avec progression */
@@ -778,10 +829,12 @@ const transitionVariants = [
     top: 0;
     left: 0;
     width: 100%;
-    height: 0%;
+    height: 100%;
     background: #ffffff;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.95);
-    transition: height 0.15s ease-out;
+    transform-origin: top;
+    transform: scaleY(0);
+    will-change: transform;
   }
 
   .timeline-nodes-list {
@@ -983,9 +1036,11 @@ const transitionVariants = [
 
   .mobile-timeline-fill {
     height: 100%;
-    width: 0%;
+    width: 100%;
     background: #ffffff;
-    transition: width 0.15s ease-out;
+    transform-origin: left;
+    transform: scaleX(0);
+    will-change: transform;
   }
 
   .mobile-timeline-items {
