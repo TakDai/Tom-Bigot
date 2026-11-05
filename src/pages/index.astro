@@ -456,30 +456,41 @@ const transitionVariants = [
 
                 <svg class="silk-svg-layer" viewBox="0 0 1440 650" preserveAspectRatio="none">
                   <defs>
+                    <!-- 1. Onde sortante haute : fondu progressif de l'opaque vers la transparence douce -->
                     <linearGradient id={`s-top-${idx}`} x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stop-color={p.color} />
-                      <stop offset="80%" stop-color={p.color} />
-                      <stop offset="100%" stop-color={p.color} stop-opacity="0.88" />
+                      <stop offset="0%" stop-color={p.color} stop-opacity="1" />
+                      <stop offset="45%" stop-color={p.color} stop-opacity="0.95" />
+                      <stop offset="80%" stop-color={p.color} stop-opacity="0.60" />
+                      <stop offset="100%" stop-color={p.color} stop-opacity="0.20" />
                     </linearGradient>
+
+                    <!-- 2. Ruban d'éther : voile opalescent fluide -->
                     <linearGradient id={`s-ribbon-${idx}`} x1="0%" y1="0%" x2="100%" y2="80%">
                       <stop offset="0%" stop-color="#ffffff" stop-opacity="0.55" />
-                      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.22" />
+                      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.18" />
                       <stop offset="100%" stop-color="#ffffff" stop-opacity="0.45" />
                     </linearGradient>
+
+                    <!-- 3. Voile harmonique : dégradé croisé graduel reliant les 2 pastels -->
                     <linearGradient id={`s-tone-${idx}`} x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stop-color={p.color} stop-opacity="0.50" />
-                      <stop offset="100%" stop-color={nextProject.color} stop-opacity="0.75" />
+                      <stop offset="0%" stop-color={p.color} stop-opacity="0.25" />
+                      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.40" />
+                      <stop offset="100%" stop-color={nextProject.color} stop-opacity="0.70" />
                     </linearGradient>
+
+                    <!-- 4. Onde montante basse : fondu progressif depuis la transparence vers la pleine couleur -->
                     <linearGradient id={`s-bot-${idx}`} x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stop-color={nextProject.color} stop-opacity="0.88" />
-                      <stop offset="25%" stop-color={nextProject.color} />
-                      <stop offset="100%" stop-color={nextProject.color} />
+                      <stop offset="0%" stop-color={nextProject.color} stop-opacity="0.20" />
+                      <stop offset="25%" stop-color={nextProject.color} stop-opacity="0.65" />
+                      <stop offset="65%" stop-color={nextProject.color} stop-opacity="0.95" />
+                      <stop offset="100%" stop-color={nextProject.color} stop-opacity="1" />
                     </linearGradient>
+
                     <filter id={`sh-top-${idx}`} x="-5%" y="-10%" width="110%" height="140%">
-                      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#000000" flood-opacity="0.04" />
+                      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.03" />
                     </filter>
                     <filter id={`sh-bot-${idx}`} x="-5%" y="-10%" width="110%" height="140%">
-                      <feDropShadow dx="0" dy="-10" stdDeviation="12" flood-color="#000000" flood-opacity="0.035" />
+                      <feDropShadow dx="0" dy="-10" stdDeviation="14" flood-color="#000000" flood-opacity="0.025" />
                     </filter>
                   </defs>
 
@@ -644,6 +655,26 @@ const transitionVariants = [
               const speed = parseFloat(rightCol.getAttribute('data-parallax-speed') || -0.15);
               const translateY = centeredProgress * speed * 120;
               rightCol.style.transform = `translate3d(0, ${translateY}px, 0)`;
+            }
+
+            // Fondu graduel du contenu lors du défilement
+            const mainContent = section.querySelector('.project-main-content');
+            if (mainContent) {
+              let contentOpacity = 1;
+              let contentShiftY = 0;
+              if (rect.top > 0) {
+                // Entrée progressive par le bas
+                const enterRatio = Math.max(0, Math.min(1, (windowHeight - rect.top) / (windowHeight * 0.65)));
+                contentOpacity = 0.2 + (enterRatio * 0.8);
+                contentShiftY = (1 - enterRatio) * 30;
+              } else if (rect.bottom < windowHeight) {
+                // Sortie progressive par le haut
+                const exitRatio = Math.max(0, Math.min(1, (windowHeight - rect.bottom) / (windowHeight * 0.65)));
+                contentOpacity = Math.max(0.15, 1 - (exitRatio * 0.85));
+                contentShiftY = exitRatio * -30;
+              }
+              mainContent.style.opacity = contentOpacity.toFixed(2);
+              mainContent.style.transform = `translate3d(0, ${contentShiftY.toFixed(1)}px, 0)`;
             }
           }
         });
@@ -1233,6 +1264,8 @@ const transitionVariants = [
     pointer-events: none;
     opacity: 0.22;
     mix-blend-mode: multiply;
+    mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
   }
 
   .project-bg-video {
@@ -1285,7 +1318,7 @@ const transitionVariants = [
     justify-content: space-between;
     width: 100%;
     padding-bottom: 18px;
-    border-bottom: 2px solid #000000;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.14);
   }
 
   .top-bar-left {
@@ -1331,7 +1364,7 @@ const transitionVariants = [
   }
 
   /* ==========================================================================
-     ZONE CENTRALE : 2 COLONNES AVEC PARALLAXE
+     ZONE CENTRALE : 2 COLONNES AVEC PARALLAXE & FONDU PROGRESSIF
      ========================================================================== */
   .project-main-content {
     position: relative;
@@ -1342,6 +1375,9 @@ const transitionVariants = [
     align-items: center;
     max-width: 1060px;
     width: 100%;
+    will-change: opacity, transform;
+    transition: opacity 0.08s linear, transform 0.08s linear;
+  }
     margin: 16px auto;
   }
 
@@ -1630,7 +1666,7 @@ const transitionVariants = [
   .project-nonlinear-transition {
     position: relative;
     width: 100%;
-    height: clamp(520px, 72vh, 800px);
+    height: clamp(600px, 85vh, 920px);
     overflow: hidden;
     pointer-events: none;
     user-select: none;
@@ -1646,8 +1682,9 @@ const transitionVariants = [
     inset: 0;
     background: linear-gradient(180deg, 
       var(--curr-pastel) 0%, 
-      var(--curr-pastel) 8%, 
-      var(--next-pastel) 92%, 
+      var(--curr-pastel) 14%, 
+      transparent 50%, 
+      var(--next-pastel) 86%, 
       var(--next-pastel) 100%
     );
   }
@@ -1843,7 +1880,7 @@ const transitionVariants = [
       display: inline;
     }
     .project-nonlinear-transition {
-      height: clamp(340px, 55vh, 480px);
+      height: clamp(420px, 65vh, 600px);
     }
   }
 </style>
