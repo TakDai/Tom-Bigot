@@ -360,15 +360,20 @@ const transitionVariants = [
 
                 <!-- Boutons d'action -->
                 <div class="project-actions">
-                  <a href={p.lien} class="btn-action btn-primary">Fiche détaillée &rarr;</a>
+                  <a href={p.lien} class="btn-action btn-primary">
+                    <span>Fiche détaillée</span>
+                    <span class="btn-action-arrow">&rarr;</span>
+                  </a>
                   {p.site && (
                     <a href={p.site} target="_blank" rel="noopener noreferrer" class="btn-action btn-secondary">
-                      Site officiel &#8599;
+                      <span>Site officiel</span>
+                      <span class="btn-action-arrow">&#8599;</span>
                     </a>
                   )}
                   {p.github && (
                     <a href={p.github} target="_blank" rel="noopener noreferrer" class="btn-action btn-secondary">
-                      Code source &#8599;
+                      <span>Code source</span>
+                      <span class="btn-action-arrow">&#8599;</span>
                     </a>
                   )}
                 </div>
@@ -856,8 +861,8 @@ const transitionVariants = [
   .timeline-track-line {
     position: absolute;
     left: 27px;
-    top: 24px;
-    bottom: 24px;
+    top: 28px;
+    bottom: 28px;
     width: 2px;
     background: rgba(255, 255, 255, 0.22);
     z-index: 1;
@@ -903,6 +908,7 @@ const transitionVariants = [
     display: flex;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
     transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
                 background-color 0.2s,
                 border-color 0.2s,
@@ -922,6 +928,8 @@ const transitionVariants = [
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
+    display: block;
+    margin: auto;
     filter: brightness(0) invert(1);
     opacity: 0.85;
     transition: filter 0.2s, opacity 0.2s, transform 0.2s;
@@ -939,7 +947,12 @@ const transitionVariants = [
     border: 1px solid rgba(255, 255, 255, 0.8);
     border-radius: 4px;
     padding: 0 3px;
-    line-height: 1.15;
+    height: 13px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    line-height: 1;
     pointer-events: none;
     transition: background-color 0.2s, color 0.2s, border-color 0.2s;
   }
@@ -999,12 +1012,15 @@ const transitionVariants = [
     background: rgba(255, 255, 255, 0.12);
     border-radius: 4px;
     padding: 2px;
+    box-sizing: border-box;
   }
 
   .node-flyout-logo {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
+    display: block;
+    margin: auto;
     filter: brightness(0) invert(1);
   }
 
@@ -1016,6 +1032,10 @@ const transitionVariants = [
     color: #000000;
     padding: 2px 6px;
     border-radius: 3px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
   }
 
   .node-flyout-title {
@@ -1025,6 +1045,9 @@ const transitionVariants = [
     color: #ffffff;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
   }
 
   .timeline-node-item:hover .node-flyout,
@@ -1099,20 +1122,23 @@ const transitionVariants = [
   .mobile-timeline-btn {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    padding: 3px 6px;
+    justify-content: center;
+    gap: 5px;
+    padding: 4px 7px;
     border-radius: 4px;
     border: 1px solid rgba(255, 255, 255, 0.25);
     background: rgba(255, 255, 255, 0.08);
     text-decoration: none;
     transition: all 0.15s ease;
     flex-shrink: 0;
+    line-height: 1;
   }
 
   .mob-logo {
     width: 13px;
     height: 13px;
     object-fit: contain;
+    display: block;
     filter: brightness(0) invert(1);
     opacity: 0.85;
   }
@@ -1122,6 +1148,8 @@ const transitionVariants = [
     font-size: 9px;
     font-weight: 900;
     color: rgba(255, 255, 255, 0.85);
+    line-height: 1;
+    display: inline-block;
   }
 
   .mobile-timeline-btn.is-active {
@@ -1253,11 +1281,17 @@ const transitionVariants = [
     color: #ffffff;
     padding: 5px 12px;
     letter-spacing: 0.08em;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
   }
 
   .bar-separator {
     font-weight: 900;
     color: #000000;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
   }
 
   .bar-domain {
@@ -1266,6 +1300,9 @@ const transitionVariants = [
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: #000000;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
   }
 
   .bar-date-pill {
@@ -1279,6 +1316,9 @@ const transitionVariants = [
     padding: 6px 14px;
     box-shadow: 3px 3px 0px #000000;
     white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
   }
 
   /* ==========================================================================
@@ -1319,12 +1359,15 @@ const transitionVariants = [
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    box-sizing: border-box;
   }
 
   .mobile-logo-badge img {
     width: 34px;
     height: 34px;
     object-fit: contain;
+    display: block;
+    margin: auto;
   }
 
   .title-text-group {
@@ -1378,6 +1421,9 @@ const transitionVariants = [
     border: 1.8px solid #000000;
     padding: 5px 12px;
     letter-spacing: 0.04em;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
   }
 
   /* BOUTONS D'ACTION */
@@ -1391,6 +1437,8 @@ const transitionVariants = [
   .btn-action {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
+    gap: 8px;
     font-size: 13px;
     font-weight: 900;
     text-transform: uppercase;
@@ -1400,6 +1448,19 @@ const transitionVariants = [
     border: 2.5px solid #000000;
     transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
     white-space: nowrap;
+    line-height: 1;
+  }
+
+  .btn-action-arrow {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 1;
+    transform: translateY(-0.5px);
+    transition: transform 0.18s ease;
+  }
+
+  .btn-action:hover .btn-action-arrow {
+    transform: translate(2px, -0.5px);
   }
 
   .btn-primary {
@@ -1469,12 +1530,15 @@ const transitionVariants = [
     align-items: center;
     justify-content: center;
     margin-bottom: 16px;
+    box-sizing: border-box;
   }
 
   .emblem-logo-circle img {
     width: 52px;
     height: 52px;
     object-fit: contain;
+    display: block;
+    margin: auto;
   }
 
   .emblem-card-info {
@@ -1492,6 +1556,9 @@ const transitionVariants = [
     color: #ffffff;
     padding: 4px 10px;
     align-self: center;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
   }
 
   .emblem-title {
