@@ -157,6 +157,29 @@ const projects = [
     tech: ['Hub Régional', 'Tours 37', 'Annuaire Local', 'Indépendant'],
   },
 ];
+
+const wavePaths = [
+  {
+    // S-curve asymétrique fluide
+    d: "M 0,65 C 380,135 680,-10 1020,85 C 1220,135 1360,35 1440,65 L 1440,140 L 0,140 Z",
+    line: "M 0,65 C 380,135 680,-10 1020,85 C 1220,135 1360,35 1440,65"
+  },
+  {
+    // Vague descendante dynamique
+    d: "M 0,40 C 340,-15 720,130 1100,45 C 1260,10 1360,80 1440,90 L 1440,140 L 0,140 Z",
+    line: "M 0,40 C 340,-15 720,130 1100,45 C 1260,10 1360,80 1440,90"
+  },
+  {
+    // Onde double asymétrique
+    d: "M 0,80 C 280,20 560,135 860,45 C 1120,-15 1320,110 1440,60 L 1440,140 L 0,140 Z",
+    line: "M 0,80 C 280,20 560,135 860,45 C 1120,-15 1320,110 1440,60"
+  },
+  {
+    // Vague ascendante
+    d: "M 0,90 C 360,30 640,130 980,30 C 1180,-10 1340,85 1440,50 L 1440,140 L 0,140 Z",
+    line: "M 0,90 C 360,30 640,130 980,30 C 1180,-10 1340,85 1440,50"
+  }
+];
 ---
 
 <Base sansNav={true} titre="Portfolio" description="Tom Bigot — Portfolio d'ingénierie, systèmes embarqués, drones FPV & développement logiciel.">
@@ -394,89 +417,38 @@ const projects = [
             </footer>
           </section>
 
-          <!-- ================= TRANSITIONS DESIGN HAUTE DÉFINITION ENTRE PROJETS ================= -->
+          <!-- ================= TRANSITIONS NON-LINÉAIRES EN VAGUES PURES (SANS ÉLÉMENTS UI) ================= -->
           {nextProject && (
             <div
-              class="project-inter-separator"
-              style={`--sep-from-color: ${p.color}; --sep-to-color: ${nextProject.color};`}
+              class="project-nonlinear-transition"
+              style={`--curr-pastel: ${p.color}; --next-pastel: ${nextProject.color};`}
               aria-hidden="true"
             >
-              <!-- Texture de fond technique : grille de micro-points & relief -->
-              <div class="separator-ambient-bg"></div>
-
-              <!-- Ruban cinématique en filigrane (Flux continu de transition) -->
-              <div class="sep-marquee-strip">
-                <div class="sep-marquee-track">
-                  <span>{p.num} {p.titre}</span>
-                  <span class="sep-flow-sym">✦</span>
-                  <span class="sep-flow-text">TRANSITION UNIVERS</span>
-                  <span class="sep-flow-sym">➔</span>
-                  <span>{nextProject.num} {nextProject.titre}</span>
-                  <span class="sep-flow-sym">✦</span>
-                  <span>{p.num} {p.titre}</span>
-                  <span class="sep-flow-sym">✦</span>
-                  <span class="sep-flow-text">TRANSITION UNIVERS</span>
-                  <span class="sep-flow-sym">➔</span>
-                  <span>{nextProject.num} {nextProject.titre}</span>
-                  <span class="sep-flow-sym">✦</span>
-                </div>
-              </div>
-
-              <!-- Repères techniques industriels & indicateurs de séquence -->
-              <div class="sep-header-meta">
-                <span class="sep-seq-tag">SEQ // {p.num} &rarr; {nextProject.num}</span>
-                <span class="sep-status-tag">PASSERELLE UNIVERS</span>
-              </div>
-
-              <!-- Module Central de Transition Design Cliquable ("Pod Passerelle") -->
-              <a
-                href={`#${nextProject.id}`}
-                class="separator-central-pod"
-                aria-label={`Accéder directement au projet suivant : ${nextProject.titre}`}
-              >
-                <!-- Connecteur visuel des deux logos de projet -->
-                <div class="sep-bridge-row">
-                  <!-- Projet Source -->
-                  <div class="sep-bridge-node source-node">
-                    <span class="sep-node-logo-wrap">
-                      <img src={p.logo} alt="" class="sep-node-logo" loading="lazy" />
-                    </span>
-                    <span class="sep-node-tag">{p.num}</span>
-                  </div>
-
-                  <!-- Connecteur dynamique : jauge de liaison + flèche animée -->
-                  <div class="sep-bridge-connector">
-                    <span class="connector-line"></span>
-                    <span class="connector-pulse">
-                      <span class="pulse-icon">&rarr;</span>
-                    </span>
-                    <span class="connector-line"></span>
-                  </div>
-
-                  <!-- Projet Cible Suivant -->
-                  <div class="sep-bridge-node target-node">
-                    <span class="sep-node-logo-wrap">
-                      <img src={nextProject.logo} alt="" class="sep-node-logo" loading="lazy" />
-                    </span>
-                    <span class="sep-node-tag next-tag">{nextProject.num}</span>
-                  </div>
-                </div>
-
-                <!-- Métadonnées de transition -->
-                <div class="sep-meta-panel">
-                  <span class="sep-step-pill">
-                    <span class="pill-dot"></span>
-                    EXPLORER &bull; {p.num} &rarr; {nextProject.num}
-                  </span>
-                  <h4 class="sep-target-title">{nextProject.titre}</h4>
-                  <span class="sep-target-domain">{nextProject.domaine} &darr;</span>
-                </div>
-              </a>
-
-              <!-- Indicateur de descente guidée -->
-              <div class="sep-down-guide">
-                <span class="guide-chevron">&darr;</span>
-              </div>
+              <svg class="nonlinear-wave-svg" viewBox="0 0 1440 140" preserveAspectRatio="none">
+                <defs>
+                  <filter id={`wave-shadow-${idx}`} x="-5%" y="-20%" width="110%" height="150%">
+                    <feDropShadow dx="0" dy="-4" stdDeviation="6" flood-color="#000000" flood-opacity="0.14" />
+                  </filter>
+                </defs>
+                <!-- Fond supérieur : prolongement de la couleur du projet sortant -->
+                <rect width="1440" height="140" fill="var(--curr-pastel)" />
+                <!-- Volume d'effet d'ombre portée volumétrique -->
+                <path d={wavePaths[idx % wavePaths.length].d} fill="rgba(0, 0, 0, 0.08)" transform="translate(0, -6)" />
+                <!-- Forme organique non-linéaire avec la couleur pastel du projet entrant -->
+                <path
+                  d={wavePaths[idx % wavePaths.length].d}
+                  fill="var(--next-pastel)"
+                  filter={`url(#wave-shadow-${idx})`}
+                />
+                <!-- Liseré de crête brutaliste noir signature -->
+                <path
+                  d={wavePaths[idx % wavePaths.length].line}
+                  stroke="#000000"
+                  stroke-width="3.5"
+                  stroke-linecap="round"
+                  fill="none"
+                />
+              </svg>
             </div>
           )}
         </article>
@@ -1527,289 +1499,26 @@ const projects = [
   }
 
   /* ==========================================================================
-     TRANSITIONS DESIGN HAUTE DÉFINITION ENTRE PROJETS
+     TRANSITION NON-LINÉAIRE PURE SANS ÉLÉMENTS ENTRE PROJETS
      ========================================================================== */
-  .project-inter-separator {
+  .project-nonlinear-transition {
     position: relative;
     width: 100%;
-    height: clamp(230px, 28vh, 340px);
-    background: #080808;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-top: 3.5px solid #000000;
-    border-bottom: 3.5px solid #000000;
-    overflow: hidden;
-    box-shadow: inset 0 20px 48px rgba(0, 0, 0, 0.95);
-  }
-
-  .separator-ambient-bg {
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.08) 1.2px, transparent 1.2px);
-    background-size: 24px 24px;
-    opacity: 0.85;
-    pointer-events: none;
-  }
-
-  /* Ruban typographique cinématique en continu (Marquee d'ambiance) */
-  .sep-marquee-strip {
-    position: absolute;
-    top: 22px;
-    left: 0;
-    width: 100%;
+    height: clamp(90px, 13vw, 175px);
     overflow: hidden;
     pointer-events: none;
-    opacity: 0.16;
-  }
-
-  .sep-marquee-track {
-    display: flex;
-    gap: 32px;
-    width: max-content;
-    white-space: nowrap;
-    font-family: ui-monospace, SFMono-Regular, monospace;
-    font-size: 13px;
-    font-weight: 900;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: #ffffff;
-    animation: sepMarquee 28s linear infinite;
-  }
-
-  @keyframes sepMarquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-
-  .sep-flow-sym {
-    color: #ffffff;
-    opacity: 0.6;
-  }
-
-  .sep-flow-text {
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  /* Métadonnées de transition en en-tête de section */
-  .sep-header-meta {
-    position: absolute;
-    top: 14px;
-    left: clamp(16px, 4vw, 40px);
-    right: clamp(16px, 4vw, 40px);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    pointer-events: none;
+    user-select: none;
+    display: block;
+    margin-top: -2px;
+    margin-bottom: -2px;
     z-index: 2;
   }
 
-  .sep-seq-tag {
-    font-family: ui-monospace, SFMono-Regular, monospace;
-    font-size: 10.5px;
-    font-weight: 900;
-    color: rgba(255, 255, 255, 0.5);
-    letter-spacing: 0.15em;
-  }
-
-  .sep-status-tag {
-    font-family: ui-monospace, SFMono-Regular, monospace;
-    font-size: 9.5px;
-    font-weight: 900;
-    color: rgba(255, 255, 255, 0.4);
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-  }
-
-  /* Module Central de Transition Design Cliquable ("Pod Passerelle") */
-  .separator-central-pod {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-    background: rgba(14, 14, 14, 0.96);
-    border: 2px solid #ffffff;
-    padding: 18px 32px;
-    border-radius: 10px;
-    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.85), 0 0 28px rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(14px);
-    width: auto;
-    min-width: 320px;
-    max-width: 480px;
-    text-decoration: none;
-    cursor: pointer;
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s, border-color 0.25s;
-  }
-
-  .separator-central-pod:hover {
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 24px 54px rgba(0, 0, 0, 0.95), 0 0 32px rgba(255, 255, 255, 0.35);
-    border-color: #ffffff;
-  }
-
-  /* Ligne des 2 logos connectés */
-  .sep-bridge-row {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
+  .nonlinear-wave-svg {
+    display: block;
     width: 100%;
-  }
-
-  .sep-bridge-node {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-shrink: 0;
-  }
-
-  .sep-node-logo-wrap {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: #181818;
-    border: 1.8px solid rgba(255, 255, 255, 0.65);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px;
-    transition: transform 0.2s;
-    flex-shrink: 0;
-  }
-
-  .target-node .sep-node-logo-wrap {
-    background: #ffffff;
-    border-color: #ffffff;
-    box-shadow: 0 0 16px rgba(255, 255, 255, 0.95);
-    transform: scale(1.08);
-  }
-
-  .sep-node-logo {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    filter: brightness(0) invert(1);
-  }
-
-  .target-node .sep-node-logo {
-    filter: brightness(0);
-  }
-
-  .sep-node-tag {
-    font-family: ui-monospace, SFMono-Regular, monospace;
-    font-size: 11px;
-    font-weight: 900;
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  .next-tag {
-    color: #ffffff;
-    font-weight: 900;
-    font-size: 12px;
-  }
-
-  /* Connecteur dynamique */
-  .sep-bridge-connector {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .connector-line {
-    width: 22px;
-    height: 2px;
-    background: rgba(255, 255, 255, 0.35);
-  }
-
-  .connector-pulse {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #ffffff;
-    font-size: 15px;
-    font-weight: 900;
-    animation: pulseArrow 1.6s infinite ease-in-out;
-  }
-
-  @keyframes pulseArrow {
-    0%, 100% {
-      transform: translateX(0);
-      opacity: 0.7;
-    }
-    50% {
-      transform: translateX(4px);
-      opacity: 1;
-      filter: drop-shadow(0 0 6px #ffffff);
-    }
-  }
-
-  /* Métadonnées de transition */
-  .sep-meta-panel {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    text-align: center;
-  }
-
-  .sep-step-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: ui-monospace, SFMono-Regular, monospace;
-    font-size: 9px;
-    font-weight: 900;
-    letter-spacing: 0.12em;
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    padding: 2.5px 9px;
-    border-radius: 999px;
-    text-transform: uppercase;
-  }
-
-  .pill-dot {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: #ffffff;
-    box-shadow: 0 0 6px #ffffff;
-    animation: pulseDot 2s infinite ease-in-out;
-  }
-
-  .sep-target-title {
-    font-family: ui-monospace, SFMono-Regular, monospace;
-    font-size: clamp(13px, 1.8vw, 16px);
-    font-weight: 900;
-    color: #ffffff;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin: 0;
-  }
-
-  .sep-target-domain {
-    font-family: system-ui, sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.7);
-    letter-spacing: 0.04em;
-  }
-
-  /* Indicateur de descente guidée */
-  .sep-down-guide {
-    position: absolute;
-    bottom: 8px;
-    z-index: 2;
-    color: #ffffff;
-    font-size: 13px;
-    font-weight: 900;
-    animation: bounceDown 1.8s infinite ease-in-out;
-    opacity: 0.75;
+    height: 100%;
+    overflow: visible;
   }
 
   /* ==========================================================================
@@ -1909,39 +1618,8 @@ const projects = [
     .seam-label-mobile {
       display: inline;
     }
-    .project-inter-separator {
-      height: clamp(175px, 24vh, 230px);
-    }
-    .separator-central-pod {
-      padding: 10px 16px;
-      gap: 8px;
-      width: 92%;
-    }
-    .sep-bridge-row {
-      gap: 10px;
-    }
-    .sep-node-logo-wrap {
-      width: 32px;
-      height: 32px;
-      padding: 4px;
-    }
-    .connector-line {
-      width: 14px;
-    }
-    .sep-marquee-strip {
-      display: none;
-    }
-    .sep-target-domain {
-      font-size: 10px;
-    }
-    .sep-header-meta {
-      top: 8px;
-    }
-    .sep-seq-tag {
-      font-size: 9px;
-    }
-    .sep-status-tag {
-      display: none;
+    .project-nonlinear-transition {
+      height: clamp(65px, 14vw, 110px);
     }
   }
 </style>
