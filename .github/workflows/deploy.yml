@@ -52,7 +52,10 @@ jobs:
         env:
           OVH_WEBHOOK_URL: ${{ secrets.OVH_WEBHOOK_URL }}
         run: |
-          curl -s -X POST "$OVH_WEBHOOK_URL" || true
+          curl -v -X POST "$OVH_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -H "X-GitHub-Event: push" \
+            -d "{\"ref\":\"refs/heads/ovh\"}" || true
 
   deploy-pages:
     needs: build
