@@ -160,24 +160,14 @@ const projects = [
 
 const transitionVariants = [
   {
-    // Variante 1 : S-Curve fluide & ample
-    shapeD: "M 0,130 C 380,230 720,30 1080,180 C 1240,240 1360,90 1440,130 L 1440,260 L 0,260 Z",
-    lineD: "M 0,130 C 380,230 720,30 1080,180 C 1240,240 1360,90 1440,130"
+    // Onde A : Courbe sinusoïdale fluide signature
+    shapeD: "M 0,90 C 380,160 720,20 1080,110 C 1240,140 1360,70 1440,90 L 1440,180 L 0,180 Z",
+    lineD: "M 0,90 C 380,160 720,20 1080,110 C 1240,140 1360,70 1440,90"
   },
   {
-    // Variante 2 : Houle ascendante & crête dynamique
-    shapeD: "M 0,170 C 320,60 660,250 1020,90 C 1200,20 1350,180 1440,120 L 1440,260 L 0,260 Z",
-    lineD: "M 0,170 C 320,60 660,250 1020,90 C 1200,20 1350,180 1440,120"
-  },
-  {
-    // Variante 3 : Double creux asymétrique & courbe continue
-    shapeD: "M 0,110 C 260,210 560,50 880,190 C 1140,270 1320,120 1440,150 L 1440,260 L 0,260 Z",
-    lineD: "M 0,110 C 260,210 560,50 880,190 C 1140,270 1320,120 1440,150"
-  },
-  {
-    // Variante 4 : Vague panoramique douce
-    shapeD: "M 0,150 C 340,240 700,60 1040,170 C 1220,230 1350,80 1440,100 L 1440,260 L 0,260 Z",
-    lineD: "M 0,150 C 340,240 700,60 1040,170 C 1220,230 1350,80 1440,100"
+    // Onde B : Courbe symétrique inversée en écho harmonieux
+    shapeD: "M 0,90 C 360,20 720,160 1060,70 C 1200,40 1360,110 1440,90 L 1440,180 L 0,180 Z",
+    lineD: "M 0,90 C 360,20 720,160 1060,70 C 1200,40 1360,110 1440,90"
   }
 ];
 ---
@@ -402,19 +392,22 @@ const transitionVariants = [
             </div>
 
             <!-- Bandeau inférieur plein écran / Séparation de transition -->
-            <footer class="section-bottom-seam">
-              <div class="seam-progress-track">
-                <div class="seam-progress-fill" style={`width: ${((idx + 1) / projects.length) * 100}%;`}></div>
-              </div>
-              <div class="seam-info-row">
-                <span class="seam-counter">{p.num} sur 10</span>
-                <a href={nextTarget} class="seam-next-link" aria-label={nextLabel}>
-                  <span class="seam-label-full">{nextLabel}</span>
-                  <span class="seam-label-mobile">{shortNextLabel}</span>
-                  <span class="seam-arrow">{nextProject ? '↓' : '↑'}</span>
-                </a>
-              </div>
-            </footer>
+            <!-- Bandeau de pied uniquement pour le dernier projet -->
+            {!nextProject && (
+              <footer class="section-bottom-seam">
+                <div class="seam-progress-track">
+                  <div class="seam-progress-fill" style="width: 100%;"></div>
+                </div>
+                <div class="seam-info-row">
+                  <span class="seam-counter">{p.num} sur 10</span>
+                  <a href="#top" class="seam-next-link" aria-label="Retour au sommet">
+                    <span class="seam-label-full">RETOUR AU SOMMET</span>
+                    <span class="seam-label-mobile">SOMMET</span>
+                    <span class="seam-arrow">↑</span>
+                  </a>
+                </div>
+              </footer>
+            )}
           </section>
 
           <!-- ================= TRANSITION À LIGNE UNIQUE NON-LINÉAIRE ENTRE PROJETS ================= -->
@@ -426,9 +419,9 @@ const transitionVariants = [
                 style={`--curr-pastel: ${p.color}; --next-pastel: ${nextProject.color};`}
                 aria-hidden="true"
               >
-                <svg viewBox="0 0 1440 260" preserveAspectRatio="none" class="single-line-svg">
+                <svg viewBox="0 0 1440 180" preserveAspectRatio="none" class="single-line-svg">
                   <!-- Fond haut : pastel du projet actuel -->
-                  <rect width="1440" height="260" fill="var(--curr-pastel)" />
+                  <rect width="1440" height="180" fill="var(--curr-pastel)" />
                   <!-- Forme basse : pastel du projet suivant délimité par la courbe non-linéaire -->
                   <path d={v.shapeD} fill="var(--next-pastel)" />
                   <!-- La ligne unique : trait net continu séparant les deux projets -->
@@ -518,29 +511,27 @@ const transitionVariants = [
           }
         }
 
-        // 3. Identification du projet actif et parallaxe
+        // 3. Identification cohérente du projet actif (transition fluide sans coupure)
+        let activeIdx = 0;
         sections.forEach((section, idx) => {
           const rect = section.getBoundingClientRect();
-
-          // Nœud actif de la timeline
-          if (rect.top <= windowHeight * 0.5 && rect.bottom >= windowHeight * 0.5) {
-            timelineNodes.forEach((n) => n.classList.remove('is-active'));
-            mobileNodes.forEach((m) => m.classList.remove('is-active'));
-
-            if (timelineNodes[idx]) timelineNodes[idx].classList.add('is-active');
-            if (mobileNodes[idx]) mobileNodes[idx].classList.add('is-active');
+          if (rect.top <= windowHeight * 0.5) {
+            activeIdx = idx;
           }
+        });
 
-          // Marquage des nœuds passés (complétés)
-          if (rect.bottom < windowHeight * 0.5) {
-            if (timelineNodes[idx]) timelineNodes[idx].classList.add('is-past');
-            if (mobileNodes[idx]) mobileNodes[idx].classList.add('is-past');
-          } else {
-            if (timelineNodes[idx]) timelineNodes[idx].classList.remove('is-past');
-            if (mobileNodes[idx]) mobileNodes[idx].classList.remove('is-past');
-          }
+        timelineNodes.forEach((n, idx) => {
+          n.classList.toggle('is-active', idx === activeIdx);
+          n.classList.toggle('is-past', idx < activeIdx);
+        });
+        mobileNodes.forEach((m, idx) => {
+          m.classList.toggle('is-active', idx === activeIdx);
+          m.classList.toggle('is-past', idx < activeIdx);
+        });
 
-          // Effet de parallaxe sur les éléments visibles
+        // 4. Effet de parallaxe sur les éléments visibles
+        sections.forEach((section) => {
+          const rect = section.getBoundingClientRect();
           if (rect.bottom > -150 && rect.top < windowHeight + 150) {
             const progress = (windowHeight - rect.top) / (windowHeight + rect.height);
             const centeredProgress = progress - 0.5;
@@ -1095,10 +1086,10 @@ const transitionVariants = [
     overflow: hidden;
     z-index: 1;
     pointer-events: none;
-    opacity: 0.22;
+    opacity: 0.20;
     mix-blend-mode: multiply;
-    mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%);
   }
 
   .project-bg-video {
@@ -1197,7 +1188,7 @@ const transitionVariants = [
   }
 
   /* ==========================================================================
-     ZONE CENTRALE : 2 COLONNES AVEC PARALLAXE & FONDU PROGRESSIF
+     ZONE CENTRALE : 2 COLONNES AVEC PARALLAXE & ÉQUILIBRE VISUEL
      ========================================================================== */
   .project-main-content {
     position: relative;
@@ -1208,10 +1199,7 @@ const transitionVariants = [
     align-items: center;
     max-width: 1060px;
     width: 100%;
-    will-change: opacity, transform;
-    transition: opacity 0.08s linear, transform 0.08s linear;
-  }
-    margin: 16px auto;
+    margin: auto 0;
   }
 
   .project-left-col {
@@ -1499,13 +1487,13 @@ const transitionVariants = [
   .project-nonlinear-transition {
     position: relative;
     width: 100%;
-    height: clamp(160px, 22vh, 280px);
+    height: clamp(120px, 16vh, 190px);
     overflow: hidden;
     pointer-events: none;
     user-select: none;
     line-height: 0;
-    margin-top: -2px;
-    margin-bottom: -2px;
+    margin-top: -1px;
+    margin-bottom: -1px;
     z-index: 2;
     background-color: var(--curr-pastel);
   }
@@ -1629,7 +1617,7 @@ const transitionVariants = [
       display: inline;
     }
     .project-nonlinear-transition {
-      height: clamp(110px, 16vh, 180px);
+      height: clamp(80px, 12vh, 130px);
     }
   }
 </style>
