@@ -309,11 +309,10 @@ const transitionVariants = [
             <div class="project-video-layer" aria-hidden="true">
               <video
                 class="project-bg-video"
-                autoplay
                 loop
                 muted
                 playsinline
-                preload="metadata"
+                preload="none"
               >
                 <source src={p.video} type="video/webm" />
               </video>
@@ -435,8 +434,11 @@ const transitionVariants = [
     })}
   </div>
 
-  <!-- ================= GESTIONNAIRE DE TIMELINE DU SCROLL, PARALLAXE & VIDÉOS ================= -->
-  <script is:inline>
+  <!-- ================= GESTIONNAIRE LENIS 120FPS, PARALLAXE & VIDÉOS ================= -->
+  <script>
+    import Lenis from 'lenis';
+    import 'lenis/dist/lenis.css';
+
     document.addEventListener('DOMContentLoaded', () => {
       const sections = document.querySelectorAll('.project-fullscreen-section');
       const timelineNodes = document.querySelectorAll('.timeline-node-item');
@@ -447,10 +449,37 @@ const transitionVariants = [
       const mobileTimelineFill = document.getElementById('mobileTimelineFill');
       const hero = document.getElementById('top');
       const wrapper = document.getElementById('projets');
-      let ticking = false;
 
-      // 1. Mise en cache des positions pour éliminer les recalculs de reflow (zéro getBoundingClientRect au scroll)
-      let sectionData = [];
+      // 1. Initialisation de Lenis pour un défilement ultra-fluide avec inertie cinématographique
+      const lenis = new Lenis({
+        duration: 1.15,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        wheelMultiplier: 0.95,
+        touchMultiplier: 1.2,
+        infinite: false,
+      });
+
+      function raf(time: number) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+
+      // 2. Mise en cache des positions pour éliminer les recalculs de reflow
+      let sectionData: Array<{
+        el: Element;
+        idx: number;
+        top: number;
+        height: number;
+        watermark: HTMLElement | null;
+        watermarkSpeed: number;
+        rightCol: HTMLElement | null;
+        rightColSpeed: number;
+      }> = [];
+
       let heroHeight = window.innerHeight;
       let wrapperTop = 0;
       let wrapperHeight = 0;
@@ -475,20 +504,19 @@ const transitionVariants = [
             top,
             height,
             watermark: section.querySelector('.parallax-watermark'),
-            watermarkSpeed: parseFloat(section.querySelector('.parallax-watermark')?.getAttribute('data-parallax-speed') || 0.28),
+            watermarkSpeed: parseFloat(section.querySelector('.parallax-watermark')?.getAttribute('data-parallax-speed') || '0.28'),
             rightCol: section.querySelector('.project-right-col'),
-            rightColSpeed: parseFloat(section.querySelector('.project-right-col')?.getAttribute('data-parallax-speed') || -0.15),
+            rightColSpeed: parseFloat(section.querySelector('.project-right-col')?.getAttribute('data-parallax-speed') || '-0.15'),
           };
         });
       }
       measureLayout();
 
-      // 2. Gestionnaire de scroll 120 FPS pur GPU (zéro layout thrashing)
-      function updateScrollTimeline() {
+      // 3. Mise à jour de la timeline et des éléments visuels synchronisée sur le tick Lenis
+      function updateVisuals(scrollY: number) {
         const windowHeight = window.innerHeight;
-        const scrollY = window.scrollY;
 
-        // A. Émergence dynamique de la timeline (accélération matérielle, sans filtre de flou coûteux)
+        // A. Émergence dynamique de la timeline
         if (hero && timelineNav) {
           if (scrollY > 30) {
             timelineNav.classList.add('is-visible');
@@ -520,7 +548,7 @@ const transitionVariants = [
           else mobileTimeline.classList.remove('is-visible');
         }
 
-        // B. Barre de progression globale (via transform GPU scale sans déclencher de reflow)
+        // B. Barre de progression globale (via transform scale GPU sans reflow)
         if (wrapperHeight > windowHeight) {
           const currentScrolled = scrollY - wrapperTop;
           const totalScrollable = wrapperHeight - windowHeight;
@@ -533,7 +561,7 @@ const transitionVariants = [
           }
         }
 
-        // C. Nœud actif calculé par coordonnées pures (0ms, 0 reflow)
+        // C. Nœud actif calculé par coordonnées pures
         const midPoint = scrollY + windowHeight * 0.5;
         let activeIdx = 0;
         for (let i = 0; i < sectionData.length; i++) {
@@ -554,7 +582,7 @@ const transitionVariants = [
           });
         }
 
-        // D. Parallaxe doux uniquement sur les sections dans le champ de vision
+        // D. Parallaxe doux uniquement sur les sections visibles
         for (let i = 0; i < sectionData.length; i++) {
           const item = sectionData[i];
           const relTop = item.top - scrollY;
@@ -572,54 +600,65 @@ const transitionVariants = [
             }
           }
         }
-
-        ticking = false;
       }
 
-      function onScroll() {
-        if (!ticking) {
-          window.requestAnimationFrame(updateScrollTimeline);
-          ticking = true;
-        }
-      }
+      lenis.on('scroll', (e: { scroll: number }) => {
+        updateVisuals(e.scroll);
+      });
 
-      function onResize() {
+      window.addEventListener('resize', () => {
         measureLayout();
-        onScroll();
-      }
+        updateVisuals(lenis.scroll);
+      });
+      window.addEventListener('load', () => {
+        measureLayout();
+        updateVisuals(lenis.scroll);
+      });
+      updateVisuals(window.scrollY);
 
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', onResize, { passive: true });
-      window.addEventListener('load', measureLayout);
-      updateScrollTimeline();
-
-      // 3. Optimisation vidéo majeure : ne lire QUE la vidéo visible à l'écran (réduit la charge GPU de 90%)
-      const allVideos = document.querySelectorAll('.project-bg-video');
+      // 4. Optimisation vidéo : ne lire QUE les vidéos visibles à l'écran
+      const allVideos = document.querySelectorAll('video');
       const videoObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-          const vid = entry.target;
+          const vid = entry.target as HTMLVideoElement;
           if (entry.isIntersecting) {
+            if (vid.preload === 'none') vid.preload = 'auto';
             if (vid.paused) vid.play().catch(() => {});
           } else {
             if (!vid.paused) vid.pause();
           }
         });
-      }, { rootMargin: '200px 0px 200px 0px', threshold: 0.05 });
+      }, { rootMargin: '250px 0px 250px 0px', threshold: 0.05 });
 
       allVideos.forEach((vid) => {
-        vid.pause();
+        if (vid.id !== 'heroVideo') {
+          vid.pause();
+        }
         videoObserver.observe(vid);
       });
 
-      // 4. Navigation fluide par clic avec défilement amorti haute précision
-      document.querySelectorAll('.timeline-node-item, .mobile-timeline-btn, .hero-actions a[href^="#"]').forEach((link) => {
+      // 5. Navigation fluide au clic gérée par Lenis
+      document.querySelectorAll('a[href^="#"]').forEach((link) => {
         link.addEventListener('click', (e) => {
           const href = link.getAttribute('href');
-          if (!href || href === '#' || !href.startsWith('#')) return;
+          if (!href || href === '#') return;
+          if (href === '#top') {
+            e.preventDefault();
+            lenis.scrollTo(0, {
+              duration: 1.2,
+              easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            });
+            if (history.pushState) history.pushState(null, '', href);
+            return;
+          }
           const targetEl = document.querySelector(href);
           if (targetEl) {
             e.preventDefault();
-            targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            lenis.scrollTo(targetEl as HTMLElement, {
+              offset: 0,
+              duration: 1.2,
+              easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            });
             if (history.pushState) history.pushState(null, '', href);
           }
         });
