@@ -226,7 +226,7 @@ const projects = [
         <div class="timeline-track-progress" id="timelineProgressBar"></div>
       </div>
 
-      <!-- Les 10 nœuds de projets cliquables -->
+      <!-- Les 10 nœuds de projets cliquables avec logos authentiques -->
       <nav class="timeline-nodes-list">
         {projects.map((p, idx) => (
           <a
@@ -237,9 +237,15 @@ const projects = [
             aria-label={`Aller au projet ${p.num} : ${p.titre}`}
           >
             <span class="node-bullet">
-              <span class="node-num">{p.num}</span>
+              <span class="node-logo-circle">
+                <img src={p.logo} alt="" class="node-bullet-logo" loading="lazy" />
+              </span>
+              <span class="node-num-tag">{p.num}</span>
             </span>
             <span class="node-flyout">
+              <span class="node-flyout-logo-frame">
+                <img src={p.logo} alt="" class="node-flyout-logo" loading="lazy" />
+              </span>
               <span class="node-flyout-num">{p.num}</span>
               <span class="node-flyout-title">{p.titre}</span>
             </span>
@@ -263,7 +269,8 @@ const projects = [
           data-index={idx}
           title={`${p.num} ${p.titre}`}
         >
-          {p.num}
+          <img src={p.logo} alt="" class="mob-logo" loading="lazy" />
+          <span class="mob-num">{p.num}</span>
         </a>
       ))}
     </div>
@@ -425,16 +432,47 @@ const projects = [
         const windowHeight = window.innerHeight;
         const scrollY = window.scrollY;
 
-        // 1. Afficher les timelines uniquement lorsqu'on a dépassé le hero
+        // 1. Émergence dynamique de la timeline depuis l'arrière de la vidéo principale
         if (hero) {
-          const heroBottom = hero.getBoundingClientRect().bottom;
-          const isPastHero = heroBottom <= windowHeight * 0.45;
+          const heroRect = hero.getBoundingClientRect();
+          const heroHeight = heroRect.height || windowHeight;
+          const scrolledPastTop = -heroRect.top;
+
           if (timelineNav) {
-            if (isPastHero) timelineNav.classList.add('is-visible');
-            else timelineNav.classList.remove('is-visible');
+            // Dès que le scroll quitte le sommet (le hero commence à défiler vers le haut)
+            if (scrolledPastTop > 30) {
+              timelineNav.classList.add('is-visible');
+              const emergeRatio = Math.max(0, Math.min(1, scrolledPastTop / (heroHeight * 0.55)));
+              // Glissement depuis l'arrière de la vidéo principale vers sa position d'ancrage
+              const slideX = (1 - emergeRatio) * 65;
+              const scale = 0.88 + (emergeRatio * 0.12);
+              const blur = (1 - emergeRatio) * 6;
+              const opacity = Math.min(1, emergeRatio * 1.5);
+
+              timelineNav.style.transform = `translate3d(${slideX.toFixed(1)}px, -50%, 0) scale(${scale.toFixed(3)})`;
+              timelineNav.style.opacity = opacity.toFixed(2);
+              timelineNav.style.filter = `blur(${blur.toFixed(1)}px)`;
+              timelineNav.style.pointerEvents = emergeRatio >= 0.7 ? 'auto' : 'none';
+
+              // Gestion de la profondeur : la timeline est physiquement sous le hero (z-index 5 < 10),
+              // et s'élève au-dessus des sections de projets (z-index 100) dès que le hero a quitté l'écran
+              if (heroRect.bottom <= 60) {
+                timelineNav.style.zIndex = '100';
+              } else {
+                timelineNav.style.zIndex = '5';
+              }
+            } else {
+              timelineNav.classList.remove('is-visible');
+              timelineNav.style.transform = 'translate3d(75px, -50%, 0) scale(0.85)';
+              timelineNav.style.opacity = '0';
+              timelineNav.style.filter = 'blur(8px)';
+              timelineNav.style.pointerEvents = 'none';
+              timelineNav.style.zIndex = '5';
+            }
           }
+
           if (mobileTimeline) {
-            if (isPastHero) mobileTimeline.classList.add('is-visible');
+            if (heroRect.bottom <= windowHeight * 0.6) mobileTimeline.classList.add('is-visible');
             else mobileTimeline.classList.remove('is-visible');
           }
         }
@@ -520,6 +558,7 @@ const projects = [
      ========================================================================== */
   .hero-video-screen {
     position: relative;
+    z-index: 10;
     width: 100%;
     height: 100svh;
     min-height: 540px;
@@ -670,12 +709,14 @@ const projects = [
     position: fixed;
     right: 24px;
     top: 50%;
-    transform: translateY(-50%);
-    z-index: 100;
+    transform: translate3d(75px, -50%, 0) scale(0.85);
+    transform-origin: center right;
+    z-index: 5;
     display: none;
     opacity: 0;
+    filter: blur(8px);
     pointer-events: none;
-    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s ease;
+    will-change: transform, opacity, filter;
   }
 
   @media (min-width: 1100px) {
@@ -685,28 +726,27 @@ const projects = [
   }
 
   .scroll-timeline-nav.is-visible {
-    opacity: 1;
-    pointer-events: auto;
+    /* L'opacité et le transform sont dynamiquement animés en 60fps par le script de scroll */
   }
 
   .timeline-rail-wrap {
     position: relative;
-    padding: 12px 14px;
-    background: rgba(0, 0, 0, 0.9);
+    padding: 10px 10px;
+    background: rgba(0, 0, 0, 0.92);
     border: 2px solid #ffffff;
     border-radius: 40px;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(12px);
+    box-shadow: 0 16px 42px rgba(0, 0, 0, 0.65), 0 0 24px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(14px);
   }
 
-  /* Ligne de rail continue */
+  /* Ligne de rail continue avec progression */
   .timeline-track-line {
     position: absolute;
     left: 27px;
     top: 24px;
     bottom: 24px;
     width: 2px;
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.22);
     z-index: 1;
   }
 
@@ -717,7 +757,7 @@ const projects = [
     width: 100%;
     height: 0%;
     background: #ffffff;
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.95);
     transition: height 0.15s ease-out;
   }
 
@@ -726,67 +766,131 @@ const projects = [
     z-index: 2;
     display: flex;
     flex-direction: column;
-    gap: 9px;
+    gap: 8px;
   }
 
-  /* Nœud individuel cliquable */
+  /* Nœud individuel cliquable avec logo */
   .timeline-node-item {
     position: relative;
     display: flex;
     align-items: center;
-    gap: 12px;
     text-decoration: none;
     cursor: pointer;
   }
 
   .node-bullet {
-    width: 26px;
-    height: 26px;
+    position: relative;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     background: #111111;
-    border: 2px solid rgba(255, 255, 255, 0.6);
-    color: #ffffff;
+    border: 2px solid rgba(255, 255, 255, 0.65);
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.2s,
+                border-color 0.2s,
+                box-shadow 0.2s;
+  }
+
+  .node-logo-circle {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .node-bullet-logo {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+    opacity: 0.85;
+    transition: filter 0.2s, opacity 0.2s, transform 0.2s;
+  }
+
+  .node-num-tag {
+    position: absolute;
+    bottom: -3px;
+    right: -3px;
     font-family: ui-monospace, SFMono-Regular, monospace;
-    font-size: 9.5px;
+    font-size: 8px;
     font-weight: 900;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    background: #000000;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 4px;
+    padding: 0 3px;
+    line-height: 1.15;
+    pointer-events: none;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
   }
 
   .timeline-node-item:hover .node-bullet,
   .timeline-node-item.is-active .node-bullet {
     background: #ffffff;
-    color: #000000;
     border-color: #ffffff;
-    transform: scale(1.22);
-    box-shadow: 0 0 12px rgba(255, 255, 255, 0.9);
+    transform: scale(1.18);
+    box-shadow: 0 0 16px rgba(255, 255, 255, 0.95);
+  }
+
+  .timeline-node-item:hover .node-bullet-logo,
+  .timeline-node-item.is-active .node-bullet-logo {
+    filter: brightness(0);
+    opacity: 1;
+    transform: scale(1.08);
+  }
+
+  .timeline-node-item:hover .node-num-tag,
+  .timeline-node-item.is-active .node-num-tag {
+    background: #000000;
+    color: #ffffff;
+    border-color: #000000;
   }
 
   .timeline-node-item.is-past .node-bullet {
-    background: #ffffff;
-    color: #000000;
     border-color: #ffffff;
   }
 
   /* Étiquette dépliée (Flyout) au survol ou actif */
   .node-flyout {
     position: absolute;
-    right: 36px;
+    right: 46px;
     top: 50%;
-    transform: translateY(-50%) translateX(6px);
+    transform: translateY(-50%) translateX(8px);
     opacity: 0;
     pointer-events: none;
     background: #000000;
-    border: 1.8px solid #ffffff;
-    padding: 5px 12px;
+    border: 2px solid #ffffff;
+    padding: 6px 12px;
     white-space: nowrap;
     display: flex;
     align-items: center;
-    gap: 8px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+    gap: 9px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+    border-radius: 6px;
     transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .node-flyout-logo-frame {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 4px;
+    padding: 2px;
+  }
+
+  .node-flyout-logo {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
   }
 
   .node-flyout-num {
@@ -795,7 +899,8 @@ const projects = [
     font-weight: 900;
     background: #ffffff;
     color: #000000;
-    padding: 1px 5px;
+    padding: 2px 6px;
+    border-radius: 3px;
   }
 
   .node-flyout-title {
@@ -814,7 +919,7 @@ const projects = [
   }
 
   /* ==========================================================================
-     TIMELINE HORIZONTALE MOBILE / TABLETTE
+     TIMELINE HORIZONTALE MOBILE / TABLETTE AVEC LOGOS
      ========================================================================== */
   .mobile-timeline-bar {
     position: fixed;
@@ -866,29 +971,59 @@ const projects = [
     justify-content: space-between;
     width: 100%;
     gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .mobile-timeline-items::-webkit-scrollbar {
+    display: none;
   }
 
   .mobile-timeline-btn {
-    font-family: ui-monospace, SFMono-Regular, monospace;
-    font-size: 10.5px;
-    font-weight: 900;
-    color: rgba(255, 255, 255, 0.7);
-    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     padding: 3px 6px;
-    border-radius: 3px;
-    border: 1px solid transparent;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.08);
+    text-decoration: none;
     transition: all 0.15s ease;
+    flex-shrink: 0;
+  }
+
+  .mob-logo {
+    width: 13px;
+    height: 13px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+    opacity: 0.85;
+  }
+
+  .mob-num {
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 9px;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.85);
   }
 
   .mobile-timeline-btn.is-active {
-    color: #000000;
     background: #ffffff;
     border-color: #ffffff;
-    transform: scale(1.1);
+    transform: scale(1.08);
+  }
+
+  .mobile-timeline-btn.is-active .mob-logo {
+    filter: brightness(0);
+    opacity: 1;
+  }
+
+  .mobile-timeline-btn.is-active .mob-num {
+    color: #000000;
   }
 
   .mobile-timeline-btn.is-past {
-    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.6);
   }
 
   /* ==========================================================================
