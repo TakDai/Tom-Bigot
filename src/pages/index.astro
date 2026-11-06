@@ -748,22 +748,20 @@ const transitionVariants = [
     justify-content: center;
     align-items: center;
     margin-bottom: -6px;
-    filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.9));
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .hero-portrait-blend:hover {
-    transform: scale(1.03);
+    transform: scale(1.02);
   }
 
   .hero-portrait-img {
-    width: clamp(140px, 18vw, 195px);
+    width: clamp(150px, 19vw, 210px);
     height: auto;
     display: block;
     object-fit: contain;
-    /* Fondu progressif vaporeux vers les bords pour fondre le studio dans la vidéo */
-    mask-image: radial-gradient(ellipse 78% 70% at 50% 45%, black 45%, transparent 98%);
-    -webkit-mask-image: radial-gradient(ellipse 78% 70% at 50% 45%, black 45%, transparent 98%);
+    pointer-events: none;
+    user-select: none;
   }
 
   .hero-name {
