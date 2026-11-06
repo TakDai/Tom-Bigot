@@ -3,7 +3,7 @@
 Site vitrine de Tom Bigot : ce que je sais produire, mes créations et mes participations.
 Tous les projets du groupe **seeworld** — *regarder le monde* — y sont réunis.
 
-Construit avec [Astro](https://astro.build), statique, déployé automatiquement sur GitHub Pages à chaque push sur `main`.
+Construit avec [Astro](https://astro.build), statique, déployé automatiquement sur **OVHcloud** à chaque mise à jour sur la branche `ovh`.
 
 ## Démarrer
 
