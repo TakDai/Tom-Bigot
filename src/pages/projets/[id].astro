@@ -235,6 +235,56 @@ const logoUrl = logoMap[projet.id];
     margin-bottom: 6px;
   }
 
+  .contenu-markdown :global(h3) {
+    margin: 22px 0 10px;
+    font: 700 14px/1.3 var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .contenu-markdown :global(h4) {
+    margin: 18px 0 8px;
+    font: 700 13px/1.3 var(--font);
+    letter-spacing: 0.05em;
+  }
+
+  .contenu-markdown :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font: 400 13px/1.55 var(--font);
+  }
+
+  .contenu-markdown :global(th),
+  .contenu-markdown :global(td) {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px dashed var(--dash);
+  }
+
+  .contenu-markdown :global(th) {
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(0, 0, 0, 0.03);
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .contenu-markdown :global(hr) {
+    border: none;
+    border-top: 1px dashed var(--dash);
+    margin: 28px 0;
+  }
+
+  .contenu-markdown :global(code) {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.9em;
+    background: rgba(0, 0, 0, 0.04);
+    padding: 2px 5px;
+    border-radius: 4px;
+  }
+
   @media (max-width: 600px) {
     .fiche-head {
       flex-direction: column;
