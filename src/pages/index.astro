@@ -194,22 +194,17 @@ const transitionVariants = [
     </div>
 
     <div class="hero-content">
-      <div class="hero-avatar-wrap">
-        <div class="hero-avatar-frame">
-          <img
-            src="/assets/profile.webp"
-            alt="Tom Bigot"
-            class="hero-avatar-img"
-            width="112"
-            height="112"
-            loading="eager"
-            decoding="async"
-          />
-        </div>
-        <span class="hero-avatar-badge">
-          <span class="status-pulse"></span>
-          Tours (37)
-        </span>
+      <!-- Portrait en incrustation naturelle (fondu vaporeux sans contour artificiel) -->
+      <div class="hero-portrait-blend">
+        <img
+          src="/assets/profile_feathered.webp"
+          alt="Tom Bigot — Télépilote de drone & Production audiovisuelle"
+          class="hero-portrait-img"
+          width="180"
+          height="202"
+          loading="eager"
+          decoding="async"
+        />
       </div>
 
       <h1 class="hero-name">TOM BIGOT</h1>
@@ -746,65 +741,29 @@ const transitionVariants = [
     gap: 12px;
   }
 
-  /* Cadre et statut de la photo de profil */
-  .hero-avatar-wrap {
+  /* Portrait en incrustation naturelle (fondu organique avec la vidéo) */
+  .hero-portrait-blend {
     position: relative;
     display: inline-flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    margin-bottom: 2px;
+    margin-bottom: -6px;
+    filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.9));
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .hero-avatar-frame {
-    position: relative;
-    width: 108px;
-    height: 108px;
-    border-radius: 50%;
-    padding: 3px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.15));
-    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.7), 0 0 24px rgba(255, 255, 255, 0.12);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
+  .hero-portrait-blend:hover {
+    transform: scale(1.03);
   }
 
-  .hero-avatar-frame:hover {
-    transform: scale(1.04);
-    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 255, 255, 0.22);
-  }
-
-  .hero-avatar-img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
+  .hero-portrait-img {
+    width: clamp(140px, 18vw, 195px);
+    height: auto;
     display: block;
-    background: #111111;
-  }
-
-  .hero-avatar-badge {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: -12px;
-    padding: 3px 10px;
-    background: rgba(15, 15, 15, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 999px;
-    backdrop-filter: blur(8px);
-    font: 600 10.5px var(--font);
-    letter-spacing: 0.08em;
-    color: #ffffff;
-    text-transform: uppercase;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    z-index: 2;
-  }
-
-  .status-pulse {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #22c55e;
-    box-shadow: 0 0 8px #22c55e;
+    object-fit: contain;
+    /* Fondu progressif vaporeux vers les bords pour fondre le studio dans la vidéo */
+    mask-image: radial-gradient(ellipse 78% 70% at 50% 45%, black 45%, transparent 98%);
+    -webkit-mask-image: radial-gradient(ellipse 78% 70% at 50% 45%, black 45%, transparent 98%);
   }
 
   .hero-name {
