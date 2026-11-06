@@ -26,6 +26,9 @@ const chemin = Astro.url.pathname;
     <meta name="description" content={description} />
     <link rel="canonical" href={new URL(chemin, Astro.site)} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta property="og:title" content={titreComplet} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
@@ -59,7 +62,7 @@ const chemin = Astro.url.pathname;
     {!sansNav && (
       <nav class="topnav" aria-label="Navigation principale">
         <a class="site-logo" href="/" aria-label="Tom Bigot — Accueil">
-          <span class="site-logo-icon"></span>
+          <img src="/assets/logo-tb.svg" alt="TB" class="site-logo-img" width="24" height="24" />
           <span class="site-name">TOM BIGOT</span>
         </a>
         <div class="nav-group">
@@ -167,6 +170,14 @@ const chemin = Astro.url.pathname;
     border-radius: 50%;
     background: var(--ink);
     display: inline-block;
+  }
+
+  .site-logo-img {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    display: inline-block;
+    flex-shrink: 0;
   }
 
   .site-name {
