@@ -120,7 +120,7 @@ const projects = [
     date: "Aujourd'hui · En cours",
     desc: "Application mobile et tout-support pour la lecture, l'écriture et l'émulation NFC/RFID, conçue spécifiquement pour les implants sous-cutanés Dangerous Things. Options avancées de suivi de santé (cycles d'écriture), gestion des clés, automatisation nodale et pont matériel Proxmark3.",
     logo: '/assets/logos/inskin.png',
-    video: '/assets/videos/inskin.webm',
+    video: '/assets/videos/inskin-v2.webm',
     lien: '/projets/inskin',
     github: 'https://github.com/TakDai/Inskin',
     color: '#F6DFDC', // Pastel Blush Corail / Terracotta
@@ -465,15 +465,16 @@ const transitionVariants = [
       const hero = document.getElementById('top');
       const wrapper = document.getElementById('projets');
 
-      // 1. Initialisation de Lenis pour un défilement ultra-fluide avec inertie cinématographique
+      // 1. Initialisation de Lenis pour un défilement ultra-fluide sans latence (optimisé 60/120 FPS)
       const lenis = new Lenis({
-        duration: 1.15,
+        duration: 0.8,
         easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         orientation: 'vertical',
         gestureOrientation: 'vertical',
         smoothWheel: true,
-        wheelMultiplier: 0.95,
-        touchMultiplier: 1.2,
+        wheelMultiplier: 1.0,
+        touchMultiplier: 1.0,
+        syncTouch: false,
         infinite: false,
       });
 
@@ -631,19 +632,28 @@ const transitionVariants = [
       });
       updateVisuals(window.scrollY);
 
-      // 4. Optimisation vidéo : ne lire QUE les vidéos visibles à l'écran
-      const allVideos = document.querySelectorAll('video');
+      // 4. Optimisation vidéo haute performance : lecture stricte d'UNE SEULE vidéo à la fois
+      const allVideos = Array.from(document.querySelectorAll('video')) as HTMLVideoElement[];
+      let activeVid: HTMLVideoElement | null = null;
+
       const videoObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           const vid = entry.target as HTMLVideoElement;
           if (entry.isIntersecting) {
             if (vid.preload === 'none') vid.preload = 'auto';
+            if (activeVid && activeVid !== vid && !activeVid.paused) {
+              activeVid.pause();
+            }
+            activeVid = vid;
             if (vid.paused) vid.play().catch(() => {});
           } else {
             if (!vid.paused) vid.pause();
+            if (activeVid === vid) {
+              activeVid = null;
+            }
           }
         });
-      }, { rootMargin: '250px 0px 250px 0px', threshold: 0.05 });
+      }, { rootMargin: '0px', threshold: 0.20 });
 
       allVideos.forEach((vid) => {
         if (vid.id !== 'heroVideo') {
@@ -1265,6 +1275,7 @@ const transitionVariants = [
   .project-block-container {
     position: relative;
     width: 100%;
+    contain: layout paint;
   }
 
   .project-fullscreen-section {
@@ -1294,6 +1305,13 @@ const transitionVariants = [
     mix-blend-mode: multiply;
     mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%);
     -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%);
+  }
+
+  /* Rendu net et contrasté pour les interfaces logicielles sombres (OpenBots & Inskin) */
+  .project-openbots .project-video-layer,
+  .project-inskin .project-video-layer {
+    mix-blend-mode: normal;
+    opacity: 0.28;
   }
 
   .project-bg-video {
