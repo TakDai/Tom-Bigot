@@ -319,6 +319,7 @@ const transitionVariants = [
             <div class="project-video-layer" aria-hidden="true">
               <video
                 class="project-bg-video"
+                src={p.video}
                 loop
                 muted
                 playsinline
@@ -640,7 +641,10 @@ const transitionVariants = [
         entries.forEach((entry) => {
           const vid = entry.target as HTMLVideoElement;
           if (entry.isIntersecting) {
-            if (vid.preload === 'none') vid.preload = 'auto';
+            if (vid.preload === 'none') {
+              vid.preload = 'auto';
+              if (vid.readyState === 0) vid.load();
+            }
             if (activeVid && activeVid !== vid && !activeVid.paused) {
               activeVid.pause();
             }
@@ -653,7 +657,7 @@ const transitionVariants = [
             }
           }
         });
-      }, { rootMargin: '0px', threshold: 0.20 });
+      }, { rootMargin: '120px 0px 120px 0px', threshold: 0.15 });
 
       allVideos.forEach((vid) => {
         if (vid.id !== 'heroVideo') {
