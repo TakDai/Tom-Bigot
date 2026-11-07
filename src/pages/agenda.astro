@@ -5,106 +5,53 @@ interface CalendarDay {
   jour: number;
   dateStr: string;
   jourSemaine: string;
-  type: 'disponible' | 'cabine' | 'fpv' | 'formation' | 'option';
-  badge: string;
-  titre: string;
-  detail: string;
 }
 
 interface CalendarMonth {
   nom: string;
   annee: number;
   id: string;
-  decalageLundi: number; // 0 = Lundi, ..., 6 = Dimanche
+  decalageLundi: number;
   jours: CalendarDay[];
 }
 
-const moisNovembre2026: CalendarMonth = {
-  nom: 'Novembre',
-  annee: 2026,
-  id: 'novembre-2026',
-  decalageLundi: 6, // 1er nov 2026 = Dimanche
-  jours: [
-    { jour: 1, dateStr: '2026-11-01', jourSemaine: 'Dim', type: 'cabine', badge: 'CABINE DCI', titre: 'Les Studios', detail: 'Exploitation cabine numérique DCI (Soir)' },
-    { jour: 2, dateStr: '2026-11-02', jourSemaine: 'Lun', type: 'formation', badge: 'FORMATION', titre: 'CFA DCI', detail: 'Théorie DCI & Acoustique de salle' },
-    { jour: 3, dateStr: '2026-11-03', jourSemaine: 'Mar', type: 'formation', badge: 'FORMATION', titre: 'CFA DCI', detail: 'Atelier Optique & Électronique' },
-    { jour: 4, dateStr: '2026-11-04', jourSemaine: 'Mer', type: 'formation', badge: 'FORMATION', titre: 'CFA DCI', detail: 'Cryptographie & Gestion KDM' },
-    { jour: 5, dateStr: '2026-11-05', jourSemaine: 'Jeu', type: 'formation', badge: 'FORMATION', titre: 'CFA DCI', detail: 'Calibration Laser & Xénon DCI' },
-    { jour: 6, dateStr: '2026-11-06', jourSemaine: 'Ven', type: 'formation', badge: 'FORMATION', titre: 'CFA DCI', detail: 'Normes de sécurité ERP' },
-    { jour: 7, dateStr: '2026-11-07', jourSemaine: 'Sam', type: 'cabine', badge: 'CABINE DCI', titre: 'Ciné-Off', detail: 'Projection itinérante en Indre-et-Loire' },
-    { jour: 8, dateStr: '2026-11-08', jourSemaine: 'Dim', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible cabine numérique & tournages FPV' },
-    { jour: 9, dateStr: '2026-11-09', jourSemaine: 'Lun', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible cabine numérique & tournages FPV' },
-    { jour: 10, dateStr: '2026-11-10', jourSemaine: 'Mar', type: 'fpv', badge: 'DRONE FPV', titre: 'Repérage Site', detail: 'Visite technique de site industriel pour captation' },
-    { jour: 11, dateStr: '2026-11-11', jourSemaine: 'Mer', type: 'cabine', badge: 'CABINE DCI', titre: 'Les Studios', detail: 'Férié — Séances continues cabines DCI' },
-    { jour: 12, dateStr: '2026-11-12', jourSemaine: 'Jeu', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible cabine numérique & tournages FPV' },
-    { jour: 13, dateStr: '2026-11-13', jourSemaine: 'Ven', type: 'option', badge: 'OPTION', titre: 'Option en cours', detail: 'Option posée par exploitant cinéma partenaire' },
-    { jour: 14, dateStr: '2026-11-14', jourSemaine: 'Sam', type: 'cabine', badge: 'CABINE DCI', titre: 'Les Studios', detail: 'Séance DCI Spéciale Patrimoine' },
-    { jour: 15, dateStr: '2026-11-15', jourSemaine: 'Dim', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible week-end tournage ou cabine' },
-    { jour: 16, dateStr: '2026-11-16', jourSemaine: 'Lun', type: 'formation', badge: 'FORMATION', titre: 'CFA DCI', detail: 'Sonorisation processeurs Dolby CP' },
-    { jour: 17, dateStr: '2026-11-17', jourSemaine: 'Mar', type: 'formation', badge: 'FORMATION', titre: 'CFA DCI', detail: 'Réseaux TMS & Ingestion DCP haut débit' },
-    { jour: 18, dateStr: '2026-11-18', jourSemaine: 'Mer', type: 'formation', badge: 'FORMATION', titre: 'CFA DCI', detail: 'Calibration laser et maintenance de cabine' },
-    { jour: 19, dateStr: '2026-11-19', jourSemaine: 'Jeu', type: 'formation', badge: 'FORMATION', titre: 'CFA DCI', detail: 'Maintenance préventive projecteurs' },
-    { jour: 20, dateStr: '2026-11-20', jourSemaine: 'Ven', type: 'fpv', badge: 'DRONE FPV', titre: 'Tournage Validé', detail: 'Prises de vue cinématiques indoor & outdoor' },
-    { jour: 21, dateStr: '2026-11-21', jourSemaine: 'Sam', type: 'cabine', badge: 'CABINE DCI', titre: 'Ciné-Off', detail: 'Tournée week-end circuit rural' },
-    { jour: 22, dateStr: '2026-11-22', jourSemaine: 'Dim', type: 'cabine', badge: 'CABINE DCI', titre: 'Ciné-Off', detail: 'Tournée week-end circuit rural' },
-    { jour: 23, dateStr: '2026-11-23', jourSemaine: 'Lun', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible cabine numérique & tournages FPV' },
-    { jour: 24, dateStr: '2026-11-24', jourSemaine: 'Mar', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible cabine numérique & tournages FPV' },
-    { jour: 25, dateStr: '2026-11-25', jourSemaine: 'Mer', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible cabine numérique & tournages FPV' },
-    { jour: 26, dateStr: '2026-11-26', jourSemaine: 'Jeu', type: 'option', badge: 'OPTION', titre: 'Option FPV', detail: 'Option tournage sous réserve de météo' },
-    { jour: 27, dateStr: '2026-11-27', jourSemaine: 'Ven', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible cabine numérique & tournages FPV' },
-    { jour: 28, dateStr: '2026-11-28', jourSemaine: 'Sam', type: 'cabine', badge: 'CABINE DCI', titre: 'Les Studios', detail: 'Soirée ciné-débat & régie son micro HF' },
-    { jour: 29, dateStr: '2026-11-29', jourSemaine: 'Dim', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible cabine numérique & tournages FPV' },
-    { jour: 30, dateStr: '2026-11-30', jourSemaine: 'Lun', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible cabine numérique & tournages FPV' },
-  ],
-};
+const joursSemaineLabels = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
 
-const moisDecembre2026: CalendarMonth = {
-  nom: 'Décembre',
-  annee: 2026,
-  id: 'decembre-2026',
-  decalageLundi: 1, // 1er déc 2026 = Mardi
-  jours: [
-    { jour: 1, dateStr: '2026-12-01', jourSemaine: 'Mar', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible cabine numérique & tournages FPV' },
-    { jour: 2, dateStr: '2026-12-02', jourSemaine: 'Mer', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible cabine numérique & tournages FPV' },
-    { jour: 3, dateStr: '2026-12-03', jourSemaine: 'Jeu', type: 'fpv', badge: 'DRONE FPV', titre: 'Tournage Intérieur', detail: 'Cinewhoop bureaux & showroom' },
-    { jour: 4, dateStr: '2026-12-04', jourSemaine: 'Ven', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible cabine numérique & tournages FPV' },
-    { jour: 5, dateStr: '2026-12-05', jourSemaine: 'Sam', type: 'cabine', badge: 'CABINE DCI', titre: 'Les Studios', detail: 'Exploitation week-end 7 écrans DCI' },
-    { jour: 6, dateStr: '2026-12-06', jourSemaine: 'Dim', type: 'cabine', badge: 'CABINE DCI', titre: 'Les Studios', detail: 'Exploitation week-end 7 écrans DCI' },
-    { jour: 7, dateStr: '2026-12-07', jourSemaine: 'Lun', type: 'formation', badge: 'FORMATION', titre: 'CFA DCI', detail: 'Exploitation multi-écrans & TMS' },
-    { jour: 8, dateStr: '2026-12-08', jourSemaine: 'Mar', type: 'formation', badge: 'FORMATION', titre: 'CFA DCI', detail: 'Processeurs IMS automatisés' },
-    { jour: 9, dateStr: '2026-12-09', jourSemaine: 'Mer', type: 'formation', badge: 'FORMATION', titre: 'CFA DCI', detail: 'Dépannage optique & réseau d\'urgence' },
-    { jour: 10, dateStr: '2026-12-10', jourSemaine: 'Jeu', type: 'formation', badge: 'FORMATION', titre: 'CFA DCI', detail: 'Normes SMPTE & DCI' },
-    { jour: 11, dateStr: '2026-12-11', jourSemaine: 'Ven', type: 'formation', badge: 'FORMATION', titre: 'CFA DCI', detail: 'Évaluation technique & contrôle' },
-    { jour: 12, dateStr: '2026-12-12', jourSemaine: 'Sam', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible cabine numérique & tournages FPV' },
-    { jour: 13, dateStr: '2026-12-13', jourSemaine: 'Dim', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible cabine numérique & tournages FPV' },
-    { jour: 14, dateStr: '2026-12-14', jourSemaine: 'Lun', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible cabine numérique & tournages FPV' },
-    { jour: 15, dateStr: '2026-12-15', jourSemaine: 'Mar', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible cabine numérique & tournages FPV' },
-    { jour: 16, dateStr: '2026-12-16', jourSemaine: 'Mer', type: 'cabine', badge: 'CABINE DCI', titre: 'Ciné-Off', detail: 'Séance événementielle fête de fin d\'année' },
-    { jour: 17, dateStr: '2026-12-17', jourSemaine: 'Jeu', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible cabine numérique & tournages FPV' },
-    { jour: 18, dateStr: '2026-12-18', jourSemaine: 'Ven', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible cabine numérique & tournages FPV' },
-    { jour: 19, dateStr: '2026-12-19', jourSemaine: 'Sam', type: 'cabine', badge: 'CABINE DCI', titre: 'Ciné-Off', detail: 'Circuit jeunesse vacances scolaires' },
-    { jour: 20, dateStr: '2026-12-20', jourSemaine: 'Dim', type: 'cabine', badge: 'CABINE DCI', titre: 'Ciné-Off', detail: 'Circuit jeunesse vacances scolaires' },
-    { jour: 21, dateStr: '2026-12-21', jourSemaine: 'Lun', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible cabine numérique & tournages FPV' },
-    { jour: 22, dateStr: '2026-12-22', jourSemaine: 'Mar', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible cabine numérique & tournages FPV' },
-    { jour: 23, dateStr: '2026-12-23', jourSemaine: 'Mer', type: 'cabine', badge: 'CABINE DCI', titre: 'Les Studios', detail: 'Séances affluence vacances de Noël' },
-    { jour: 24, dateStr: '2026-12-24', jourSemaine: 'Jeu', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible journée' },
-    { jour: 25, dateStr: '2026-12-25', jourSemaine: 'Ven', type: 'cabine', badge: 'CABINE DCI', titre: 'Les Studios', detail: 'Séances de Noël après-midi + soir' },
-    { jour: 26, dateStr: '2026-12-26', jourSemaine: 'Sam', type: 'cabine', badge: 'CABINE DCI', titre: 'Les Studios', detail: 'Séances de Noël après-midi + soir' },
-    { jour: 27, dateStr: '2026-12-27', jourSemaine: 'Dim', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible cabine numérique & tournages FPV' },
-    { jour: 28, dateStr: '2026-12-28', jourSemaine: 'Lun', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible cabine numérique & tournages FPV' },
-    { jour: 29, dateStr: '2026-12-29', jourSemaine: 'Mar', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible cabine numérique & tournages FPV' },
-    { jour: 30, dateStr: '2026-12-30', jourSemaine: 'Mer', type: 'disponible', badge: 'DISPONIBLE', titre: 'Créneau ouvert', detail: 'Disponible cabine numérique & tournages FPV' },
-    { jour: 31, dateStr: '2026-12-31', jourSemaine: 'Jeu', type: 'cabine', badge: 'CABINE DCI', titre: 'Ciné-Off', detail: 'Séance Réveillon itinérance festive' },
-  ],
-};
+function buildMonth(annee: number, moisIndex: number, nom: string, nbJours: number): CalendarMonth {
+  const premierJour = new Date(annee, moisIndex, 1);
+  const dayOfWeek = premierJour.getDay();
+  const decalageLundi = (dayOfWeek + 6) % 7;
 
+  const jours: CalendarDay[] = [];
+  for (let j = 1; j <= nbJours; j++) {
+    const d = new Date(annee, moisIndex, j);
+    const mm = String(moisIndex + 1).padStart(2, '0');
+    const dd = String(j).padStart(2, '0');
+    jours.push({
+      jour: j,
+      dateStr: `${annee}-${mm}-${dd}`,
+      jourSemaine: joursSemaineLabels[d.getDay()],
+    });
+  }
+
+  return {
+    nom,
+    annee,
+    id: `${nom.toLowerCase()}-${annee}`,
+    decalageLundi,
+    jours,
+  };
+}
+
+const moisNovembre2026 = buildMonth(2026, 10, 'Novembre', 30);
+const moisDecembre2026 = buildMonth(2026, 11, 'Décembre', 31);
 const moisListe = [moisNovembre2026, moisDecembre2026];
 const joursSemaine = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM'];
 ---
 
 <Base
   titre="Agenda & Calendrier"
-  description="Calendrier consolidé et disponibilités en direct de Tom Bigot : exploitation cabines cinéma numérique DCI et tournages drone FPV."
+  description="Calendrier des disponibilités et réservations de mission de Tom Bigot : cabines de cinéma, drone FPV et développement logiciel."
 >
   <main class="agenda-large-screen">
     <!-- En-tête minimaliste avec bouton retour -->
@@ -115,38 +62,24 @@ const joursSemaine = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM'];
           <span>Retour au portfolio</span>
         </a>
         <span class="breadcrumb-sep">&bull;</span>
-        <span class="breadcrumb-tag">CALENDRIER TEMPS RÉEL</span>
+        <span class="breadcrumb-tag">CALENDRIER DE MISSION</span>
       </div>
 
       <div class="head-titles">
         <h1 class="page-title">AGENDA &amp; CALENDRIER</h1>
         <p class="page-subtitle">
-          Vue d'ensemble consolidée : exploitation de cabines cinéma numérique DCI, tournages par drone FPV et formations techniques.
+          Calendrier des disponibilités pour vacations cabine cinéma, tournages drone FPV et missions techniques.
         </p>
       </div>
 
-      <!-- Légende minimaliste -->
+      <!-- Barre d'état minimaliste -->
       <div class="agenda-legend-bar">
         <div class="legend-item">
           <span class="legend-indicator ind-disponible"></span>
-          <span>Disponible (Libre)</span>
+          <span>Créneau disponible / Optionnable</span>
         </div>
-        <div class="legend-item">
-          <span class="legend-indicator ind-cabine"></span>
-          <span>Cabine Numérique DCI</span>
-        </div>
-        <div class="legend-item">
-          <span class="legend-indicator ind-fpv"></span>
-          <span>Tournage Drone FPV</span>
-        </div>
-        <div class="legend-item">
-          <span class="legend-indicator ind-formation"></span>
-          <span>Formation CFA DCI</span>
-        </div>
-        <div class="legend-item">
-          <span class="legend-indicator ind-option"></span>
-          <span>Option Posée</span>
-        </div>
+        <span class="legend-sep">&bull;</span>
+        <span class="legend-hint">Cliquez sur une date pour poser une option ou échanger sur vos besoins.</span>
       </div>
     </header>
 
@@ -177,23 +110,21 @@ const joursSemaine = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM'];
             {mois.jours.map((item) => (
               <button
                 type="button"
-                class={`day-cell day-${item.type}`}
+                class="day-cell day-disponible"
                 data-date={item.dateStr}
                 data-jour={item.jour}
-                data-type={item.type}
-                data-badge={item.badge}
-                data-titre={item.titre}
-                data-detail={item.detail}
-                aria-label={`${item.jourSemaine} ${item.jour} ${mois.nom} 2026 : ${item.badge} - ${item.titre}`}
+                data-semaine={item.jourSemaine}
+                data-mois={`${mois.nom} ${mois.annee}`}
+                aria-label={`${item.jourSemaine} ${item.jour} ${mois.nom} ${mois.annee} : Disponible`}
               >
                 <div class="day-top">
                   <span class="day-number">{item.jour < 10 ? `0${item.jour}` : item.jour}</span>
                   <span class="day-weekday-mobile">{item.jourSemaine}</span>
                 </div>
                 <div class="day-body">
-                  <span class={`day-badge badge-${item.type}`}>{item.badge}</span>
-                  <span class="day-titre">{item.titre}</span>
-                  <span class="day-detail">{item.detail}</span>
+                  <span class="day-badge badge-disponible">DISPONIBLE</span>
+                  <span class="day-titre">Créneau ouvert</span>
+                  <span class="day-detail">Poser une option</span>
                 </div>
               </button>
             ))}
@@ -206,9 +137,9 @@ const joursSemaine = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM'];
     <aside class="agenda-action-box">
       <div class="action-box-main">
         <span class="action-box-tag">RÉSERVATION &amp; VACATIONS</span>
-        <h3 class="action-box-title">Poser une option sur une date</h3>
+        <h3 class="action-box-title">Poser une option ou échanger sur vos dates</h3>
         <p class="action-box-desc">
-          Un créneau disponible vous intéresse pour un remplacement cabine, une régie de festival ou une captation par drone FPV ? Écrivez-moi directement avec la date souhaitée.
+          Une date vous intéresse pour un remplacement cabine cinéma, une prestation drone FPV ou un projet logiciel ? Écrivez-moi directement avec la date souhaitée.
         </p>
       </div>
       <div class="action-box-btns">
@@ -227,13 +158,15 @@ const joursSemaine = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM'];
     <dialog id="dayModal" class="minimal-modal">
       <div class="modal-card">
         <header class="modal-header">
-          <span class="modal-tag" id="modalTag">DÉTAIL DU CRÉNEAU</span>
+          <span class="modal-tag">DÉTAIL DU CRÉNEAU</span>
           <button type="button" class="btn-close-modal" id="btnCloseModal" aria-label="Fermer la vue détaillée">&times;</button>
         </header>
         <div class="modal-body">
-          <h4 class="modal-date" id="modalDate">Vendredi 13 Novembre 2026</h4>
-          <div class="modal-status-badge" id="modalBadge">DISPONIBLE</div>
-          <p class="modal-text" id="modalDetail">Détail du jour...</p>
+          <h4 class="modal-date" id="modalDate">13 Novembre 2026</h4>
+          <div class="modal-status-badge badge-disponible">CRÉNEAU DISPONIBLE</div>
+          <p class="modal-text">
+            Cette date est ouverte pour une intervention en cabine de cinéma numérique, un tournage par drone FPV ou une mission de développement.
+          </p>
         </div>
         <footer class="modal-footer">
           <a href="#" id="modalMailto" class="btn-noir">
@@ -249,8 +182,6 @@ const joursSemaine = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM'];
     function initMinimalAgenda() {
       const dayModal = document.getElementById('dayModal') as HTMLDialogElement | null;
       const modalDate = document.getElementById('modalDate');
-      const modalBadge = document.getElementById('modalBadge');
-      const modalDetail = document.getElementById('modalDetail');
       const modalMailto = document.getElementById('modalMailto') as HTMLAnchorElement | null;
       const btnCloseModal = document.getElementById('btnCloseModal');
 
@@ -259,17 +190,13 @@ const joursSemaine = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM'];
       document.querySelectorAll('.day-cell:not(.day-offset)').forEach((btn) => {
         btn.addEventListener('click', () => {
           const dateStr = btn.getAttribute('data-date') || '';
-          const badge = btn.getAttribute('data-badge') || '';
-          const titre = btn.getAttribute('data-titre') || '';
-          const detail = btn.getAttribute('data-detail') || '';
-          const type = btn.getAttribute('data-type') || '';
+          const jour = btn.getAttribute('data-jour') || '';
+          const semaine = btn.getAttribute('data-semaine') || '';
+          const mois = btn.getAttribute('data-mois') || '';
 
-          if (modalDate) modalDate.textContent = dateStr;
-          if (modalBadge) {
-            modalBadge.textContent = `${badge} — ${titre}`;
-            modalBadge.className = `modal-status-badge badge-${type}`;
+          if (modalDate) {
+            modalDate.textContent = `${semaine} ${jour} ${mois}`;
           }
-          if (modalDetail) modalDetail.textContent = detail;
           if (modalMailto) {
             modalMailto.href = `mailto:contact@tom-bigot.fr?subject=Option%20créneau%20agenda%20du%20${encodeURIComponent(dateStr)}`;
           }
@@ -387,7 +314,7 @@ const joursSemaine = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM'];
   .agenda-legend-bar {
     display: flex;
     align-items: center;
-    gap: clamp(12px, 2vw, 24px);
+    gap: clamp(10px, 1.8vw, 18px);
     flex-wrap: wrap;
     padding: 14px 18px;
     border: 1.5px dashed #000000;
@@ -418,22 +345,16 @@ const joursSemaine = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM'];
     border-style: dashed;
   }
 
-  .ind-cabine {
-    background: #000000;
+  .legend-sep {
+    color: rgba(0, 0, 0, 0.3);
   }
 
-  .ind-fpv {
-    background: #000000;
-    border-radius: 50%;
-  }
-
-  .ind-formation {
-    background: #e5e5e5;
-  }
-
-  .ind-option {
-    background: #ffffff;
-    border-style: dotted;
+  .legend-hint {
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.7);
+    text-transform: none;
+    letter-spacing: normal;
+    font-size: 12px;
   }
 
   /* Grande vue du calendrier */
@@ -505,9 +426,9 @@ const joursSemaine = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM'];
   }
 
   .day-cell {
-    min-height: 105px;
-    padding: 10px 10px;
-    border: 1.5px solid #000000;
+    min-height: 100px;
+    padding: 10px;
+    border: 1.5px dashed #000000;
     border-radius: 8px;
     background: #ffffff;
     display: flex;
@@ -524,19 +445,21 @@ const joursSemaine = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM'];
     transform: translateY(-2px);
     box-shadow: 3px 3px 0 #000000;
     background: #fafafa;
+    border-style: solid;
   }
 
   .day-cell.day-offset {
-    border: 1px dashed rgba(0, 0, 0, 0.12);
+    border: 1px dashed rgba(0, 0, 0, 0.1);
     background: #fafafa;
     cursor: default;
-    min-height: 105px;
+    min-height: 100px;
   }
 
   .day-cell.day-offset:hover {
     transform: none;
     box-shadow: none;
     background: #fafafa;
+    border-style: dashed;
   }
 
   .day-top {
@@ -567,7 +490,7 @@ const joursSemaine = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM'];
 
   .day-badge {
     align-self: flex-start;
-    font: 800 9.5px var(--font);
+    font: 800 9px var(--font);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     padding: 2px 6px;
@@ -581,60 +504,15 @@ const joursSemaine = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM'];
     border: 1px dashed #000000;
   }
 
-  .badge-cabine {
-    background: #000000;
-    color: #ffffff;
-    border: 1px solid #000000;
-  }
-
-  .badge-fpv {
-    background: #000000;
-    color: #ffffff;
-    border-radius: 10px;
-    padding: 2px 7px;
-  }
-
-  .badge-formation {
-    background: #e8e8e8;
-    color: #000000;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-  }
-
-  .badge-option {
-    background: #ffffff;
-    color: #000000;
-    border: 1px dotted #000000;
-  }
-
   .day-titre {
     font: 700 11.5px/1.3 var(--font);
     letter-spacing: 0.02em;
     color: #000000;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   .day-detail {
     font: 400 10.5px/1.35 var(--font);
-    color: rgba(0, 0, 0, 0.65);
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  /* Variantes subtiles selon type de jour */
-  .day-cell.day-disponible {
-    border-style: dashed;
-  }
-
-  .day-cell.day-cabine {
-    background: #fbfbfb;
-  }
-
-  .day-cell.day-formation {
-    background: #f8f8f8;
+    color: rgba(0, 0, 0, 0.6);
   }
 
   /* Boîte d'action rapide / Contact */
@@ -714,7 +592,7 @@ const joursSemaine = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM'];
     padding: 0;
     border: none;
     background: transparent;
-    max-width: 500px;
+    max-width: 480px;
     width: 90%;
   }
 
