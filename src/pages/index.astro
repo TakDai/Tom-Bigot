@@ -784,115 +784,49 @@ const transitionVariants = [
     </div>
   </section>
 
-  <!-- ================= AGENDA & DISPONIBILITÉS EN DIRECT ================= -->
+  <!-- ================= AGENDA & DISPONIBILITÉS (MINIMALISTE) ================= -->
   <section class="agenda-screen" id="agenda">
     <div class="agenda-container">
       <header class="blueprint-section-head">
-        <div class="section-badge-row">
-          <span class="etiquette">PLANIFICATION &bull; DISPONIBILITÉS EN DIRECT</span>
-          <span class="actualites-count-badge">CALENDRIER TEMPS RÉEL</span>
-        </div>
-        <h2 class="section-big-title">AGENDA &amp; CALENDRIER DE MISSION</h2>
+        <h2 class="section-big-title">AGENDA &amp; DISPONIBILITÉS</h2>
         <p class="section-big-subtitle">
-          Deux espaces de planification totalement indépendants pour garantir la clarté et la confidentialité de chaque métier : Cabines Cinéma (partenaires &amp; circuits) et Tournages Drone FPV.
+          Calendrier des missions en temps réel : exploitation cabine cinéma, tournages FPV et réservations.
         </p>
       </header>
 
-      <!-- Hub d'accès rapide sous-domaines et espaces dédiés -->
-      <div class="agenda-hub-row">
-        <a href="/agenda/cine-off" class="agenda-hub-card">
-          <span class="hub-card-icon">🎞️</span>
-          <div class="hub-card-body">
-            <strong>Ciné-Off (37)</strong>
-            <small>Circuit itinérant &bull; Tournées</small>
-          </div>
-          <span class="hub-card-arrow">&rarr;</span>
-        </a>
-        <a href="/agenda/les-studios" class="agenda-hub-card">
-          <span class="hub-card-icon">🏛️</span>
-          <div class="hub-card-body">
-            <strong>Les Studios (Tours)</strong>
-            <small>7 Écrans &bull; Cabines &amp; 35mm</small>
-          </div>
-          <span class="hub-card-arrow">&rarr;</span>
-        </a>
-        <a href="/agenda/fpv" class="agenda-hub-card">
-          <span class="hub-card-icon">🚁</span>
-          <div class="hub-card-body">
-            <strong>Drone FPV &amp; Devis</strong>
-            <small>Tournages &bull; Devis instantané</small>
-          </div>
-          <span class="hub-card-arrow">&rarr;</span>
-        </a>
-        <a href="/agenda/admin" class="agenda-hub-card">
-          <span class="hub-card-icon">🛡️</span>
-          <div class="hub-card-body">
-            <strong>Superviseur</strong>
-            <small>Planning consolidé</small>
-          </div>
-          <span class="hub-card-arrow">&rarr;</span>
-        </a>
-      </div>
-
-      <!-- Aperçu interactif du calendrier -->
-      <div class="agenda-preview-box">
-        <div class="preview-box-head">
-          <div class="preview-tabs">
-            <button type="button" class="preview-tab active" data-tab-target="tab-cinema">Cabine Cinéma</button>
-            <button type="button" class="preview-tab" data-tab-target="tab-fpv">Drone FPV</button>
-          </div>
-          <span class="preview-month-label">Novembre — Décembre 2026</span>
+      <div class="agenda-clean-box">
+        <div class="agenda-status-bar">
+          <span class="agenda-status-dot"></span>
+          <span class="agenda-status-text">DISPONIBILITÉS OUVERTES &bull; NOVEMBRE &amp; DÉCEMBRE 2026</span>
         </div>
 
-        <div class="preview-tab-content" id="tab-cinema">
-          <div class="preview-calendar-summary">
-            <div class="summary-stat-item">
-              <span class="stat-number">18</span>
-              <span class="stat-label">Jours disponibles cabine</span>
-            </div>
-            <div class="summary-stat-item">
-              <span class="stat-number">10</span>
-              <span class="stat-label">Séances Les Studios &amp; Ciné-Off</span>
-            </div>
-            <div class="summary-stat-item">
-              <span class="stat-number">11</span>
-              <span class="stat-label">Jours formation CFA DCI</span>
-            </div>
+        <div class="agenda-details-grid">
+          <div class="agenda-detail-col">
+            <h3 class="agenda-detail-title">Cabines Cinéma DCI &amp; 35mm</h3>
+            <p class="agenda-detail-text">
+              Créneaux disponibles pour remplacements en urgence, exploitation cabine, festivals et séances spéciales. Synchronisation en direct des plannings partenaires.
+            </p>
           </div>
-          <p class="preview-note">
-            Les cabines partenaires bénéficient d'un accès réservé et d'une synchronisation en temps réel de leurs créneaux. 
-            Les créneaux marqués disponibles sont ouverts pour des remplacements, festivals ou séances spéciales.
-          </p>
+          <div class="agenda-detail-col">
+            <h3 class="agenda-detail-title">Tournages Drone FPV</h3>
+            <p class="agenda-detail-text">
+              Captations aériennes indoor et outdoor avec parc matériel autonome et retour sol régie. Pose d'options de tournage sous réserve de météo favorable.
+            </p>
+          </div>
         </div>
 
-        <div class="preview-tab-content is-hidden" id="tab-fpv">
-          <div class="preview-calendar-summary">
-            <div class="summary-stat-item">
-              <span class="stat-number">22</span>
-              <span class="stat-label">Jours ouverts tournages FPV</span>
-            </div>
-            <div class="summary-stat-item">
-              <span class="stat-number">3</span>
-              <span class="stat-label">Tournages &amp; repérages validés</span>
-            </div>
-            <div class="summary-stat-item">
-              <span class="stat-number">2</span>
-              <span class="stat-label">Options météo posées</span>
-            </div>
-          </div>
-          <p class="preview-note">
-            Possibilité de poser une option tournage sous réserve de conditions météorologiques favorables. Déplacement avec matériel autonome et régie retour vidéo au sol.
-          </p>
-        </div>
-
-        <div class="agenda-box-footer">
+        <div class="agenda-actions-row">
           <a href="/agenda" class="btn-noir">
-            <span>Accéder à l'agenda complet interactif</span>
+            <span>Accéder à l'agenda complet</span>
             <span class="btn-arrow">&rarr;</span>
           </a>
-          <a href="/agenda/fpv" class="btn-outline">
-            <span>Calculer un devis tournage FPV</span>
-            <span class="btn-arrow">&#8599;</span>
+          <a href="/agenda/fpv" class="agenda-chip">
+            <span>Devis tournage FPV</span>
+            <span class="chip-arrow">&#8599;</span>
+          </a>
+          <a href="#contact" class="agenda-chip">
+            <span>Poser une option</span>
+            <span class="chip-arrow">&rarr;</span>
           </a>
         </div>
       </div>
@@ -1294,19 +1228,7 @@ const transitionVariants = [
         setTimeout(() => openFiche(initialPid, false), 300);
       }
 
-      // 7. Gestionnaire des onglets de l'aperçu Agenda
-      const agendaTabs = document.querySelectorAll('.preview-tab');
-      agendaTabs.forEach((tabBtn) => {
-        tabBtn.addEventListener('click', () => {
-          const targetId = tabBtn.getAttribute('data-tab-target');
-          if (!targetId) return;
-          agendaTabs.forEach((b) => b.classList.remove('active'));
-          tabBtn.classList.add('active');
-          document.querySelectorAll('.preview-tab-content').forEach((content) => {
-            content.classList.toggle('is-hidden', content.id !== targetId);
-          });
-        });
-      });
+
 
 
     }
@@ -3400,166 +3322,100 @@ const transitionVariants = [
   }
 
   /* ==========================================================================
-     SECTION AGENDA (HUB + PREVIEW)
+     SECTION AGENDA ÉPURÉE & MINIMALISTE
      ========================================================================== */
-  .agenda-hub-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 16px;
-  }
-
-  .agenda-hub-card {
-    border: 2px dashed #000000;
+  .agenda-clean-box {
+    border: 1.5px dashed #000000;
     border-radius: 12px;
-    padding: 16px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    text-decoration: none;
-    color: #000000;
     background: #ffffff;
-    transition: transform 0.15s ease, border-style 0.15s ease, box-shadow 0.15s ease;
-  }
-
-  .agenda-hub-card:hover {
-    border-style: solid;
-    transform: translateY(-2px);
-    box-shadow: 4px 4px 0px #000000;
-  }
-
-  .hub-card-icon {
-    font-size: 26px;
-    line-height: 1;
-  }
-
-  .hub-card-body {
+    padding: clamp(24px, 4vw, 36px);
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    flex: 1;
+    gap: 22px;
+    box-shadow: 4px 4px 0 #000000;
   }
 
-  .hub-card-body strong {
-    font: 700 14px var(--font);
-    letter-spacing: 0.05em;
-  }
-
-  .hub-card-body small {
-    font: 400 11px var(--font);
-    color: rgba(0, 0, 0, 0.65);
-  }
-
-  .hub-card-arrow {
-    font-size: 16px;
-    font-weight: 700;
-    color: rgba(0, 0, 0, 0.4);
-    transition: transform 0.15s ease, color 0.15s ease;
-  }
-
-  .agenda-hub-card:hover .hub-card-arrow {
-    transform: translateX(3px);
+  .agenda-status-bar {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font: 700 11px var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     color: #000000;
   }
 
-  .agenda-preview-box {
-    border: 2.5px solid #000000;
-    border-radius: 14px;
-    background: #fafafa;
-    padding: clamp(20px, 3vw, 32px);
+  .agenda-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #000000;
+    display: inline-block;
+  }
+
+  .agenda-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  .agenda-detail-col {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    box-shadow: 6px 6px 0px #000000;
+    gap: 6px;
+    padding: 16px;
+    border: 1px dashed rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    background: #fafafa;
   }
 
-  .preview-box-head {
+  .agenda-detail-title {
+    margin: 0;
+    font: 700 13px var(--font);
+    letter-spacing: 0.05em;
+    color: #000000;
+    text-transform: uppercase;
+  }
+
+  .agenda-detail-text {
+    margin: 0;
+    font: 400 13px/1.55 var(--font);
+    color: rgba(0, 0, 0, 0.75);
+  }
+
+  .agenda-actions-row {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 16px;
+    gap: 12px;
     flex-wrap: wrap;
-    border-bottom: 2px dashed rgba(0, 0, 0, 0.2);
-    padding-bottom: 16px;
+    padding-top: 14px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.18);
   }
 
-  .preview-tabs {
-    display: inline-flex;
+  .agenda-actions-row .btn-noir {
     gap: 8px;
   }
 
-  .preview-tab {
+  .agenda-chip {
     padding: 8px 16px;
-    border: 2px solid #000000;
-    border-radius: 8px;
+    border: 1px solid #000000;
+    border-radius: 6px;
     background: #ffffff;
-    font: 700 12px var(--font);
-    letter-spacing: 0.1em;
+    color: #000000;
+    text-decoration: none;
+    font: 700 11px var(--font);
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    cursor: pointer;
-    transition: background 0.15s ease, color 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s ease;
   }
 
-  .preview-tab.active {
+  .agenda-chip:hover {
     background: #000000;
     color: #ffffff;
-  }
-
-  .preview-month-label {
-    font: 700 12px var(--font);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.65);
-  }
-
-  .preview-tab-content.is-hidden {
-    display: none;
-  }
-
-  .preview-calendar-summary {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-  }
-
-  .summary-stat-item {
-    border: 1.5px dashed rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    background: #ffffff;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .stat-number {
-    font: 700 32px/1 var(--font);
-    letter-spacing: 0.04em;
-    color: #000000;
-  }
-
-  .stat-label {
-    font: 700 11px/1.4 var(--font);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.65);
-  }
-
-  .preview-note {
-    margin: 0;
-    font: 400 13.5px/1.6 var(--font);
-    color: rgba(0, 0, 0, 0.75);
-    background: #ffffff;
-    border: 1px dashed rgba(0, 0, 0, 0.25);
-    border-radius: 8px;
-    padding: 14px 18px;
-  }
-
-  .agenda-box-footer {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    flex-wrap: wrap;
-    padding-top: 10px;
+    transform: translateY(-1px);
   }
 
   /* ==========================================================================
