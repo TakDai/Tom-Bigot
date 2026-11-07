@@ -51,8 +51,8 @@ AddDefaultCharset UTF-8
   # Content Security Policy (A03:2021 Injection / XSS — Aucun domaine externe autorisé)
   Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; frame-ancestors 'none'; form-action 'self' mailto: sms:; base-uri 'self'; object-src 'none';"
 
-  # Permissions-Policy : Désactivation des API matérielles intrusives
-  Header always set Permissions-Policy "accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), usb=()"
+  # Permissions-Policy : Autorisation autoplay pour nos vidéos internes, désactivation des API intrusives
+  Header always set Permissions-Policy "accelerometer=(), autoplay=(self), camera=(), display-capture=(), encrypted-media=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), usb=()"
 
   # Isolation d'origine (Spectre / Cross-Origin Attacks)
   Header always set Cross-Origin-Opener-Policy "same-origin"
