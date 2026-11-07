@@ -265,82 +265,58 @@ const transitionVariants = [
     </a>
   </section>
 
-  <!-- ================= ACTUALITÉS, RÉSEAUX & AVANCEMENTS DES PROJETS (SOUS LA VIDÉO D'ACCUEIL) ================= -->
+  <!-- ================= FIL D'ACTUALITÉS ÉPURÉ (SOUS LA VIDÉO D'ACCUEIL) ================= -->
   <section class="actualites-screen" id="actualites">
     <div class="actualites-container">
-      <header class="blueprint-section-head">
-        <h2 class="section-big-title">ACTUALITÉS &amp; FLUX</h2>
-        <p class="section-big-subtitle">
-          Avancements de projets, déploiements récents et activité en direct.
-        </p>
-
-        <!-- Barre de filtres épurée -->
-        <div class="actualites-filters-bar" role="tablist" aria-label="Filtrer les actualités">
-          <button type="button" class="actu-filter-btn active" data-filter="all">
-            <span>Tous</span>
-            <span class="filter-count">({actualitesPosts.length})</span>
-          </button>
-          <button type="button" class="actu-filter-btn" data-filter="projet">
-            <span>Sites &amp; Projets</span>
-          </button>
-          <button type="button" class="actu-filter-btn" data-filter="reseau">
-            <span>GitHub &amp; Code</span>
-          </button>
-          <button type="button" class="actu-filter-btn" data-filter="twitch">
-            <span>Twitch</span>
-          </button>
-        </div>
-      </header>
-
-      <div class="actualites-grid" id="actualitesGrid">
+      <div class="feed-grid" id="actualitesGrid">
         {actualitesPosts.map((post) => {
           return (
-            <article class="actualite-card" data-category={post.sourceType}>
-              <!-- Vignette épurée -->
-              <div class="actualite-thumb-box">
+            <article class="feed-item" data-category={post.sourceType}>
+              <!-- Logo monochrome en petit -->
+              <div class="feed-logo-wrap">
                 <img
-                  src={post.illustration}
-                  alt={post.titre}
-                  class="actualite-thumb-img"
+                  src={post.logo}
+                  alt=""
+                  class="feed-logo-img"
                   loading="lazy"
-                  width="110"
-                  height="82"
+                  width="22"
+                  height="22"
                 />
               </div>
 
-              <!-- Contenu épuré -->
-              <div class="actualite-card-content">
-                <div class="actualite-card-meta">
-                  <span class="actualite-source">{post.sourceNom}</span>
-                  <span class="meta-dot">&bull;</span>
-                  <span class="actualite-date">{formaterDate(post.date)}</span>
+              <!-- Contenu textuel épuré -->
+              <div class="feed-content">
+                <div class="feed-meta">
+                  <span class="feed-source">{post.sourceNom}</span>
+                  <span class="feed-dot">&bull;</span>
+                  <time class="feed-date">{formaterDate(post.date)}</time>
                 </div>
 
-                <h3 class="actualite-titre" title={post.titre}>{post.titre}</h3>
-                <p class="actualite-desc">{post.description}</p>
+                <h3 class="feed-title">{post.titre}</h3>
+                <p class="feed-desc">{post.description}</p>
 
-                <div class="actualite-card-footer">
+                <div class="feed-actions">
                   {post.projetId && (
                     <button
                       type="button"
-                      class="actu-clean-link btn-open-fiche"
+                      class="feed-link btn-open-fiche"
                       data-open-fiche={post.projetId}
                       aria-haspopup="dialog"
                     >
                       <span>Fiche projet</span>
-                      <span class="actu-arrow">&rarr;</span>
+                      <span class="feed-arrow">&rarr;</span>
                     </button>
                   )}
                   {post.lienSite && (
-                    <a href={post.lienSite} target="_blank" rel="noopener noreferrer" class="actu-clean-link">
+                    <a href={post.lienSite} target="_blank" rel="noopener noreferrer" class="feed-link">
                       <span>Visiter le site</span>
-                      <span class="actu-arrow">&#8599;</span>
+                      <span class="feed-arrow">&#8599;</span>
                     </a>
                   )}
                   {post.lienGitHub && !post.lienSite && (
-                    <a href={post.lienGitHub} target="_blank" rel="noopener noreferrer" class="actu-clean-link">
+                    <a href={post.lienGitHub} target="_blank" rel="noopener noreferrer" class="feed-link">
                       <span>Dépôt GitHub</span>
-                      <span class="actu-arrow">&#8599;</span>
+                      <span class="feed-arrow">&#8599;</span>
                     </a>
                   )}
                 </div>
@@ -1318,25 +1294,7 @@ const transitionVariants = [
         });
       });
 
-      // 8. Gestionnaire des filtres du flux d'actualités & avancements
-      const filterBtns = document.querySelectorAll('.actu-filter-btn');
-      const actuCards = document.querySelectorAll<HTMLElement>('.actualite-card');
-      filterBtns.forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const filter = btn.getAttribute('data-filter') || 'all';
-          filterBtns.forEach((b) => b.classList.remove('active'));
-          btn.classList.add('active');
 
-          actuCards.forEach((card) => {
-            const cat = card.getAttribute('data-category');
-            if (filter === 'all' || cat === filter) {
-              card.style.display = '';
-            } else {
-              card.style.display = 'none';
-            }
-          });
-        });
-      });
     }
 
     if (document.readyState === 'loading') {
@@ -3155,130 +3113,90 @@ const transitionVariants = [
   }
 
   /* ==========================================================================
-     GRILLE ACTUALITÉS, RÉSEAUX & AVANCEMENTS DES SITES
+     FIL D'ACTUALITÉS ÉPURÉ (MONOCHROME & PROPRE)
      ========================================================================== */
-  .actualites-filters-bar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-top: 14px;
-  }
-
-  .actu-filter-btn {
-    padding: 7px 15px;
-    border: 1.5px solid #000000;
-    border-radius: 999px;
-    background: #ffffff;
-    font: 700 11px var(--font);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #000000;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .actu-filter-btn:hover {
-    background: #f0f0f0;
-    transform: translateY(-1px);
-  }
-
-  .actu-filter-btn.active {
-    background: #000000;
-    color: #ffffff;
-    border-color: #000000;
-  }
-
-  .filter-count {
-    opacity: 0.7;
-    font-size: 10px;
-  }
-
-  .actualites-grid {
+  .feed-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
     gap: 12px;
   }
 
-  .actualite-card {
-    border: 1px dashed rgba(0, 0, 0, 0.4);
+  .feed-item {
+    border: 1px dashed rgba(0, 0, 0, 0.28);
     border-radius: 8px;
     background: #ffffff;
     display: flex;
-    flex-direction: row;
-    align-items: stretch;
+    align-items: flex-start;
     gap: 12px;
-    padding: 8px;
-    min-height: 94px;
+    padding: 12px 14px;
     transition: all 0.15s ease;
   }
 
-  .actualite-card:hover {
-    border-style: solid;
+  .feed-item:hover {
     border-color: #000000;
-    transform: translateY(-2px);
-    box-shadow: 3px 3px 0px #000000;
+    border-style: solid;
+    transform: translateY(-1px);
+    box-shadow: 2px 2px 0px #000000;
   }
 
-  /* Vignette épurée */
-  .actualite-thumb-box {
-    width: 104px;
-    min-width: 104px;
-    height: 100%;
-    min-height: 78px;
-    border-radius: 5px;
-    overflow: hidden;
-    border: 1px solid rgba(0, 0, 0, 0.25);
+  .feed-logo-wrap {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: #f7f7f7;
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    padding: 3px;
     flex-shrink: 0;
+    margin-top: 1px;
   }
 
-  .actualite-thumb-img {
+  .feed-logo-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.25s ease;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.85;
+    transition: filter 0.15s ease, opacity 0.15s ease;
   }
 
-  .actualite-card:hover .actualite-thumb-img {
-    transform: scale(1.04);
+  .feed-item:hover .feed-logo-img {
+    filter: grayscale(100%) contrast(150%);
+    opacity: 1;
   }
 
-  /* Contenu textuel */
-  .actualite-card-content {
+  .feed-content {
     flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    min-width: 0;
     gap: 3px;
   }
 
-  .actualite-card-meta {
+  .feed-meta {
     display: flex;
     align-items: center;
     gap: 5px;
     font: 700 9px var(--font);
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.55);
+    color: rgba(0, 0, 0, 0.5);
   }
 
-  .actualite-source {
+  .feed-source {
     color: #000000;
   }
 
-  .meta-dot {
+  .feed-dot {
     opacity: 0.35;
   }
 
-  .actualite-titre {
+  .feed-title {
     margin: 0;
-    font: 700 12px/1.25 var(--font);
+    font: 700 12px/1.3 var(--font);
     letter-spacing: 0.02em;
     text-transform: uppercase;
     color: #000000;
@@ -3288,9 +3206,9 @@ const transitionVariants = [
     overflow: hidden;
   }
 
-  .actualite-desc {
+  .feed-desc {
     margin: 0;
-    font: 400 11px/1.35 var(--font);
+    font: 400 11.5px/1.35 var(--font);
     color: rgba(0, 0, 0, 0.65);
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -3298,14 +3216,16 @@ const transitionVariants = [
     overflow: hidden;
   }
 
-  .actualite-card-footer {
+  .feed-actions {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-top: 2px;
+    gap: 10px;
+    margin-top: 3px;
+    padding-top: 4px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.1);
   }
 
-  .actu-clean-link {
+  .feed-link {
     font: 700 9.5px var(--font);
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -3321,14 +3241,13 @@ const transitionVariants = [
     transition: opacity 0.15s ease, transform 0.15s ease;
   }
 
-  .actu-clean-link:hover {
-    opacity: 0.65;
+  .feed-link:hover {
+    opacity: 0.6;
     transform: translateX(2px);
   }
 
-  .actu-arrow {
+  .feed-arrow {
     font-size: 10px;
-    line-height: 1;
     font-weight: 700;
   }
 
@@ -3759,13 +3678,8 @@ const transitionVariants = [
   }
 
   @media (max-width: 640px) {
-    .actualite-card {
-      flex-direction: column;
-      gap: 10px;
-    }
-    .actualite-thumb-box {
-      width: 100%;
-      height: 130px;
+    .feed-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>

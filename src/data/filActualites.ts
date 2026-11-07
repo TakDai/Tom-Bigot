@@ -11,7 +11,8 @@ export interface PostActualite {
   sourceUrl?: string;
   badgeType: string;
   tags: string[];
-  illustration: string;
+  illustration?: string;
+  logo: string;
   projetId?: string;
   lienSite?: string;
   lienGitHub?: string;
@@ -21,7 +22,7 @@ export const postsBase: PostActualite[] = [
   {
     id: 'multi-motors-veille',
     titre: 'Multi-Motors : Veille catalogue & 13 700 moteurs brushless FPV',
-    description: "Indexation quotidienne mondiale : courbes bancs dynamométriques (g/W), relevé automatisé des stocks et variations de prix.",
+    description: "Indexation quotidienne mondiale : relevé des courbes dynamométriques de bancs de test et suivi des stocks en ligne.",
     date: new Date('2026-11-06T19:41:12Z'),
     sourceType: 'projet',
     sourceNom: 'Multi-Motors.fr',
@@ -29,7 +30,7 @@ export const postsBase: PostActualite[] = [
     sourceUrl: 'https://multi-motors.fr',
     badgeType: 'CATALOGUE EN LIGNE',
     tags: ['13 700 Moteurs', 'Scraping', 'FPV'],
-    illustration: '/assets/actualites/multi-motors.png',
+    logo: '/assets/logos/multi-motors.svg',
     projetId: 'multi-motors',
     lienSite: 'https://multi-motors.fr',
     lienGitHub: 'https://github.com/TakDai/Multi-Motors',
@@ -45,14 +46,14 @@ export const postsBase: PostActualite[] = [
     sourceUrl: 'https://github.com/TakDai/Inskin',
     badgeType: 'NOUVELLE VERSION',
     tags: ['Android Kotlin', 'Dangerous Things', 'NFC/RFID'],
-    illustration: '/assets/actualites/inskin.png',
+    logo: '/assets/logos/inskin.png',
     projetId: 'inskin',
     lienGitHub: 'https://github.com/TakDai/Inskin',
   },
   {
     id: 'tete-de-piaf-lancement',
     titre: 'Tête de Piaf : Production vidéo aérienne & prises de vue FPV cinématique',
-    description: "Création de la structure de production audiovisuelle : cadrage haute vitesse 4K/6K, télépilotage professionnel certifié DGAC.",
+    description: "Création de la structure audiovisuelle : cadrage haute vitesse 4K/6K et télépilotage professionnel certifié DGAC.",
     date: new Date('2026-11-06T13:11:04Z'),
     sourceType: 'reseau',
     sourceNom: 'GitHub (@TakDai/Tete-De-Piaf)',
@@ -60,7 +61,7 @@ export const postsBase: PostActualite[] = [
     sourceUrl: 'https://github.com/TakDai/Tete-De-Piaf',
     badgeType: 'PRODUCTION VIDÉO',
     tags: ['FPV Cinéma', 'Vidéo 4K', 'Télépilote'],
-    illustration: '/assets/actualites/tete-de-piaf.png',
+    logo: '/assets/logos/tdp.png',
     projetId: 'tete-de-piaf',
     lienGitHub: 'https://github.com/TakDai/Tete-De-Piaf',
   },
@@ -75,7 +76,7 @@ export const postsBase: PostActualite[] = [
     sourceUrl: 'https://twitch.tv/127il',
     badgeType: 'STREAMING DIRECT',
     tags: ['Twitch Live', 'Live Coding', 'Musique'],
-    illustration: '/assets/actualites/127il.png',
+    logo: '/assets/logos/127il.svg',
     projetId: '127il',
     lienSite: 'https://twitch.tv/127il',
     lienGitHub: 'https://github.com/TakDai/127il',
@@ -83,7 +84,7 @@ export const postsBase: PostActualite[] = [
   {
     id: 'openbots-nodal',
     titre: 'OpenBots.fr : Orchestration Docker multi-tenant et flows nodaux',
-    description: "Déploiement du panel d'administration : instances de bots Discord (discord.py) conteneurisées avec streaming Lavalink et flows visuels.",
+    description: "Panel de pilotage et exécution isolée de bots Discord (discord.py) dans des conteneurs Docker avec streaming Lavalink.",
     date: new Date('2026-11-04T18:20:00Z'),
     sourceType: 'projet',
     sourceNom: 'OpenBots.fr',
@@ -91,7 +92,7 @@ export const postsBase: PostActualite[] = [
     sourceUrl: 'https://openbots.fr',
     badgeType: 'EN PRODUCTION',
     tags: ['Docker', 'Discord.py', 'Flows'],
-    illustration: '/assets/actualites/openbots.png',
+    logo: '/assets/logos/openbots.png',
     projetId: 'openbots',
     lienSite: 'https://openbots.fr',
     lienGitHub: 'https://github.com/TakDai/OpenBots',
@@ -107,14 +108,14 @@ export const postsBase: PostActualite[] = [
     sourceUrl: 'https://github.com/TakDai/Superviseur',
     badgeType: 'ARCHITECTURE SYSTÈME',
     tags: ['.NET 8', 'Avalonia', 'DevOps'],
-    illustration: '/assets/actualites/superviseur.png',
+    logo: '/assets/logos/superviseur.svg',
     projetId: 'superviseur',
     lienGitHub: 'https://github.com/TakDai/Superviseur',
   },
   {
     id: 'fix-my-drone-pinouts',
     titre: 'Fix-My-Drone : Schémas pinouts FC/ESC & diagnostic matériel FPV',
-    description: "Fiches techniques interactives de câblage pour contrôleurs STM32 récents et guides pas à pas de diagnostic de pannes électroniques.",
+    description: "Fiches techniques interactives de câblage pour contrôleurs STM32 récents et guides de diagnostic de pannes électroniques.",
     date: new Date('2026-11-01T11:15:00Z'),
     sourceType: 'projet',
     sourceNom: 'Fix-My-Drone',
@@ -122,14 +123,14 @@ export const postsBase: PostActualite[] = [
     sourceUrl: 'https://github.com/TakDai/fix-my-drone',
     badgeType: 'SCHÉMAS & MODS',
     tags: ['Pinouts', 'Électronique', 'FPV'],
-    illustration: '/assets/actualites/fix-my-drone.png',
+    logo: '/assets/logos/fix-my-drone.svg',
     projetId: 'fix-my-drone',
     lienGitHub: 'https://github.com/TakDai/fix-my-drone',
   },
   {
     id: 'pensee-nocturne-crypto',
     titre: 'Pensée Nocturne : Chiffrement client Web Crypto SHA-256 éphémère',
-    description: "Partage de pensées éphémères chiffrées de bout en bout : zéro rétention serveur, salage cryptographique local dans le navigateur.",
+    description: "Partage de notes éphémères chiffrées de bout en bout : zéro rétention serveur, salage cryptographique local dans le navigateur.",
     date: new Date('2026-10-28T22:00:00Z'),
     sourceType: 'projet',
     sourceNom: 'Pensées-Nocturnes.fr',
@@ -137,7 +138,7 @@ export const postsBase: PostActualite[] = [
     sourceUrl: 'https://pensées-nocturnes.fr',
     badgeType: 'CONFIDENTIALITÉ',
     tags: ['Web Crypto', 'Zero-Knowledge', 'React'],
-    illustration: '/assets/actualites/pensee-nocturne.png',
+    logo: '/assets/logos/pensee-nocturne.svg',
     projetId: 'pensee-nocturne',
     lienSite: 'https://pensées-nocturnes.fr',
     lienGitHub: 'https://github.com/TakDai/Pens-e-Nocturne',
@@ -153,7 +154,7 @@ export const postsBase: PostActualite[] = [
     sourceUrl: 'https://komeon.fr',
     badgeType: 'AUDIO TEMPS RÉEL',
     tags: ['LiveKit SFU', 'WebRTC', 'FastAPI'],
-    illustration: '/assets/actualites/komeon.png',
+    logo: '/assets/logos/komeon.png',
     projetId: 'komeon',
     lienSite: 'https://komeon.fr',
     lienGitHub: 'https://github.com/TakDai/Komeon',
@@ -161,7 +162,7 @@ export const postsBase: PostActualite[] = [
   {
     id: 'lestourangeaux-communaute',
     titre: 'Les Tourangeaux : Plateforme communautaire & guide des créateurs',
-    description: "Mise en réseau locale en région tourangelle : agenda d'événements, cartographie des artisans et vitrine numérique associative.",
+    description: "Mise en réseau locale en région tourangelle : agenda d'événements, cartographie des artisans et vitrine numérique.",
     date: new Date('2026-10-18T10:00:00Z'),
     sourceType: 'projet',
     sourceNom: 'LesTourangeaux.fr',
@@ -169,7 +170,7 @@ export const postsBase: PostActualite[] = [
     sourceUrl: 'https://lestourangeaux.fr',
     badgeType: 'COMMUNAUTÉ LOCALE',
     tags: ['Touraine', 'Web', 'Annuaire'],
-    illustration: '/assets/actualites/lestourangeaux.png',
+    logo: '/assets/logos/lestourangeaux.svg',
     projetId: 'lestourangeaux',
     lienSite: 'https://lestourangeaux.fr',
     lienGitHub: 'https://github.com/TakDai/lestourangeaux',
@@ -218,22 +219,20 @@ export async function getFilActualites(): Promise<PostActualite[]> {
           const shortRepo = repoName.replace(/^TakDai\//, '');
           const eventDate = new Date(ev.created_at);
 
-          // Vérifier si un post base existe déjà pour cette mise à jour très récente
           const exists = posts.some(p => p.sourceNom.includes(shortRepo) && Math.abs(p.date.getTime() - eventDate.getTime()) < 3600 * 1000 * 12);
           if (!exists) {
-            // Choix de l'illustration
-            let illu = '/assets/actualites/github-takdai.png';
-            if (shortRepo.toLowerCase().includes('multi-motors')) illu = '/assets/actualites/multi-motors.png';
-            else if (shortRepo.toLowerCase().includes('inskin')) illu = '/assets/actualites/inskin.png';
-            else if (shortRepo.toLowerCase().includes('tete-de-piaf')) illu = '/assets/actualites/tete-de-piaf.png';
-            else if (shortRepo.toLowerCase().includes('127il')) illu = '/assets/actualites/127il.png';
+            let logo = '/assets/logo-tb.svg';
+            if (shortRepo.toLowerCase().includes('multi-motors')) logo = '/assets/logos/multi-motors.svg';
+            else if (shortRepo.toLowerCase().includes('inskin')) logo = '/assets/logos/inskin.png';
+            else if (shortRepo.toLowerCase().includes('tete-de-piaf')) logo = '/assets/logos/tdp.png';
+            else if (shortRepo.toLowerCase().includes('127il')) logo = '/assets/logos/127il.svg';
 
             const firstCommit = ev.payload?.commits?.[0]?.message?.split('\n')[0] || 'Mise à jour poussée sur le dépôt public';
 
             posts.unshift({
               id: `github-${ev.id}`,
               titre: `Dépôt ${repoName} : ${firstCommit}`,
-              description: `Activité GitHub sur la branche ${ev.payload?.ref ? ev.payload.ref.replace('refs/heads/', '') : 'main'}. Code source et historique consultables publiquement.`,
+              description: `Activité sur la branche ${ev.payload?.ref ? ev.payload.ref.replace('refs/heads/', '') : 'main'}. Code source consultable publiquement.`,
               date: eventDate,
               sourceType: 'reseau',
               sourceNom: `GitHub (@${repoName})`,
@@ -241,7 +240,7 @@ export async function getFilActualites(): Promise<PostActualite[]> {
               sourceUrl: `https://github.com/${repoName}`,
               badgeType: 'COMMIT RÉCENT',
               tags: ['GitHub @TakDai', shortRepo, 'Code Source'],
-              illustration: illu,
+              logo,
               lienGitHub: `https://github.com/${repoName}`,
             });
           }
