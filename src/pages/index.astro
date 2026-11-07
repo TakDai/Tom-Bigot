@@ -323,7 +323,7 @@ const transitionVariants = [
                 loop
                 muted
                 playsinline
-                preload="metadata"
+                preload="none"
               >
                 <source src={p.video} type="video/webm" />
               </video>
@@ -643,6 +643,9 @@ const transitionVariants = [
           if (!vid) return;
           if (entry.isIntersecting) {
             vid.muted = true;
+            if (vid.preload === 'none') {
+              vid.preload = 'auto';
+            }
             if (vid.paused) {
               vid.play().catch(() => {});
             }
@@ -652,7 +655,7 @@ const transitionVariants = [
             }
           }
         });
-      }, { rootMargin: '50px 0px 50px 0px', threshold: 0.15 });
+      }, { rootMargin: '100px 0px 100px 0px', threshold: 0.10 });
 
       projectSections.forEach((sec) => sectionObserver.observe(sec));
 
