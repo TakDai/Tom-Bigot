@@ -269,29 +269,25 @@ const transitionVariants = [
   <section class="actualites-screen" id="actualites">
     <div class="actualites-container">
       <header class="blueprint-section-head">
-        <div class="section-badge-row">
-          <span class="etiquette">FLUX EN DIRECT &bull; RÉSEAUX &amp; AVANCEMENTS DE PROJETS</span>
-          <span class="actualites-count-badge" id="actuTotalBadge">{actualitesPosts.length} PUBLICATIONS &amp; AVANCEMENTS</span>
-        </div>
-        <h2 class="section-big-title">ACTUALITÉS, RÉSEAUX &amp; AVANCEMENTS</h2>
+        <h2 class="section-big-title">ACTUALITÉS &amp; FLUX</h2>
         <p class="section-big-subtitle">
-          Suivi des déploiements, évolutions des catalogues sur mes sites en production et activité open-source en direct de mes réseaux (GitHub, Twitch, plateformes web).
+          Avancements de projets, déploiements récents et activité en direct.
         </p>
 
-        <!-- Barre de filtres interactive -->
+        <!-- Barre de filtres épurée -->
         <div class="actualites-filters-bar" role="tablist" aria-label="Filtrer les actualités">
           <button type="button" class="actu-filter-btn active" data-filter="all">
-            <span>Tous les flux</span>
+            <span>Tous</span>
             <span class="filter-count">({actualitesPosts.length})</span>
           </button>
           <button type="button" class="actu-filter-btn" data-filter="projet">
-            <span>🌐 Avancements Sites</span>
+            <span>Sites &amp; Projets</span>
           </button>
           <button type="button" class="actu-filter-btn" data-filter="reseau">
-            <span>🐙 GitHub &amp; Code</span>
+            <span>GitHub &amp; Code</span>
           </button>
           <button type="button" class="actu-filter-btn" data-filter="twitch">
-            <span>🟣 Twitch &amp; Direct</span>
+            <span>Twitch</span>
           </button>
         </div>
       </header>
@@ -300,80 +296,58 @@ const transitionVariants = [
         {actualitesPosts.map((post) => {
           return (
             <article class="actualite-card" data-category={post.sourceType}>
-              <!-- Vignette / Illustration compacte -->
+              <!-- Vignette épurée -->
               <div class="actualite-thumb-box">
                 <img
                   src={post.illustration}
                   alt={post.titre}
                   class="actualite-thumb-img"
                   loading="lazy"
-                  width="120"
-                  height="88"
+                  width="110"
+                  height="82"
                 />
-                <span class="actualite-thumb-source">{post.sourceNom}</span>
               </div>
 
-              <!-- Contenu textuel et actions compactes -->
+              <!-- Contenu épuré -->
               <div class="actualite-card-content">
                 <div class="actualite-card-meta">
+                  <span class="actualite-source">{post.sourceNom}</span>
+                  <span class="meta-dot">&bull;</span>
                   <span class="actualite-date">{formaterDate(post.date)}</span>
-                  <span class="actualite-badge-type">{post.badgeType}</span>
                 </div>
 
                 <h3 class="actualite-titre" title={post.titre}>{post.titre}</h3>
                 <p class="actualite-desc">{post.description}</p>
 
                 <div class="actualite-card-footer">
-                  {post.tags && post.tags.length > 0 && (
-                    <div class="actualite-tags-mini">
-                      {post.tags.slice(0, 2).map((tag: string) => (
-                        <span class="actualite-tag-mini">{tag}</span>
-                      ))}
-                    </div>
+                  {post.projetId && (
+                    <button
+                      type="button"
+                      class="actu-clean-link btn-open-fiche"
+                      data-open-fiche={post.projetId}
+                      aria-haspopup="dialog"
+                    >
+                      <span>Fiche projet</span>
+                      <span class="actu-arrow">&rarr;</span>
+                    </button>
                   )}
-
-                  <div class="actualite-mini-actions">
-                    {post.projetId && (
-                      <button
-                        type="button"
-                        class="actu-mini-btn btn-open-fiche"
-                        data-open-fiche={post.projetId}
-                        aria-haspopup="dialog"
-                        title={`Ouvrir la fiche de ${post.sourceNom}`}
-                      >
-                        <span>Fiche</span>
-                        <span class="actu-arrow">&rarr;</span>
-                      </button>
-                    )}
-                    {post.lienSite && (
-                      <a href={post.lienSite} target="_blank" rel="noopener noreferrer" class="actu-mini-btn primary" title="Visiter le site officiel">
-                        <span>Site</span>
-                        <span class="actu-arrow">&#8599;</span>
-                      </a>
-                    )}
-                    {post.lienGitHub && !post.lienSite && (
-                      <a href={post.lienGitHub} target="_blank" rel="noopener noreferrer" class="actu-mini-btn" title="Voir le code source sur GitHub">
-                        <span>GitHub</span>
-                        <span class="actu-arrow">&#8599;</span>
-                      </a>
-                    )}
-                  </div>
+                  {post.lienSite && (
+                    <a href={post.lienSite} target="_blank" rel="noopener noreferrer" class="actu-clean-link">
+                      <span>Visiter le site</span>
+                      <span class="actu-arrow">&#8599;</span>
+                    </a>
+                  )}
+                  {post.lienGitHub && !post.lienSite && (
+                    <a href={post.lienGitHub} target="_blank" rel="noopener noreferrer" class="actu-clean-link">
+                      <span>Dépôt GitHub</span>
+                      <span class="actu-arrow">&#8599;</span>
+                    </a>
+                  )}
                 </div>
               </div>
             </article>
           );
         })}
-      </div>
-
-      <div class="actualites-footer-actions">
-        <a href="https://github.com/TakDai" target="_blank" rel="noopener noreferrer" class="btn-noir">
-          <span>Suivre mon activité sur GitHub (@TakDai)</span>
-          <span class="btn-arrow">&#8599;</span>
-        </a>
-        <a href="#projets" class="btn-outline">
-          <span>Explorer les 10 projets</span>
-          <span class="btn-arrow">&darr;</span>
-        </a>
       </div>
     </div>
   </section>
@@ -935,74 +909,47 @@ const transitionVariants = [
     </div>
   </section>
 
-  <!-- ================= CONTACT & COLLABORATION ================= -->
+  <!-- ================= CONTACT (ÉPURÉ) ================= -->
   <section class="contact-screen" id="contact">
     <div class="contact-container">
       <header class="blueprint-section-head">
-        <div class="section-badge-row">
-          <span class="etiquette">COLLABORATION &bull; PRISE DE CONTACT</span>
-          <span class="actualites-count-badge">RÉPONSE SOUS 24H</span>
-        </div>
-        <h2 class="section-big-title">TRAVAILLONS ENSEMBLE</h2>
+        <h2 class="section-big-title">CONTACT</h2>
         <p class="section-big-subtitle">
-          Une mission d'exploitation cabine, un tournage par drone FPV cinématique, ou le développement d'une solution technique sur mesure ? Échangeons dès maintenant sur votre projet.
+          Un projet, une prestation ou une question technique ? Écrivez-moi directement.
         </p>
       </header>
 
-      <div class="contact-grid">
-        <div class="contact-card primary-contact">
-          <span class="etiquette">CANAL DIRECT</span>
-          <h3 class="contact-card-title">PAR COURRIER ÉLECTRONIQUE</h3>
-          <p class="contact-card-desc">
-            Pour toute demande d'information, devis, collaboration ou proposition de projet technique :
-          </p>
-          <div class="contact-email-box">
-            <a href="mailto:contact@tom-bigot.fr" class="contact-email-link">contact@tom-bigot.fr</a>
-          </div>
-          <div class="contact-card-actions">
-            <a href="mailto:contact@tom-bigot.fr" class="btn-noir">Écrire un message &rarr;</a>
-          </div>
+      <div class="contact-clean-box">
+        <div class="contact-main-col">
+          <span class="contact-label">EMAIL DIRECT</span>
+          <a href="mailto:contact@tom-bigot.fr" class="contact-email-hero">
+            <span>contact@tom-bigot.fr</span>
+            <span class="email-arrow">&rarr;</span>
+          </a>
+          <p class="contact-subtext">Basé à Tours (37) &bull; Déplacements France entière &bull; Intervention à distance</p>
         </div>
 
-        <div class="contact-card">
-          <span class="etiquette">ZONE D'INTERVENTION</span>
-          <h3 class="contact-card-title">TOURS &bull; MOBILITÉ NATIONALE</h3>
-          <p class="contact-card-desc">
-            Basé à <strong>Tours (Indre-et-Loire - 37)</strong>, au cœur du Val de Loire.
-          </p>
-          <ul class="contact-mobility-list">
-            <li>Intervention régulière sur l'axe Tours &bull; Blois &bull; Orléans &bull; Paris</li>
-            <li>Déplacements France entière et international sur devis pour tournages et missions cabine</li>
-            <li>Infrastructures logicielles gérées et déployées à distance en toute autonomie</li>
-          </ul>
+        <div class="contact-links-row">
+          <a href="https://github.com/TakDai" target="_blank" rel="noopener noreferrer" class="contact-chip">
+            <span>GitHub @TakDai</span>
+            <span class="chip-arrow">&#8599;</span>
+          </a>
+          <a href="https://twitch.tv/127il" target="_blank" rel="noopener noreferrer" class="contact-chip">
+            <span>Twitch @127IL</span>
+            <span class="chip-arrow">&#8599;</span>
+          </a>
+          <a href="/agenda" class="contact-chip">
+            <span>Agenda</span>
+            <span class="chip-arrow">&rarr;</span>
+          </a>
+          <a href="/rss.xml" target="_blank" rel="noopener" class="contact-chip">
+            <span>Flux RSS</span>
+            <span class="chip-arrow">&#8599;</span>
+          </a>
+          <a href="#top" class="contact-chip chip-top" aria-label="Retour en haut">
+            <span>&uarr; Sommet</span>
+          </a>
         </div>
-
-        <div class="contact-card">
-          <span class="etiquette">RÉSEAUX &bull; CODES SOURCES</span>
-          <h3 class="contact-card-title">ÉCOSYSTÈME &bull; OPEN-SOURCE</h3>
-          <p class="contact-card-desc">
-            Suivez mes réalisations, dépôts de code et streams techniques :
-          </p>
-          <div class="contact-links-list">
-            <a href="https://github.com/TakDai" target="_blank" rel="noopener noreferrer" class="contact-ext-link">
-              <span>GitHub &bull; @TakDai</span>
-              <span class="ext-arrow">&#8599;</span>
-            </a>
-            <a href="https://twitch.tv/127il" target="_blank" rel="noopener noreferrer" class="contact-ext-link">
-              <span>Twitch &bull; Chaîne 127IL</span>
-              <span class="ext-arrow">&#8599;</span>
-            </a>
-            <a href="/rss.xml" target="_blank" rel="noopener" class="contact-ext-link">
-              <span>Flux RSS &bull; Articles techniques</span>
-              <span class="ext-arrow">&#8599;</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Barre de retour au sommet -->
-      <div class="contact-bottom-bar">
-        <a href="#top" class="footer-back-top">&uarr; Retour en haut de page</a>
       </div>
     </div>
   </section>
@@ -3257,7 +3204,7 @@ const transitionVariants = [
   }
 
   .actualite-card {
-    border: 1.5px dashed #000000;
+    border: 1px dashed rgba(0, 0, 0, 0.4);
     border-radius: 8px;
     background: #ffffff;
     display: flex;
@@ -3265,29 +3212,27 @@ const transitionVariants = [
     align-items: stretch;
     gap: 12px;
     padding: 8px;
-    min-height: 104px;
-    transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1),
-                border-style 0.15s ease,
-                box-shadow 0.15s ease;
+    min-height: 94px;
+    transition: all 0.15s ease;
   }
 
   .actualite-card:hover {
     border-style: solid;
+    border-color: #000000;
     transform: translateY(-2px);
-    box-shadow: 4px 4px 0px #000000;
+    box-shadow: 3px 3px 0px #000000;
   }
 
-  /* Vignette / Illustration */
+  /* Vignette épurée */
   .actualite-thumb-box {
-    position: relative;
-    width: 112px;
-    min-width: 112px;
+    width: 104px;
+    min-width: 104px;
     height: 100%;
-    min-height: 90px;
-    border-radius: 6px;
+    min-height: 78px;
+    border-radius: 5px;
     overflow: hidden;
-    border: 1px solid #000000;
-    background: #f4f4f4;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    background: #f7f7f7;
     flex-shrink: 0;
   }
 
@@ -3300,23 +3245,7 @@ const transitionVariants = [
   }
 
   .actualite-card:hover .actualite-thumb-img {
-    transform: scale(1.05);
-  }
-
-  .actualite-thumb-source {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.85);
-    color: #ffffff;
-    font: 700 8px/1.2 var(--font);
-    letter-spacing: 0.05em;
-    padding: 2px 4px;
-    text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    transform: scale(1.04);
   }
 
   /* Contenu textuel */
@@ -3326,35 +3255,30 @@ const transitionVariants = [
     flex-direction: column;
     justify-content: space-between;
     min-width: 0;
-    gap: 4px;
+    gap: 3px;
   }
 
   .actualite-card-meta {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 6px;
+    gap: 5px;
     font: 700 9px var(--font);
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-  }
-
-  .actualite-date {
     color: rgba(0, 0, 0, 0.55);
   }
 
-  .actualite-badge-type {
-    background: #f2f2f2;
-    color: rgba(0, 0, 0, 0.75);
-    padding: 1px 5px;
-    border-radius: 3px;
-    font-size: 8px;
-    border: 1px solid rgba(0, 0, 0, 0.12);
+  .actualite-source {
+    color: #000000;
+  }
+
+  .meta-dot {
+    opacity: 0.35;
   }
 
   .actualite-titre {
     margin: 0;
-    font: 700 12.5px/1.25 var(--font);
+    font: 700 12px/1.25 var(--font);
     letter-spacing: 0.02em;
     text-transform: uppercase;
     color: #000000;
@@ -3366,8 +3290,8 @@ const transitionVariants = [
 
   .actualite-desc {
     margin: 0;
-    font: 400 11px/1.3 var(--font);
-    color: rgba(0, 0, 0, 0.7);
+    font: 400 11px/1.35 var(--font);
+    color: rgba(0, 0, 0, 0.65);
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -3377,85 +3301,35 @@ const transitionVariants = [
   .actualite-card-footer {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 6px;
+    gap: 8px;
     margin-top: 2px;
-    padding-top: 4px;
-    border-top: 1px dashed rgba(0, 0, 0, 0.15);
   }
 
-  .actualite-tags-mini {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    overflow: hidden;
-  }
-
-  .actualite-tag-mini {
-    font: 700 8px var(--font);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.7);
-    background: #fafafa;
-    border: 1px solid rgba(0, 0, 0, 0.18);
-    border-radius: 3px;
-    padding: 1px 4px;
-    white-space: nowrap;
-  }
-
-  .actualite-mini-actions {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    flex-shrink: 0;
-  }
-
-  .actu-mini-btn {
-    height: 20px;
-    padding: 0 6px;
-    border-radius: 3px;
-    font: 700 9px var(--font);
-    letter-spacing: 0.04em;
+  .actu-clean-link {
+    font: 700 9.5px var(--font);
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     text-decoration: none;
+    color: #000000;
     display: inline-flex;
     align-items: center;
-    gap: 2px;
+    gap: 3px;
+    background: transparent;
+    border: none;
+    padding: 0;
     cursor: pointer;
-    background: #ffffff;
-    color: #000000;
-    border: 1px solid #000000;
-    transition: all 0.12s ease;
+    transition: opacity 0.15s ease, transform 0.15s ease;
   }
 
-  .actu-mini-btn:hover {
-    background: #000000;
-    color: #ffffff;
-    transform: translateY(-1px);
-  }
-
-  .actu-mini-btn.primary {
-    background: #000000;
-    color: #ffffff;
-    border-color: #000000;
-  }
-
-  .actu-mini-btn.primary:hover {
-    background: rgba(0, 0, 0, 0.85);
+  .actu-clean-link:hover {
+    opacity: 0.65;
+    transform: translateX(2px);
   }
 
   .actu-arrow {
     font-size: 10px;
     line-height: 1;
     font-weight: 700;
-  }
-
-  .actualites-footer-actions {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-    padding-top: 12px;
   }
 
   /* ==========================================================================
@@ -3732,105 +3606,102 @@ const transitionVariants = [
   }
 
   /* ==========================================================================
-     SECTION CONTACT & PIED DE PAGE
+     SECTION CONTACT ÉPURÉE
      ========================================================================== */
-  .contact-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 24px;
-  }
-
-  .contact-card {
-    border: 2px dashed #000000;
+  .contact-clean-box {
+    border: 1.5px dashed #000000;
     border-radius: 12px;
-    padding: 24px;
     background: #ffffff;
+    padding: clamp(24px, 4vw, 36px);
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 20px;
+    box-shadow: 4px 4px 0 #000000;
   }
 
-  .contact-card.primary-contact {
-    border: 2.5px solid #000000;
-    box-shadow: 5px 5px 0px #000000;
+  .contact-main-col {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
   }
 
-  .contact-card-title {
-    margin: 0;
-    font: 700 18px/1.25 var(--font);
-    letter-spacing: 0.08em;
+  .contact-label {
+    font: 700 10px var(--font);
+    letter-spacing: 0.12em;
     text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.5);
   }
 
-  .contact-card-desc {
-    margin: 0;
-    font: 400 14px/1.55 var(--font);
-    color: rgba(0, 0, 0, 0.8);
-  }
-
-  .contact-email-box {
-    padding: 12px 14px;
-    border: 1.5px dashed #000000;
-    border-radius: 8px;
-    background: #fbfbfb;
-  }
-
-  .contact-email-link {
-    font: 700 16px var(--font);
-    letter-spacing: 0.05em;
+  .contact-email-hero {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font: 700 clamp(22px, 3.5vw, 32px) var(--font);
+    letter-spacing: 0.02em;
     color: #000000;
     text-decoration: underline;
-    text-underline-offset: 3px;
+    text-underline-offset: 6px;
+    text-decoration-thickness: 2px;
     word-break: break-all;
+    width: fit-content;
+    transition: opacity 0.15s ease, transform 0.15s ease;
   }
 
-  .contact-mobility-list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  .contact-email-hero:hover {
+    opacity: 0.7;
+    transform: translateX(4px);
   }
 
-  .contact-mobility-list li {
-    font: 400 13px/1.5 var(--font);
-    color: rgba(0, 0, 0, 0.8);
-    position: relative;
-    padding-left: 16px;
+  .email-arrow {
+    font-size: 0.9em;
+    text-decoration: none;
+    display: inline-block;
   }
 
-  .contact-mobility-list li::before {
-    content: "•";
-    position: absolute;
-    left: 0;
-    color: #000000;
-    font-weight: 700;
+  .contact-subtext {
+    margin: 4px 0 0 0;
+    font: 500 13px var(--font);
+    letter-spacing: 0.03em;
+    color: rgba(0, 0, 0, 0.65);
   }
 
-  .contact-links-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .contact-ext-link {
+  .contact-links-row {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 10px 14px;
-    border: 1.5px dashed rgba(0, 0, 0, 0.35);
-    border-radius: 8px;
-    text-decoration: none;
-    color: #000000;
-    font: 700 12.5px var(--font);
-    letter-spacing: 0.06em;
-    transition: background 0.15s ease, border-color 0.15s ease;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding-top: 14px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.18);
   }
 
-  .contact-ext-link:hover {
-    background: #f4f4f4;
-    border-color: #000000;
+  .contact-chip {
+    padding: 6px 14px;
+    border: 1px solid #000000;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #000000;
+    text-decoration: none;
+    font: 700 11px var(--font);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.15s ease;
+  }
+
+  .contact-chip:hover {
+    background: #000000;
+    color: #ffffff;
+    transform: translateY(-1px);
+  }
+
+  .contact-chip.chip-top {
+    margin-left: auto;
+    border-style: dashed;
+  }
+
+  .contact-chip.chip-top:hover {
     border-style: solid;
   }
 
