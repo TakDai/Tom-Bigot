@@ -3,83 +3,100 @@ import Base from '../layouts/Base.astro';
 ---
 
 <Base
-  titre="Projets de Développement"
-  description="Tom Bigot — Développeur Full-Stack, ingénieur systèmes & embarqué. Applications web légères, micrologiciels STM32 en C/C++, infrastructures Linux bare-metal et outillage open-source."
+  titre="Logiciel, Hardware & 3D"
+  description="Tom Bigot — Projets logiciels (OpenBots, Komeon), fabrication hardware artisanale (consoles, contrôleurs, synthétiseurs), modélisation 3D sous Blender et électronique pérenne."
 >
   <main class="prose-screen">
     <header class="page-head">
       <div class="head-topline">
-        <span class="etiquette">INGÉNIERIE &bull; CODE &bull; SYSTÈMES</span>
-        <a href="/agenda" class="nav-pill pill-accent">Proposer un projet &rarr;</a>
+        <span class="etiquette">HOBBY &bull; LOGICIEL &bull; HARDWARE &bull; 3D</span>
+        <a href="mailto:contact@tom-bigot.fr?subject=Echange%20projets%20logiciel%20hardware" class="nav-pill pill-accent">Échanger sur un projet &rarr;</a>
       </div>
-      <h1 class="page-title">PROJETS DE DÉVELOPPEMENT</h1>
+      <h1 class="page-title">LOGICIEL, HARDWARE &amp; 3D</h1>
       <p class="page-subtitle">
-        Conception logicielle et matérielle de bout en bout : du microcontrôleur embarqué aux interfaces web modernes ultra-rapides et aux infrastructures serveurs autonomes.
+        Une pratique d'exploration technique et de création menée par passion. Du développement de plateformes comme OpenBots et Komeon jusqu'à la fabrication artisanale de synthétiseurs, de consoles et de circuits électroniques pérennes.
       </p>
     </header>
 
-    <!-- 01. Philosophie de développement -->
+    <!-- 01. Démarche & Philosophie -->
     <article class="prose-card">
-      <span class="etiquette">01 &bull; PRINCIPES DIRECTEURS</span>
-      <h2>L'EXIGENCE DU CODE SOBRE ET SOUVERAIN</h2>
+      <span class="etiquette">01 &bull; DÉMARCHE &amp; PASSION</span>
+      <h2>L'EXPÉRIMENTATION TECHNIQUE AU QUOTIDIEN</h2>
       <p>
-        Je fuis la complaisance des frameworks obèses de 500 Mo qui ralentissent les machines et créent des dépendances fragiles. Mon approche privilégie le code épuré, la compréhension chirurgicale des couches d'exécution et le respect des ressources matérielles.
+        La programmation et l'ingénierie système représentent pour moi bien plus qu'un domaine technique : c'est un hobby passionnant et un espace de liberté créative. J'aime concevoir des architectures légères, maîtriser chaque couche d'un système et développer des outils utiles et bien pensés.
       </p>
       <p>
-        Qu'il s'agisse d'écrire une boucle d'asservissement PID à 32 kHz en C/C++ sur processeur ARM STM32 ou de bâtir une application web statique servie en moins de 10 millisecondes, la finalité est identique : concevoir des outils rapides, réparables, indépendants et conçus pour durer.
+        Cette curiosité s'étend naturellement du monde virtuel au monde physique, où le code dialogue directement avec la matière, les composants et les signaux électriques.
       </p>
     </article>
 
-    <!-- 02. Les trois piliers d'ingénierie -->
+    <!-- 02. Grands projets logiciels -->
     <article class="prose-card">
-      <span class="etiquette">02 &bull; CHAMPS D'ACTION</span>
-      <h2>LES TROIS PILIERS TECHNIQUES</h2>
+      <span class="etiquette">02 &bull; PROJETS LOGICIELS MAJEURS</span>
+      <h2>OPENBOTS &amp; KOMEON</h2>
       <div class="swatch-grid">
         <div class="principe-item">
-          <h3>Web Moderne &amp; Épuré</h3>
-          <p>Astro, TypeScript, HTML/CSS sémantique, Tailwind ou CSS sur mesure. Interfaces réactives, instantanées et respectueuses de la vie privée des utilisateurs.</p>
+          <h3>OpenBots</h3>
+          <p>Écosystème robotique et plateforme modulaire d'automatisation. Conception d'architectures logicielles ouvertes pour faciliter le contrôle et la communication des machines.</p>
         </div>
         <div class="principe-item">
-          <h3>Systèmes Embarqués &amp; C/C++</h3>
-          <p>Microcontrôleurs STM32 (F4, F7, H7), ESP32. Protocoles série SPI, I2C, UART, lecture télémétrique, asservissement en temps réel et programmation bas niveau.</p>
-        </div>
-        <div class="principe-item">
-          <h3>Infrastructures &amp; Homelab</h3>
-          <p>Serveurs physiques sous Linux Debian, isolation Docker, reverse proxy Nginx durci, certificats automatisés Let's Encrypt et monitoring en temps réel.</p>
-        </div>
-        <div class="principe-item">
-          <h3>Pipelines CI/CD &amp; DevOps</h3>
-          <p>Déploiements automatisés sans frais via GitHub Actions vers hébergement bare-metal ou cluster OVH avec hooks sécurisés.</p>
+          <h3>Komeon</h3>
+          <p>Plateforme communautaire et applicative web pensée pour l'efficacité, la rapidité d'affichage et l'indépendance technologique sans dépendances superflues.</p>
         </div>
       </div>
     </article>
 
-    <!-- 03. Réalisations majeures -->
+    <!-- 03. Hardware artisanal & Électronique -->
     <article class="prose-card">
-      <span class="etiquette">03 &bull; PORTFOLIO DE RÉALISATIONS</span>
-      <h2>PROJETS LOGICIELS &amp; MATÉRIELS ACTIFS</h2>
-      <ul>
-        <li><strong>Multi-Motors :</strong> Banc d'essai dynamique pour motorisations électriques avec télémétrie haute cadence (32 kHz).</li>
-        <li><strong>Superviseur :</strong> Solution autonome de monitoring d'infrastructures serveurs sans tiers cloud.</li>
-        <li><strong>Fix-My-Drone :</strong> Suite logicielle et fiches techniques interactives de diagnostic pour multirotors FPV.</li>
-        <li><strong>OpenBots :</strong> Châssis et contrôleurs modulaires de robotique autonome sous licence open-source.</li>
-        <li><strong>Komeon :</strong> Plateforme de communication collaborative temps réel à latence minimale (&lt;12ms).</li>
-      </ul>
-      <div class="actions-row">
-        <a href="/#projets-chronologie" class="btn-noir">Voir la chronologie complète des 10 projets &rarr;</a>
+      <span class="etiquette">03 &bull; HARDWARE &amp; ÉLECTRONIQUE ARTISANALE</span>
+      <h2>CONSOLES, CONTRÔLEURS &amp; SYNTHÉTISEURS</h2>
+      <p>
+        Côté matériel, mon apprentissage est guidé par le désir profond de <strong>comprendre et fabriquer des circuits électroniques viables et pérennes</strong>. Je conçois et prototype de manière artisanale :
+      </p>
+      <div class="swatch-grid">
+        <div class="principe-item">
+          <h3>Synthétiseurs Numériques &amp; Analogiques</h3>
+          <p>Exploration de la génération sonore, oscillateurs, filtres et traitement du signal pour créer des instruments autonomes et expressifs.</p>
+        </div>
+        <div class="principe-item">
+          <h3>Consoles &amp; Contrôleurs Dédiés</h3>
+          <p>Conception d'interfaces physiques, surfaces de contrôle sur-mesure et machines de jeu personnalisées alliant ergonomie et réactivité.</p>
+        </div>
+        <div class="principe-item">
+          <h3>Circuits Électroniques Durables</h3>
+          <p>Recherche de schémas fiables, réparables et conçus pour durer dans le temps, loin de l'obsolescence programmée des produits de grande série.</p>
+        </div>
+        <div class="principe-item">
+          <h3>Prototypage &amp; Soudure</h3>
+          <p>Assemblage méticuleux, routage de circuits imprimés, tests de signaux et intégration complète des composants.</p>
+        </div>
       </div>
     </article>
 
-    <!-- 04. Call to action vers l'agenda -->
-    <article class="prose-card cta-agenda-card">
-      <span class="etiquette">COLLABORATION &bull; DISPONIBILITÉS</span>
-      <h2>UN PROJET DE CONCEPTION OU D'INGÉNIERIE ?</h2>
+    <!-- 04. Savoir-faire 3D & Blender -->
+    <article class="prose-card">
+      <span class="etiquette">04 &bull; MODÉLISATION 3D &amp; DESIGN</span>
+      <h2>BLENDER : DU CONCEPT À L'OBJET RÉEL</h2>
       <p>
-        Disponible pour concevoir, auditer ou développer des architectures web, logicielles ou systèmes.
+        Ma maîtrise des outils 3D, et tout particulièrement de <strong>Blender</strong>, constitue un atout décisif pour donner corps aux projets physiques :
+      </p>
+      <ul>
+        <li><strong>Design de boîtiers &amp; Châssis :</strong> Modélisation précise des enveloppes pour consoles, synthétiseurs et modules électroniques.</li>
+        <li><strong>Intégration mécanique :</strong> Calage exact des connecteurs, potentiomètres, écrans et cartes pour un assemblage compact et ergonomique.</li>
+        <li><strong>Rendu &amp; Visualisation :</strong> Prototypage visuel avant fabrication pour valider les proportions et l'esthétique des objets.</li>
+      </ul>
+    </article>
+
+    <!-- 05. Call to action -->
+    <article class="prose-card cta-agenda-card">
+      <span class="etiquette">ÉCHANGE &bull; COMMUNAUTÉ &bull; MAKER</span>
+      <h2>PARTAGER UNE EXPÉRIMENTATION OU ÉCHANGER</h2>
+      <p>
+        Vous vous intéressez à la lutherie électronique, à la modélisation 3D, aux projets OpenBots / Komeon ou au hardware artisanal ? Écrivez-moi pour en discuter.
       </p>
       <div class="actions-row">
-        <a href="/agenda" class="btn-noir">Consulter les disponibilités &rarr;</a>
-        <a href="mailto:contact@tom-bigot.fr" class="btn-outline">Écrire par email</a>
+        <a href="mailto:contact@tom-bigot.fr?subject=Echange%20projets%20logiciel%20hardware" class="btn-noir">Écrire par email &rarr;</a>
+        <a href="/#projets-chronologie" class="btn-outline">Explorer les projets du portfolio</a>
       </div>
     </article>
   </main>
@@ -99,65 +116,52 @@ import Base from '../layouts/Base.astro';
 
   .head-topline {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    gap: 16px;
+    align-items: center;
+    gap: 12px;
     flex-wrap: wrap;
-    margin-bottom: 8px;
-  }
-
-  .pill-accent {
-    border-color: #000000;
-    color: #000000;
-    font-weight: 700;
-  }
-
-  .pill-accent:hover {
-    background: #000000;
-    color: #ffffff;
-  }
-
-  .page-head {
-    border-bottom: 2px dashed var(--dash);
-    padding-bottom: 24px;
+    margin-bottom: 12px;
   }
 
   .page-title {
-    margin: 6px 0 12px;
-    font: 700 clamp(28px, 4.5vw, 42px)/1.1 var(--font);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    margin: 0 0 12px;
+    color: #000;
   }
 
   .page-subtitle {
-    margin: 0;
-    font: 400 14px/1.65 var(--font);
-    letter-spacing: 0.03em;
-    color: rgba(0, 0, 0, 0.75);
+    font-size: clamp(15px, 1.8vw, 17px);
+    line-height: 1.6;
+    color: #444;
     max-width: 720px;
+    margin: 0;
   }
 
   .prose-card {
-    border: 2px dashed var(--dash);
-    border-radius: 12px;
-    padding: clamp(22px, 3.5vw, 32px);
-    background: var(--paper);
+    background: #fff;
+    border: 2px dashed #000;
+    box-shadow: 4px 4px 0 #000;
+    padding: clamp(20px, 3vw, 32px);
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 16px;
   }
 
   .prose-card h2 {
+    font-size: clamp(18px, 2.2vw, 22px);
+    font-weight: 800;
     margin: 0;
-    font: 700 clamp(19px, 3vw, 24px)/1.2 var(--font);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    color: #000;
+    letter-spacing: -0.01em;
   }
 
   .prose-card p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #222;
     margin: 0;
-    font: 400 14px/1.65 var(--font);
-    color: rgba(0, 0, 0, 0.82);
   }
 
   .prose-card ul {
@@ -165,60 +169,129 @@ import Base from '../layouts/Base.astro';
     padding-left: 20px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: #222;
   }
 
-  .prose-card li {
-    font: 400 13.5px/1.6 var(--font);
-    color: rgba(0, 0, 0, 0.85);
-  }
-
-  .prose-card strong {
-    color: #000000;
+  .etiquette {
+    font-family: var(--font-mono, monospace);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #666;
+    text-transform: uppercase;
   }
 
   .swatch-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 16px;
     margin-top: 8px;
   }
 
   .principe-item {
-    border: 1px dashed rgba(0, 0, 0, 0.25);
-    border-radius: 8px;
-    padding: 14px 16px;
     background: #fafafa;
+    border: 1px dashed #ccc;
+    padding: 16px;
     display: flex;
     flex-direction: column;
     gap: 6px;
   }
 
   .principe-item h3 {
+    font-size: 14px;
+    font-weight: 800;
     margin: 0;
-    font: 700 14px/1.2 var(--font);
-    letter-spacing: 0.08em;
+    color: #000;
     text-transform: uppercase;
-    color: #000000;
+    letter-spacing: 0.02em;
   }
 
   .principe-item p {
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: #555;
     margin: 0;
-    font: 400 12.5px/1.55 var(--font);
-    color: rgba(0, 0, 0, 0.72);
   }
 
   .cta-agenda-card {
-    background: #fbfbfb;
-    border-style: solid;
-    border-color: #000000;
+    background: #000;
+    color: #fff;
+    border: 2px solid #000;
+  }
+
+  .cta-agenda-card .etiquette {
+    color: #aaa;
+  }
+
+  .cta-agenda-card h2 {
+    color: #fff;
+  }
+
+  .cta-agenda-card p {
+    color: #eee;
   }
 
   .actions-row {
     display: flex;
-    align-items: center;
     gap: 12px;
     flex-wrap: wrap;
-    margin-top: 6px;
+    margin-top: 8px;
+  }
+
+  .btn-noir {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: #fff;
+    color: #000;
+    font-weight: 700;
+    font-size: 13.5px;
+    text-decoration: none;
+    border: 2px solid #fff;
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+
+  .btn-noir:hover {
+    background: #f0f0f0;
+    transform: translateY(-1px);
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: transparent;
+    color: #fff;
+    font-weight: 700;
+    font-size: 13.5px;
+    text-decoration: none;
+    border: 2px solid #fff;
+    transition: background 0.15s ease;
+  }
+
+  .btn-outline:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .nav-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    border: 1px solid #000;
+    color: #000;
+    background: #fff;
+  }
+
+  .pill-accent {
+    background: #000;
+    color: #fff;
   }
 </style>
