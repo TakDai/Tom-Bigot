@@ -323,7 +323,7 @@ const transitionVariants = [
                 loop
                 muted
                 playsinline
-                preload="none"
+                preload="metadata"
               >
                 <source src={p.video} type="video/webm" />
               </video>
@@ -633,38 +633,41 @@ const transitionVariants = [
       });
       updateVisuals(window.scrollY);
 
-      // 4. Optimisation vidéo haute performance : lecture stricte d'UNE SEULE vidéo à la fois
-      const allVideos = Array.from(document.querySelectorAll('video')) as HTMLVideoElement[];
-      let activeVid: HTMLVideoElement | null = null;
+      // 4. Gestionnaire vidéo haute performance (lecture automatique fluide au défilement)
+      const projectSections = Array.from(document.querySelectorAll('.project-fullscreen-section'));
+      const heroVideo = document.getElementById('heroVideo') as HTMLVideoElement | null;
 
-      const videoObserver = new IntersectionObserver((entries) => {
+      const sectionObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-          const vid = entry.target as HTMLVideoElement;
+          const vid = entry.target.querySelector('video') as HTMLVideoElement | null;
+          if (!vid) return;
           if (entry.isIntersecting) {
-            if (vid.preload === 'none') {
-              vid.preload = 'auto';
-              if (vid.readyState === 0) vid.load();
+            vid.muted = true;
+            if (vid.paused) {
+              vid.play().catch(() => {});
             }
-            if (activeVid && activeVid !== vid && !activeVid.paused) {
-              activeVid.pause();
-            }
-            activeVid = vid;
-            if (vid.paused) vid.play().catch(() => {});
           } else {
-            if (!vid.paused) vid.pause();
-            if (activeVid === vid) {
-              activeVid = null;
+            if (!vid.paused) {
+              vid.pause();
             }
           }
         });
-      }, { rootMargin: '120px 0px 120px 0px', threshold: 0.15 });
+      }, { rootMargin: '50px 0px 50px 0px', threshold: 0.15 });
 
-      allVideos.forEach((vid) => {
-        if (vid.id !== 'heroVideo') {
-          vid.pause();
-        }
-        videoObserver.observe(vid);
-      });
+      projectSections.forEach((sec) => sectionObserver.observe(sec));
+
+      if (hero && heroVideo) {
+        const heroObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              if (heroVideo.paused) heroVideo.play().catch(() => {});
+            } else {
+              if (!heroVideo.paused) heroVideo.pause();
+            }
+          });
+        }, { threshold: 0.10 });
+        heroObserver.observe(hero);
+      }
 
       // 5. Navigation fluide au clic gérée par Lenis
       document.querySelectorAll('a[href^="#"]').forEach((link) => {

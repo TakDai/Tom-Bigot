@@ -29,13 +29,17 @@ const chemin = Astro.url.pathname;
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="alternate" type="application/rss+xml" title="Flux RSS de Tom Bigot" href="/rss.xml" />
+    <meta name="robots" content="index, follow" />
     <meta property="og:title" content={titreComplet} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={new URL(chemin, Astro.site)} />
+    <meta property="og:image" content="https://tom-bigot.fr/assets/tom-bigot-full.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={titreComplet} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="https://tom-bigot.fr/assets/tom-bigot-full.jpg" />
     <meta name="theme-color" content="#ffffff" />
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
