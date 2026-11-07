@@ -70,6 +70,7 @@ const chemin = Astro.url.pathname;
     <!-- ================= PIED DE PAGE ================= -->
     <footer class="foot">
       <div class="foot-brand">
+        <img src="/assets/logo-tb.svg" alt="TB" class="foot-logo" width="20" height="20" loading="lazy" />
         <span class="brand-nom">TOM BIGOT</span>
         <span class="foot-sep">&bull;</span>
         <span>Portfolio</span>
@@ -196,6 +197,22 @@ const chemin = Astro.url.pathname;
 
   .brand-nom {
     color: var(--ink);
+  }
+
+  .foot-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .foot-logo {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    flex-shrink: 0;
+    vertical-align: middle;
   }
 
   .foot-links {
