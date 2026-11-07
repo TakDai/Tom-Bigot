@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none">
+  <!-- Bobine 35mm cinéma monochrome -->
+  <circle cx="24" cy="24" r="21" stroke="#000000" stroke-width="2.5" fill="#ffffff" />
+  <circle cx="24" cy="24" r="7.5" stroke="#000000" stroke-width="2" fill="#000000" />
+  <circle cx="24" cy="24" r="3" fill="#ffffff" />
+  <!-- Perforations circulaires -->
+  <circle cx="24" cy="9.5" r="3.2" fill="#000000" />
+  <circle cx="24" cy="38.5" r="3.2" fill="#000000" />
+  <circle cx="9.5" cy="24" r="3.2" fill="#000000" />
+  <circle cx="38.5" cy="24" r="3.2" fill="#000000" />
+  <circle cx="13.8" cy="13.8" r="3.2" fill="#000000" />
+  <circle cx="34.2" cy="34.2" r="3.2" fill="#000000" />
+  <circle cx="13.8" cy="34.2" r="3.2" fill="#000000" />
+  <circle cx="34.2" cy="13.8" r="3.2" fill="#000000" />
+</svg>

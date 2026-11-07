@@ -683,17 +683,13 @@ const transitionVariants = [
     })}
   </div>
 
-  <!-- ================= MES SERVICES & SAVOIR-FAIRE TECHNIQUE ================= -->
+  <!-- ================= MES SERVICES & COMPÉTENCES (MINIMALISTE) ================= -->
   <section class="services-screen" id="services">
     <div class="services-container">
       <header class="blueprint-section-head">
-        <div class="section-badge-row">
-          <span class="etiquette">PRESTATIONS &bull; SAVOIR-FAIRE TECHNIQUE</span>
-          <span class="actualites-count-badge">3 PÔLES D'EXPERTISE</span>
-        </div>
-        <h2 class="section-big-title">MES SERVICES &amp; COMPÉTENCES</h2>
+        <h2 class="section-big-title">SERVICES &amp; COMPÉTENCES</h2>
         <p class="section-big-subtitle">
-          Trois métiers complémentaires animés par la même exigence : précision chirurgicale, respect scrupuleux des normes physiques et logicielles, et passion du terrain.
+          Projection cinématographique DCI &amp; 35mm, captation dynamique par drone FPV et ingénierie logicielle.
         </p>
       </header>
 
@@ -701,69 +697,87 @@ const transitionVariants = [
         <!-- PÔLE 1 : PROJECTIONNISTE -->
         <article class="service-card">
           <div class="service-card-top">
+            <div class="service-logo-wrap">
+              <img src="/assets/logos/service-cinema.svg" alt="" class="service-logo-img" width="30" height="30" loading="lazy" />
+            </div>
             <span class="service-pole-num">PÔLE 01</span>
-            <span class="service-pole-tag">CINÉMA DCI &bull; 35MM</span>
           </div>
-          <div class="service-card-icon">📽️</div>
+
           <h3 class="service-card-title">OPÉRATEUR PROJECTIONNISTE</h3>
           <p class="service-card-desc">
-            Exploitation rigoureuse de cabines numériques DCI et 35mm argentique. Restitution visuelle et acoustique de référence, respect de l'œuvre et fiabilité sans compromis.
+            Exploitation rigoureuse de cabines numériques DCI (Barco, Christie Laser, NEC) et argentique 35mm. Validation DCP, serveurs Dolby/Doremi et sonorisation de référence.
           </p>
+
           <ul class="service-checklist">
-            <li><strong>Projecteurs DCI :</strong> Barco (série DP2K, DP4K, Alchemy), Christie Laser, NEC. Alignement optique, convergences et lampes xénon.</li>
-            <li><strong>Serveurs &amp; Ingest DCP :</strong> Dolby (IMS2000, IMS3000), Doremi ShowVault / DCP-2000, validation des checksums et TMS réseau.</li>
-            <li><strong>Argentique 35mm :</strong> Plateaux continus, double poste, collage à la presse acétone, calage des amorces et réglage du couloir.</li>
-            <li><strong>Sonorisation &amp; Régie :</strong> Processeurs Dolby CP650/CP750/CP950, égalisation multicanale, micros HF pour débats et avant-premières.</li>
+            <li>Projecteurs DCI Barco, Christie &amp; NEC</li>
+            <li>Serveurs Dolby IMS &amp; Doremi TMS</li>
+            <li>Plateaux &amp; couloirs argentiques 35mm</li>
+            <li>Sonorisation processeurs Dolby CP</li>
           </ul>
+
           <div class="service-card-actions">
-            <a href="/projectionniste" class="btn-noir btn-sm">Page détaillée &rarr;</a>
-            <a href="#agenda" class="btn-outline btn-sm">Disponibilités cabine</a>
+            <a href="/projectionniste" class="service-action-link">
+              <span>Page détaillée</span>
+              <span class="service-arrow">&rarr;</span>
+            </a>
           </div>
         </article>
 
         <!-- PÔLE 2 : PILOTE DRONE FPV -->
         <article class="service-card">
           <div class="service-card-top">
+            <div class="service-logo-wrap">
+              <img src="/assets/logos/service-drone.svg" alt="" class="service-logo-img" width="30" height="30" loading="lazy" />
+            </div>
             <span class="service-pole-num">PÔLE 02</span>
-            <span class="service-pole-tag">TOURNAGE &bull; CADRAGE AÉRIEN</span>
           </div>
-          <div class="service-card-icon">🚁</div>
+
           <h3 class="service-card-title">PILOTE DRONE FPV</h3>
           <p class="service-card-desc">
-            Captation aérienne dynamique et immersive en pilotage manuel (mode Acro). Trajectoires cinématiques impossibles aux drones classiques, poursuites et plans continus.
+            Prises de vue aériennes cinématiques et cadrage dynamique manuel en mode Acro. Vols d'intérieur sous conduits cinewhoop sécurisés et suivi haute vitesse jusqu'à 150 km/h.
           </p>
+
           <ul class="service-checklist">
-            <li><strong>Cinewhoop d'intérieur (2.5" / 3.5") :</strong> Hélices sous conduits protégés pour plans-séquences sécurisés en musée, show-room, commerce ou usine.</li>
-            <li><strong>5" Haute Vitesse :</strong> Châssis carbone rigide jusqu'à 150 km/h pour le suivi de véhicules, sports extrêmes et paysages grandioses.</li>
-            <li><strong>Workflow Vidéo Pro :</strong> Flux numérique DJI O3 / Walksnail, caméras 4K stabilisées Gyroflow, profils LOG 10 bits et étalonnage précis.</li>
-            <li><strong>Sécurité Réglementaire :</strong> Télépilote certifié DGAC, conformité scénarios européens ouverts/spécifiques et assurance professionnelle.</li>
+            <li>Cinewhoop intérieur musée &amp; usine</li>
+            <li>5" haute vitesse &amp; suivi dynamique</li>
+            <li>Flux numérique HD DJI O3 &amp; Gyroflow</li>
+            <li>Télépilote certifié DGAC &amp; assuré</li>
           </ul>
+
           <div class="service-card-actions">
-            <a href="/pilote-fpv" class="btn-noir btn-sm">Page détaillée &rarr;</a>
-            <a href="#agenda" class="btn-outline btn-sm">Planning tournage</a>
+            <a href="/pilote-fpv" class="service-action-link">
+              <span>Page détaillée</span>
+              <span class="service-arrow">&rarr;</span>
+            </a>
           </div>
         </article>
 
         <!-- PÔLE 3 : DÉVELOPPEMENT LOGICIEL & SYSTÈMES -->
         <article class="service-card">
           <div class="service-card-top">
+            <div class="service-logo-wrap">
+              <img src="/assets/logos/service-dev.svg" alt="" class="service-logo-img" width="30" height="30" loading="lazy" />
+            </div>
             <span class="service-pole-num">PÔLE 03</span>
-            <span class="service-pole-tag">CODE &bull; EMBARQUÉ &bull; CLOUD</span>
           </div>
-          <div class="service-card-icon">⚡</div>
+
           <h3 class="service-card-title">DÉVELOPPEMENT &amp; SYSTÈMES</h3>
           <p class="service-card-desc">
-            Conception logicielle et matérielle souveraine, sobre et rapide : de la boucle de calcul C/C++ en temps réel sur microcontrôleur jusqu'aux interfaces web modernes et serveurs Linux.
+            Conception logicielle et matérielle souveraine : développement desktop natif C# .NET 8 / Avalonia, microcontrôleurs STM32/ESP32 et infrastructures serveurs Linux durcies.
           </p>
+
           <ul class="service-checklist">
-            <li><strong>Desktop Natif Cross-Platform :</strong> C# .NET 8 / Avalonia UI, architecture réactive MVVM, chiffrement local AES-256 et communications SSH.</li>
-            <li><strong>Systèmes Embarqués Temps Réel :</strong> STM32 (F4, F7, H7), ESP32, liaisons bus physiques SPI, I2C, UART, télémétrie et capteurs.</li>
-            <li><strong>Web Léger &amp; Instantané :</strong> Astro, TypeScript, Tailwind, accessibilité WCAG, APIs REST Python FastAPI performantes.</li>
-            <li><strong>Infrastructures Durcies :</strong> Serveurs Linux bare-metal, conteneurs Docker isolés, reverse proxy Nginx, CI/CD GitHub Actions sans surcoût.</li>
+            <li>Desktop C# .NET 8 &amp; Avalonia UI</li>
+            <li>Firmware embarqué STM32 &amp; ESP32</li>
+            <li>Interfaces web Astro, React &amp; FastAPI</li>
+            <li>Serveurs Linux, Docker &amp; CI/CD</li>
           </ul>
+
           <div class="service-card-actions">
-            <a href="/developpement" class="btn-noir btn-sm">Page détaillée &rarr;</a>
-            <a href="#contact" class="btn-outline btn-sm">Proposer un projet</a>
+            <a href="/developpement" class="service-action-link">
+              <span>Page détaillée</span>
+              <span class="service-arrow">&rarr;</span>
+            </a>
           </div>
         </article>
       </div>
@@ -3252,113 +3266,137 @@ const transitionVariants = [
   }
 
   /* ==========================================================================
-     GRILLE MES SERVICES (3 PÔLES TECHNIQUES)
+     GRILLE MES SERVICES (3 PÔLES TECHNIQUES ÉPURÉS & MONOCHROMES)
      ========================================================================== */
   .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 28px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 18px;
   }
 
   .service-card {
-    border: 2px dashed #000000;
-    border-radius: 14px;
+    border: 1px dashed rgba(0, 0, 0, 0.35);
+    border-radius: 10px;
     background: #ffffff;
-    padding: clamp(24px, 3.5vw, 32px);
+    padding: clamp(20px, 3vw, 26px);
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-                border-style 0.2s ease,
-                box-shadow 0.2s ease;
+    gap: 14px;
+    transition: all 0.15s ease;
   }
 
   .service-card:hover {
+    border-color: #000000;
     border-style: solid;
-    transform: translateY(-4px);
-    box-shadow: 6px 6px 0px #000000;
+    transform: translateY(-2px);
+    box-shadow: 3px 3px 0px #000000;
   }
 
   .service-card-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
+    gap: 12px;
+  }
+
+  .service-logo-wrap {
+    width: 38px;
+    height: 38px;
+    border-radius: 6px;
+    background: #f7f7f7;
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+  }
+
+  .service-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.9;
   }
 
   .service-pole-num {
-    font: 700 11px var(--font);
-    letter-spacing: 0.14em;
-    padding: 3px 8px;
+    font: 700 10px var(--font);
+    letter-spacing: 0.12em;
+    padding: 2px 7px;
     background: #000000;
     color: #ffffff;
     border-radius: 4px;
   }
 
-  .service-pole-tag {
-    font: 700 10px var(--font);
-    letter-spacing: 0.1em;
-    color: rgba(0, 0, 0, 0.6);
-  }
-
-  .service-card-icon {
-    font-size: 32px;
-    line-height: 1;
-  }
-
   .service-card-title {
     margin: 0;
-    font: 700 clamp(20px, 2.5vw, 24px)/1.2 var(--font);
-    letter-spacing: 0.08em;
+    font: 700 16px/1.25 var(--font);
+    letter-spacing: 0.05em;
     text-transform: uppercase;
     color: #000000;
   }
 
   .service-card-desc {
     margin: 0;
-    font: 400 14px/1.6 var(--font);
-    color: rgba(0, 0, 0, 0.8);
+    font: 400 12.5px/1.55 var(--font);
+    color: rgba(0, 0, 0, 0.7);
   }
 
   .service-checklist {
     list-style: none;
     margin: 0;
-    padding: 16px 0;
-    border-top: 1.5px dashed rgba(0, 0, 0, 0.2);
-    border-bottom: 1.5px dashed rgba(0, 0, 0, 0.2);
+    padding: 10px 0;
+    border-top: 1px dashed rgba(0, 0, 0, 0.15);
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.15);
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 6px;
     flex: 1;
   }
 
   .service-checklist li {
-    font: 400 13px/1.5 var(--font);
+    font: 500 12px/1.4 var(--font);
     color: rgba(0, 0, 0, 0.85);
     position: relative;
-    padding-left: 18px;
+    padding-left: 14px;
   }
 
   .service-checklist li::before {
-    content: "■";
+    content: "•";
     position: absolute;
     left: 0;
-    top: 2px;
-    font-size: 8px;
     color: #000000;
-  }
-
-  .service-checklist li strong {
-    font-weight: 700;
-    color: #000000;
+    font-size: 13px;
+    line-height: 1;
   }
 
   .service-card-actions {
     display: flex;
     align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
     margin-top: auto;
+    padding-top: 4px;
+  }
+
+  .service-action-link {
+    font: 700 11px var(--font);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #000000;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+
+  .service-action-link:hover {
+    opacity: 0.65;
+    transform: translateX(3px);
+  }
+
+  .service-arrow {
+    font-size: 11px;
+    font-weight: 700;
   }
 
   /* ==========================================================================
