@@ -606,7 +606,7 @@ const transitionVariants = [
     import Lenis from 'lenis';
     import 'lenis/dist/lenis.css';
 
-    document.addEventListener('DOMContentLoaded', () => {
+    function initPage() {
       const sections = document.querySelectorAll('.project-fullscreen-section');
       const timelineNodes = document.querySelectorAll('.timeline-node-item');
       const mobileNodes = document.querySelectorAll('.mobile-timeline-btn');
@@ -953,7 +953,13 @@ const transitionVariants = [
         const initialPid = window.location.hash.replace('#fiche-', '');
         setTimeout(() => openFiche(initialPid, false), 300);
       }
-    });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPage);
+    } else {
+      initPage();
+    }
   </script>
 </Base>
 
