@@ -62,23 +62,6 @@ const chemin = Astro.url.pathname;
     <!-- Lien d'évitement accessibilité WCAG -->
     <a href="#main-content" class="skip-link">Aller au contenu principal</a>
 
-    <!-- ================= EN-TÊTE ================= -->
-    {!sansNav && (
-      <nav class="topnav" aria-label="Navigation principale">
-        <a class="site-logo" href="/" aria-label="Tom Bigot — Accueil">
-          <img src="/assets/logo-tb.svg" alt="TB" class="site-logo-img" width="24" height="24" />
-          <span class="site-name">TOM BIGOT</span>
-        </a>
-        <div class="nav-group">
-          <a class={`nav-pill ${chemin === '/' ? 'active' : ''}`} href="/#projets" aria-current={chemin === '/' ? 'page' : undefined}>Projets</a>
-          <a class="nav-pill" href="/#actualites">Actualités</a>
-          <a class="nav-pill" href="/#services">Services</a>
-          <a class={`nav-pill ${chemin === '/agenda' ? 'active' : ''}`} href="/#agenda">Agenda</a>
-          <a class={`nav-pill ${chemin === '/contact' ? 'active' : ''}`} href="/#contact">Contact</a>
-        </div>
-      </nav>
-    )}
-
     <!-- ================= CONTENU ================= -->
     <main class="page-main" id="main-content">
       <slot />
@@ -93,39 +76,21 @@ const chemin = Astro.url.pathname;
         <span class="foot-sep">&bull;</span>
         <span>&copy; {new Date().getFullYear()}</span>
       </div>
-      {!sansNav ? (
-        <div class="foot-links">
-          <a href="/#projets">Projets</a>
-          <span class="foot-sep">&bull;</span>
-          <a href="/#actualites">Actualités</a>
-          <span class="foot-sep">&bull;</span>
-          <a href="/#services">Services</a>
-          <span class="foot-sep">&bull;</span>
-          <a href="/#agenda">Agenda</a>
-          <span class="foot-sep">&bull;</span>
-          <a href="https://github.com/TakDai" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <span class="foot-sep">&bull;</span>
-          <a href="/contact">Contact</a>
-          <span class="foot-sep">&bull;</span>
-          <a href="/mentions-legales">Mentions</a>
-        </div>
-      ) : (
-        <div class="foot-links">
-          <a href="/#projets">Projets</a>
-          <span class="foot-sep">&bull;</span>
-          <a href="/#actualites">Actualités</a>
-          <span class="foot-sep">&bull;</span>
-          <a href="/#services">Services</a>
-          <span class="foot-sep">&bull;</span>
-          <a href="/#agenda">Agenda</a>
-          <span class="foot-sep">&bull;</span>
-          <a href="https://github.com/TakDai" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <span class="foot-sep">&bull;</span>
-          <a href="mailto:contact@tom-bigot.fr">contact@tom-bigot.fr</a>
-          <span class="foot-sep">&bull;</span>
-          <a href="/mentions-legales">Mentions</a>
-        </div>
-      )}
+      <div class="foot-links">
+        <a href="/#projets">Projets</a>
+        <span class="foot-sep">&bull;</span>
+        <a href="/#actualites">Actualités</a>
+        <span class="foot-sep">&bull;</span>
+        <a href="/#services">Services</a>
+        <span class="foot-sep">&bull;</span>
+        <a href="/#agenda">Agenda</a>
+        <span class="foot-sep">&bull;</span>
+        <a href="https://github.com/TakDai" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <span class="foot-sep">&bull;</span>
+        <a href="mailto:contact@tom-bigot.fr">contact@tom-bigot.fr</a>
+        <span class="foot-sep">&bull;</span>
+        <a href="/mentions-legales">Mentions</a>
+      </div>
     </footer>
   </body>
 </html>
