@@ -300,56 +300,65 @@ const transitionVariants = [
         {actualitesPosts.map((post) => {
           return (
             <article class="actualite-card" data-category={post.sourceType}>
-              <div class="actualite-card-inner">
-                <header class="actualite-card-head">
-                  <div class="actualite-source-pill">
-                    <span class="source-icon">{post.sourceIcon}</span>
-                    <span class="source-nom">{post.sourceNom}</span>
-                  </div>
-                  <span class="actualite-badge-type">{post.badgeType}</span>
-                </header>
+              <!-- Vignette / Illustration compacte -->
+              <div class="actualite-thumb-box">
+                <img
+                  src={post.illustration}
+                  alt={post.titre}
+                  class="actualite-thumb-img"
+                  loading="lazy"
+                  width="120"
+                  height="88"
+                />
+                <span class="actualite-thumb-source">{post.sourceNom}</span>
+              </div>
 
-                <div class="actualite-date-row">
+              <!-- Contenu textuel et actions compactes -->
+              <div class="actualite-card-content">
+                <div class="actualite-card-meta">
                   <span class="actualite-date">{formaterDate(post.date)}</span>
+                  <span class="actualite-badge-type">{post.badgeType}</span>
                 </div>
 
-                <h3 class="actualite-titre">{post.titre}</h3>
+                <h3 class="actualite-titre" title={post.titre}>{post.titre}</h3>
                 <p class="actualite-desc">{post.description}</p>
 
-                {post.tags && post.tags.length > 0 && (
-                  <div class="actualite-tags-row">
-                    {post.tags.map((tag: string) => (
-                      <span class="actualite-tag-pill">{tag}</span>
-                    ))}
-                  </div>
-                )}
+                <div class="actualite-card-footer">
+                  {post.tags && post.tags.length > 0 && (
+                    <div class="actualite-tags-mini">
+                      {post.tags.slice(0, 2).map((tag: string) => (
+                        <span class="actualite-tag-mini">{tag}</span>
+                      ))}
+                    </div>
+                  )}
 
-                <footer class="actualite-card-actions">
-                  {post.lienSite && (
-                    <a href={post.lienSite} target="_blank" rel="noopener noreferrer" class="actu-action-link primary">
-                      <span>Visiter le site</span>
-                      <span class="actu-arrow">&#8599;</span>
-                    </a>
-                  )}
-                  {post.lienGitHub && (
-                    <a href={post.lienGitHub} target="_blank" rel="noopener noreferrer" class="actu-action-link">
-                      <span>Dépôt GitHub</span>
-                      <span class="actu-arrow">&#8599;</span>
-                    </a>
-                  )}
-                  {post.projetId && (
-                    <button
-                      type="button"
-                      class="actu-action-modal btn-open-fiche"
-                      data-open-fiche={post.projetId}
-                      aria-haspopup="dialog"
-                      title={`Ouvrir la fiche de ${post.sourceNom}`}
-                    >
-                      <span>Fiche projet</span>
-                      <span class="actu-arrow">&rarr;</span>
-                    </button>
-                  )}
-                </footer>
+                  <div class="actualite-mini-actions">
+                    {post.projetId && (
+                      <button
+                        type="button"
+                        class="actu-mini-btn btn-open-fiche"
+                        data-open-fiche={post.projetId}
+                        aria-haspopup="dialog"
+                        title={`Ouvrir la fiche de ${post.sourceNom}`}
+                      >
+                        <span>Fiche</span>
+                        <span class="actu-arrow">&rarr;</span>
+                      </button>
+                    )}
+                    {post.lienSite && (
+                      <a href={post.lienSite} target="_blank" rel="noopener noreferrer" class="actu-mini-btn primary" title="Visiter le site officiel">
+                        <span>Site</span>
+                        <span class="actu-arrow">&#8599;</span>
+                      </a>
+                    )}
+                    {post.lienGitHub && !post.lienSite && (
+                      <a href={post.lienGitHub} target="_blank" rel="noopener noreferrer" class="actu-mini-btn" title="Voir le code source sur GitHub">
+                        <span>GitHub</span>
+                        <span class="actu-arrow">&#8599;</span>
+                      </a>
+                    )}
+                  </div>
+                </div>
               </div>
             </article>
           );
@@ -3243,178 +3252,202 @@ const transitionVariants = [
 
   .actualites-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 12px;
   }
 
   .actualite-card {
-    border: 2px dashed #000000;
-    border-radius: 12px;
+    border: 1.5px dashed #000000;
+    border-radius: 8px;
     background: #ffffff;
     display: flex;
-    flex-direction: column;
-    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-                border-style 0.2s ease,
-                box-shadow 0.2s ease;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 12px;
+    padding: 8px;
+    min-height: 104px;
+    transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+                border-style 0.15s ease,
+                box-shadow 0.15s ease;
   }
 
   .actualite-card:hover {
     border-style: solid;
-    transform: translateY(-4px);
-    box-shadow: 6px 6px 0px #000000;
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 0px #000000;
   }
 
-  .actualite-card-inner {
-    padding: 24px;
+  /* Vignette / Illustration */
+  .actualite-thumb-box {
+    position: relative;
+    width: 112px;
+    min-width: 112px;
+    height: 100%;
+    min-height: 90px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid #000000;
+    background: #f4f4f4;
+    flex-shrink: 0;
+  }
+
+  .actualite-thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.25s ease;
+  }
+
+  .actualite-card:hover .actualite-thumb-img {
+    transform: scale(1.05);
+  }
+
+  .actualite-thumb-source {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.85);
+    color: #ffffff;
+    font: 700 8px/1.2 var(--font);
+    letter-spacing: 0.05em;
+    padding: 2px 4px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Contenu textuel */
+  .actualite-card-content {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    height: 100%;
-    gap: 12px;
+    justify-content: space-between;
+    min-width: 0;
+    gap: 4px;
   }
 
-  .actualite-card-head {
+  .actualite-card-meta {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-
-  .actualite-source-pill {
-    display: inline-flex;
-    align-items: center;
     gap: 6px;
-    padding: 3px 9px;
-    background: #000000;
-    color: #ffffff;
-    border-radius: 4px;
-    font: 700 11px var(--font);
-    letter-spacing: 0.08em;
+    font: 700 9px var(--font);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
 
-  .source-icon {
-    font-size: 13px;
-    line-height: 1;
+  .actualite-date {
+    color: rgba(0, 0, 0, 0.55);
   }
 
   .actualite-badge-type {
-    font: 700 10px var(--font);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.65);
-    background: #f4f4f4;
-    padding: 2px 7px;
-    border-radius: 4px;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-  }
-
-  .actualite-date-row {
-    font: 700 11px var(--font);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.5);
+    background: #f2f2f2;
+    color: rgba(0, 0, 0, 0.75);
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
   }
 
   .actualite-titre {
     margin: 0;
-    font: 700 clamp(17px, 2.2vw, 20px)/1.3 var(--font);
-    letter-spacing: 0.05em;
+    font: 700 12.5px/1.25 var(--font);
+    letter-spacing: 0.02em;
     text-transform: uppercase;
     color: #000000;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .actualite-desc {
     margin: 0;
-    font: 400 14px/1.55 var(--font);
-    color: rgba(0, 0, 0, 0.78);
-    flex: 1;
+    font: 400 11px/1.3 var(--font);
+    color: rgba(0, 0, 0, 0.7);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
-  .actualite-tags-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    padding-top: 12px;
-    border-top: 1px dashed rgba(0, 0, 0, 0.2);
-  }
-
-  .actualite-card-actions {
+  .actualite-card-footer {
     display: flex;
     align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-top: auto;
-    padding-top: 14px;
-    border-top: 1px dashed rgba(0, 0, 0, 0.2);
+    justify-content: space-between;
+    gap: 6px;
+    margin-top: 2px;
+    padding-top: 4px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.15);
   }
 
-  .actu-action-link,
-  .actu-action-modal {
-    padding: 6px 12px;
-    border-radius: 6px;
-    font: 700 11px var(--font);
-    letter-spacing: 0.06em;
+  .actualite-tags-mini {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    overflow: hidden;
+  }
+
+  .actualite-tag-mini {
+    font: 700 8px var(--font);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.7);
+    background: #fafafa;
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    border-radius: 3px;
+    padding: 1px 4px;
+    white-space: nowrap;
+  }
+
+  .actualite-mini-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .actu-mini-btn {
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 3px;
+    font: 700 9px var(--font);
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: 2px;
     cursor: pointer;
-    transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+    background: #ffffff;
+    color: #000000;
+    border: 1px solid #000000;
+    transition: all 0.12s ease;
   }
 
-  .actu-action-link.primary {
+  .actu-mini-btn:hover {
     background: #000000;
     color: #ffffff;
-    border: 1.5px solid #000000;
+    transform: translateY(-1px);
   }
 
-  .actu-action-link.primary:hover {
+  .actu-mini-btn.primary {
+    background: #000000;
+    color: #ffffff;
+    border-color: #000000;
+  }
+
+  .actu-mini-btn.primary:hover {
     background: rgba(0, 0, 0, 0.85);
-    transform: translateY(-1px);
-  }
-
-  .actu-action-link {
-    background: #ffffff;
-    color: #000000;
-    border: 1.5px solid #000000;
-  }
-
-  .actu-action-link:hover {
-    background: #f4f4f4;
-    transform: translateY(-1px);
-  }
-
-  .actu-action-modal {
-    background: #fafafa;
-    color: #000000;
-    border: 1.5px dashed #000000;
-  }
-
-  .actu-action-modal:hover {
-    background: #ffffff;
-    border-style: solid;
-    transform: translateY(-1px);
   }
 
   .actu-arrow {
-    font-size: 13px;
+    font-size: 10px;
     line-height: 1;
     font-weight: 700;
-  }
-
-  .actualite-tag-pill {
-    display: inline-flex;
-    align-items: center;
-    height: 22px;
-    padding: 0 8px;
-    border: 1px dashed rgba(0, 0, 0, 0.4);
-    border-radius: 999px;
-    font: 700 9px var(--font);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    background: #fbfbfb;
-    color: rgba(0, 0, 0, 0.85);
   }
 
   .actualites-footer-actions {
@@ -3852,5 +3885,16 @@ const transitionVariants = [
 
   .seam-top-link {
     margin-left: 8px;
+  }
+
+  @media (max-width: 640px) {
+    .actualite-card {
+      flex-direction: column;
+      gap: 10px;
+    }
+    .actualite-thumb-box {
+      width: 100%;
+      height: 130px;
+    }
   }
 </style>
