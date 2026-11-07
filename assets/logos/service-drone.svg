@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none">
+  <!-- Châssis drone FPV en X monochrome -->
+  <line x1="8" y1="8" x2="40" y2="40" stroke="#000000" stroke-width="3" stroke-linecap="round" />
+  <line x1="40" y1="8" x2="8" y2="40" stroke="#000000" stroke-width="3" stroke-linecap="round" />
+  <!-- Moteurs 4 coins -->
+  <circle cx="8" cy="8" r="5.5" stroke="#000000" stroke-width="2" fill="#ffffff" />
+  <circle cx="8" cy="8" r="2" fill="#000000" />
+  <circle cx="40" cy="8" r="5.5" stroke="#000000" stroke-width="2" fill="#ffffff" />
+  <circle cx="40" cy="8" r="2" fill="#000000" />
+  <circle cx="8" cy="40" r="5.5" stroke="#000000" stroke-width="2" fill="#ffffff" />
+  <circle cx="8" cy="40" r="2" fill="#000000" />
+  <circle cx="40" cy="40" r="5.5" stroke="#000000" stroke-width="2" fill="#ffffff" />
+  <circle cx="40" cy="40" r="2" fill="#000000" />
+  <!-- Caméra centrale FPV -->
+  <rect x="18" y="16" width="12" height="16" rx="2" stroke="#000000" stroke-width="2" fill="#000000" />
+  <circle cx="24" cy="22" r="3" fill="#ffffff" />
+  <line x1="24" y1="32" x2="24" y2="35" stroke="#000000" stroke-width="2" stroke-linecap="round" />
+</svg>
