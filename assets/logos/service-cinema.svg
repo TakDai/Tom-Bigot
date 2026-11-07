@@ -1,15 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none">
-  <!-- Bobine 35mm cinéma monochrome -->
-  <circle cx="24" cy="24" r="21" stroke="#000000" stroke-width="2.5" fill="#ffffff" />
-  <circle cx="24" cy="24" r="7.5" stroke="#000000" stroke-width="2" fill="#000000" />
-  <circle cx="24" cy="24" r="3" fill="#ffffff" />
-  <!-- Perforations circulaires -->
-  <circle cx="24" cy="9.5" r="3.2" fill="#000000" />
-  <circle cx="24" cy="38.5" r="3.2" fill="#000000" />
-  <circle cx="9.5" cy="24" r="3.2" fill="#000000" />
-  <circle cx="38.5" cy="24" r="3.2" fill="#000000" />
-  <circle cx="13.8" cy="13.8" r="3.2" fill="#000000" />
-  <circle cx="34.2" cy="34.2" r="3.2" fill="#000000" />
-  <circle cx="13.8" cy="34.2" r="3.2" fill="#000000" />
-  <circle cx="34.2" cy="13.8" r="3.2" fill="#000000" />
+  <!-- Projecteur Cinéma Numérique DCI monochrome -->
+  <!-- Pieds de calage -->
+  <line x1="10" y1="33" x2="10" y2="37" stroke="#000000" stroke-width="2.5" stroke-linecap="round" />
+  <line x1="26" y1="33" x2="26" y2="37" stroke="#000000" stroke-width="2.5" stroke-linecap="round" />
+  <!-- Châssis projecteur DCI -->
+  <rect x="5" y="15" width="26" height="18" rx="2.5" stroke="#000000" stroke-width="2.5" fill="#ffffff" />
+  <!-- Vents / statut numérique -->
+  <line x1="10" y1="20" x2="14" y2="20" stroke="#000000" stroke-width="2" stroke-linecap="round" />
+  <line x1="10" y1="24" x2="14" y2="24" stroke="#000000" stroke-width="2" stroke-linecap="round" />
+  <line x1="10" y1="28" x2="14" y2="28" stroke="#000000" stroke-width="2" stroke-linecap="round" />
+  <!-- Matrice optique numérique -->
+  <circle cx="22" cy="24" r="4.5" stroke="#000000" stroke-width="2" fill="#000000" />
+  <circle cx="22" cy="24" r="1.8" fill="#ffffff" />
+  <!-- Objectif de projection -->
+  <path d="M31 19.5 L36 21 L36 27 L31 28.5 Z" fill="#000000" stroke="#000000" stroke-width="1.5" stroke-linejoin="round" />
+  <!-- Faisceau de projection numérique -->
+  <path d="M38 21.5 L44 17 M38 24 L45 24 M38 26.5 L44 31" stroke="#000000" stroke-width="2" stroke-linecap="round" />
 </svg>
