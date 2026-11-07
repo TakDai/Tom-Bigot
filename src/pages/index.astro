@@ -11,6 +11,18 @@ const projetsRendered = await Promise.all(
 );
 const docMap = new Map(projetsRendered.map((item) => [item.id, item]));
 
+const allArticles = (await getCollection('blog', ({ data }) => !data.brouillon)).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+
+function formaterDate(date: Date) {
+  return new Intl.DateTimeFormat('fr-FR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).format(date);
+}
+
 const projects = [
   {
     num: '01',
@@ -236,19 +248,82 @@ const transitionVariants = [
       </div>
 
       <div class="hero-actions">
-        <a href="#multi-motors" class="btn-hero-primary" aria-label="Explorer les 10 projets">
+        <a href="#projets" class="btn-hero-primary" aria-label="Explorer les 10 projets">
           Voir les projets &darr;
         </a>
-        <a href="mailto:contact@tom-bigot.fr" class="btn-hero-secondary">
+        <a href="#services" class="btn-hero-secondary">
+          Mes services
+        </a>
+        <a href="#contact" class="btn-hero-secondary">
           Contact
         </a>
       </div>
     </div>
 
     <!-- Indicateur de défilement vers le bas -->
-    <a href="#multi-motors" class="scroll-cue" aria-label="Découvrir les projets plein écran">
+    <a href="#actualites" class="scroll-cue" aria-label="Découvrir les actualités">
       <span class="scroll-arrow">&darr;</span>
     </a>
+  </section>
+
+  <!-- ================= ACTUALITÉS (BLOG TECHNIQUE DIRECTEMENT SOUS LA VIDÉO D'ACCUEIL) ================= -->
+  <section class="actualites-screen" id="actualites">
+    <div class="actualites-container">
+      <header class="blueprint-section-head">
+        <div class="section-badge-row">
+          <span class="etiquette">ACTUALITÉS &bull; ANALYSES &amp; RETOURS D'EXPÉRIENCE</span>
+          <span class="actualites-count-badge">{allArticles.length} ARTICLES PUBLIÉS</span>
+        </div>
+        <h2 class="section-big-title">LE BLOG TECHNIQUE &amp; ACTUALITÉS</h2>
+        <p class="section-big-subtitle">
+          Retours d'expérience approfondis sur le terrain : architectures logicielles souveraines, protocoles et ingénierie de télémétrie FPV, pipelines CI/CD et déploiement continu.
+        </p>
+      </header>
+
+      <div class="actualites-grid">
+        {allArticles.map((article) => {
+          const { titre, description, date, tags, tempsLecture } = article.data;
+          return (
+            <article class="actualite-card">
+              <a href={`/blog/${article.id}`} class="actualite-card-link" aria-label={`Lire l'article : ${titre}`}>
+                <div class="actualite-meta-line">
+                  <span class="actualite-date">{formaterDate(date)}</span>
+                  {tempsLecture && (
+                    <>
+                      <span class="actualite-sep">&bull;</span>
+                      <span class="actualite-readtime">{tempsLecture} de lecture</span>
+                    </>
+                  )}
+                  <span class="actualite-arrow-icon" aria-hidden="true">&nearr;</span>
+                </div>
+
+                <h3 class="actualite-titre">{titre}</h3>
+                <p class="actualite-desc">{description}</p>
+
+                {tags && tags.length > 0 && (
+                  <div class="actualite-tags-row">
+                    {tags.map((tag: string) => (
+                      <span class="actualite-tag-pill">{tag}</span>
+                    ))}
+                  </div>
+                )}
+              </a>
+            </article>
+          );
+        })}
+      </div>
+
+      <div class="actualites-footer-actions">
+        <a href="/blog" class="btn-noir">
+          <span>Consulter tous les articles techniques</span>
+          <span class="btn-arrow">&rarr;</span>
+        </a>
+        <a href="#projets" class="btn-outline">
+          <span>Explorer les 10 projets</span>
+          <span class="btn-arrow">&darr;</span>
+        </a>
+      </div>
+    </div>
   </section>
 
   <!-- ================= TIMELINE DU SCROLL CLIQUABLE (INDICATEUR INTERACTIF COMPLET) ================= -->
@@ -438,11 +513,16 @@ const transitionVariants = [
                 </div>
                 <div class="seam-info-row">
                   <span class="seam-counter">{p.num} sur 10</span>
-                  <a href="#top" class="seam-next-link" aria-label="Retour au sommet">
-                    <span class="seam-label-full">RETOUR AU SOMMET</span>
-                    <span class="seam-label-mobile">SOMMET</span>
-                    <span class="seam-arrow">↑</span>
-                  </a>
+                  <div class="seam-actions-group">
+                    <a href="#services" class="seam-next-link" aria-label="Découvrir mes services">
+                      <span class="seam-label-full">MES SERVICES</span>
+                      <span class="seam-arrow">&darr;</span>
+                    </a>
+                    <a href="#top" class="seam-next-link seam-top-link" aria-label="Retour au sommet">
+                      <span class="seam-label-full">SOMMET</span>
+                      <span class="seam-arrow">&uarr;</span>
+                    </a>
+                  </div>
                 </div>
               </footer>
             )}
@@ -601,7 +681,279 @@ const transitionVariants = [
     })}
   </div>
 
-  <!-- ================= GESTIONNAIRE LENIS 120FPS, PARALLAXE & VIDÉOS ================= -->
+  <!-- ================= MES SERVICES & SAVOIR-FAIRE TECHNIQUE ================= -->
+  <section class="services-screen" id="services">
+    <div class="services-container">
+      <header class="blueprint-section-head">
+        <div class="section-badge-row">
+          <span class="etiquette">PRESTATIONS &bull; SAVOIR-FAIRE TECHNIQUE</span>
+          <span class="actualites-count-badge">3 PÔLES D'EXPERTISE</span>
+        </div>
+        <h2 class="section-big-title">MES SERVICES &amp; COMPÉTENCES</h2>
+        <p class="section-big-subtitle">
+          Trois métiers complémentaires animés par la même exigence : précision chirurgicale, respect scrupuleux des normes physiques et logicielles, et passion du terrain.
+        </p>
+      </header>
+
+      <div class="services-grid">
+        <!-- PÔLE 1 : PROJECTIONNISTE -->
+        <article class="service-card">
+          <div class="service-card-top">
+            <span class="service-pole-num">PÔLE 01</span>
+            <span class="service-pole-tag">CINÉMA DCI &bull; 35MM</span>
+          </div>
+          <div class="service-card-icon">📽️</div>
+          <h3 class="service-card-title">OPÉRATEUR PROJECTIONNISTE</h3>
+          <p class="service-card-desc">
+            Exploitation rigoureuse de cabines numériques DCI et 35mm argentique. Restitution visuelle et acoustique de référence, respect de l'œuvre et fiabilité sans compromis.
+          </p>
+          <ul class="service-checklist">
+            <li><strong>Projecteurs DCI :</strong> Barco (série DP2K, DP4K, Alchemy), Christie Laser, NEC. Alignement optique, convergences et lampes xénon.</li>
+            <li><strong>Serveurs &amp; Ingest DCP :</strong> Dolby (IMS2000, IMS3000), Doremi ShowVault / DCP-2000, validation des checksums et TMS réseau.</li>
+            <li><strong>Argentique 35mm :</strong> Plateaux continus, double poste, collage à la presse acétone, calage des amorces et réglage du couloir.</li>
+            <li><strong>Sonorisation &amp; Régie :</strong> Processeurs Dolby CP650/CP750/CP950, égalisation multicanale, micros HF pour débats et avant-premières.</li>
+          </ul>
+          <div class="service-card-actions">
+            <a href="/projectionniste" class="btn-noir btn-sm">Page détaillée &rarr;</a>
+            <a href="#agenda" class="btn-outline btn-sm">Disponibilités cabine</a>
+          </div>
+        </article>
+
+        <!-- PÔLE 2 : PILOTE DRONE FPV -->
+        <article class="service-card">
+          <div class="service-card-top">
+            <span class="service-pole-num">PÔLE 02</span>
+            <span class="service-pole-tag">TOURNAGE &bull; CADRAGE AÉRIEN</span>
+          </div>
+          <div class="service-card-icon">🚁</div>
+          <h3 class="service-card-title">PILOTE DRONE FPV</h3>
+          <p class="service-card-desc">
+            Captation aérienne dynamique et immersive en pilotage manuel (mode Acro). Trajectoires cinématiques impossibles aux drones classiques, poursuites et plans continus.
+          </p>
+          <ul class="service-checklist">
+            <li><strong>Cinewhoop d'intérieur (2.5" / 3.5") :</strong> Hélices sous conduits protégés pour plans-séquences sécurisés en musée, show-room, commerce ou usine.</li>
+            <li><strong>5" Haute Vitesse :</strong> Châssis carbone rigide jusqu'à 150 km/h pour le suivi de véhicules, sports extrêmes et paysages grandioses.</li>
+            <li><strong>Workflow Vidéo Pro :</strong> Flux numérique DJI O3 / Walksnail, caméras 4K stabilisées Gyroflow, profils LOG 10 bits et étalonnage précis.</li>
+            <li><strong>Sécurité Réglementaire :</strong> Télépilote certifié DGAC, conformité scénarios européens ouverts/spécifiques et assurance professionnelle.</li>
+          </ul>
+          <div class="service-card-actions">
+            <a href="/pilote-fpv" class="btn-noir btn-sm">Page détaillée &rarr;</a>
+            <a href="#agenda" class="btn-outline btn-sm">Planning tournage</a>
+          </div>
+        </article>
+
+        <!-- PÔLE 3 : DÉVELOPPEMENT LOGICIEL & SYSTÈMES -->
+        <article class="service-card">
+          <div class="service-card-top">
+            <span class="service-pole-num">PÔLE 03</span>
+            <span class="service-pole-tag">CODE &bull; EMBARQUÉ &bull; CLOUD</span>
+          </div>
+          <div class="service-card-icon">⚡</div>
+          <h3 class="service-card-title">DÉVELOPPEMENT &amp; SYSTÈMES</h3>
+          <p class="service-card-desc">
+            Conception logicielle et matérielle souveraine, sobre et rapide : de la boucle de calcul C/C++ en temps réel sur microcontrôleur jusqu'aux interfaces web modernes et serveurs Linux.
+          </p>
+          <ul class="service-checklist">
+            <li><strong>Desktop Natif Cross-Platform :</strong> C# .NET 8 / Avalonia UI, architecture réactive MVVM, chiffrement local AES-256 et communications SSH.</li>
+            <li><strong>Systèmes Embarqués Temps Réel :</strong> STM32 (F4, F7, H7), ESP32, liaisons bus physiques SPI, I2C, UART, télémétrie et capteurs.</li>
+            <li><strong>Web Léger &amp; Instantané :</strong> Astro, TypeScript, Tailwind, accessibilité WCAG, APIs REST Python FastAPI performantes.</li>
+            <li><strong>Infrastructures Durcies :</strong> Serveurs Linux bare-metal, conteneurs Docker isolés, reverse proxy Nginx, CI/CD GitHub Actions sans surcoût.</li>
+          </ul>
+          <div class="service-card-actions">
+            <a href="/developpement" class="btn-noir btn-sm">Page détaillée &rarr;</a>
+            <a href="#contact" class="btn-outline btn-sm">Proposer un projet</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= AGENDA & DISPONIBILITÉS EN DIRECT ================= -->
+  <section class="agenda-screen" id="agenda">
+    <div class="agenda-container">
+      <header class="blueprint-section-head">
+        <div class="section-badge-row">
+          <span class="etiquette">PLANIFICATION &bull; DISPONIBILITÉS EN DIRECT</span>
+          <span class="actualites-count-badge">CALENDRIER TEMPS RÉEL</span>
+        </div>
+        <h2 class="section-big-title">AGENDA &amp; CALENDRIER DE MISSION</h2>
+        <p class="section-big-subtitle">
+          Deux espaces de planification totalement indépendants pour garantir la clarté et la confidentialité de chaque métier : Cabines Cinéma (partenaires &amp; circuits) et Tournages Drone FPV.
+        </p>
+      </header>
+
+      <!-- Hub d'accès rapide sous-domaines et espaces dédiés -->
+      <div class="agenda-hub-row">
+        <a href="/agenda/cine-off" class="agenda-hub-card">
+          <span class="hub-card-icon">🎞️</span>
+          <div class="hub-card-body">
+            <strong>Ciné-Off (37)</strong>
+            <small>Circuit itinérant &bull; Tournées</small>
+          </div>
+          <span class="hub-card-arrow">&rarr;</span>
+        </a>
+        <a href="/agenda/les-studios" class="agenda-hub-card">
+          <span class="hub-card-icon">🏛️</span>
+          <div class="hub-card-body">
+            <strong>Les Studios (Tours)</strong>
+            <small>7 Écrans &bull; Cabines &amp; 35mm</small>
+          </div>
+          <span class="hub-card-arrow">&rarr;</span>
+        </a>
+        <a href="/agenda/fpv" class="agenda-hub-card">
+          <span class="hub-card-icon">🚁</span>
+          <div class="hub-card-body">
+            <strong>Drone FPV &amp; Devis</strong>
+            <small>Tournages &bull; Devis instantané</small>
+          </div>
+          <span class="hub-card-arrow">&rarr;</span>
+        </a>
+        <a href="/agenda/admin" class="agenda-hub-card">
+          <span class="hub-card-icon">🛡️</span>
+          <div class="hub-card-body">
+            <strong>Superviseur</strong>
+            <small>Planning consolidé</small>
+          </div>
+          <span class="hub-card-arrow">&rarr;</span>
+        </a>
+      </div>
+
+      <!-- Aperçu interactif du calendrier -->
+      <div class="agenda-preview-box">
+        <div class="preview-box-head">
+          <div class="preview-tabs">
+            <button type="button" class="preview-tab active" data-tab-target="tab-cinema">Cabine Cinéma</button>
+            <button type="button" class="preview-tab" data-tab-target="tab-fpv">Drone FPV</button>
+          </div>
+          <span class="preview-month-label">Novembre — Décembre 2026</span>
+        </div>
+
+        <div class="preview-tab-content" id="tab-cinema">
+          <div class="preview-calendar-summary">
+            <div class="summary-stat-item">
+              <span class="stat-number">18</span>
+              <span class="stat-label">Jours disponibles cabine</span>
+            </div>
+            <div class="summary-stat-item">
+              <span class="stat-number">10</span>
+              <span class="stat-label">Séances Les Studios &amp; Ciné-Off</span>
+            </div>
+            <div class="summary-stat-item">
+              <span class="stat-number">11</span>
+              <span class="stat-label">Jours formation CFA DCI</span>
+            </div>
+          </div>
+          <p class="preview-note">
+            Les cabines partenaires bénéficient d'un accès réservé et d'une synchronisation en temps réel de leurs créneaux. 
+            Les créneaux marqués disponibles sont ouverts pour des remplacements, festivals ou séances spéciales.
+          </p>
+        </div>
+
+        <div class="preview-tab-content is-hidden" id="tab-fpv">
+          <div class="preview-calendar-summary">
+            <div class="summary-stat-item">
+              <span class="stat-number">22</span>
+              <span class="stat-label">Jours ouverts tournages FPV</span>
+            </div>
+            <div class="summary-stat-item">
+              <span class="stat-number">3</span>
+              <span class="stat-label">Tournages &amp; repérages validés</span>
+            </div>
+            <div class="summary-stat-item">
+              <span class="stat-number">2</span>
+              <span class="stat-label">Options météo posées</span>
+            </div>
+          </div>
+          <p class="preview-note">
+            Possibilité de poser une option tournage sous réserve de conditions météorologiques favorables. Déplacement avec matériel autonome et régie retour vidéo au sol.
+          </p>
+        </div>
+
+        <div class="agenda-box-footer">
+          <a href="/agenda" class="btn-noir">
+            <span>Accéder à l'agenda complet interactif</span>
+            <span class="btn-arrow">&rarr;</span>
+          </a>
+          <a href="/agenda/fpv" class="btn-outline">
+            <span>Calculer un devis tournage FPV</span>
+            <span class="btn-arrow">&#8599;</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT & COLLABORATION ================= -->
+  <section class="contact-screen" id="contact">
+    <div class="contact-container">
+      <header class="blueprint-section-head">
+        <div class="section-badge-row">
+          <span class="etiquette">COLLABORATION &bull; PRISE DE CONTACT</span>
+          <span class="actualites-count-badge">RÉPONSE SOUS 24H</span>
+        </div>
+        <h2 class="section-big-title">TRAVAILLONS ENSEMBLE</h2>
+        <p class="section-big-subtitle">
+          Une mission d'exploitation cabine, un tournage par drone FPV cinématique, ou le développement d'une solution technique sur mesure ? Échangeons dès maintenant sur votre projet.
+        </p>
+      </header>
+
+      <div class="contact-grid">
+        <div class="contact-card primary-contact">
+          <span class="etiquette">CANAL DIRECT</span>
+          <h3 class="contact-card-title">PAR COURRIER ÉLECTRONIQUE</h3>
+          <p class="contact-card-desc">
+            Pour toute demande d'information, devis, collaboration ou proposition de projet technique :
+          </p>
+          <div class="contact-email-box">
+            <a href="mailto:contact@tom-bigot.fr" class="contact-email-link">contact@tom-bigot.fr</a>
+          </div>
+          <div class="contact-card-actions">
+            <a href="mailto:contact@tom-bigot.fr" class="btn-noir">Écrire un message &rarr;</a>
+          </div>
+        </div>
+
+        <div class="contact-card">
+          <span class="etiquette">ZONE D'INTERVENTION</span>
+          <h3 class="contact-card-title">TOURS &bull; MOBILITÉ NATIONALE</h3>
+          <p class="contact-card-desc">
+            Basé à <strong>Tours (Indre-et-Loire - 37)</strong>, au cœur du Val de Loire.
+          </p>
+          <ul class="contact-mobility-list">
+            <li>Intervention régulière sur l'axe Tours &bull; Blois &bull; Orléans &bull; Paris</li>
+            <li>Déplacements France entière et international sur devis pour tournages et missions cabine</li>
+            <li>Infrastructures logicielles gérées et déployées à distance en toute autonomie</li>
+          </ul>
+        </div>
+
+        <div class="contact-card">
+          <span class="etiquette">RÉSEAUX &bull; CODES SOURCES</span>
+          <h3 class="contact-card-title">ÉCOSYSTÈME &bull; OPEN-SOURCE</h3>
+          <p class="contact-card-desc">
+            Suivez mes réalisations, dépôts de code et streams techniques :
+          </p>
+          <div class="contact-links-list">
+            <a href="https://github.com/TakDai" target="_blank" rel="noopener noreferrer" class="contact-ext-link">
+              <span>GitHub &bull; @TakDai</span>
+              <span class="ext-arrow">&#8599;</span>
+            </a>
+            <a href="https://twitch.tv/127il" target="_blank" rel="noopener noreferrer" class="contact-ext-link">
+              <span>Twitch &bull; Chaîne 127IL</span>
+              <span class="ext-arrow">&#8599;</span>
+            </a>
+            <a href="/rss.xml" target="_blank" rel="noopener" class="contact-ext-link">
+              <span>Flux RSS &bull; Articles techniques</span>
+              <span class="ext-arrow">&#8599;</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barre de retour au sommet -->
+      <div class="contact-bottom-bar">
+        <a href="#top" class="footer-back-top">&uarr; Retour en haut de page</a>
+      </div>
+    </div>
+  </section>
   <script>
     import Lenis from 'lenis';
     import 'lenis/dist/lenis.css';
@@ -684,24 +1036,21 @@ const transitionVariants = [
       function updateVisuals(scrollY: number) {
         const windowHeight = window.innerHeight;
 
-        // A. Émergence dynamique de la timeline
+        // A. Émergence dynamique de la timeline (active uniquement dans la section projets)
         if (hero && timelineNav) {
-          if (scrollY > 30) {
+          const inProjects = scrollY >= (wrapperTop - windowHeight * 0.4) &&
+                             scrollY <= (wrapperTop + wrapperHeight - windowHeight * 0.2);
+          if (inProjects) {
             timelineNav.classList.add('is-visible');
-            const emergeRatio = Math.max(0, Math.min(1, scrollY / (heroHeight * 0.55)));
+            const emergeRatio = Math.max(0, Math.min(1, (scrollY - (wrapperTop - windowHeight * 0.4)) / (windowHeight * 0.3)));
             const slideX = (1 - emergeRatio) * 60;
             const scale = 0.90 + (emergeRatio * 0.10);
             const opacity = Math.min(1, emergeRatio * 1.5);
 
             timelineNav.style.transform = `translate3d(${slideX.toFixed(1)}px, -50%, 0) scale(${scale.toFixed(3)})`;
             timelineNav.style.opacity = opacity.toFixed(2);
-            timelineNav.style.pointerEvents = emergeRatio >= 0.7 ? 'auto' : 'none';
-
-            if (scrollY >= heroHeight - 60) {
-              timelineNav.style.zIndex = '100';
-            } else {
-              timelineNav.style.zIndex = '5';
-            }
+            timelineNav.style.pointerEvents = 'auto';
+            timelineNav.style.zIndex = '100';
           } else {
             timelineNav.classList.remove('is-visible');
             timelineNav.style.transform = 'translate3d(70px, -50%, 0) scale(0.90)';
@@ -712,7 +1061,9 @@ const transitionVariants = [
         }
 
         if (mobileTimeline) {
-          if (scrollY >= heroHeight * 0.4) mobileTimeline.classList.add('is-visible');
+          const inProjectsMobile = scrollY >= (wrapperTop - windowHeight * 0.3) &&
+                                   scrollY <= (wrapperTop + wrapperHeight - windowHeight * 0.2);
+          if (inProjectsMobile) mobileTimeline.classList.add('is-visible');
           else mobileTimeline.classList.remove('is-visible');
         }
 
@@ -953,6 +1304,20 @@ const transitionVariants = [
         const initialPid = window.location.hash.replace('#fiche-', '');
         setTimeout(() => openFiche(initialPid, false), 300);
       }
+
+      // 7. Gestionnaire des onglets de l'aperçu Agenda
+      const agendaTabs = document.querySelectorAll('.preview-tab');
+      agendaTabs.forEach((tabBtn) => {
+        tabBtn.addEventListener('click', () => {
+          const targetId = tabBtn.getAttribute('data-tab-target');
+          if (!targetId) return;
+          agendaTabs.forEach((b) => b.classList.remove('active'));
+          tabBtn.classList.add('active');
+          document.querySelectorAll('.preview-tab-content').forEach((content) => {
+            content.classList.toggle('is-hidden', content.id !== targetId);
+          });
+        });
+      });
     }
 
     if (document.readyState === 'loading') {
@@ -2696,5 +3061,612 @@ const transitionVariants = [
     .modal-btn-permalink .permalink-text {
       display: none;
     }
+  }
+
+  /* ==========================================================================
+     SECTIONS GLOBALES BLUEPRINT (ACTUALITÉS, SERVICES, AGENDA, CONTACT)
+     ========================================================================== */
+  .actualites-screen,
+  .services-screen,
+  .agenda-screen,
+  .contact-screen {
+    position: relative;
+    width: 100%;
+    background: #ffffff;
+    color: #000000;
+    padding: clamp(60px, 8vh, 100px) clamp(20px, 5vw, 60px);
+    border-top: 2px dashed #000000;
+    z-index: 10;
+  }
+
+  .actualites-container,
+  .services-container,
+  .agenda-container,
+  .contact-container {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(32px, 5vh, 48px);
+  }
+
+  .blueprint-section-head {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-bottom: 2px dashed #000000;
+    padding-bottom: 24px;
+  }
+
+  .section-badge-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .actualites-count-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border: 1.5px solid #000000;
+    border-radius: 999px;
+    font: 700 10px var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: #f4f4f4;
+    color: #000000;
+  }
+
+  .section-big-title {
+    margin: 0;
+    font: 700 clamp(28px, 4.5vw, 42px)/1.1 var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #000000;
+  }
+
+  .section-big-subtitle {
+    margin: 0;
+    font: 400 clamp(14px, 1.8vw, 17px)/1.6 var(--font);
+    letter-spacing: 0.02em;
+    color: rgba(0, 0, 0, 0.75);
+    max-width: 880px;
+  }
+
+  /* ==========================================================================
+     GRILLE ACTUALITÉS (BLOG TECHNIQUE)
+     ========================================================================== */
+  .actualites-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+  }
+
+  .actualite-card {
+    border: 2px dashed #000000;
+    border-radius: 12px;
+    background: #ffffff;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                border-style 0.2s ease,
+                box-shadow 0.2s ease;
+  }
+
+  .actualite-card:hover {
+    border-style: solid;
+    transform: translateY(-4px);
+    box-shadow: 6px 6px 0px #000000;
+  }
+
+  .actualite-card-link {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .actualite-meta-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font: 700 11px var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.6);
+    margin-bottom: 12px;
+  }
+
+  .actualite-sep {
+    opacity: 0.4;
+  }
+
+  .actualite-arrow-icon {
+    margin-left: auto;
+    font-size: 16px;
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+
+  .actualite-card:hover .actualite-arrow-icon {
+    transform: translate(2px, -2px);
+    color: #000000;
+  }
+
+  .actualite-titre {
+    margin: 0 0 10px;
+    font: 700 clamp(18px, 2.2vw, 21px)/1.25 var(--font);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #000000;
+  }
+
+  .actualite-desc {
+    margin: 0 0 16px;
+    font: 400 14px/1.55 var(--font);
+    color: rgba(0, 0, 0, 0.75);
+    flex: 1;
+  }
+
+  .actualite-tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-top: 14px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.2);
+  }
+
+  .actualite-tag-pill {
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 8px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 999px;
+    font: 700 9px var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: #fbfbfb;
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .actualites-footer-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding-top: 12px;
+  }
+
+  /* ==========================================================================
+     GRILLE MES SERVICES (3 PÔLES TECHNIQUES)
+     ========================================================================== */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 28px;
+  }
+
+  .service-card {
+    border: 2px dashed #000000;
+    border-radius: 14px;
+    background: #ffffff;
+    padding: clamp(24px, 3.5vw, 32px);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                border-style 0.2s ease,
+                box-shadow 0.2s ease;
+  }
+
+  .service-card:hover {
+    border-style: solid;
+    transform: translateY(-4px);
+    box-shadow: 6px 6px 0px #000000;
+  }
+
+  .service-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .service-pole-num {
+    font: 700 11px var(--font);
+    letter-spacing: 0.14em;
+    padding: 3px 8px;
+    background: #000000;
+    color: #ffffff;
+    border-radius: 4px;
+  }
+
+  .service-pole-tag {
+    font: 700 10px var(--font);
+    letter-spacing: 0.1em;
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .service-card-icon {
+    font-size: 32px;
+    line-height: 1;
+  }
+
+  .service-card-title {
+    margin: 0;
+    font: 700 clamp(20px, 2.5vw, 24px)/1.2 var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #000000;
+  }
+
+  .service-card-desc {
+    margin: 0;
+    font: 400 14px/1.6 var(--font);
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .service-checklist {
+    list-style: none;
+    margin: 0;
+    padding: 16px 0;
+    border-top: 1.5px dashed rgba(0, 0, 0, 0.2);
+    border-bottom: 1.5px dashed rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+  }
+
+  .service-checklist li {
+    font: 400 13px/1.5 var(--font);
+    color: rgba(0, 0, 0, 0.85);
+    position: relative;
+    padding-left: 18px;
+  }
+
+  .service-checklist li::before {
+    content: "■";
+    position: absolute;
+    left: 0;
+    top: 2px;
+    font-size: 8px;
+    color: #000000;
+  }
+
+  .service-checklist li strong {
+    font-weight: 700;
+    color: #000000;
+  }
+
+  .service-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: auto;
+  }
+
+  /* ==========================================================================
+     SECTION AGENDA (HUB + PREVIEW)
+     ========================================================================== */
+  .agenda-hub-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+  }
+
+  .agenda-hub-card {
+    border: 2px dashed #000000;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    color: #000000;
+    background: #ffffff;
+    transition: transform 0.15s ease, border-style 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .agenda-hub-card:hover {
+    border-style: solid;
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 0px #000000;
+  }
+
+  .hub-card-icon {
+    font-size: 26px;
+    line-height: 1;
+  }
+
+  .hub-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+  }
+
+  .hub-card-body strong {
+    font: 700 14px var(--font);
+    letter-spacing: 0.05em;
+  }
+
+  .hub-card-body small {
+    font: 400 11px var(--font);
+    color: rgba(0, 0, 0, 0.65);
+  }
+
+  .hub-card-arrow {
+    font-size: 16px;
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.4);
+    transition: transform 0.15s ease, color 0.15s ease;
+  }
+
+  .agenda-hub-card:hover .hub-card-arrow {
+    transform: translateX(3px);
+    color: #000000;
+  }
+
+  .agenda-preview-box {
+    border: 2.5px solid #000000;
+    border-radius: 14px;
+    background: #fafafa;
+    padding: clamp(20px, 3vw, 32px);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 6px 6px 0px #000000;
+  }
+
+  .preview-box-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    border-bottom: 2px dashed rgba(0, 0, 0, 0.2);
+    padding-bottom: 16px;
+  }
+
+  .preview-tabs {
+    display: inline-flex;
+    gap: 8px;
+  }
+
+  .preview-tab {
+    padding: 8px 16px;
+    border: 2px solid #000000;
+    border-radius: 8px;
+    background: #ffffff;
+    font: 700 12px var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .preview-tab.active {
+    background: #000000;
+    color: #ffffff;
+  }
+
+  .preview-month-label {
+    font: 700 12px var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.65);
+  }
+
+  .preview-tab-content.is-hidden {
+    display: none;
+  }
+
+  .preview-calendar-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  .summary-stat-item {
+    border: 1.5px dashed rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background: #ffffff;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .stat-number {
+    font: 700 32px/1 var(--font);
+    letter-spacing: 0.04em;
+    color: #000000;
+  }
+
+  .stat-label {
+    font: 700 11px/1.4 var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.65);
+  }
+
+  .preview-note {
+    margin: 0;
+    font: 400 13.5px/1.6 var(--font);
+    color: rgba(0, 0, 0, 0.75);
+    background: #ffffff;
+    border: 1px dashed rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    padding: 14px 18px;
+  }
+
+  .agenda-box-footer {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    padding-top: 10px;
+  }
+
+  /* ==========================================================================
+     SECTION CONTACT & PIED DE PAGE
+     ========================================================================== */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  .contact-card {
+    border: 2px dashed #000000;
+    border-radius: 12px;
+    padding: 24px;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .contact-card.primary-contact {
+    border: 2.5px solid #000000;
+    box-shadow: 5px 5px 0px #000000;
+  }
+
+  .contact-card-title {
+    margin: 0;
+    font: 700 18px/1.25 var(--font);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .contact-card-desc {
+    margin: 0;
+    font: 400 14px/1.55 var(--font);
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .contact-email-box {
+    padding: 12px 14px;
+    border: 1.5px dashed #000000;
+    border-radius: 8px;
+    background: #fbfbfb;
+  }
+
+  .contact-email-link {
+    font: 700 16px var(--font);
+    letter-spacing: 0.05em;
+    color: #000000;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    word-break: break-all;
+  }
+
+  .contact-mobility-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .contact-mobility-list li {
+    font: 400 13px/1.5 var(--font);
+    color: rgba(0, 0, 0, 0.8);
+    position: relative;
+    padding-left: 16px;
+  }
+
+  .contact-mobility-list li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #000000;
+    font-weight: 700;
+  }
+
+  .contact-links-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .contact-ext-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border: 1.5px dashed rgba(0, 0, 0, 0.35);
+    border-radius: 8px;
+    text-decoration: none;
+    color: #000000;
+    font: 700 12.5px var(--font);
+    letter-spacing: 0.06em;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+
+  .contact-ext-link:hover {
+    background: #f4f4f4;
+    border-color: #000000;
+    border-style: solid;
+  }
+
+  .index-blueprint-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    border-top: 2px dashed #000000;
+    padding-top: 28px;
+    margin-top: 20px;
+  }
+
+  .footer-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font: 700 12px var(--font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  .footer-brand {
+    color: #000000;
+  }
+
+  .footer-back-top {
+    font: 700 11px var(--font);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #000000;
+    padding: 6px 12px;
+    border: 1.5px solid #000000;
+    border-radius: 6px;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .footer-back-top:hover {
+    background: #000000;
+    color: #ffffff;
+  }
+
+  /* Seam actions group on 10th project */
+  .seam-actions-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .seam-top-link {
+    margin-left: 8px;
   }
 </style>

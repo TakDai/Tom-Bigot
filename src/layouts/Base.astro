@@ -70,13 +70,11 @@ const chemin = Astro.url.pathname;
           <span class="site-name">TOM BIGOT</span>
         </a>
         <div class="nav-group">
-          <a class={`nav-pill ${chemin === '/' ? 'active' : ''}`} href="/#projets-chronologie" aria-current={chemin === '/' ? 'page' : undefined}>Projets</a>
-          <a class={`nav-pill ${chemin === '/projectionniste' ? 'active' : ''}`} href="/projectionniste" aria-current={chemin === '/projectionniste' ? 'page' : undefined}>Projectionniste</a>
-          <a class={`nav-pill ${chemin === '/pilote-fpv' ? 'active' : ''}`} href="/pilote-fpv" aria-current={chemin === '/pilote-fpv' ? 'page' : undefined}>Pilote FPV</a>
-          <a class={`nav-pill ${chemin === '/developpement' ? 'active' : ''}`} href="/developpement" aria-current={chemin === '/developpement' ? 'page' : undefined}>Développement</a>
-          <a class={`nav-pill ${chemin === '/agenda' ? 'active' : ''}`} href="/agenda" aria-current={chemin === '/agenda' ? 'page' : undefined}>Agenda</a>
-          <a class={`nav-pill ${chemin.startsWith('/blog') ? 'active' : ''}`} href="/blog" aria-current={chemin.startsWith('/blog') ? 'page' : undefined}>Blog</a>
-          <a class={`nav-pill ${chemin === '/contact' ? 'active' : ''}`} href="/contact" aria-current={chemin === '/contact' ? 'page' : undefined}>Contact</a>
+          <a class={`nav-pill ${chemin === '/' ? 'active' : ''}`} href="/#projets" aria-current={chemin === '/' ? 'page' : undefined}>Projets</a>
+          <a class="nav-pill" href="/#actualites">Actualités</a>
+          <a class="nav-pill" href="/#services">Services</a>
+          <a class={`nav-pill ${chemin === '/agenda' ? 'active' : ''}`} href="/#agenda">Agenda</a>
+          <a class={`nav-pill ${chemin === '/contact' ? 'active' : ''}`} href="/#contact">Contact</a>
         </div>
       </nav>
     )}
@@ -97,17 +95,15 @@ const chemin = Astro.url.pathname;
       </div>
       {!sansNav ? (
         <div class="foot-links">
-          <a href="/projectionniste">Projectionniste</a>
+          <a href="/#projets">Projets</a>
           <span class="foot-sep">&bull;</span>
-          <a href="/pilote-fpv">Pilote FPV</a>
+          <a href="/#actualites">Actualités</a>
           <span class="foot-sep">&bull;</span>
-          <a href="/developpement">Développement</a>
+          <a href="/#services">Services</a>
           <span class="foot-sep">&bull;</span>
-          <a href="/agenda">Agenda</a>
+          <a href="/#agenda">Agenda</a>
           <span class="foot-sep">&bull;</span>
           <a href="https://github.com/TakDai" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <span class="foot-sep">&bull;</span>
-          <a href="/blog">Blog</a>
           <span class="foot-sep">&bull;</span>
           <a href="/contact">Contact</a>
           <span class="foot-sep">&bull;</span>
@@ -115,6 +111,14 @@ const chemin = Astro.url.pathname;
         </div>
       ) : (
         <div class="foot-links">
+          <a href="/#projets">Projets</a>
+          <span class="foot-sep">&bull;</span>
+          <a href="/#actualites">Actualités</a>
+          <span class="foot-sep">&bull;</span>
+          <a href="/#services">Services</a>
+          <span class="foot-sep">&bull;</span>
+          <a href="/#agenda">Agenda</a>
+          <span class="foot-sep">&bull;</span>
           <a href="https://github.com/TakDai" target="_blank" rel="noopener noreferrer">GitHub</a>
           <span class="foot-sep">&bull;</span>
           <a href="mailto:contact@tom-bigot.fr">contact@tom-bigot.fr</a>
