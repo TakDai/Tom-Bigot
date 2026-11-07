@@ -19,11 +19,11 @@ export interface MoisCinema {
 }
 
 export const joursCinemaNovembre2026: JourPlanningCinema[] = [
-  { jour: 1, dateStr: '2026-11-01', statut: 'reserve_studios', label: 'Les Studios', detail: 'Cabine DCI & 35mm (Soir)', ownerId: 'studios' },
+  { jour: 1, dateStr: '2026-11-01', statut: 'reserve_studios', label: 'Les Studios', detail: 'Cabine DCI Numérique (Soir)', ownerId: 'studios' },
   { jour: 2, dateStr: '2026-11-02', statut: 'formation', label: 'CFA / Formation', detail: 'Théorie DCI & Acoustique', ownerId: 'cfa' },
   { jour: 3, dateStr: '2026-11-03', statut: 'formation', label: 'CFA / Formation', detail: 'Atelier Optique & Électronique', ownerId: 'cfa' },
   { jour: 4, dateStr: '2026-11-04', statut: 'formation', label: 'CFA / Formation', detail: 'Cryptographie & KDM', ownerId: 'cfa' },
-  { jour: 5, dateStr: '2026-11-05', statut: 'formation', label: 'CFA / Formation', detail: 'Pratique 35mm Argentique', ownerId: 'cfa' },
+  { jour: 5, dateStr: '2026-11-05', statut: 'formation', label: 'CFA / Formation', detail: 'Calibration Laser & Xénon DCI', ownerId: 'cfa' },
   { jour: 6, dateStr: '2026-11-06', statut: 'formation', label: 'CFA / Formation', detail: 'Normes de sécurité ERP', ownerId: 'cfa' },
   { jour: 7, dateStr: '2026-11-07', statut: 'reserve_cineoff', label: 'Ciné-Off', detail: 'Projection itinérante (Soirée)', ownerId: 'cineoff' },
   { jour: 8, dateStr: '2026-11-08', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
@@ -32,7 +32,7 @@ export const joursCinemaNovembre2026: JourPlanningCinema[] = [
   { jour: 11, dateStr: '2026-11-11', statut: 'reserve_studios', label: 'Les Studios', detail: 'Férié — Séances continues DCI', ownerId: 'studios' },
   { jour: 12, dateStr: '2026-11-12', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
   { jour: 13, dateStr: '2026-11-13', statut: 'option', label: 'Option en cours', detail: 'Confirmation exploitant en attente', ownerId: 'none' },
-  { jour: 14, dateStr: '2026-11-14', statut: 'reserve_studios', label: 'Les Studios', detail: 'Séance 35mm Spéciale Patrimoine', ownerId: 'studios' },
+  { jour: 14, dateStr: '2026-11-14', statut: 'reserve_studios', label: 'Les Studios', detail: 'Séance DCI Spéciale Patrimoine', ownerId: 'studios' },
   { jour: 15, dateStr: '2026-11-15', statut: 'libre', label: 'Disponible Cabine', ownerId: 'none' },
   { jour: 16, dateStr: '2026-11-16', statut: 'formation', label: 'CFA / Formation', detail: 'Sonorisation Dolby CP', ownerId: 'cfa' },
   { jour: 17, dateStr: '2026-11-17', statut: 'formation', label: 'CFA / Formation', detail: 'Réseaux TMS & Ingest', ownerId: 'cfa' },
