@@ -1,0 +1,38 @@
+{
+  "openbots": {
+    "bodyHash": "69031f7a967ae487",
+    "title": "OpenBots — Le dashboard de tes bots Discord",
+    "description": "OpenBots : gère tes bots Discord et tes serveurs depuis un seul dashboard. Connexion avec Discord. Bientôt disponible sur Komeon.",
+    "lastChecked": "2026-11-15T07:49:51.679Z"
+  },
+  "komeon": {
+    "bodyHash": "f2160e0c13e112c0",
+    "title": "Komeon — vos communautés, en voix et en texte",
+    "description": "Komeon réunit tes communautés : salons texte et vocaux, une table de mixage pour chacun, et sur ordinateur un vrai studio (plugins VST3 / CLAP, interfaces ASIO).",
+    "lastChecked": "2026-11-15T07:49:51.679Z"
+  },
+  "multi-motors": {
+    "bodyHash": "9b4f5512118aea8f",
+    "title": "Multi-Motors — moteurs brushless FPV : catalogue, comparatif et prix",
+    "description": "Multi-Motors, le catalogue des moteurs brushless pour drone FPV : course (racing), freestyle, long range, whoop. 4 000+ moteurs, 90+ marques, KV, poids, fixation, bancs d",
+    "lastChecked": "2026-11-15T07:49:51.679Z"
+  },
+  "127il": {
+    "bodyHash": "17fc15e6c7b4ef09",
+    "title": "127IL - Twitch",
+    "description": "Joueur Polyvalent &amp; Pilote FPV 🚁, je ne choisis pas entre la technique et l&#39;art : je fais les deux.⚡ Reflexes : FPV / Jeux de Rythme / Simu🛠️ Créatif : Dev (Minecraft La Plebe) / Hytale / Vintage Story🎵 Musique : Ableton &amp; Chant — 127IL streams live on Twitch! Check out their videos, sign up to chat, and join their community.",
+    "lastChecked": "2026-11-15T07:49:51.679Z"
+  },
+  "pensee-nocturne": {
+    "bodyHash": "bfc17483e23c5b07",
+    "title": "Pensées Nocturnes — Journal intime sous les étoiles",
+    "description": "Espace intime d",
+    "lastChecked": "2026-11-15T07:49:51.679Z"
+  },
+  "lestourangeaux": {
+    "bodyHash": "135f1061a1bbdd52",
+    "title": "Les Tourangeaux — Le serveur Discord de Tours et de la Touraine (37)",
+    "description": "Un coin sympa entre Tourangeaux (37) : discussions tranquilles, bonnes adresses locales, sorties amicales et espace ouvert à toutes vos idées.",
+    "lastChecked": "2026-11-15T07:49:51.679Z"
+  }
+}
