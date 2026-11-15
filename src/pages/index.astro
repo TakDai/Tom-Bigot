@@ -406,13 +406,13 @@ const transitionVariants = [
             <div class="project-video-layer" aria-hidden="true">
               <video
                 class="project-bg-video"
-                src={p.video}
+                src={`${p.video}?v=2`}
                 loop
                 muted
                 playsinline
                 preload="none"
               >
-                <source src={p.video} type="video/webm" />
+                <source src={`${p.video}?v=2`} type="video/webm" />
               </video>
               <div class="project-video-tint"></div>
             </div>
