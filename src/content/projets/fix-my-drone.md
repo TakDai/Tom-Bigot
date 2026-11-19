@@ -5,6 +5,7 @@ nature: "création"
 statut: "en cours"
 annee: 2026
 domaines: ["Drones FPV", "Électronique", "Dépannage & Diagnostic", "Datasheets", "Mods & Hardware"]
+lien: "https://fixmydrone.fr"
 github: https://github.com/TakDai/fix-my-drone
 ordre: 20
 ---
