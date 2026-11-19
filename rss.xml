@@ -6,7 +6,7 @@
     <link>https://tom-bigot.fr/blog/</link>
     <atom:link href="https://tom-bigot.fr/rss.xml" rel="self" type="application/rss+xml" />
     <language>fr-FR</language>
-    <lastBuildDate>Thu, 19 Nov 2026 21:18:03 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 19 Nov 2026 21:23:31 GMT</lastBuildDate>
     <item>
       <title><![CDATA[Déploiement continu moderne : orchestrer Astro, GitHub Actions et OVH]]></title>
       <link>https://tom-bigot.fr/blog/deploiement-continu-astro-github-actions-ovh/</link>
