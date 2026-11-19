@@ -89,6 +89,11 @@
       object-fit: contain;
       background: #000000;
       display: block;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: high-quality;
+      transform: translateZ(0);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
     }
 
     video.cover {
@@ -99,7 +104,7 @@
       position: absolute;
       inset: 0;
       pointer-events: none;
-      box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.85);
+      box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.45);
       z-index: 2;
     }
 
@@ -363,23 +368,67 @@
       overflow: hidden !important;
     }
 
-    /* MODE 2 : TRANSPARENT FLOTTANT SUR LA VIDÉO (SANS ENCOMBRER LES HUD) */
+    /* MODE 2 : TRANSPARENT FLOTTANT SUR LA VIDÉO (TRUE GLASSMORPHISM STREAM OVERLAY) */
     .chat-panel.transparent {
       position: absolute;
-      top: 76px;
-      right: 20px;
-      bottom: 84px;
+      top: 72px;
+      right: 18px;
+      bottom: 80px;
       height: auto;
-      width: 340px;
-      max-width: calc(100vw - 40px);
-      background: rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 2px dashed var(--dash);
-      border-radius: 15px;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8);
+      width: 350px;
+      max-width: calc(100vw - 36px);
+      background: rgba(0, 0, 0, 0.28) !important;
+      backdrop-filter: blur(14px) saturate(160%);
+      -webkit-backdrop-filter: blur(14px) saturate(160%);
+      border: 1.5px dashed rgba(255, 255, 255, 0.35);
+      border-radius: 16px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
       overflow: hidden;
       z-index: 25;
+    }
+
+    .chat-panel.transparent .chat-header {
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+    }
+
+    .chat-panel.transparent .chat-messages {
+      background: transparent;
+    }
+
+    .chat-panel.transparent .chat-welcome-card {
+      background: rgba(0, 0, 0, 0.45);
+      border-color: rgba(255, 255, 255, 0.2);
+      text-shadow: 0 1px 2px #000;
+    }
+
+    .chat-panel.transparent .chat-msg-row {
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95), 0 0 2px #000;
+    }
+
+    .chat-panel.transparent .chat-user-bar {
+      background: rgba(0, 0, 0, 0.45);
+      border-top: 1px dashed rgba(255, 255, 255, 0.2);
+    }
+
+    .chat-panel.transparent .chat-footer {
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-top: 1px dashed rgba(255, 255, 255, 0.2);
+    }
+
+    .chat-panel.transparent .chat-guest-banner {
+      background: rgba(0, 0, 0, 0.45);
+      border-top: 1px dashed rgba(255, 255, 255, 0.2);
+    }
+
+    .chat-panel.transparent .chat-input {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.35);
+      color: #fff;
     }
 
     /* Header du Chat */
@@ -920,6 +969,10 @@
           <span style="opacity:0.5; font-size:10px;" id="chatViewersBadge">&bull; 1 EN LIGNE</span>
         </div>
         <div class="chat-header-controls">
+          <!-- Bascule Transparence directe dans le chat -->
+          <button type="button" class="chat-head-btn" id="btnHeaderTransparent" title="Incrustation transparente sur la vidéo">
+            <span id="headerTransLabel">TRANSPARENT ◩</span>
+          </button>
           <!-- Bouton Profil / Connexion rapide -->
           <button type="button" class="chat-head-btn" id="btnHeaderProfile" title="Votre profil">
             <span id="headerUserBadge"></span>
@@ -1468,6 +1521,8 @@
       // 'sidebar' | 'transparent' | 'collapsed'
       // ----------------------------------------------------------------------
       let currentChatMode = localStorage.getItem('127il_chat_mode') || 'sidebar';
+      const btnHeaderTransparent = document.getElementById('btnHeaderTransparent');
+      const headerTransLabel = document.getElementById('headerTransLabel');
 
       function applyChatMode(mode) {
         currentChatMode = mode;
@@ -1476,18 +1531,26 @@
         chatPanel.classList.remove('collapsed', 'transparent');
         btnToggleTransparent.classList.remove('active');
         btnToggleChatMode.classList.remove('pill-glow');
+        if (btnHeaderTransparent) btnHeaderTransparent.classList.remove('active');
 
         if (mode === 'collapsed') {
           chatPanel.classList.add('collapsed');
           chatModeLabel.textContent = '💬 AFFICHER LE CHAT';
           btnToggleChatMode.classList.add('pill-glow');
+          chatTransLabel.textContent = 'TRANSPARENT';
+          if (headerTransLabel) headerTransLabel.textContent = 'TRANSPARENT ◩';
         } else if (mode === 'transparent') {
           chatPanel.classList.add('transparent');
           btnToggleTransparent.classList.add('active');
+          if (btnHeaderTransparent) btnHeaderTransparent.classList.add('active');
           chatModeLabel.textContent = 'CHAT : MASQUER';
+          chatTransLabel.textContent = 'VOLET DOCKÉ';
+          if (headerTransLabel) headerTransLabel.textContent = 'VOLET ◨';
         } else {
           // sidebar (défaut)
           chatModeLabel.textContent = 'CHAT : MASQUER';
+          chatTransLabel.textContent = 'TRANSPARENT';
+          if (headerTransLabel) headerTransLabel.textContent = 'TRANSPARENT ◩';
         }
       }
 
@@ -1502,7 +1565,7 @@
         }
       });
 
-      // Clic sur le bouton Transparent (Sidebar ⇋ Transparent)
+      // Clic sur le bouton Transparent HUD (Sidebar ⇋ Transparent)
       btnToggleTransparent.addEventListener('click', function () {
         if (currentChatMode === 'transparent') {
           applyChatMode('sidebar');
@@ -1510,6 +1573,17 @@
           applyChatMode('transparent');
         }
       });
+
+      // Clic sur le bouton Transparent direct dans l'en-tête du chat
+      if (btnHeaderTransparent) {
+        btnHeaderTransparent.addEventListener('click', function () {
+          if (currentChatMode === 'transparent') {
+            applyChatMode('sidebar');
+          } else {
+            applyChatMode('transparent');
+          }
+        });
+      }
 
       // Bouton croix dans le header du chat pour replier
       btnFoldChat.addEventListener('click', function () {
@@ -1553,10 +1627,14 @@
           hls = new window.Hls({
             enableWorker: true,
             lowLatencyMode: true,
-            backBufferLength: 30,
-            liveSyncDurationCount: 1,
-            liveMaxLatencyDurationCount: 2.5,
-            maxLiveSyncPlaybackRate: 1.25,
+            backBufferLength: 60,
+            liveSyncDurationCount: 2.5,
+            liveMaxLatencyDurationCount: 4.0,
+            maxLiveSyncPlaybackRate: 1.06,
+            capLevelToPlayerSize: false,
+            maxBufferLength: 15,
+            maxMaxBufferLength: 30,
+            highBufferWatchdogPeriod: 2,
             progressive: true
           });
           hls.loadSource(streamUrl);
