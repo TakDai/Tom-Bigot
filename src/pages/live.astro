@@ -500,6 +500,11 @@
       border-color: #3b82f6;
       background: rgba(59, 130, 246, 0.1);
     }
+    .badge-twitch {
+      color: #a970ff;
+      border-color: #a970ff;
+      background: rgba(169, 112, 255, 0.18);
+    }
     .msg-user {
       font-weight: 700;
       margin-right: 6px;
@@ -1646,7 +1651,9 @@
         const time = `<span class="msg-time">${msg.time || msg.created_at?.slice(11,16) || ''}</span>`;
         let badge = '';
         if (msg.badge) {
-          const badgeClass = msg.role === 'admin' ? 'badge-admin' : 'badge-user';
+          let badgeClass = 'badge-user';
+          if (msg.role === 'admin') badgeClass = 'badge-admin';
+          else if (msg.role === 'twitch' || msg.badge === 'TWITCH') badgeClass = 'badge-twitch';
           badge = `<span class="msg-badge ${badgeClass}">${msg.badge}</span>`;
         }
         const userColor = msg.color || '#ffffff';
