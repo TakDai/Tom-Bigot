@@ -126,7 +126,7 @@ export const postsBase: PostActualite[] = [
     tags: ['Twitch Live', 'Live Coding', 'Musique'],
     logo: '/assets/logos/127il.svg',
     projetId: '127il',
-    lienSite: 'https://twitch.tv/127il',
+    lienSite: 'https://live.tom-bigot.fr',
     lienGitHub: 'https://github.com/TakDai/127il',
   },
   {
