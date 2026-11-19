@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <rect width="1920" height="1080" fill="#050505"/>
+  <rect x="60" y="60" width="1800" height="960" rx="20" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="4" stroke-dasharray="16 16"/>
+  <g transform="translate(960, 480)" text-anchor="middle">
+    <!-- Logo 127IL / Seeworld stylisé -->
+    <path d="M-60,-30 L0,-65 L60,-30 L0,5 L-60,-30 Z" fill="none" stroke="#ffffff" stroke-width="6" stroke-linejoin="round"/>
+    <line x1="0" y1="5" x2="0" y2="85" stroke="#ffffff" stroke-width="7" stroke-linecap="round"/>
+    <path d="M0,5 L50,-20 C70,-30 75,-5 60,15 L0,45" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+    <path d="M0,45 L52,20 C72,10 77,40 55,60 L0,85" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+    
+    <text y="160" fill="#ffffff" font-family="'Glacial Indifference', 'Century Gothic', sans-serif" font-weight="700" font-size="44" letter-spacing="0.2em">127IL — SORTIE FLUX DIRECTE</text>
+    <text y="210" fill="rgba(255,255,255,0.6)" font-family="'Glacial Indifference', 'Century Gothic', sans-serif" font-size="24" letter-spacing="0.1em">RÉGIE DE DIFFUSION &bull; EN ATTENTE DU SIGNAL OBS</text>
+  </g>
+</svg>

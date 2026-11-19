@@ -1,0 +1,1523 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>127IL &bull; DIRECT EN LIGNE</title><link rel="icon" type="image/svg+xml" href="/favicon.svg"><style>
+    /* ==========================================================================
+       SEEWORLD / TOM-BIGOT.FR DESIGN SYSTEM — PURE STREAM & CHAT EXPERIENCE
+       - Fond Noir Pur (#000000) & Blanc (#FFFFFF)
+       - Typographie officielle : Glacial Indifference
+       - Filets pointillés signatures : 2px dashed rgba(255, 255, 255, 0.4)
+       - Pilules 15px radius, Cartes 12px radius
+       - 100% de l'écran dédié au flux et au chat
+       ========================================================================== */
+
+    @font-face {
+      font-family: "Glacial Indifference";
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+      src: url("/fonts/glacial-indifference-400.woff2") format("woff2");
+    }
+
+    @font-face {
+      font-family: "Glacial Indifference";
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+      src: url("/fonts/glacial-indifference-700.woff2") format("woff2");
+    }
+
+    :root {
+      --bg: #000000;
+      --paper: #ffffff;
+      --ink: #000000;
+      --dash: rgba(255, 255, 255, 0.4);
+      --dash-subtle: rgba(255, 255, 255, 0.2);
+      --hover-bg: rgba(255, 255, 255, 0.12);
+      --font: "Glacial Indifference", "Century Gothic", "Futura", "Trebuchet MS", sans-serif;
+      --chat-width: 360px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: var(--bg);
+      color: var(--paper);
+      overflow: hidden;
+      font-family: var(--font);
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+    }
+
+    /* Conteneur principal écran partagé */
+    .app-viewport {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      overflow: hidden;
+      background: #000000;
+    }
+
+    /* --------------------------------------------------------------------------
+       ZONE LECTEUR VIDÉO (FLEXIBLE)
+       -------------------------------------------------------------------------- */
+    .video-zone {
+      position: relative;
+      flex: 1 1 auto;
+      height: 100%;
+      min-width: 0;
+      background: #000000;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #000000;
+      display: block;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: high-quality;
+      transform: translateZ(0);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+    }
+
+    video.cover {
+      object-fit: cover !important;
+    }
+
+    .vignette {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.45);
+      z-index: 2;
+    }
+
+    /* Écran d'attente / Standby Radar Seeworld */
+    .standby-screen {
+      position: absolute;
+      inset: 0;
+      background: #000000;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      text-align: center;
+      padding: 24px;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    .standby-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .seeworld-radar {
+      position: relative;
+      width: 90px;
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .radar-circle {
+      position: absolute;
+      border: 2px dashed var(--dash);
+      border-radius: 50%;
+      animation: radar-pulse 3s cubic-bezier(0.1, 0.8, 0.2, 1) infinite;
+    }
+    .radar-circle:nth-child(1) { width: 40px; height: 40px; animation-delay: 0s; }
+    .radar-circle:nth-child(2) { width: 80px; height: 80px; animation-delay: 1.2s; }
+    .radar-dot {
+      width: 10px;
+      height: 10px;
+      background: var(--paper);
+      border-radius: 50%;
+      box-shadow: 0 0 16px rgba(255, 255, 255, 0.8);
+    }
+    @keyframes radar-pulse {
+      0% { transform: scale(0.6); opacity: 0.8; }
+      100% { transform: scale(1.6); opacity: 0; }
+    }
+
+    .standby-title {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .standby-desc {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.6);
+      max-width: 440px;
+      line-height: 1.6;
+      letter-spacing: 0.05em;
+    }
+
+    /* Barre HUD supérieure flottante */
+    .stream-hud-top {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      z-index: 22;
+      pointer-events: none;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s ease;
+    }
+    .stream-hud-top > * { pointer-events: auto; }
+
+    .seeworld-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border: 2px dashed var(--dash);
+      border-radius: 15px;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: var(--paper);
+      font: 700 11px var(--font);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .seeworld-pill:hover,
+    .seeworld-pill.active {
+      border-style: solid;
+      border-color: var(--paper);
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+    }
+    .seeworld-pill.pill-glow {
+      border-style: solid;
+      border-color: #fff;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #888;
+      transition: all 0.3s ease;
+    }
+    .live-dot.live-on {
+      background: #10b981;
+      box-shadow: 0 0 10px #10b981;
+    }
+
+    .top-action-cluster {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* Barre HUD inférieure flottante */
+    .stream-hud-bottom {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 2px dashed var(--dash);
+      border-radius: 15px;
+      padding: 8px 16px;
+      z-index: 20;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s ease;
+    }
+
+    .hud-hidden {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      transform: translateY(12px) !important;
+    }
+    .stream-hud-top.hud-hidden {
+      transform: translateY(-12px) !important;
+    }
+
+    .ctrl-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ctrl-btn {
+      background: transparent;
+      border: 1.5px solid transparent;
+      color: var(--paper);
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .ctrl-btn:hover {
+      border-color: var(--paper);
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .ctrl-btn svg {
+      width: 17px;
+      height: 17px;
+      fill: currentColor;
+    }
+
+    /* Volume */
+    .vol-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 60px;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.3);
+      outline: none;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+    .vol-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--paper);
+      cursor: pointer;
+    }
+
+    .btn-sync-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border: 1.5px dashed var(--dash);
+      border-radius: 12px;
+      background: transparent;
+      color: var(--paper);
+      font: 700 10px var(--font);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-sync-live:hover {
+      border-style: solid;
+      border-color: var(--paper);
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .btn-sync-live.behind {
+      border-color: #ef4444;
+      color: #ef4444;
+    }
+
+    /* --------------------------------------------------------------------------
+       ZONE CHAT DU DIRECT SOUVERAIN (MODES : VOLET / TRANSPARENT / REPLIÉ)
+       -------------------------------------------------------------------------- */
+    .chat-panel {
+      position: relative;
+      width: var(--chat-width);
+      height: 100%;
+      background: #000000;
+      border-left: 2px dashed var(--dash);
+      display: flex;
+      flex-direction: column;
+      z-index: 30;
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
+    }
+
+    /* MODE 1 : REPLIÉ (AUCUNE SUPERPOSITION, DISPARITION COMPLÈTE) */
+    .chat-panel.collapsed {
+      display: none !important;
+      width: 0 !important;
+      max-width: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      pointer-events: none !important;
+      overflow: hidden !important;
+    }
+
+    /* MODE 2 : TRANSPARENT FLOTTANT SUR LA VIDÉO (TRUE GLASSMORPHISM STREAM OVERLAY) */
+    .chat-panel.transparent {
+      position: absolute;
+      top: 72px;
+      right: 18px;
+      bottom: 80px;
+      height: auto;
+      width: 350px;
+      max-width: calc(100vw - 36px);
+      background: rgba(0, 0, 0, 0.28) !important;
+      backdrop-filter: blur(14px) saturate(160%);
+      -webkit-backdrop-filter: blur(14px) saturate(160%);
+      border: 1.5px dashed rgba(255, 255, 255, 0.35);
+      border-radius: 16px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      z-index: 25;
+    }
+
+    .chat-panel.transparent .chat-header {
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+    }
+
+    .chat-panel.transparent .chat-messages {
+      background: transparent;
+    }
+
+    .chat-panel.transparent .chat-welcome-card {
+      background: rgba(0, 0, 0, 0.45);
+      border-color: rgba(255, 255, 255, 0.2);
+      text-shadow: 0 1px 2px #000;
+    }
+
+    .chat-panel.transparent .chat-msg-row {
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95), 0 0 2px #000;
+    }
+
+    .chat-panel.transparent .chat-user-bar {
+      background: rgba(0, 0, 0, 0.45);
+      border-top: 1px dashed rgba(255, 255, 255, 0.2);
+    }
+
+    .chat-panel.transparent .chat-footer {
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-top: 1px dashed rgba(255, 255, 255, 0.2);
+    }
+
+    .chat-panel.transparent .chat-guest-banner {
+      background: rgba(0, 0, 0, 0.45);
+      border-top: 1px dashed rgba(255, 255, 255, 0.2);
+    }
+
+    .chat-panel.transparent .chat-input {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.35);
+      color: #fff;
+    }
+
+    /* Header du Chat */
+    .chat-header {
+      padding: 12px 14px;
+      background: rgba(0, 0, 0, 0.85);
+      border-bottom: 2px dashed var(--dash-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .chat-header-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .chat-header-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chat-head-btn {
+      background: transparent;
+      border: 1.5px dashed var(--dash-subtle);
+      border-radius: 12px;
+      color: var(--paper);
+      font: 700 10px var(--font);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .chat-head-btn:hover,
+    .chat-head-btn.active {
+      border-style: solid;
+      border-color: var(--paper);
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    /* Liste des messages */
+    .chat-messages {
+      flex: 1;
+      padding: 14px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      scroll-behavior: smooth;
+    }
+    .chat-messages::-webkit-scrollbar { width: 4px; }
+    .chat-messages::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 2px;
+    }
+
+    .chat-welcome-card {
+      border: 1.5px dashed var(--dash-subtle);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.5;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .chat-msg-row {
+      font-size: 12px;
+      line-height: 1.45;
+      word-break: break-word;
+      animation: msg-appear 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes msg-appear {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg-time {
+      font-size: 9px;
+      color: rgba(255, 255, 255, 0.35);
+      margin-right: 6px;
+      font-variant-numeric: tabular-nums;
+    }
+    .msg-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 4px;
+      margin-right: 6px;
+      letter-spacing: 0.05em;
+      border: 1px solid currentColor;
+      text-transform: uppercase;
+      vertical-align: middle;
+    }
+    .badge-admin {
+      color: #10b981;
+      border-color: #10b981;
+      background: rgba(16, 185, 129, 0.1);
+    }
+    .badge-user {
+      color: #3b82f6;
+      border-color: #3b82f6;
+      background: rgba(59, 130, 246, 0.1);
+    }
+    .badge-twitch {
+      color: #a970ff;
+      border-color: #a970ff;
+      background: rgba(169, 112, 255, 0.18);
+    }
+    .msg-user {
+      font-weight: 700;
+      margin-right: 6px;
+      letter-spacing: 0.03em;
+    }
+    .msg-content {
+      color: rgba(255, 255, 255, 0.9);
+      user-select: text;
+    }
+
+    /* Bandeau d'état connecté / déconnecté au-dessus du champ d'envoi */
+    .chat-user-bar {
+      padding: 6px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border-top: 1px dashed var(--dash-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .user-greeting {
+      color: rgba(255, 255, 255, 0.7);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .chat-mini-action {
+      background: none;
+      border: none;
+      color: #fff;
+      font: 700 9px var(--font);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      opacity: 0.6;
+      text-decoration: underline;
+      transition: opacity 0.2s ease;
+    }
+    .chat-mini-action:hover { opacity: 1; }
+
+    /* Footer du chat pour invités (non connectés) */
+    .chat-guest-banner {
+      padding: 14px;
+      background: rgba(0, 0, 0, 0.85);
+      border-top: 2px dashed var(--dash);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      text-align: center;
+    }
+    .guest-banner-text {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.65);
+      line-height: 1.4;
+      letter-spacing: 0.04em;
+    }
+    .guest-btn-group {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+    }
+    .btn-pill-auth {
+      padding: 6px 14px;
+      font-size: 10px;
+    }
+
+    /* Footer du chat pour connectés */
+    .chat-footer {
+      padding: 12px 14px;
+      background: rgba(0, 0, 0, 0.85);
+      border-top: 2px dashed var(--dash);
+    }
+    .chat-input-row {
+      display: flex;
+      gap: 8px;
+    }
+    .chat-input {
+      flex: 1;
+      height: 38px;
+      background: transparent;
+      border: 1.5px dashed var(--dash);
+      border-radius: 12px;
+      padding: 0 12px;
+      color: #fff;
+      font: 400 12px var(--font);
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+    .chat-input:focus {
+      border-style: solid;
+      border-color: #fff;
+    }
+
+    .chat-send-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 14px;
+      border: 2px dashed var(--dash);
+      border-radius: 12px;
+      background: transparent;
+      color: #fff;
+      font: 700 11px var(--font);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .chat-send-btn:hover {
+      border-style: solid;
+      border-color: #fff;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* --------------------------------------------------------------------------
+       MODALES SEEWORLD (CONNEXION / INSCRIPTION & PROFIL)
+       -------------------------------------------------------------------------- */
+    .seeworld-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 9999;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.25s ease;
+    }
+    .seeworld-modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .seeworld-modal-card {
+      background: #000000;
+      border: 2px dashed var(--dash);
+      border-radius: 15px;
+      padding: 28px;
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9);
+      position: relative;
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .modal-close-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity 0.2s ease;
+      line-height: 1;
+    }
+    .modal-close-btn:hover { opacity: 1; }
+
+    /* Onglets de la modal */
+    .modal-tabs {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px dashed var(--dash-subtle);
+      padding-bottom: 12px;
+    }
+    .modal-tab-btn {
+      background: none;
+      border: 1.5px dashed var(--dash-subtle);
+      border-radius: 12px;
+      padding: 6px 14px;
+      color: rgba(255, 255, 255, 0.6);
+      font: 700 10px var(--font);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .modal-tab-btn.active {
+      color: #000;
+      background: #fff;
+      border-style: solid;
+      border-color: #fff;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .form-input {
+      height: 38px;
+      background: transparent;
+      border: 1.5px dashed var(--dash);
+      border-radius: 12px;
+      padding: 0 12px;
+      color: #fff;
+      font: 400 12px var(--font);
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+    .form-input:focus {
+      border-style: solid;
+      border-color: #fff;
+    }
+
+    /* Palette de couleurs */
+    .color-palette {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .color-swatch {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .color-swatch:hover {
+      transform: scale(1.15);
+    }
+    .color-swatch.active {
+      border-color: #ffffff;
+      transform: scale(1.2);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    }
+
+    /* Badges */
+    .badge-palette {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .badge-option {
+      background: transparent;
+      border: 1.5px dashed var(--dash-subtle);
+      border-radius: 8px;
+      padding: 4px 8px;
+      font-size: 13px;
+      cursor: pointer;
+      color: #fff;
+      transition: all 0.2s ease;
+    }
+    .badge-option:hover,
+    .badge-option.active {
+      border-style: solid;
+      border-color: #fff;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .modal-submit-btn {
+      width: 100%;
+      height: 40px;
+      background: #ffffff;
+      color: #000000;
+      border: 2px solid #ffffff;
+      border-radius: 15px;
+      font: 700 11px var(--font);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .modal-submit-btn:hover {
+      background: rgba(255, 255, 255, 0.9);
+      transform: translateY(-1px);
+    }
+
+    .modal-error {
+      font-size: 11px;
+      color: #ef4444;
+      line-height: 1.4;
+      display: none;
+      letter-spacing: 0.04em;
+    }
+    .modal-error.visible { display: block; }
+  </style><script src="/assets/hls.min.js"></script></head><body><div class="app-viewport" id="appViewport"><!-- 1. FLUX VIDÉO EN DIRECT --><main class="video-zone" id="videoZone"><video id="liveVideo" playsinline autoplay muted preload="auto"></video><!-- Vignette cinématographique --><div class="vignette"></div><!-- Écran de veille Radar Seeworld --><div class="standby-screen" id="standbyScreen"><div class="seeworld-radar"><div class="radar-circle"></div><div class="radar-circle"></div><div class="radar-dot"></div></div><div><h2 class="standby-title">EN ATTENTE DE DIFFUSION OBS</h2><p class="standby-desc">Le relais VPS est connecté. Dès que vous lancez le stream dans OBS Studio, la vidéo apparaît instantanément ici.</p></div></div><!-- HUD Haut Flottant --><header class="stream-hud-top" id="hudTop"><div class="seeworld-pill"><span class="live-dot" id="liveDot"></span><span id="liveStateLabel">DIRECT</span><span style="opacity:0.35;">&bull;</span><span id="channelTag">127IL</span><span style="opacity:0.35;">&bull;</span><span id="latencyBadge">--s</span></div><div class="top-action-cluster"><!-- Compte / Personnalisation --><button class="seeworld-pill" id="btnUserAuth" title="Compte et personnalisation"><span id="userAuthBadge"></span><span id="userAuthLabel">CONNEXION</span></button><!-- Bascule d'affichage du chat (Volet ⇋ Masqué) --><button class="seeworld-pill" id="btnToggleChatMode" title="Afficher ou replier le chat"><span id="chatModeLabel">CHAT : VOLET</span></button><!-- Bascule Transparence Overlay --><button class="seeworld-pill" id="btnToggleTransparent" title="Incrustation transparente sur la vidéo"><span id="chatTransLabel">TRANSPARENT</span></button><!-- Régie Studio --><a href="/config" target="_blank" class="seeworld-pill" title="Accéder à la régie studio"><span>RÉGIE &nearr;</span></a></div></header><!-- HUD Bas Flottant --><footer class="stream-hud-bottom" id="hudBottom"><div class="ctrl-group"><!-- Play / Pause --><button class="ctrl-btn" id="btnPlayPause" title="Lecture / Pause (Espace)"><svg id="playIcon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></button><!-- Recalage Direct --><button class="btn-sync-live" id="btnSyncLive" title="Se recaler immédiatement sur le direct (L)"><span style="width:5px; height:5px; border-radius:50%; background:currentColor;"></span><span id="syncText">CALÉ DIRECT</span></button><!-- Volume --><div class="ctrl-group"><button class="ctrl-btn" id="btnMute" title="Activer / Couper le son (M)"><svg id="volIcon" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg></button><input type="range" id="volSlider" class="vol-slider" min="0" max="1" step="0.05" value="1" title="Volume"></div></div><div class="ctrl-group"><!-- Aspect Fit / Fill --><button class="ctrl-btn" id="btnAspect" title="Adapter / Remplir l'écran (C)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M9 3v18M15 3v18"></path></svg></button><!-- Picture in Picture --><button class="ctrl-btn" id="btnPip" title="Incrustation Image dans l'image (P)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><rect x="12" y="10" width="8" height="6" rx="1"></rect></svg></button><!-- Plein Écran --><button class="ctrl-btn" id="btnFullscreen" title="Plein écran (F)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg></button></div></footer></main><!-- 2. LE CHAT DU DIRECT (MODES : VOLET / TRANSPARENT / REPLIÉ SANS SUPERPOSITION) --><aside class="chat-panel" id="chatPanel"><div class="chat-header"><div class="chat-header-title"><span>CHAT</span><span style="opacity:0.5; font-size:10px;" id="chatViewersBadge">&bull; 1 EN LIGNE</span></div><div class="chat-header-controls"><!-- Bascule Transparence directe dans le chat --><button type="button" class="chat-head-btn" id="btnHeaderTransparent" title="Incrustation transparente sur la vidéo"><span id="headerTransLabel">TRANSPARENT ◩</span></button><!-- Bouton Profil / Connexion rapide --><button type="button" class="chat-head-btn" id="btnHeaderProfile" title="Votre profil"><span id="headerUserBadge"></span><span id="headerUserName">VISITEUR</span></button><!-- Replier / Masquer le chat --><button type="button" class="chat-head-btn" id="btnFoldChat" title="Replier le chat"><span>&times;</span></button></div></div><!-- Messages du chat --><div class="chat-messages" id="chatMessages"><div class="chat-welcome-card">BIENVENUE SUR LE DIRECT 127IL ! CHAT EN TEMPS RÉEL SOUVERAIN ET SANS TRACKER.</div></div><!-- Bandeau d'état connecté --><div class="chat-user-bar" id="chatUserBar" style="display:none;"><span class="user-greeting">Connecté : <strong id="barUserBadge"></strong> <strong id="barUserName"></strong></span><div style="display:flex; gap:10px;"><button type="button" class="chat-mini-action" id="btnBarProfile">Éditer</button><button type="button" class="chat-mini-action" id="btnBarLogout">Déconnexion</button></div></div><!-- Zone formulaire pour utilisateurs connectés --><form class="chat-footer" id="chatForm" style="display:none;"><div class="chat-input-row"><input type="text" id="chatInput" class="chat-input" placeholder="Envoyer un message..." maxlength="350" autocomplete="off" required><button type="submit" class="chat-send-btn"><span>ENVOYER</span></button></div></form><!-- Zone invité : incitation à la connexion --><div class="chat-guest-banner" id="chatGuestBanner"><div class="guest-banner-text">Connectez-vous pour envoyer des messages et retrouver votre couleur & badge.</div><div class="guest-btn-group"><button type="button" class="seeworld-pill btn-pill-auth" id="btnGuestLogin"><span>CONNEXION</span></button><button type="button" class="seeworld-pill btn-pill-auth" id="btnGuestRegister"><span>S'INSCRIRE</span></button></div></div></aside></div><!-- 3. MODALE D'AUTHENTIFICATION (CONNEXION & INSCRIPTION) --><div class="seeworld-modal-overlay" id="authModal"><div class="seeworld-modal-card"><div class="modal-head"><h3 class="modal-title" id="authModalTitle">ESPACE MEMBRE</h3><button type="button" class="modal-close-btn" id="btnCloseAuthModal">&times;</button></div><!-- Onglets Connexion / Inscription --><div class="modal-tabs"><button type="button" class="modal-tab-btn active" id="tabLoginBtn">SE CONNECTER</button><button type="button" class="modal-tab-btn" id="tabRegisterBtn">CRÉER UN COMPTE</button></div><!-- Formulaire Connexion --><form id="formLogin" style="display:flex; flex-direction:column; gap:14px;"><div class="form-group"><label class="form-label">Identifiant (Pseudo)</label><input type="text" id="loginUsername" class="form-input" placeholder="Votre pseudonyme" required autocomplete="username"></div><div class="form-group"><label class="form-label">Mot de passe</label><input type="password" id="loginPassword" class="form-input" placeholder="••••••••" required autocomplete="current-password"></div><div class="modal-error" id="loginError"></div><button type="submit" class="modal-submit-btn">SE CONNECTER</button></form><!-- Formulaire Inscription --><form id="formRegister" style="display:none; flex-direction:column; gap:14px;"><div class="form-group"><label class="form-label">Identifiant unique (Pseudo)</label><input type="text" id="regUsername" class="form-input" placeholder="Ex: Alex, CyberPilote..." minlength="2" maxlength="24" required autocomplete="username"></div><div class="form-group"><label class="form-label">Mot de passe</label><input type="password" id="regPassword" class="form-input" placeholder="Au moins 4 caractères" minlength="4" required autocomplete="new-password"></div><!-- Choix de couleur signature Seeworld --><div class="form-group"><label class="form-label">Couleur de votre pseudo</label><div class="color-palette" id="colorPalette"><span class="color-swatch active" data-color="#ffffff" style="background:#ffffff;"></span><span class="color-swatch" data-color="#10b981" style="background:#10b981;"></span><span class="color-swatch" data-color="#06b6d4" style="background:#06b6d4;"></span><span class="color-swatch" data-color="#3b82f6" style="background:#3b82f6;"></span><span class="color-swatch" data-color="#a855f7" style="background:#a855f7;"></span><span class="color-swatch" data-color="#ec4899" style="background:#ec4899;"></span><span class="color-swatch" data-color="#f59e0b" style="background:#f59e0b;"></span><span class="color-swatch" data-color="#ef4444" style="background:#ef4444;"></span></div></div><!-- Choix de badge optionnel --><div class="form-group"><label class="form-label">Insigne / Badge</label><div class="badge-palette" id="badgePalette"><button type="button" class="badge-option active" data-badge="">Aucun</button><button type="button" class="badge-option" data-badge="🚀">🚀</button><button type="button" class="badge-option" data-badge="⚡">⚡</button><button type="button" class="badge-option" data-badge="🎬">🎬</button><button type="button" class="badge-option" data-badge="👾">👾</button><button type="button" class="badge-option" data-badge="🎧">🎧</button><button type="button" class="badge-option" data-badge="🎮">🎮</button><button type="button" class="badge-option" data-badge="🪐">🪐</button><button type="button" class="badge-option" data-badge="💎">💎</button></div></div><div class="modal-error" id="regError"></div><button type="submit" class="modal-submit-btn">CRÉER MON COMPTE</button></form></div></div><!-- 4. MODALE DE PERSONNALISATION DU PROFIL --><div class="seeworld-modal-overlay" id="profileModal"><div class="seeworld-modal-card"><div class="modal-head"><h3 class="modal-title">MON PROFIL</h3><button type="button" class="modal-close-btn" id="btnCloseProfileModal">&times;</button></div><div style="font-size:12px; color:rgba(255,255,255,0.7); display:flex; align-items:center; gap:8px;"><span>Utilisateur :</span><strong id="profDisplayUser" style="color:#fff; font-size:13px;"></strong></div><!-- Changement de couleur --><div class="form-group"><label class="form-label">Couleur de votre pseudo dans le chat</label><div class="color-palette" id="editColorPalette"><span class="color-swatch" data-color="#ffffff" style="background:#ffffff;"></span><span class="color-swatch" data-color="#10b981" style="background:#10b981;"></span><span class="color-swatch" data-color="#06b6d4" style="background:#06b6d4;"></span><span class="color-swatch" data-color="#3b82f6" style="background:#3b82f6;"></span><span class="color-swatch" data-color="#a855f7" style="background:#a855f7;"></span><span class="color-swatch" data-color="#ec4899" style="background:#ec4899;"></span><span class="color-swatch" data-color="#f59e0b" style="background:#f59e0b;"></span><span class="color-swatch" data-color="#ef4444" style="background:#ef4444;"></span></div></div><!-- Changement de badge --><div class="form-group"><label class="form-label">Votre badge</label><div class="badge-palette" id="editBadgePalette"><button type="button" class="badge-option" data-badge="">Aucun</button><button type="button" class="badge-option" data-badge="🚀">🚀</button><button type="button" class="badge-option" data-badge="⚡">⚡</button><button type="button" class="badge-option" data-badge="🎬">🎬</button><button type="button" class="badge-option" data-badge="👾">👾</button><button type="button" class="badge-option" data-badge="🎧">🎧</button><button type="button" class="badge-option" data-badge="🎮">🎮</button><button type="button" class="badge-option" data-badge="🪐">🪐</button><button type="button" class="badge-option" data-badge="💎">💎</button></div></div><button type="button" class="modal-submit-btn" id="btnSaveProfile">ENREGISTRER LES MODIFICATIONS</button><button type="button" class="seeworld-pill" id="btnModalLogout" style="width:100%; justify-content:center; color:#ef4444; border-color:rgba(239,68,68,0.5);"><span>SE DÉCONNECTER</span></button></div></div><script>
+    (function () {
+      // Éléments du Lecteur
+      const videoZone = document.getElementById('videoZone');
+      const video = document.getElementById('liveVideo');
+      const standbyScreen = document.getElementById('standbyScreen');
+      const hudTop = document.getElementById('hudTop');
+      const hudBottom = document.getElementById('hudBottom');
+      const liveDot = document.getElementById('liveDot');
+      const liveStateLabel = document.getElementById('liveStateLabel');
+      const latencyBadge = document.getElementById('latencyBadge');
+      const channelTag = document.getElementById('channelTag');
+      const btnPlayPause = document.getElementById('btnPlayPause');
+      const playIcon = document.getElementById('playIcon');
+      const btnMute = document.getElementById('btnMute');
+      const volIcon = document.getElementById('volIcon');
+      const volSlider = document.getElementById('volSlider');
+      const btnSyncLive = document.getElementById('btnSyncLive');
+      const syncText = document.getElementById('syncText');
+      const btnAspect = document.getElementById('btnAspect');
+      const btnPip = document.getElementById('btnPip');
+      const btnFullscreen = document.getElementById('btnFullscreen');
+      
+      // Éléments du Chat
+      const chatPanel = document.getElementById('chatPanel');
+      const btnToggleChatMode = document.getElementById('btnToggleChatMode');
+      const chatModeLabel = document.getElementById('chatModeLabel');
+      const btnToggleTransparent = document.getElementById('btnToggleTransparent');
+      const btnFoldChat = document.getElementById('btnFoldChat');
+      const chatMessages = document.getElementById('chatMessages');
+      const chatForm = document.getElementById('chatForm');
+      const chatInput = document.getElementById('chatInput');
+      const chatUserBar = document.getElementById('chatUserBar');
+      const chatGuestBanner = document.getElementById('chatGuestBanner');
+      const chatViewersBadge = document.getElementById('chatViewersBadge');
+      const btnHeaderProfile = document.getElementById('btnHeaderProfile');
+      const headerUserBadge = document.getElementById('headerUserBadge');
+      const headerUserName = document.getElementById('headerUserName');
+      const barUserBadge = document.getElementById('barUserBadge');
+      const barUserName = document.getElementById('barUserName');
+      const btnBarProfile = document.getElementById('btnBarProfile');
+      const btnBarLogout = document.getElementById('btnBarLogout');
+
+      // Éléments Navigation Haut
+      const btnUserAuth = document.getElementById('btnUserAuth');
+      const userAuthBadge = document.getElementById('userAuthBadge');
+      const userAuthLabel = document.getElementById('userAuthLabel');
+
+      // Modales & Authentification
+      const authModal = document.getElementById('authModal');
+      const btnCloseAuthModal = document.getElementById('btnCloseAuthModal');
+      const tabLoginBtn = document.getElementById('tabLoginBtn');
+      const tabRegisterBtn = document.getElementById('tabRegisterBtn');
+      const formLogin = document.getElementById('formLogin');
+      const formRegister = document.getElementById('formRegister');
+      const loginError = document.getElementById('loginError');
+      const regError = document.getElementById('regError');
+      const btnGuestLogin = document.getElementById('btnGuestLogin');
+      const btnGuestRegister = document.getElementById('btnGuestRegister');
+
+      const profileModal = document.getElementById('profileModal');
+      const btnCloseProfileModal = document.getElementById('btnCloseProfileModal');
+      const profDisplayUser = document.getElementById('profDisplayUser');
+      const btnSaveProfile = document.getElementById('btnSaveProfile');
+      const btnModalLogout = document.getElementById('btnModalLogout');
+
+      // ----------------------------------------------------------------------
+      // ÉTAT UTILISATEUR & PERSONNALISATION
+      // ----------------------------------------------------------------------
+      let currentUser = null;
+      try {
+        const stored = localStorage.getItem('127il_user_session');
+        if (stored) currentUser = JSON.parse(stored);
+      } catch (e) {}
+
+      let chosenRegColor = '#ffffff';
+      let chosenRegBadge = '';
+      let chosenEditColor = '#ffffff';
+      let chosenEditBadge = '';
+
+      function updateAuthUI() {
+        if (currentUser && currentUser.username) {
+          // Connecté
+          chatGuestBanner.style.display = 'none';
+          chatUserBar.style.display = 'flex';
+          chatForm.style.display = 'block';
+
+          const badgeStr = currentUser.badge ? currentUser.badge + ' ' : '';
+          userAuthBadge.textContent = currentUser.badge || '';
+          userAuthLabel.textContent = currentUser.username.toUpperCase();
+          userAuthLabel.style.color = currentUser.color || '#ffffff';
+
+          headerUserBadge.textContent = currentUser.badge || '';
+          headerUserName.textContent = currentUser.username.toUpperCase();
+          headerUserName.style.color = currentUser.color || '#ffffff';
+
+          barUserBadge.textContent = currentUser.badge || '';
+          barUserName.textContent = currentUser.username;
+          barUserName.style.color = currentUser.color || '#ffffff';
+
+          profDisplayUser.textContent = (currentUser.badge ? currentUser.badge + ' ' : '') + currentUser.username;
+          chosenEditColor = currentUser.color || '#ffffff';
+          chosenEditBadge = currentUser.badge || '';
+          highlightColorSwatch('editColorPalette', chosenEditColor);
+          highlightBadgeOption('editBadgePalette', chosenEditBadge);
+        } else {
+          // Déconnecté (Visiteur)
+          chatGuestBanner.style.display = 'flex';
+          chatUserBar.style.display = 'none';
+          chatForm.style.display = 'none';
+
+          userAuthBadge.textContent = '';
+          userAuthLabel.textContent = 'CONNEXION';
+          userAuthLabel.style.color = '#ffffff';
+
+          headerUserBadge.textContent = '';
+          headerUserName.textContent = 'VISITEUR';
+          headerUserName.style.color = '#ffffff';
+        }
+      }
+
+      function highlightColorSwatch(containerId, color) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.querySelectorAll('.color-swatch').forEach(sw => {
+          if (sw.dataset.color.toLowerCase() === (color || '#ffffff').toLowerCase()) {
+            sw.classList.add('active');
+          } else {
+            sw.classList.remove('active');
+          }
+        });
+      }
+
+      function highlightBadgeOption(containerId, badge) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.querySelectorAll('.badge-option').forEach(opt => {
+          if (opt.dataset.badge === (badge || '')) {
+            opt.classList.add('active');
+          } else {
+            opt.classList.remove('active');
+          }
+        });
+      }
+
+      // Couleurs à l'inscription
+      document.getElementById('colorPalette').addEventListener('click', function(e) {
+        const sw = e.target.closest('.color-swatch');
+        if (sw) {
+          chosenRegColor = sw.dataset.color;
+          highlightColorSwatch('colorPalette', chosenRegColor);
+        }
+      });
+      // Badges à l'inscription
+      document.getElementById('badgePalette').addEventListener('click', function(e) {
+        const opt = e.target.closest('.badge-option');
+        if (opt) {
+          chosenRegBadge = opt.dataset.badge;
+          highlightBadgeOption('badgePalette', chosenRegBadge);
+        }
+      });
+
+      // Couleurs à l'édition de profil
+      document.getElementById('editColorPalette').addEventListener('click', function(e) {
+        const sw = e.target.closest('.color-swatch');
+        if (sw) {
+          chosenEditColor = sw.dataset.color;
+          highlightColorSwatch('editColorPalette', chosenEditColor);
+        }
+      });
+      // Badges à l'édition de profil
+      document.getElementById('editBadgePalette').addEventListener('click', function(e) {
+        const opt = e.target.closest('.badge-option');
+        if (opt) {
+          chosenEditBadge = opt.dataset.badge;
+          highlightBadgeOption('editBadgePalette', chosenEditBadge);
+        }
+      });
+
+      function openAuthModal(mode) {
+        authModal.classList.add('active');
+        if (mode === 'register') {
+          tabRegisterBtn.click();
+        } else {
+          tabLoginBtn.click();
+        }
+      }
+      function closeAuthModal() {
+        authModal.classList.remove('active');
+        loginError.classList.remove('visible');
+        regError.classList.remove('visible');
+      }
+
+      function openProfileModal() {
+        if (!currentUser) { openAuthModal('login'); return; }
+        profileModal.classList.add('active');
+      }
+      function closeProfileModal() {
+        profileModal.classList.remove('active');
+      }
+
+      btnUserAuth.addEventListener('click', function() {
+        if (currentUser) openProfileModal();
+        else openAuthModal('login');
+      });
+      btnHeaderProfile.addEventListener('click', function() {
+        if (currentUser) openProfileModal();
+        else openAuthModal('login');
+      });
+      btnBarProfile.addEventListener('click', openProfileModal);
+
+      btnGuestLogin.addEventListener('click', () => openAuthModal('login'));
+      btnGuestRegister.addEventListener('click', () => openAuthModal('register'));
+      btnCloseAuthModal.addEventListener('click', closeAuthModal);
+      btnCloseProfileModal.addEventListener('click', closeProfileModal);
+
+      tabLoginBtn.addEventListener('click', () => {
+        tabLoginBtn.classList.add('active');
+        tabRegisterBtn.classList.remove('active');
+        formLogin.style.display = 'flex';
+        formRegister.style.display = 'none';
+      });
+      tabRegisterBtn.addEventListener('click', () => {
+        tabRegisterBtn.classList.add('active');
+        tabLoginBtn.classList.remove('active');
+        formRegister.style.display = 'flex';
+        formLogin.style.display = 'none';
+      });
+
+      // Soumission Connexion
+      formLogin.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        loginError.classList.remove('visible');
+        const u = document.getElementById('loginUsername').value.trim();
+        const p = document.getElementById('loginPassword').value.trim();
+        if (!u || !p) return;
+
+        try {
+          const res = await fetch('/api/chat/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: u, password: p })
+          });
+          const data = await res.json();
+          if (data.success && data.user) {
+            currentUser = {
+              username: data.user.username,
+              color: data.user.color || '#ffffff',
+              badge: data.user.badge || '',
+              role: data.user.role || 'viewer',
+              token: data.token
+            };
+            localStorage.setItem('127il_user_session', JSON.stringify(currentUser));
+            updateAuthUI();
+            closeAuthModal();
+          } else {
+            loginError.textContent = data.error || 'Erreur de connexion';
+            loginError.classList.add('visible');
+          }
+        } catch (err) {
+          // Mode autonome / secours
+          currentUser = {
+            username: u,
+            color: '#ffffff',
+            badge: '',
+            role: 'viewer',
+            token: 'local_' + btoa(u)
+          };
+          localStorage.setItem('127il_user_session', JSON.stringify(currentUser));
+          updateAuthUI();
+          closeAuthModal();
+        }
+      });
+
+      // Soumission Inscription
+      formRegister.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        regError.classList.remove('visible');
+        const u = document.getElementById('regUsername').value.trim();
+        const p = document.getElementById('regPassword').value.trim();
+        if (!u || !p) return;
+
+        try {
+          const res = await fetch('/api/chat/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              username: u,
+              password: p,
+              color: chosenRegColor,
+              badge: chosenRegBadge
+            })
+          });
+          const data = await res.json();
+          if (data.success && data.user) {
+            currentUser = {
+              username: data.user.username,
+              color: data.user.color || chosenRegColor,
+              badge: data.user.badge || chosenRegBadge,
+              role: data.user.role || 'viewer',
+              token: data.token
+            };
+            localStorage.setItem('127il_user_session', JSON.stringify(currentUser));
+            updateAuthUI();
+            closeAuthModal();
+          } else {
+            regError.textContent = data.error || "Erreur lors de l'inscription";
+            regError.classList.add('visible');
+          }
+        } catch (err) {
+          currentUser = {
+            username: u,
+            color: chosenRegColor,
+            badge: chosenRegBadge,
+            role: 'viewer',
+            token: 'local_' + btoa(u)
+          };
+          localStorage.setItem('127il_user_session', JSON.stringify(currentUser));
+          updateAuthUI();
+          closeAuthModal();
+        }
+      });
+
+      // Enregistrement des modifications de profil
+      btnSaveProfile.addEventListener('click', async function() {
+        if (!currentUser) return;
+        currentUser.color = chosenEditColor;
+        currentUser.badge = chosenEditBadge;
+        localStorage.setItem('127il_user_session', JSON.stringify(currentUser));
+
+        try {
+          await fetch('/api/chat/profile', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + (currentUser.token || '')
+            },
+            body: JSON.stringify({
+              color: chosenEditColor,
+              badge: chosenEditBadge
+            })
+          });
+        } catch (e) {}
+
+        updateAuthUI();
+        closeProfileModal();
+      });
+
+      function doLogout() {
+        if (currentUser && currentUser.token) {
+          fetch('/api/chat/logout', {
+            method: 'POST',
+            headers: { 'Authorization': 'Bearer ' + currentUser.token }
+          }).catch(() => {});
+        }
+        currentUser = null;
+        localStorage.removeItem('127il_user_session');
+        updateAuthUI();
+        closeProfileModal();
+      }
+      btnBarLogout.addEventListener('click', doLogout);
+      btnModalLogout.addEventListener('click', doLogout);
+
+      updateAuthUI();
+
+      // ----------------------------------------------------------------------
+      // GESTION DES 3 MODES DE CHAT SANS SUPERPOSITION
+      // 'sidebar' | 'transparent' | 'collapsed'
+      // ----------------------------------------------------------------------
+      let currentChatMode = localStorage.getItem('127il_chat_mode') || 'sidebar';
+      const btnHeaderTransparent = document.getElementById('btnHeaderTransparent');
+      const headerTransLabel = document.getElementById('headerTransLabel');
+
+      function applyChatMode(mode) {
+        currentChatMode = mode;
+        localStorage.setItem('127il_chat_mode', mode);
+
+        chatPanel.classList.remove('collapsed', 'transparent');
+        btnToggleTransparent.classList.remove('active');
+        btnToggleChatMode.classList.remove('pill-glow');
+        if (btnHeaderTransparent) btnHeaderTransparent.classList.remove('active');
+
+        if (mode === 'collapsed') {
+          chatPanel.classList.add('collapsed');
+          chatModeLabel.textContent = '💬 AFFICHER LE CHAT';
+          btnToggleChatMode.classList.add('pill-glow');
+          chatTransLabel.textContent = 'TRANSPARENT';
+          if (headerTransLabel) headerTransLabel.textContent = 'TRANSPARENT ◩';
+        } else if (mode === 'transparent') {
+          chatPanel.classList.add('transparent');
+          btnToggleTransparent.classList.add('active');
+          if (btnHeaderTransparent) btnHeaderTransparent.classList.add('active');
+          chatModeLabel.textContent = 'CHAT : MASQUER';
+          chatTransLabel.textContent = 'VOLET DOCKÉ';
+          if (headerTransLabel) headerTransLabel.textContent = 'VOLET ◨';
+        } else {
+          // sidebar (défaut)
+          chatModeLabel.textContent = 'CHAT : MASQUER';
+          chatTransLabel.textContent = 'TRANSPARENT';
+          if (headerTransLabel) headerTransLabel.textContent = 'TRANSPARENT ◩';
+        }
+      }
+
+      applyChatMode(currentChatMode);
+
+      // Clic sur le bouton d'affichage principal (Volet ⇋ Masqué)
+      btnToggleChatMode.addEventListener('click', function () {
+        if (currentChatMode === 'collapsed') {
+          applyChatMode('sidebar');
+        } else {
+          applyChatMode('collapsed');
+        }
+      });
+
+      // Clic sur le bouton Transparent HUD (Sidebar ⇋ Transparent)
+      btnToggleTransparent.addEventListener('click', function () {
+        if (currentChatMode === 'transparent') {
+          applyChatMode('sidebar');
+        } else {
+          applyChatMode('transparent');
+        }
+      });
+
+      // Clic sur le bouton Transparent direct dans l'en-tête du chat
+      if (btnHeaderTransparent) {
+        btnHeaderTransparent.addEventListener('click', function () {
+          if (currentChatMode === 'transparent') {
+            applyChatMode('sidebar');
+          } else {
+            applyChatMode('transparent');
+          }
+        });
+      }
+
+      // Bouton croix dans le header du chat pour replier
+      btnFoldChat.addEventListener('click', function () {
+        applyChatMode('collapsed');
+      });
+
+      // ----------------------------------------------------------------------
+      // LECTEUR ULTRA-BASSE LATENCE HLS
+      // ----------------------------------------------------------------------
+      let pathSlug = window.location.pathname.replace(/^\/+|\/+$/g, '');
+      if (!pathSlug || pathSlug === 'live') pathSlug = 'tom';
+      channelTag.textContent = '127IL • ' + pathSlug.toUpperCase();
+
+      const candidates = [
+        window.location.origin + '/live/' + pathSlug + '/index.m3u8',
+        window.location.origin + '/live/' + pathSlug + '/' + pathSlug + '/index.m3u8',
+        window.location.origin + '/live/tom/index.m3u8'
+      ];
+      let candidateIdx = 0;
+      let hls = null;
+      let hudTimer = null;
+
+      function showHud() {
+        hudTop.classList.remove('hud-hidden');
+        hudBottom.classList.remove('hud-hidden');
+        clearTimeout(hudTimer);
+        hudTimer = setTimeout(function () {
+          if (!video.paused) {
+            hudTop.classList.add('hud-hidden');
+            hudBottom.classList.add('hud-hidden');
+          }
+        }, 3000);
+      }
+      videoZone.addEventListener('mousemove', showHud);
+
+      function initHls() {
+        const streamUrl = candidates[candidateIdx];
+        if (hls) { hls.destroy(); hls = null; }
+
+        if (window.Hls && window.Hls.isSupported()) {
+          hls = new window.Hls({
+            enableWorker: true,
+            lowLatencyMode: true,
+            backBufferLength: 60,
+            liveSyncDurationCount: 2.5,
+            liveMaxLatencyDurationCount: 4.0,
+            maxLiveSyncPlaybackRate: 1.06,
+            capLevelToPlayerSize: false,
+            maxBufferLength: 15,
+            maxMaxBufferLength: 30,
+            highBufferWatchdogPeriod: 2,
+            progressive: true
+          });
+          hls.loadSource(streamUrl);
+          hls.attachMedia(video);
+
+          hls.on(window.Hls.Events.MANIFEST_PARSED, function () {
+            standbyScreen.classList.add('hidden');
+            liveDot.classList.add('live-on');
+            liveStateLabel.textContent = 'DIRECT';
+            video.play().catch(function() {
+              video.muted = true;
+              video.play();
+            });
+          });
+
+          hls.on(window.Hls.Events.LEVEL_UPDATED, function (e, data) {
+            standbyScreen.classList.add('hidden');
+            liveDot.classList.add('live-on');
+            if (hls && hls.latency !== undefined) {
+              const lat = hls.latency;
+              latencyBadge.textContent = lat.toFixed(1) + 's';
+              if (lat < 2.0) {
+                btnSyncLive.classList.remove('behind');
+                syncText.textContent = 'CALÉ DIRECT';
+              } else {
+                btnSyncLive.classList.add('behind');
+                syncText.textContent = 'RECALER (' + lat.toFixed(0) + 's)';
+              }
+            }
+          });
+
+          hls.on(window.Hls.Events.ERROR, function (e, data) {
+            if (data.fatal) {
+              standbyScreen.classList.remove('hidden');
+              liveDot.classList.remove('live-on');
+              liveStateLabel.textContent = 'ATTENTE';
+              candidateIdx = (candidateIdx + 1) % candidates.length;
+              setTimeout(initHls, 2500);
+            }
+          });
+        }
+      }
+
+      // Contrôles Vidéo
+      function togglePlay() {
+        if (video.paused) { video.play(); playIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"></polygon>'; }
+        else { video.pause(); playIcon.innerHTML = '<rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect>'; }
+      }
+      btnPlayPause.addEventListener('click', togglePlay);
+      video.addEventListener('click', togglePlay);
+
+      btnSyncLive.addEventListener('click', function () {
+        if (hls && video.seekable.length > 0) {
+          video.currentTime = video.seekable.end(video.seekable.length - 1);
+        }
+      });
+
+      btnMute.addEventListener('click', function () {
+        video.muted = !video.muted;
+        volSlider.value = video.muted ? 0 : video.volume;
+      });
+
+      volSlider.addEventListener('input', function (e) {
+        video.volume = parseFloat(e.target.value);
+        video.muted = video.volume === 0;
+      });
+
+      btnAspect.addEventListener('click', function () {
+        video.classList.toggle('cover');
+      });
+
+      btnPip.addEventListener('click', function () {
+        if (document.pictureInPictureElement) document.exitPictureInPicture();
+        else if (video.requestPictureInPicture) video.requestPictureInPicture();
+      });
+
+      btnFullscreen.addEventListener('click', function () {
+        if (!document.fullscreenElement) document.getElementById('appViewport').requestFullscreen().catch(function(){});
+        else document.exitFullscreen().catch(function(){});
+      });
+
+      // ----------------------------------------------------------------------
+      // CLIENT CHAT NATIF WEBSOCKET AVEC AUTHENTIFICATION & COULEURS
+      // ----------------------------------------------------------------------
+      let chatWs = null;
+
+      function renderMsg(msg) {
+        const row = document.createElement('div');
+        row.className = 'chat-msg-row';
+        row.dataset.msgId = msg.id;
+
+        const time = `<span class="msg-time">${msg.time || msg.created_at?.slice(11,16) || ''}</span>`;
+        let badge = '';
+        if (msg.badge) {
+          let badgeClass = 'badge-user';
+          if (msg.role === 'admin') badgeClass = 'badge-admin';
+          else if (msg.role === 'twitch' || msg.badge === 'TWITCH') badgeClass = 'badge-twitch';
+          badge = `<span class="msg-badge ${badgeClass}">${msg.badge}</span>`;
+        }
+        const userColor = msg.color || '#ffffff';
+        const user = `<span class="msg-user" style="color:${userColor}">${msg.username}</span>`;
+        const content = `<span class="msg-content">${msg.content}</span>`;
+
+        row.innerHTML = `${time} ${badge} ${user}: ${content}`;
+        chatMessages.appendChild(row);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      function connectChat() {
+        const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const url = `${proto}//${window.location.host}/chat-ws`;
+
+        try {
+          chatWs = new WebSocket(url);
+          chatWs.onmessage = function (e) {
+            try {
+              const data = JSON.parse(e.data);
+              if (data.type === 'init') {
+                const welcome = chatMessages.querySelector('.chat-welcome-card');
+                chatMessages.innerHTML = '';
+                if (welcome) chatMessages.appendChild(welcome);
+                if (Array.isArray(data.messages)) data.messages.forEach(renderMsg);
+                if (data.viewers) chatViewersBadge.textContent = `• ${data.viewers} EN LIGNE`;
+              } else if (data.type === 'message' && data.data) {
+                renderMsg(data.data);
+              } else if (data.type === 'viewers') {
+                chatViewersBadge.textContent = `• ${data.count} EN LIGNE`;
+              } else if (data.type === 'delete' && data.id) {
+                const el = chatMessages.querySelector(`[data-msg-id="${data.id}"]`);
+                if (el) el.remove();
+              } else if (data.type === 'clear') {
+                chatMessages.innerHTML = '<div class="chat-welcome-card">CHAT PURGÉ PAR LA RÉGIE.</div>';
+              }
+            } catch (err) {}
+          };
+          chatWs.onclose = function () { setTimeout(connectChat, 3000); };
+        } catch (err) { setTimeout(connectChat, 3000); }
+      }
+
+      if (chatForm && chatInput) {
+        chatForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          const text = chatInput.value.trim();
+          if (!text) return;
+          if (!currentUser) {
+            openAuthModal('login');
+            return;
+          }
+          if (!chatWs || chatWs.readyState !== WebSocket.OPEN) return;
+
+          chatWs.send(JSON.stringify({
+            action: 'message',
+            username: currentUser.username,
+            color: currentUser.color || '#ffffff',
+            badge: currentUser.badge || '',
+            token: currentUser.token || '',
+            content: text
+          }));
+          chatInput.value = '';
+          chatInput.focus();
+        });
+      }
+
+      // Raccourcis clavier universels
+      window.addEventListener('keydown', function (e) {
+        if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
+        switch (e.key.toLowerCase()) {
+          case ' ':
+          case 'k':
+            e.preventDefault();
+            togglePlay();
+            break;
+          case 'f':
+            btnFullscreen.click();
+            break;
+          case 'm':
+            btnMute.click();
+            break;
+          case 'c':
+            btnAspect.click();
+            break;
+          case 'l':
+            btnSyncLive.click();
+            break;
+        }
+      });
+
+      // Démarrage
+      initHls();
+      connectChat();
+    })();
+  </script></body></html>
